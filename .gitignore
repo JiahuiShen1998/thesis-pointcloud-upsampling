@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environments
+venv/
+.env/
+conda_env/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Weights / checkpoints
+*.pth
+*.pt
+*.ckpt
+
+# Build files
+build/
+dist/
+*.so
+*.o
+
+# Cache / temp
+tmp/
+cache/
+outputs/
+
+# Data
+data/raw/
+data/processed/
+
+# Large experiment artifacts
+experiments/**/checkpoints/
+experiments/**/outputs/
+experiments/**/logs/
