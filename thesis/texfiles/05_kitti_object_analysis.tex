@@ -1,0 +1,133 @@
+\subsection{Object-Level Losses and Recoveries across the Validation Set}
+\label{sec:kitti-transitions}
+
+The historical lab audit retained individual object matches across the
+3,769-frame validation split. This evidence connects the aggregate
+degradation to concrete losses and recoveries. It belongs to the earlier
+input-preserving integration generation, with the old PU-Net
+normalisation defect and the PU-EdgeFormer compatibility path.
+It is therefore analysed within that generation, separately from the
+final PU-GCN adaptation matrix.
+
+Each object was greedily matched to a same-class prediction by oriented
+3D IoU. Car required 0.70, while Pedestrian and Cyclist required 0.50.
+A lost object had a qualifying baseline match and none after upsampling;
+a recovered object had the reverse transition. Maintained,
+confidence-degraded, and localisation-degraded objects remained matched.
+The audit does not reproduce the official difficulty filters, DontCare
+treatment, or score-threshold integration. Its rates describe these
+retained matches and are not AP or official difficulty-specific recall.
+
+For PointRCNN Line~A, PU-GCN lost 3,597 baseline-matched Cars and recovered
+210, giving a net change of $-3,387$ matched objects.
+The loss rate was 32.65\% of 11,016 baseline matches.
+For Line~B, it lost 4,829 and recovered 115: 55.37\% of the
+8,721 baseline matches were lost. PDANS had a smaller loss in both
+lines, but its recoveries also failed to offset its losses.
+Figure~\ref{fig:k-transition-pr} makes both directions visible,
+so occasional improvements are not concealed by a negative aggregate.
+
+\thesisfigure{k_transitions_pointrcnn}{PointRCNN lost and recovered objects}{
+Historical full-validation Car matching audit. Lost and recovered counts
+use the same 14,385 Car opportunities within each comparison.
+PU-Net* denotes the historical faulty adapter; PU-EF denotes the lab
+compatibility path. These are object-event counts, not AP.}{fig:k-transition-pr}
+
+Figure~\ref{fig:k-transition-cp} shows the corresponding CenterPoint counts. For Line~A, PU-GCN lost 2,932 Cars and recovered 340;
+Line~B lost 3,505 and recovered 333. Its loss rates of 25.88\% and
+37.43\% were lower than PointRCNN's in the corresponding historical
+comparison, but both remained negative in net matches.
+The two detectors thus share a qualitative failure pattern while
+differing in its magnitude. This does not isolate architecture as the
+cause: their checkpoints, preprocessing, and native inputs also differ.
+
+\thesisfigure{k_transitions_centerpoint}{CenterPoint lost and recovered objects}{
+Historical full-validation Car matching counts. The comparison retains
+both loss and recovery events for every implemented pipeline.
+Definitions and implementation qualifications match
+Figure~\ref{fig:k-transition-pr}.}{fig:k-transition-cp}
+
+Table~\ref{tab:k-transition-all} retains every class and method row
+from this audit. PointRCNN is Car-only in this configuration; CenterPoint
+also supplies Pedestrian and Cyclist. Different class thresholds and
+baseline match counts are kept explicit. A recovery count is not
+normalised by baseline TP: its natural denominator is baseline FN.
+Loss and recovery percentages therefore cannot be subtracted directly.
+The net count equals recovered minus lost.
+
+\begin{longtable}{lllrrrr}
+\caption{Complete retained transition summary. $B$ is baseline matched
+count, $L$ is lost, $R$ is recovered, and $\Delta=R-L$.
+PU-EF is the compatibility path and PU-Net* the faulty historical adapter.}
+\label{tab:k-transition-all}\\
+\toprule Line & Method & Class & $B$ & $L$ & $R$ & $\Delta$\\\midrule\endfirsthead
+\toprule Line & Method & Class & $B$ & $L$ & $R$ & $\Delta$\\\midrule\endhead
+\bottomrule\endfoot
+\multicolumn{7}{l}{\textit{PointRCNN}}\\
+A & PDANS & Car & 11,016 & 2,544 & 353 & -2,191 \\
+A & PU-EF & Car & 11,016 & 5,279 & 143 & -5,136 \\
+A & PU-GCN & Car & 11,016 & 3,597 & 210 & -3,387 \\
+A & PU-Net* & Car & 11,016 & 8,909 & 39 & -8,870 \\
+B & PDANS & Car & 8,721 & 3,091 & 317 & -2,774 \\
+B & PU-EF & Car & 8,721 & 5,845 & 94 & -5,751 \\
+B & PU-GCN & Car & 8,721 & 4,829 & 115 & -4,714 \\
+B & PU-Net* & Car & 8,721 & 6,668 & 45 & -6,623 \\
+\multicolumn{7}{l}{\textit{CenterPoint}}\\
+A & PDANS & Car & 11,329 & 2,330 & 424 & -1,906 \\
+A & PDANS & Cyclist & 595 & 113 & 58 & -55 \\
+A & PDANS & Pedestrian & 1,568 & 277 & 117 & -160 \\
+A & PU-EF & Car & 11,329 & 4,447 & 255 & -4,192 \\
+A & PU-EF & Cyclist & 595 & 121 & 67 & -54 \\
+A & PU-EF & Pedestrian & 1,568 & 538 & 112 & -426 \\
+A & PU-GCN & Car & 11,329 & 2,932 & 340 & -2,592 \\
+A & PU-GCN & Cyclist & 595 & 120 & 75 & -45 \\
+A & PU-GCN & Pedestrian & 1,568 & 340 & 113 & -227 \\
+A & PU-Net* & Car & 11,329 & 8,016 & 98 & -7,918 \\
+A & PU-Net* & Cyclist & 595 & 268 & 34 & -234 \\
+A & PU-Net* & Pedestrian & 1,568 & 755 & 107 & -648 \\
+B & PDANS & Car & 9,364 & 2,587 & 493 & -2,094 \\
+B & PDANS & Cyclist & 272 & 100 & 102 & +2 \\
+B & PDANS & Pedestrian & 1,060 & 302 & 268 & -34 \\
+B & PU-EF & Car & 9,364 & 5,175 & 227 & -4,948 \\
+B & PU-EF & Cyclist & 272 & 123 & 77 & -46 \\
+B & PU-EF & Pedestrian & 1,060 & 575 & 172 & -403 \\
+B & PU-GCN & Car & 9,364 & 3,505 & 333 & -3,172 \\
+B & PU-GCN & Cyclist & 272 & 81 & 94 & +13 \\
+B & PU-GCN & Pedestrian & 1,060 & 372 & 203 & -169 \\
+B & PU-Net* & Car & 9,364 & 6,274 & 148 & -6,126 \\
+B & PU-Net* & Cyclist & 272 & 154 & 40 & -114 \\
+B & PU-Net* & Pedestrian & 1,060 & 608 & 148 & -460 \\
+\end{longtable}
+
+\subsection{Where Matched Objects Are Lost}
+\label{sec:kitti-distance}
+
+Distance stratification asks whether the failure is concentrated in
+sparser, more distant observations. The archived audit partitions
+objects into planar ranges of 0--20, 20--40, and at least 40~m.
+Figures~\ref{fig:k-distance-pr} and~\ref{fig:k-distance-cp} retain all
+three bins and all four pipelines. Each point is lost baseline matches
+divided by baseline matches in that same bin, not a fraction of all
+objects or all detections.
+
+For PointRCNN Line~A, PU-GCN lost 9.5\%, 44.6\%, and 81.6\% of baseline-matched Cars in these three bins, respectively.
+For PointRCNN Line~B, PU-GCN lost 31.2\%, 86.8\%, and 95.4\% of baseline-matched Cars in these three bins, respectively.
+For CenterPoint Line~A, PU-GCN lost 7.2\%, 33.0\%, and 69.2\% of baseline-matched Cars in these three bins, respectively.
+For CenterPoint Line~B, PU-GCN lost 15.3\%, 58.8\%, and 84.3\% of baseline-matched Cars in these three bins, respectively.
+
+The distance curves locate the degradation but do not establish
+distance as its sole cause. Occlusion, object size, pose, visible
+surfaces, and detector confidence also vary across range bins.
+The conditional denominator additionally excludes objects already
+missed by the baseline.
+
+\thesisfigure{k_distance_pointrcnn}{PointRCNN loss by object range}{
+Historical Car loss rates conditional on a qualifying baseline match
+within each planar-distance bin. Lines connect the three archived
+strata; they do not interpolate unmeasured performance.
+PU-Net* and PU-EF retain the historical implementation qualifications.}{fig:k-distance-pr}
+\thesisfigure{k_distance_centerpoint}{CenterPoint loss by object range}{
+CenterPoint Car loss rates from the same historical audit.
+The denominator is the baseline-matched count within each bin.
+These descriptive strata are separate from KITTI Easy, Moderate,
+and Hard difficulty definitions.}{fig:k-distance-cp}

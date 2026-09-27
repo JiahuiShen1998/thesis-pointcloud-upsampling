@@ -1,0 +1,43 @@
+The three-epoch matrix was followed by a separate extension of the
+observed-first conditions in both lines. PU-GCN, the strict point budgets
+and the observation-preservation rule were retained. PointRCNN completed
+18 RPN epochs in each line, followed by 18 RCNN epochs for Line~A and a
+24-epoch RCNN schedule for Line~B. CenterPoint completed 12 epochs per
+line. Each epoch checkpoint was evaluated on the same 3,769 validation
+frames. The PointRCNN loader retained 3,265 effective training frames
+after object and range filtering; 3,712 denotes the source training
+split, not the number of frames remaining after that filtering.
+
+Validation progress was assessed using Car Moderate 3D AP$_{R40}$.
+Starting with the first epoch's score, a running reference was updated
+only when a subsequent score exceeded it by more than 0.2 AP points.
+Such an update reset the counter of consecutive epochs without a
+threshold-exceeding improvement; otherwise the counter increased by
+one. A completed schedule met the plateau criterion when this counter
+was at least three at its end. All epochs were inspected, including any
+later improvement after an intermediate plateau. The reported checkpoint
+was the numerical AP maximum over the schedule, which need not coincide
+with the last update of the threshold reference. The 0.2 threshold is
+an operational training rule, not a statistical significance test.
+
+Changes in the total number of epochs were treated as new schedules.
+In particular, the 24-epoch Line~B RCNN experiment restarted from the
+same RCNN initialisation with the selected RPN epoch~14 fixed. Its
+one-cycle learning-rate trajectory therefore differed from the earlier
+18-epoch run; the two trajectories were not concatenated. Results from
+the earlier 12-epoch RPN and 18-epoch Line~B RCNN schedules remain
+historical comparisons rather than additional segments of the final
+curves.
+
+The extension did not retrain every baseline for the same duration.
+Line~A retained the original-$N$ input with official detector weights
+as its reference. Line~B retained the sparse-$M$ baseline after the
+earlier three-epoch adaptation, with the frozen sparse baseline also
+reported. The original-$N$ reference is additionally shown to make the
+remaining deficit relative to the complete observation explicit.
+Checkpoint selection and final reporting used the same validation set.
+Consequently, these are validation-selected system comparisons with
+unequal training budgets, not independent test results or an isolated
+causal effect of point generation. The plateau criterion applies to the
+selected Car metric; it does not establish convergence of every class
+or of the optimisation parameters.

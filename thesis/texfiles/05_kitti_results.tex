@@ -1,0 +1,349 @@
+\FloatBarrier
+\section{KITTI: Frozen Detection and Detector Adaptation}
+\label{sec:kitti-results}
+
+\subsection{Three-Epoch Full-Validation Comparison}
+\label{sec:kitti-final}
+
+The initial three-epoch PU-GCN study completed all 20 planned detector evaluations,
+each covering the same 3,769 validation frames. The matrix is intentionally
+asymmetric: PointRCNN includes direct-input adaptation in both lines,
+whereas CenterPoint adaptation was completed for observed-first inputs and
+the sparse baseline. An unexecuted direct-adapted CenterPoint arm is not
+inferred. Tables~\ref{tab:pr-a}--\ref{tab:cp-b} preserve this original matrix.
+The later observed-first schedule extensions are reported separately in
+Section~\ref{sec:adaptation-evidence}.
+
+Throughout this section, \emph{frozen} denotes the released detector weights,
+and \emph{adapted} denotes detector weights after training on the corresponding
+representation. PU-GCN itself remained fixed at its released PU1K
+\texttt{model-100} checkpoint. Direct inputs contain the strict network
+output; observed-first inputs concatenate all observed rows with a
+deterministically selected set of predicted rows. Those input constructions
+have the same total cardinality, but different measured-point preservation.
+
+\subsection{PointRCNN}
+\label{sec:results-pointrcnn}
+
+For PointRCNN, frozen direct upsampling reduced Line~A Car Moderate
+3D AP$_{R40}$ from 81.95 to 61.93. Preserving observations increased it
+to 64.27. Adaptation further raised the direct and observed-first results
+to 68.88 and 71.01, respectively (Table~\ref{tab:pr-a}). Observation
+preservation helped under both weight regimes, but the best three-epoch arm
+remained 10.95 AP points below the original frozen baseline.
+
+\begin{table}[t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrrr}\toprule
+Input & Weights & Easy & Moderate & Hard & $\Delta$ Mod. \\
+\midrule\tableinput{tables/kitti_pointrcnn_A.tex}\bottomrule
+\end{tabular}
+\caption{PointRCNN Line~A Car 3D AP$_{R40}$, 3,769 frames per row.
+All deltas reference the original frozen baseline. No adapted original
+baseline was trained, so adapted-row deltas change both input and weights.}
+\label{tab:pr-a}\end{table}
+
+Line~B revealed a larger loss under direct insertion. The frozen sparse
+baseline reached 65.58, compared with 30.09 for direct PU-GCN and 35.53
+for observed-first PU-GCN. Training the detector on the direct representation
+raised AP to 46.61, and observed-first adaptation raised it to 55.21
+(Table~\ref{tab:pr-b}). This was substantial recovery relative to the
+frozen generated inputs, but it did not exceed the adapted sparse baseline
+at 68.33. The residual observed-first deficit was 13.12 AP points.
+
+\begin{table}[t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrrr}\toprule
+Input & Weights & Easy & Moderate & Hard & $\Delta$ Mod. \\
+\midrule\tableinput{tables/kitti_pointrcnn_B.tex}\bottomrule
+\end{tabular}
+\caption{PointRCNN Line~B Car 3D AP$_{R40}$. Every row evaluates 3,769
+frames. Frozen rows reference the frozen sparse baseline; adapted rows
+reference the separately adapted sparse baseline.}
+\label{tab:pr-b}\end{table}
+
+The sparse-baseline adaptation is an essential control. It improved
+PointRCNN from 65.58 to 68.33 without generating points. Comparing adapted
+upsampling only with a frozen sparse baseline would attribute some benefit
+of downstream optimisation to the point generator. The paired rows in
+Table~\ref{tab:pr-b} keep that control explicit. These results favour a representation mismatch
+explanation for part of the frozen-model loss, while the remaining deficit
+shows that the three-epoch adaptation procedure did not restore baseline
+performance; it does not uniquely identify the remaining cause.
+
+\subsection{CenterPoint and Class Dependence}
+\label{sec:results-centerpoint}
+
+CenterPoint recovered more of the original performance under observed-first
+adaptation. Its Line~A baseline was 79.28 Car Moderate 3D AP$_{R40}$.
+Frozen direct and observed-first inputs reached 60.61 and 63.21, while
+adapted observed-first reached 74.70 (Table~\ref{tab:cp-a}). The latter
+remained 4.58 AP points below the original frozen detector. As for
+PointRCNN, there was no independently adapted original Line~A baseline;
+this residual is a comparison between two complete systems rather than a
+controlled effect of geometry at fixed weights.
+
+\begin{table}[t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrrr}\toprule
+Input & Weights & Easy & Moderate & Hard & $\Delta$ Mod. \\
+\midrule\tableinput{tables/kitti_centerpoint_A.tex}\bottomrule
+\end{tabular}
+\caption{CenterPoint Line~A Car 3D AP$_{R40}$, 3,769 frames per row.
+Deltas reference the frozen original baseline. The direct-adapted
+configuration was not part of the completed matrix.}\label{tab:cp-a}
+\end{table}
+
+In Line~B, frozen direct input reached 35.35 against the sparse
+baseline's 64.60. Observation preservation increased it to 44.09, and
+adaptation raised it to 61.66. The adapted sparse baseline reached 68.05,
+leaving a matched-weight-family deficit of 6.39 AP points
+(Table~\ref{tab:cp-b}). Greater recovery than PointRCNN does not mean that the
+generated geometry was intrinsically better for all voxel detectors;
+the architectures, initial checkpoints, and training procedures differ.
+
+\begin{table}[t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrrr}\toprule
+Input & Weights & Easy & Moderate & Hard & $\Delta$ Mod. \\
+\midrule\tableinput{tables/kitti_centerpoint_B.tex}\bottomrule
+\end{tabular}
+\caption{CenterPoint Line~B Car 3D AP$_{R40}$, 3,769 frames per row.
+Frozen and adapted arms use their corresponding sparse-baseline control.}
+\label{tab:cp-b}\end{table}
+
+The three-epoch CenterPoint findings were not confined to Cars. For Line~A,
+observed-first adaptation reached Pedestrian and Cyclist Moderate AP
+of 48.42 and 57.70, below the original baseline's 50.65 and 64.61.
+For Line~B the corresponding values were 44.06 and 33.56, compared
+with 47.44 and 42.07 for the adapted sparse baseline.
+Figure~\ref{fig:k-classes} displays these class-specific comparisons.
+The three-epoch observed-first adaptation therefore did not exceed the
+appropriate reference for any of these three Moderate 3D metrics.
+
+\thesisfigure{k_classes}{Class-specific adaptation outcome}{CenterPoint
+Moderate 3D AP$_{R40}$ for the three-epoch observed-first adapted representation
+and its reference. Line~A uses the frozen original baseline; Line~B uses
+the adapted sparse baseline. All values use 3,769 frames.}{fig:k-classes}
+
+\FloatBarrier
+\input{texfiles/05_kitti_full_tables}
+
+\subsection{PU-GCN Inputs and Detector Retraining}
+\label{sec:adaptation-evidence}
+
+The training work updated detector weights while keeping PU-GCN fixed.
+It progressed from a small adaptation screen to the three-epoch,
+full-validation matrix and then to extended observed-first training.
+The source training split contained 3,712 frames; the later PointRCNN
+loader retained 3,265 after filtering. All main comparisons below use
+3,769 validation frames. The earlier 256-frame pilot remains a separate
+development experiment rather than part of the full-validation result.
+
+\input{texfiles/05_kitti_adaptation_stages}
+
+The training losses decreased. For PointRCNN Line~A direct input, median
+RPN loss changed from 1.624055 to 1.347459 and RCNN loss from 1.043027
+to 0.959636 between epochs~1 and~3. CenterPoint loss changed from
+2.33 to 2.11 for Line~A observed-first, from 3.69 to 3.10 for Line~B
+observed-first, and from 3.00 to 2.65 for the sparse baseline.
+These were successful optimisation records, but the original matrix retained
+only epoch~3 checkpoints and recorded no epoch~1/2 validation AP. That
+fixed-duration study alone did not establish a validation plateau.
+
+\input{texfiles/05_kitti_extended_adaptation}
+
+\FloatBarrier
+\section{KITTI Integration and Mechanism Diagnostics}
+\label{sec:kitti-diagnostics}
+
+\subsection{Earlier Multi-Method Evidence}
+
+The preceding multi-method experiment is informative about integration,
+but it is a distinct experimental generation. Its CenterPoint evaluations
+covered all 3,769 validation frames under AP$_{R40}$.
+Figure~\ref{fig:k-legacy} retains all three Moderate class results.
+PDANS gave the highest Car AP among the four generated-input pipelines
+in both lines, yet remained below the corresponding Car baseline.
+The class-specific exception matters: on Line~B, PDANS Pedestrian AP
+was 28.18 against the sparse baseline's 24.57, and its Cyclist AP
+was 15.52 against 15.46. These results rule out the stronger claim
+that every class always deteriorated.
+
+\thesisfigure{k_legacy}{Earlier CenterPoint multi-method comparison}{
+Recorded full-validation Moderate 3D AP$_{R40}$ from the earlier
+integration generation. PU-Net old contains a known normalisation error;
+PU-EdgeFormer compat uses the lab compatibility path. These labels
+identify implemented pipelines and do not establish a fair ranking of
+the original architectures.}{fig:k-legacy}
+
+Two implementation qualifications constrain that matrix. The old PU-Net
+adapter had a confirmed normalisation error, so its very low AP cannot
+be attributed to the PU-Net architecture. The lab PU-EdgeFormer path
+reused compatible PU-GCN operators and checkpoint inference components;
+it is not the independently verified native EdgeTransformer execution
+used for the HPC ModelNet40 branch. The historical PointRCNN E2/E3
+results can be identified more precisely: their archived runner uses
+C++ AP$_{R40}$. They are therefore included below with their own paired
+baselines, while the legacy adaptation screen retains its different
+metric label.
+
+\input{texfiles/05_kitti_protocol_history}
+
+\subsection{Patch Locality and Normalisation}
+\label{sec:patch-diagnostics}
+
+The original patch extractor could combine distant structures because
+it partitioned coarse spatial bins by row order. In the audited Line~B
+patches, the median XY diagonal was 30.46~m and its 90th percentile
+was 124.10~m. Such supports do not resemble the local surface patches
+used to train object upsamplers \cite{yu2018punet,qian2021pugcn}. A first local replacement reduced the
+spatial extent but introduced 59.4\% duplicate rows. Locality and
+unique support therefore had to be checked separately.
+
+The first local PDANS replacement produced opposite detector responses
+(Figure~\ref{fig:k-patch-response}). On the same 256 frames, PointRCNN
+Car Moderate 3D AP fell from 57.18 to 43.70, while CenterPoint Car
+rose from 61.12 to 77.42. The saved paired report also records
+CenterPoint Pedestrian and Cyclist increases. Its locality rule guaranteed
+only 256 unique supporting points for a 2,048-row patch; repeated filling
+and overlapping patches concentrated the generated output. This was a
+development configuration, distinct from the later unique-2,048-support
+PU-GCN pipeline.
+
+\thesisfigure{k_patch_response}{Paired PDANS patch responses}{Paired
+Moderate 3D AP from the archived 256-frame PDANS patch experiment. The
+source report labels these values AP$_{R40}$; they retain that report's
+protocol and are not inserted into the final adaptation matrix. Each
+segment connects the old and first local patch result for one detector
+and class. The CenterPoint values use the original evaluation logs named
+in the paired report, which differ slightly from an older summary CSV.}{fig:k-patch-response}
+
+The retained input audit supports a concentration explanation. Across 20
+frames, the median fraction of PointRCNN input coordinates unique at
+1~mm fell from 99.90\% to 57.70\%; occupied diagnostic voxels fell from
+11,584.5 to 2,124.5, and the share of points in the densest 10\% of voxels
+rose from 27.23\% to 87.85\%. CenterPoint preserved the original measured
+points before voxelisation, whereas PointRCNN sampled 16,384 input rows.
+The Car matching audit changed from 539 to 402 matches for PointRCNN
+and from 621 to 748 for CenterPoint. These counts corroborate the
+opposite observed changes, but do not replace AP or isolate a single
+causal operation: locality, duplication and effective support changed
+together.
+
+A 256-frame PU-Net ablation isolated normalisation and patch construction
+as two factors (Figure~\ref{fig:k-norm}). Fixing normalisation with the
+old patch improved PointRCNN Moderate AP from 7.98 to 18.27 and
+CenterPoint from 15.98 to 41.22. Fixing both factors raised the values
+to 43.54 and 46.20. The paired baselines were 81.30 and 79.84.
+Both faults affected performance, but correcting them was insufficient
+to recover the baselines. Because this was a diagnostic subset and an
+earlier evaluator configuration, its AP values are not inserted into
+the final full-validation ranking.
+
+\thesisfigure{k_normalization}{Normalisation and patch ablation}{Recorded
+256-frame PU-Net diagnostic: wrong or fixed normalisation crossed with
+old or local patches. Values are compared only within this experiment.
+The historical PointRCNN metric is not promoted to the final AP$_{R40}$
+series.}{fig:k-norm}
+
+\subsection{The Effective Detector Input}
+\label{sec:budget-results}
+
+The input-budget audits show why exact file cardinality is insufficient
+to describe the detector's observation. PointRCNN samples a fixed 16,384
+points at its entrance. CenterPoint limits points per voxel and the number
+of retained voxels. In a 32-frame Line~A audit, median occupied-voxel
+counts were 14,944 for Original, 36,913 for PDANS, 45,108 for PU-GCN,
+46,182 for the PU-EdgeFormer compatibility path, and 55,384 for old
+PU-Net. The 40,000-voxel cap was reached in 0, 6, 29, 29, and 32
+frames, respectively (Figure~\ref{fig:k-voxels}).
+
+\thesisfigure{k_voxels}{Voxel-budget audit}{Median occupied voxels and
+numbers of cap-triggering frames in the archived 32-frame Line~A audit.
+The dashed line is the 40,000-voxel evaluation cap. These are diagnostic
+counts from the earlier input generation, not statistics of the final
+3,769-frame adaptation matrix.}{fig:k-voxels}
+
+Line~B did not trigger that cap in the audit, yet its detection losses
+were large. Voxel truncation is therefore a relevant Line~A mechanism,
+but cannot be the only explanation. Similarly, a separate full-input
+PointRCNN experiment that removed fixed entrance resampling reduced even
+the original-input Moderate result from approximately 81.95 to 74.91
+within its own protocol. Simply presenting more points changed the input
+distribution expected by the pretrained detector.
+
+The region-split pilot tested a further alternative. It processed 2,067
+shared core regions with a 3~m halo, preserved all core points, and kept
+individual detector inputs within 16,384 points. Under that three-class
+PointRCNN configuration, baseline Car/Pedestrian/Cyclist Moderate
+AP$_{R40}$ was 77.82/58.21/78.29; the closest tested PDANS branch
+reached 68.87/58.07/71.58. Avoiding core-point truncation did not
+produce a consistent gain. This diagnostic uses a separate detector
+implementation and inference protocol, so it cannot quantify the effect
+of truncation in the final native PointRCNN experiment.
+
+\subsection{Selection, Sampling Variance, and Negative Controls}
+A retained 256-frame PDANS experiment tested a small generated-point
+dose of 2.5\% against a matched observed-point fill control.
+Car Moderate 3D AP was 82.6611 for the baseline, 84.4160 for the
+observed-fill control, and 85.0953 for PDANS. The apparent 2.4342-point
+gain over baseline therefore consisted of a 1.7548-point control
+improvement and only a 0.6793-point additional difference from the
+generated representation. This attribution prevents the whole gain
+from being assigned to generated geometry.
+
+Table~\ref{tab:k-dose-control} retains the other metrics from the same
+comparison. The sign was not uniform across difficulty or projection:
+the PDANS variant reduced Hard 3D AP and Moderate image-box AP.
+This small-dose result was a diagnostic candidate rather than evidence
+of an established full-validation gain. Values retain the historical
+evaluator's metric definitions and are not pooled with the final
+adaptation matrix. AOS denotes KITTI's average orientation similarity
+\cite{geiger2012kitti}.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}\toprule
+Metric & Difficulty & Baseline & Obs.\ fill & PDANS & $\Delta$ vs fill\\\midrule
+BBox & Easy & 99.37 & 99.49 & 99.22 & -0.27 \\
+BBox & Moderate & 94.12 & 93.93 & 92.31 & -1.62 \\
+BBox & Hard & 89.59 & 89.48 & 89.53 & +0.05 \\
+BEV & Easy & 96.45 & 96.53 & 96.43 & -0.10 \\
+BEV & Moderate & 90.91 & 90.83 & 91.08 & +0.25 \\
+BEV & Hard & 88.44 & 86.36 & 86.37 & +0.00 \\
+3D & Easy & 95.09 & 94.80 & 95.44 & +0.64 \\
+3D & Moderate & 82.66 & 84.42 & 85.10 & +0.68 \\
+3D & Hard & 79.93 & 79.82 & 78.63 & -1.20 \\
+AOS & Easy & 99.36 & 99.48 & 99.22 & -0.27 \\
+AOS & Moderate & 94.01 & 93.80 & 92.19 & -1.61 \\
+AOS & Hard & 89.44 & 89.33 & 89.34 & +0.02 \\
+\bottomrule\end{tabular}
+\caption{Low-dose comparison on 256 frames. The last column is PDANS
+minus observed-fill control, in percentage points.}
+\label{tab:k-dose-control}\end{table}
+
+The executed detector-aware PDANS sequence tested whether generated
+points could be restricted to more useful regions. The V4 measured-voxel
+anchor reduced the median number of newly activated voxels to zero and
+gave a 0.31-point Car gain in its PointRCNN pilot. CenterPoint Car
+was approximately unchanged, while Pedestrian and Cyclist still declined.
+The V5 class-adaptive gate nearly preserved all CenterPoint pilot metrics,
+but its independent 64-frame holdout changed Car Moderate AP from
+74.1881 to 74.0512. These tests support controlled occupancy as an
+integration factor; they did not establish a repeatable cross-detector gain.
+
+A 16-seed evaluator probe further qualified a positive single-run result.
+With input, checkpoint, split, and merge rules fixed, changing only the
+sampling seed gave Car Moderate scores (mean $\pm$ standard deviation across seeds) of $80.998\pm1.198$ for
+the baseline and $80.560\pm1.086$ for the V1 full variant. The paired
+difference was $-0.438\pm1.769$ AP points, and 9 of 16 differences
+were negative. The previously reported 1.2227-point gain was the
+variant's most favourable seed in that probe. These are evaluator-seed
+statistics for the diagnostic path, not training-seed uncertainty and
+not an error bar applicable to the final full-validation matrix.
+
+\FloatBarrier
+\input{texfiles/05_kitti_sampling_scale}
+\FloatBarrier
+
+\input{texfiles/05_kitti_completed_interventions}
+\FloatBarrier
+\input{texfiles/05_kitti_object_analysis}
+\FloatBarrier
+\input{texfiles/05_kitti_visual_analysis}

@@ -1,0 +1,11 @@
+variant,line,method,track,sample_frames,raw_points_median,fov_range_points_median,pre_cap_voxels_median,cap_hit_frames,cap_drop_fraction_median,points_per_voxel_mean_median,points_discarded_by_max5_fraction_median,mixed_observed_voxel_fraction_median,reference_0p2_voxel_recall_median,cloud_0p2_extra_voxel_fraction_median,generated_0p2_voxel_precision_median,observed_input_rows_present_frames
+original_baseline,baseline_a,none,baseline,32,118390.0,17877.0,14944.0,0,0.0,1.212698,0.0,0.0,1.0,0.0,,
+downsampled_x4_baseline,baseline_b,none,baseline,32,29597.5,4455.0,4233.0,0,0.0,1.053091,0.0,0.0,0.458029,0.0,,
+original_x4_pdans,line_a,pdans,exact4n_e1,32,473560.0,72463.0,36912.5,6,0.0,1.929529,0.10767,0.496775,1.0,0.45033,0.475066,32
+original_x4_pu_gcn,line_a,pu_gcn,exact4n_e1,32,473560.0,73534.0,45108.0,29,0.113239,1.589427,0.039994,0.464798,1.0,0.552953,0.372453,32
+original_x4_pu_edgeformer,line_a,pu_edgeformer,exact4n_e1,32,473560.0,73483.5,46182.0,29,0.133861,1.529162,0.036864,0.405122,1.0,0.61873,0.294875,32
+original_x4_pu_net,line_a,pu_net,exact4n_e1,32,473560.0,73522.0,55384.0,32,0.277765,1.304178,0.004057,0.137748,1.0,0.680285,0.172499,32
+downsampled_x4_pdans,line_b,pdans,exact4n_e1,32,118390.0,19447.5,14246.5,0,0.0,1.347788,0.117468,0.226278,0.589849,0.454596,0.459777,32
+downsampled_x4_pu_gcn,line_b,pu_gcn,exact4n_e1,32,118390.0,19067.5,15811.5,0,0.0,1.227054,0.001526,0.195833,0.57292,0.576652,0.329909,32
+downsampled_x4_pu_edgeformer,line_b,pu_edgeformer,exact4n_e1,32,118390.0,18988.0,16215.0,0,0.0,1.190859,0.001082,0.086092,0.56409,0.6124,0.262016,32
+downsampled_x4_pu_net,line_b,pu_net,exact4n_e1,32,118390.0,18966.0,16484.0,0,0.0,1.176575,0.000151,0.062744,0.547745,0.620563,0.238479,32

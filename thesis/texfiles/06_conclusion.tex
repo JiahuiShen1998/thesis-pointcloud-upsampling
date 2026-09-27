@@ -1,0 +1,120 @@
+\chapter{Conclusion and Outlook}\label{chap:conclusion}
+
+This thesis investigated whether point-cloud upsampling improves downstream
+perception, using object classification on ModelNet40 and three-dimensional
+object detection on KITTI. The two-line design separated densification of
+an available observation from recovery after fourfold sparsification.
+Five upsampling methods completed the HPC object-level study. The lab
+scene-level study combined earlier frozen-detector comparisons with a
+later, fully evaluated PU-GCN input and detector-adaptation experiment.
+The combined evidence shows that added coordinates, geometric agreement,
+and useful task information are distinct properties.
+
+\section{Findings from the Completed Experiments}
+
+On ModelNet40, none of the five upsampled Line~A representations exceeded
+the original 1,024-point classifier. Original best reported OA was 91.95\%, while
+the highest upsampled best OA was 91.63\% for PU-GCN. After sparsification
+to 256 points, PU-Net alone improved the selected-checkpoint result,
+from 90.85\% to 91.27\%. Its final-epoch gain was smaller, from 90.46\%
+to 90.65\%. These are results from separately trained, single-seed
+classifiers, not repeated-run estimates
+(Tables~\ref{tab:mn-a} and~\ref{tab:mn-b}).
+
+The geometric ranking did not reproduce the classification ranking.
+PU-GCN had the lowest mean equal-cardinality Chamfer distance in both
+lines, while PU-Net had the best Line~B classification and Hausdorff
+distance. PointNet++ reception measurements further distinguished
+stored density from the support used by local feature aggregation.
+PU-GCN's CD advantage held for more than 93\% of test objects in
+each line, while PU-Net had the lowest Line~B HD for about 90\%.
+Thus the geometric and task mismatch was not explained only by a few
+outliers. The two retained point-cloud examples illustrate that
+distinction without assigning unrecorded classification outcomes
+(Sections~\ref{sec:controls}, \ref{sec:equaln-geometry}
+and~\ref{sec:modelnet-visual}).
+
+The KITTI study first evaluated 20 three-epoch or frozen-weight arms
+on all 3,769 validation frames, then extended training for the four
+observed-first detector--line combinations. The extended schedules
+improved on both frozen observed-first inputs and the earlier adapted
+checkpoints, while satisfying the specified Car AP plateau criterion.
+Selected Line~A scores reached 71.59 for PointRCNN and 75.97 for
+CenterPoint, below the original baselines of 81.95 and 79.28.
+Line~B reached 57.05 and 62.90, below the adapted sparse baselines of
+68.33 and 68.05 (Table~\ref{tab:k-extended-comparison}).
+Thus the residual deficit persisted beyond the original short
+adaptation schedule. PU-GCN itself remained fixed throughout.
+
+The integration diagnostics explain why a method name alone is insufficient
+to interpret a scene-level result. Local patch construction, correct
+normalisation, measurement preservation, and the detector's point or voxel
+budget all changed the evaluated input. Correcting PU-Net normalisation
+and patch locality substantially improved its diagnostic result. Enlarging
+PointRCNN input or changing CenterPoint occupancy did not yield a universal
+remedy. These findings support evaluation of the complete implemented
+pipeline, with the scope of every control stated explicitly
+(Sections~\ref{sec:patch-diagnostics} and~\ref{sec:budget-results}).
+
+\section{Limits of the Evidence}
+
+The ModelNet40 classifiers used one seed and selected their best checkpoint
+on the test set. Their saved OA and class scores average batch-level
+ratios; they are not exact object-count proportions. Initial mesh sampling
+also used Python's process-dependent hash in its seed. Reusing the archived
+point sets supports repeatability of the completed runs, whereas exact
+regeneration from meshes requires additional hash-state control. Reporting epoch~200 alongside best OA reduces dependence
+on that selection in the presentation, but does not create an independent
+validation protocol. Four reused training objects limit the mesh-reference
+classifier controls. Equal-cardinality mesh-reference comparisons also
+use independently normalised point samples rather than one shared
+mesh-derived transform. Their distance rankings are conditional on that
+coordinate convention. P2F used independent cloud and mesh normalisation,
+and NUC query centres were not perfectly shared across methods; these
+remain secondary geometry diagnostics. Missing per-object classifier
+predictions prevent paired prediction-level tests
+(Sections~\ref{sec:fc-4-3-1}, \ref{sec:fc-4-10-1},
+and~\ref{sec:fc-4-10-2}).
+
+The KITTI extension established a plateau under a 0.2-AP, three-epoch
+patience rule for Car Moderate 3D AP, rather than global optimisation
+convergence or convergence of all classes. Checkpoints were selected and
+reported on the same validation set. Neither the original nor the sparse
+baseline was extended to an equal training budget; Line~A also has no
+adapted original baseline. These design limits prevent attributing the
+system-level differences to generated geometry alone. The earlier
+PU-Net full-validation pipeline had a normalisation error, and the lab
+PU-EdgeFormer execution used a compatibility path. Historical evaluator
+variants and small diagnostic subsets consequently cannot be combined
+with the final matrix as one architecture ranking. Development also
+examined validation outcomes; these results are not a new blind test
+(Sections~\ref{sec:adaptation-evidence} and~\ref{sec:kitti-diagnostics}).
+
+\section{Implications and Future Work}
+
+The practical implication is to assess upsampling after the actual task
+model and its input adapter. A useful evaluation records visible
+measurements, generated candidates, strict output, and effective model
+input separately. It also distinguishes geometry references and training
+regimes. Such reporting makes a limited recovery gain interpretable
+without promoting it into a general claim about point-cloud densification.
+
+Further experiments could strengthen the conclusions by separating
+classifier validation from the fixed test set, repeating training across
+seeds, regenerating all mesh-reference training controls, evaluating
+geometry with a shared mesh-derived transform, and retaining
+per-object predictions. For KITTI, the remaining comparison should use
+equally trained original, sparse and upsampled inputs, together with
+independent checkpoint selection and final evaluation. Repeated seeds
+and alternative optimisation schedules would test the stability of the
+residual deficit beyond the completed plateau assessment. Native implementations
+under corrected common patch processing would permit cleaner method
+comparisons. These are proposed extensions, not experiments performed in
+this thesis.
+
+Within the executed scope, geometric improvement was insufficient to
+establish downstream improvement. PU-Net provided a limited object-level
+recovery benefit, while observation preservation and detector adaptation
+partially recovered KITTI performance. The evidence supports these
+conditional findings rather than a universal benefit or universal failure
+of point-cloud upsampling.

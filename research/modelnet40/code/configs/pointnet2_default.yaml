@@ -1,0 +1,48 @@
+# Unified PointNet++ training config for all ModelNet40 variants
+# Model: pointnet2_cls_ssg (same as yanx27/Pointnet_Pointnet2_pytorch)
+
+repo: /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/Pointnet_Pointnet2_pytorch
+model: pointnet2_cls_ssg
+num_category: 40
+num_point: 1024
+use_normals: false
+
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  scheduler_step: 20
+  scheduler_gamma: 0.7
+  seed: 42
+  num_workers: 4
+
+variants:
+  original_baseline:
+    line: A
+    data_root: datasets/modelnet40_original
+    output_dir: outputs/original_baseline
+
+  downsampled50_native512_pointnet2:
+    line: B
+    branch: baseline
+    data_root: datasets/modelnet40_downsampled50
+    output_dir: outputs/downsampled50_native512_pointnet2
+    raw_points: 512
+    num_point: 512
+    allow_resample: false
+
+  downsampled50_baseline:
+    line: B
+    branch: ablation
+    data_root: datasets/modelnet40_downsampled50
+    output_dir: outputs/downsampled50_baseline
+    raw_points: 512
+    loader_resample_to: 1024
+    resample_method: random_with_replacement_fixed_seed
+    note: naive-resampled ablation only; not main baseline
+
+module: python/pytorch2.6py3.12
+pip_packages:
+  - tqdm

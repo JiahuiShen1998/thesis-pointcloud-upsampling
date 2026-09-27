@@ -1,0 +1,43 @@
+PU-GCN Line B job 1731794 — error scan summary
+Generated: 2026-07-06 18:55 CEST
+
+===== Key finding =====
+Tasks 13/14/15 are RUNNING but every processed sample fails inference.
+No new raw/strict .npy files written in last 120+ minutes.
+
+===== Slurm tasks 13/14/15 (.out tail pattern) =====
+[lineB] N/770 success=0 skipped=0 failed=N  (100% failure rate, ~170s per sample)
+Task 13 at ~440/770 failed, task 14 at ~450/770, task 15 at ~458/761
+
+===== Failed CSV files =====
+logs/pugcn_x4/lineB_chunk_13_failed.csv  (~442 rows)
+logs/pugcn_x4/lineB_chunk_14_failed.csv  (~454 rows)
+logs/pugcn_x4/lineB_chunk_15_failed.csv  (~458 rows)
+
+===== Error type (all 1354 failures in chunks 13-15) =====
+PU-GCN inference failed (rc=1) — subprocess exit code 1
+
+Root traceback (consistent across failures):
+  model.test() -> Gen() -> feature_extractor() -> densegcn()
+  -> dyn_dil_get_graph_feature() -> dil_knn() -> knn() -> knn_point_2()
+  -> batch_mat_mul_v2 (TensorFlow)
+
+First failing sample examples:
+  chunk 13: train/sofa/sofa_0425
+  chunk 14: train/table/table_0301
+  chunk 15: train/tv_stand/tv_stand_0172
+
+===== GPU / node correlation =====
+Tasks 0-12 COMPLETED: NVIDIA GeForce RTX 2080 Ti (tg066, tg068, tg069, etc.)
+Tasks 13-15 RUNNING:  NVIDIA GeForce RTX 3080 on tg084 — 0 successes, all failures
+
+===== .err files =====
+logs/pugcn_x4/lineB_pugcn_1731794_13.err — empty
+logs/pugcn_x4/lineB_pugcn_1731794_14.err — empty
+logs/pugcn_x4/lineB_pugcn_1731794_15.err — empty
+
+===== Completed reference (task 12) =====
+Done lineB: total=770 success=770 skipped=0 failed=0
+
+===== No sacct TIMEOUT / FAILED / OOM yet =====
+(sacct shows RUNNING, ExitCode 0:0 for tasks 13-15)

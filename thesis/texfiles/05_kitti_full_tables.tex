@@ -1,0 +1,108 @@
+\subsection{Class, Difficulty, and Projection Results}
+\label{sec:kitti-full}
+
+The Car 3D results are already complete in
+Tables~\ref{tab:pr-a}--\ref{tab:cp-b} and are not repeated here.
+Tables~\ref{tab:pr-bev-full} and~\ref{tab:pr-bbox-full} give PointRCNN
+bird's-eye-view (BEV) and image-box AP, while
+Table~\ref{tab:cp-noncar-full} supplies the remaining CenterPoint
+Pedestrian and Cyclist 3D results and Table~\ref{tab:cp-bev-full}
+its BEV results. Values are AP$_{R40}$ percentages over all 3,769
+frames; F and A denote frozen and adapted detector weights.
+Direct and observed-first refer to the PU-GCN input construction.
+CenterPoint image-box AP was not exported.
+
+\begin{table}[!t]\centering
+\begin{tabular}{llrrr}\toprule
+Input / weights & Class & Easy & Moderate & Hard\\\midrule
+A / Baseline / F & Car & 95.87 & 88.86 & 86.43 \\
+A / Direct / F & Car & 91.65 & 71.45 & 68.80 \\
+A / Direct / A & Car & 92.28 & 80.52 & 76.09 \\
+A / Observed / F & Car & 92.18 & 73.79 & 70.89 \\
+A / Observed / A & Car & 94.00 & 81.03 & 78.32 \\
+B / Baseline / F & Car & 91.53 & 74.92 & 71.90 \\
+B / Baseline / A & Car & 91.75 & 77.97 & 73.67 \\
+B / Direct / F & Car & 59.93 & 38.74 & 32.48 \\
+B / Direct / A & Car & 82.49 & 58.20 & 51.48 \\
+B / Observed / F & Car & 65.65 & 43.86 & 38.93 \\
+B / Observed / A & Car & 87.48 & 67.30 & 60.73 \\
+\bottomrule\end{tabular}
+\caption{PointRCNN BEV AP$_{R40}$ on the final validation set.}\label{tab:pr-bev-full}
+\end{table}
+
+\begin{table}[!t]\centering
+\begin{tabular}{llrrr}\toprule
+Input / weights & Class & Easy & Moderate & Hard\\\midrule
+A / Baseline / F & Car & 99.19 & 92.47 & 89.96 \\
+A / Direct / F & Car & 95.52 & 74.57 & 71.80 \\
+A / Direct / A & Car & 95.57 & 84.01 & 79.40 \\
+A / Observed / F & Car & 95.78 & 77.21 & 74.37 \\
+A / Observed / A & Car & 97.32 & 86.18 & 81.70 \\
+B / Baseline / F & Car & 95.66 & 80.04 & 75.59 \\
+B / Baseline / A & Car & 95.31 & 81.52 & 78.86 \\
+B / Direct / F & Car & 63.38 & 39.83 & 34.99 \\
+B / Direct / A & Car & 88.58 & 61.78 & 54.84 \\
+B / Observed / F & Car & 69.00 & 46.46 & 39.98 \\
+B / Observed / A & Car & 91.78 & 71.12 & 64.30 \\
+\bottomrule\end{tabular}
+\caption{PointRCNN Image-Box AP$_{R40}$ on the final validation set.}\label{tab:pr-bbox-full}
+\end{table}
+
+\begin{table}[!t]\centering
+\begin{tabular}{llrrr}\toprule
+Input / weights & Class & Easy & Moderate & Hard\\\midrule
+A / Baseline / F & Pedestrian & 54.04 & 50.65 & 46.25 \\
+A / Baseline / F & Cyclist & 79.24 & 64.61 & 60.99 \\
+A / Direct / F & Pedestrian & 49.07 & 45.08 & 41.06 \\
+A / Direct / F & Cyclist & 68.40 & 42.83 & 40.32 \\
+A / Observed / F & Pedestrian & 49.61 & 45.98 & 42.02 \\
+A / Observed / F & Cyclist & 73.38 & 49.45 & 46.49 \\
+A / Observed / A & Pedestrian & 51.96 & 48.42 & 44.17 \\
+A / Observed / A & Cyclist & 77.96 & 57.70 & 54.06 \\
+B / Baseline / F & Pedestrian & 27.20 & 24.57 & 21.67 \\
+B / Baseline / F & Cyclist & 25.81 & 15.46 & 14.49 \\
+B / Baseline / A & Pedestrian & 51.70 & 47.44 & 42.08 \\
+B / Baseline / A & Cyclist & 63.17 & 42.07 & 39.46 \\
+B / Direct / F & Pedestrian & 28.88 & 24.89 & 21.53 \\
+B / Direct / F & Cyclist & 27.12 & 15.28 & 14.36 \\
+B / Observed / F & Pedestrian & 32.55 & 29.03 & 24.99 \\
+B / Observed / F & Cyclist & 34.28 & 20.02 & 18.82 \\
+B / Observed / A & Pedestrian & 48.88 & 44.06 & 38.98 \\
+B / Observed / A & Cyclist & 55.80 & 33.56 & 31.59 \\
+\bottomrule\end{tabular}
+\caption{CenterPoint Pedestrian and Cyclist 3D AP$_{R40}$ on the final validation set.}\label{tab:cp-noncar-full}
+\end{table}
+
+\begin{table}[!t]\centering
+\begin{tabular}{llrrr}\toprule
+Input / weights & Class & Easy & Moderate & Hard\\\midrule
+A / Baseline / F & Car & 92.18 & 88.43 & 87.03 \\
+A / Baseline / F & Pedestrian & 58.98 & 55.74 & 51.62 \\
+A / Baseline / F & Cyclist & 82.38 & 68.70 & 65.26 \\
+A / Direct / F & Car & 88.99 & 70.68 & 68.96 \\
+A / Direct / F & Pedestrian & 53.09 & 49.38 & 45.80 \\
+A / Direct / F & Cyclist & 72.31 & 46.71 & 44.09 \\
+A / Observed / F & Car & 89.77 & 72.83 & 71.23 \\
+A / Observed / F & Pedestrian & 54.17 & 50.82 & 46.94 \\
+A / Observed / F & Cyclist & 76.27 & 52.44 & 49.51 \\
+A / Observed / A & Car & 91.85 & 84.93 & 83.68 \\
+A / Observed / A & Pedestrian & 55.58 & 52.61 & 48.34 \\
+A / Observed / A & Cyclist & 81.11 & 60.87 & 57.30 \\
+B / Baseline / F & Car & 89.12 & 77.31 & 73.16 \\
+B / Baseline / F & Pedestrian & 34.49 & 31.55 & 28.01 \\
+B / Baseline / F & Cyclist & 28.27 & 17.13 & 16.33 \\
+B / Baseline / A & Car & 90.17 & 80.20 & 76.79 \\
+B / Baseline / A & Pedestrian & 58.01 & 53.82 & 48.39 \\
+B / Baseline / A & Cyclist & 66.05 & 45.01 & 42.69 \\
+B / Direct / F & Car & 74.51 & 47.53 & 42.86 \\
+B / Direct / F & Pedestrian & 33.53 & 29.56 & 25.75 \\
+B / Direct / F & Cyclist & 29.98 & 17.00 & 16.42 \\
+B / Observed / F & Car & 80.99 & 55.54 & 50.94 \\
+B / Observed / F & Pedestrian & 37.72 & 33.62 & 29.55 \\
+B / Observed / F & Cyclist & 36.27 & 21.81 & 20.86 \\
+B / Observed / A & Car & 88.20 & 73.67 & 69.72 \\
+B / Observed / A & Pedestrian & 54.66 & 49.66 & 44.12 \\
+B / Observed / A & Cyclist & 57.93 & 35.62 & 33.93 \\
+\bottomrule\end{tabular}
+\caption{CenterPoint BEV AP$_{R40}$ on the final validation set.}\label{tab:cp-bev-full}
+\end{table}

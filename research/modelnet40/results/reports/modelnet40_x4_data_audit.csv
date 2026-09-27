@@ -1,0 +1,25 @@
+section,key,value
+protocol,N,1024
+protocol,N_div_4,256
+protocol,four_N,4096
+original,train_count,9843
+original,test_count,2468
+original,class_count,40
+original,dominant_shape,"(1024, 3)"
+downsampled_x4,path,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4
+downsampled_x4,valid_for_reuse,True
+downsampled_x4,train_count,9843
+downsampled_x4,test_count,2468
+legacy_downsampled50,path,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled50
+legacy_downsampled50,dominant_shape,"(512, 3)"
+legacy_downsampled50,note,N/2=512; old Line B baseline
+mesh,p2f_available,True
+mesh,manifest_off_available,12311
+legacy_lineA_up,ear,"{""method"": ""ear"", ""path"": ""datasets/modelnet40_original_up/ear_x4"", ""exists"": true, ""train_count"": 9843, ""test_count"": 2468, ""expected_input"": 1024, ""expected_output"": 4096, ""dominant_shape"": [4096, 3], ""count_ok"": true, ""shape_ok"": true, ""protocol_note"": ""Line A compatible (1024\u21924096)""}"
+legacy_lineA_up,punet,"{""method"": ""punet"", ""path"": ""datasets/modelnet40_original_up/punet_x4"", ""exists"": true, ""train_count"": 9843, ""test_count"": 2468, ""expected_input"": 1024, ""expected_output"": 4096, ""dominant_shape"": [4096, 3], ""count_ok"": true, ""shape_ok"": true, ""protocol_note"": ""Line A compatible (1024\u21924096)""}"
+legacy_lineA_up,pugcn,"{""method"": ""pugcn"", ""path"": ""datasets/modelnet40_original_up/pugcn_x4"", ""exists"": true, ""train_count"": 0, ""test_count"": 0, ""expected_input"": 1024, ""expected_output"": 4096, ""dominant_shape"": null, ""count_ok"": false, ""shape_ok"": false, ""protocol_note"": ""Line A compatible (1024\u21924096)""}"
+legacy_lineA_up,pdans,"{""method"": ""pdans"", ""path"": ""datasets/modelnet40_original_up/pdans_x4"", ""exists"": true, ""train_count"": 9843, ""test_count"": 2468, ""expected_input"": 1024, ""expected_output"": 4096, ""dominant_shape"": [4096, 3], ""count_ok"": true, ""shape_ok"": true, ""protocol_note"": ""Line A compatible (1024\u21924096)""}"
+legacy_lineB_up,ear,"{""method"": ""ear"", ""path"": ""datasets/modelnet40_downsampled50_up/ear_x4"", ""exists"": true, ""train_count"": 9843, ""test_count"": 2468, ""expected_input"": 512, ""expected_output"": 2048, ""dominant_shape"": [2048, 3], ""count_ok"": true, ""shape_ok"": true, ""protocol_note"": ""OLD protocol (512\u21922048); NOT valid for new Line B (256\u21921024)""}"
+legacy_lineB_up,punet,"{""method"": ""punet"", ""path"": ""datasets/modelnet40_downsampled50_up/punet_x4"", ""exists"": true, ""train_count"": 6609, ""test_count"": 2468, ""expected_input"": 512, ""expected_output"": 2048, ""dominant_shape"": [2048, 3], ""count_ok"": false, ""shape_ok"": true, ""protocol_note"": ""OLD protocol (512\u21922048); NOT valid for new Line B (256\u21921024)""}"
+legacy_lineB_up,pugcn,"{""method"": ""pugcn"", ""path"": ""datasets/modelnet40_downsampled50_up/pugcn_x4"", ""exists"": true, ""train_count"": 0, ""test_count"": 0, ""expected_input"": 512, ""expected_output"": 2048, ""dominant_shape"": null, ""count_ok"": false, ""shape_ok"": false, ""protocol_note"": ""OLD protocol (512\u21922048); NOT valid for new Line B (256\u21921024)""}"
+legacy_lineB_up,pdans,"{""method"": ""pdans"", ""path"": ""datasets/modelnet40_downsampled50_up/pdans_x4"", ""exists"": true, ""train_count"": 9843, ""test_count"": 2468, ""expected_input"": 512, ""expected_output"": 2048, ""dominant_shape"": [2048, 3], ""count_ok"": true, ""shape_ok"": true, ""protocol_note"": ""OLD protocol (512\u21922048); NOT valid for new Line B (256\u21921024)""}"

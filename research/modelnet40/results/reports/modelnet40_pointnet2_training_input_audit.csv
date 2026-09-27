@@ -1,0 +1,11 @@
+line,branch,method,source_path,expected_point_count,actual_min_points,actual_max_points,exact_point_count_samples,train_samples,test_samples,total_samples,nan_count,inf_count,status,note
+B,lineB_downsampled_x4_baseline,baseline,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4,256,256,256,12311,9843,2468,12311,0,0,PASS,all checks passed
+B,lineB_downsampled_x4_up_ear,EAR,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/ear,1024,1024,1024,12311,9843,2468,12311,0,0,PASS,all checks passed
+B,lineB_downsampled_x4_up_pdans,PDANS,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/pdans,1024,1024,1024,12311,9843,2468,12311,0,0,PASS,all checks passed
+B,lineB_downsampled_x4_up_pu_net,PU-Net,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/pu_net,1024,1024,1024,12311,9843,2468,12311,0,0,PASS,all checks passed
+B,lineB_downsampled_x4_up_pu_gcn,PU-GCN,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/pu_gcn,1024,1024,1024,12311,9843,2468,12311,0,0,PASS,all checks passed
+A,lineA_original_baseline,baseline,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original,1024,1024,1024,12311,9843,2468,12311,0,0,PASS,all checks passed
+A,lineA_original_up_ear,EAR,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/ear,4096,4096,4096,12311,9843,2468,12311,0,0,PASS,all checks passed
+A,lineA_original_up_pdans,PDANS,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/pdans,4096,4096,4096,12311,9843,2468,12311,0,0,PASS,all checks passed
+A,lineA_original_up_pu_net,PU-Net,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/pu_net,4096,4096,4096,12311,9843,2468,12311,0,0,PASS,all checks passed
+A,lineA_original_up_pu_gcn,PU-GCN,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/pu_gcn,4096,4096,4096,12311,9843,2468,12311,0,0,PASS,all checks passed

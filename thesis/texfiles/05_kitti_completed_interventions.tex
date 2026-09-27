@@ -1,0 +1,170 @@
+\subsection{Completed Input and Selection Interventions}
+\label{sec:kitti-interventions}
+The completed interventions changed input capacity, patch support,
+generated-point dose, and selection rules. Their separate baselines
+and evaluation scopes are retained below. Differences between tables
+are not interpreted as isolated method effects when the pipelines
+differ.
+
+\subsubsection{Removing Entrance Resampling}
+The all-valid PointRCNN experiment evaluated the original cloud and
+four generated Line~A inputs without standard entrance resampling.
+Table~\ref{tab:k-all-valid} shows that the original-input Moderate
+result itself fell from about 81.95 to 74.91. PDANS was the strongest
+generated input at 63.49, but still trailed the all-valid original.
+Removing a point cap changed the representation expected by the
+detector rather than simply releasing a performance bottleneck.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrr}\toprule
+Input & Easy & Moderate & Hard\\\midrule
+Original / standard & 92.26 & 81.95 & 77.75\\
+Original / all-valid & 79.83 & 74.91 & 72.73\\
+PDANS / all-valid & 83.59 & 63.49 & 54.34\\
+PU-GCN / all-valid & 78.21 & 54.26 & 47.11\\
+PU-EF / all-valid & 67.11 & 43.85 & 37.10\\
+PU-Net old / all-valid & 12.23 & 8.82 & 8.17\\
+\bottomrule\end{tabular}
+\caption{Recorded full-validation all-valid-input experiment. Values are Car 3D AP from that historical protocol. PU-EF is the compatibility path and PU-Net old retains the faulty adapter.}\label{tab:k-all-valid}\end{table}
+
+\subsubsection{Correcting Local Patch Support across Methods}
+Table~\ref{tab:k-patch-pairs} retains all four paired surface-patch
+pilots and their two batch baselines. Every method improved with
+surface-c32. Fixed-normalisation PU-Net additionally reached 44.0985
+with cover-kNN, against its batch baseline of 81.7441. Local support
+therefore affected the recorded performance, but did not close the
+baseline gap.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrr}\toprule
+Batch & Method & Baseline & Old patch & Surface\\\midrule
+Batch 1 & PDANS & 81.56 & 57.99 & 68.47\\
+Batch 1 & PU-GCN & 81.56 & 55.81 & 63.45\\
+Batch 2 & PU-EF & 81.74 & 41.74 & 58.02\\
+Batch 2 & PU-Net fixed & 81.74 & 16.81 & 22.93\\
+\bottomrule\end{tabular}
+\caption{PointRCNN 256-frame paired patch pilots, Car Moderate 3D AP. Surface denotes surface-c32; the two pilot batches retain separate baselines.}\label{tab:k-patch-pairs}\end{table}
+
+\subsubsection{Region Splitting with Complete Core-Point Retention}
+The region-split pilot retained every core point across 2,067 shared
+regions with a 3~m halo and at most 16,384 points per detector input.
+Table~\ref{tab:k-region-all} reports every method and class.
+PDANS was closest to the baseline, but no generated input improved
+the three principal class outcomes together.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrr}\toprule
+Input & Car & Pedestrian & Cyclist\\\midrule
+Baseline & 77.82 & 58.21 & 78.29\\
+PDANS & 68.87 & 58.07 & 71.58\\
+PU-GCN & 61.51 & 55.47 & 57.48\\
+PU-EF & 61.28 & 56.14 & 56.18\\
+PU-Net fixed & 26.18 & 25.02 & 28.92\\
+\bottomrule\end{tabular}
+\caption{Region-split pilot on 256 frames: Moderate 3D AP$_{R40}$. Generated rows use surface-c32; PU-Net normalisation is fixed. This is a separate three-class PointRCNN implementation and inference protocol.}\label{tab:k-region-all}\end{table}
+
+An independent 64-frame region-split V4 holdout improved
+Car/Pedestrian/Cyclist from 75.7267/38.1070/15.0000 to
+77.4777/45.8565/17.2222. These positive results remain part of the
+completed evidence, bounded by the small holdout and its region-split
+protocol. In native whole-frame OpenPCDet PointRCNN, V4 changed Car
+by $+4.0651$ under deterministic workers=0 but $-2.2718$ under
+workers=2, with other class effects also changing sign. The records
+therefore do not establish improvement stable across those sampling
+implementations.
+
+\subsubsection{Dose and Selector Components}
+The 256-frame PDANS Line~A dose sequence used 2.5\%, 5\%, 7.5\%,
+and 10\% generated points. Its reported Moderate results were
+approximately 85.10, 82.37, 82.25, and 82.42, against 82.66.
+All tested Line~B doses remained below the sparse reference.
+Full-validation g10 runs completed for all four methods:
+Line~A PDANS/PU-GCN/PU-EF/PU-Net old reached approximately
+79.951/79.478/76.433/72.371, and Line~B reached
+59.048/55.954/52.415/45.700. The g25 and g50 runs did not complete
+and are not treated as evaluated results.
+
+The V1 component experiment compared density, fixed dose, matched-real,
+nearest-neighbour, and disabled-component variants
+(Table~\ref{tab:k-components}). The full variant had the highest
+single-evaluation score, but the matched-real control also improved.
+The later evaluator-seed probe described above shows why this one
+favourable score did not establish a stable gain.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lr}\toprule
+Configuration & Moderate\\\midrule
+Baseline & 81.18\\
+Density-only & 79.86\\
+Fixed 2.5\% PDANS & 81.44\\
+Full & 82.40\\
+Matched-real dynamic & 81.80\\
+NN-only & 81.59\\
+No-adaptive & 80.15\\
+No-confidence & 81.64\\
+No-sparse & 80.94\\
+\bottomrule\end{tabular}
+\caption{PointRCNN V1 selector/component pilot on 256 frames, Car Moderate 3D AP$_{R40}$. The separate 16-seed probe qualifies these single-evaluation scores.}\label{tab:k-components}\end{table}
+
+\subsubsection{Detector-Aware Selection Versions}
+V2 used final-box guidance, V3 used internal pre-RCNN or pre-NMS
+proposals, V4 anchored measured voxels, and V5 introduced class-adaptive
+gating. PointRCNN V2 voxel-only and proposal-only scores were
+79.3805 and 75.7533; their combined score was 79.2269.
+Internal proposals in V3 yielded 79.2933, so that replacement did
+not remove the loss. Table~\ref{tab:k-versions} retains the detector
+and class comparisons.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrr}\toprule
+Version & PR Car & CP Car & CP Ped. & CP Cyc.\\\midrule
+Baseline & 81.18 & 79.84 & 43.51 & 76.11\\
+V2 full & 79.23 & 76.77 & 48.56 & 72.28\\
+V3 full & 79.29 & 76.74 & 48.59 & 72.29\\
+V4 & 81.49 & 79.82 & 43.07 & 75.77\\
+\bottomrule\end{tabular}
+\caption{Completed 256-frame PDANS versions: PointRCNN Car and CenterPoint Car/Pedestrian/Cyclist Moderate 3D AP. CenterPoint Pedestrian/Cyclist baselines are obtained from the recorded scores and baseline deltas.}\label{tab:k-versions}\end{table}
+
+V4 reduced the median number of newly activated voxels to zero,
+yet did not improve all classes. V5 changed development-set
+CenterPoint Car/Pedestrian/Cyclist by
+$-0.0184/+0.0004/+0.0000$ and reused the PointRCNN V4 result.
+The completed independent 64-frame holdout did not retain a positive
+Car effect: 74.1881 became 74.0512, while BEV fell from 86.3893
+to 85.2910. Input control recovered performance during development;
+the holdout limits the claim of a general benefit.
+
+\subsubsection{Line B Selection and Small Negative Probes}
+Table~\ref{tab:k-lineb-selectors} compares the completed c2048-r4,
+E1, consensus, and random pilots. For PointRCNN, PDANS favoured E1,
+whereas PU-GCN and fixed PU-Net had their highest listed score with
+consensus. For CenterPoint, consensus reduced PDANS, PU-GCN, and
+PU-EF relative to random selection but improved PU-Net.
+No listed generated input reached its corresponding baseline.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}\toprule
+Protocol & Base & PDANS & PU-GCN & PU-EF & PU-Net\\\midrule
+\shortstack[l]{PointRCNN\\c2048-r4} & 64.04 & 36.62 & 24.96 & 21.24 & 2.40\\
+\shortstack[l]{PointRCNN\\E1} & 64.04 & 44.05 & 32.84 & 28.26 & 10.58\\
+\shortstack[l]{PointRCNN\\consensus} & 63.42 & 39.25 & 33.16 & 22.44 & 18.88\\
+\shortstack[l]{CenterPoint\\random} & 61.66 & 47.74 & 41.38 & 35.43 & 15.15\\
+\shortstack[l]{CenterPoint\\consensus} & 61.66 & 43.61 & 37.31 & 27.33 & 19.80\\
+\bottomrule\end{tabular}
+\caption{Line~B 256-frame selection pilots, Car Moderate 3D AP. PU-EF is the compatibility implementation and PU-Net uses fixed normalisation. Protocol-specific baselines are not pooled.}\label{tab:k-lineb-selectors}\end{table}
+
+A quality-selection probe used three frames without a voxel quota
+and five frames with quota 6. Without a quota, reported quality
+precision was 0.6821 versus 0.8155 for random selection, and unsupported
+fraction was 0.5825 versus 0.4940. With quota 6, the comparisons
+were 0.5965 versus 0.8024 and 0.6329 versus 0.5337.
+These small geometric probes had no detector AP and were not expanded.
+Their negative outcomes qualify the selection hypothesis, while saying
+nothing directly about detector performance.
+
+Together, these interventions tested capacity, local support, dose,
+proposal guidance, measured-voxel anchoring, and selector components.
+Several recovered performance within their own protocols, but no
+consistent cross-protocol gain survived the available controls.
+They motivated the later PU-GCN input construction and detector
+adaptation, whose final full-validation results remain separate.

@@ -1,0 +1,36 @@
+The three-epoch full-validation experiment followed a smaller adaptation screen, which should
+remain visible as completed work. It used 64 selected training frames
+(63 effective after filtering), seed 20260823, three RPN epochs and
+three RCNN epochs. Six input conditions were evaluated before and after
+adaptation on the same 256 validation frames; all twelve evaluations
+completed. Table~\ref{tab:k-screen} reports their Moderate results under
+the explicitly recorded legacy Python evaluator. Change is adapted
+minus frozen AP; Gap is adapted AP minus the matching adapted baseline,
+both in AP points. These values are not points on an R40 learning curve.
+The complete Easy/Moderate/Hard triplets are retained in the archived
+experiment outputs.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}\toprule
+Line & Input & Frozen & Adapted & Change & Gap\\\midrule
+A & Original & 79.19 & 78.18 & $-1.01$ & 0.00\\
+A & PU-GCN & 60.27 & 64.44 & $+4.17$ & $-13.74$\\
+A & PDANS & 68.58 & 67.02 & $-1.57$ & $-11.17$\\
+B & Sparse & 66.62 & 62.91 & $-3.70$ & 0.00\\
+B & PU-GCN & 32.92 & 37.52 & $+4.59$ & $-25.40$\\
+B & PDANS & 43.01 & 47.43 & $+4.43$ & $-15.48$\\\bottomrule
+\end{tabular}
+\caption{PointRCNN adaptation screen on 256 frames: Car Moderate 3D AP
+at IoU 0.70 under the legacy evaluator.}\label{tab:k-screen}
+\end{table}
+
+The screen recovered more than four AP points for both PU-GCN inputs
+and for sparse PDANS, but not for dense PDANS. Both adapted baselines
+also deteriorated. Thus a positive before/after change alone would
+overstate the benefit: all adapted generated inputs remained below
+their paired adapted baseline. The later stage expanded training to
+3,712 frames, initially evaluated a 256-frame pilot, and ultimately
+completed the 3,769-frame, 20-arm matrix. Increasing training coverage,
+changing the integration configuration and changing the evaluation
+scope prevent these stages from being interpreted as a single
+controlled sample-size ablation.

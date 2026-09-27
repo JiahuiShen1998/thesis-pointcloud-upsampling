@@ -1,0 +1,3 @@
+variant,line,method,status,car_3d_ap_r40_easy,car_3d_ap_r40_moderate,car_3d_ap_r40_hard,pedestrian_3d_ap_r40_easy,pedestrian_3d_ap_r40_moderate,pedestrian_3d_ap_r40_hard,cyclist_3d_ap_r40_easy,cyclist_3d_ap_r40_moderate,cyclist_3d_ap_r40_hard
+tulip_original_native,line_a_extended,tulip,PASS,50.6464,31.7697,26.4393,19.8049,15.9778,13.4646,10.0242,4.592,4.245
+tulip_downsampled_native,line_b_extended,tulip,PASS,27.9811,17.6847,14.3506,4.1884,2.9893,2.4936,0.1615,0.0798,0.0719

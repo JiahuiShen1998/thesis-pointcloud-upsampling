@@ -1,0 +1,16 @@
+\begin{table}[!t]\centering
+\begin{tabular}{llrr}\toprule Line & Input & Mean P2F & Median P2F\\\midrule
+Reference & Original & 0.08662 & 0.06890 \\
+B & EAR & 0.08400 & 0.06317 \\
+B & PU-Net & 0.08425 & 0.06497 \\
+B & PU-GCN & 0.08798 & 0.07016 \\
+B & PDANS & 0.08365 & 0.06468 \\
+B & Sparse & 0.08675 & 0.06907 \\
+A & EAR & 0.08585 & 0.06371 \\
+A & PU-Net & 0.08413 & 0.06619 \\
+A & PU-GCN & 0.08539 & 0.06840 \\
+A & PDANS & 0.08526 & 0.06796 \\
+B & PU-EdgeFormer & 0.08866 & 0.07087 \\
+A & PU-EdgeFormer & 0.08638 & 0.06850 \\
+\bottomrule\end{tabular}
+\caption{Secondary P2F audit, 2,468 test objects per row. Clouds and meshes were independently normalised. The median is over the per-object mean distances. Values retain the recorded coordinate convention.}\label{tab:p2f-audit}\end{table}

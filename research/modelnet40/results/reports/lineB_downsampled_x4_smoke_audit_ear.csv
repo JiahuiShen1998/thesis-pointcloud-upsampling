@@ -1,0 +1,2 @@
+method,smoke_tag,strict_root,expected_shape,train_count,test_count,expected_train,expected_test,bad_shapes,nan_inf,status
+ear,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/ear,"(1024, 3)",20,20,20,20,,False,PASS

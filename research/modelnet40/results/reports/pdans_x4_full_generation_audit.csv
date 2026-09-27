@@ -1,0 +1,3 @@
+method,variant,line,output_root,train_count,test_count,expected_train,expected_test,expected_shape,bad_shape_files,nan_inf,actual_ratio,class_count,legacy_ear_x2_intact,status,issues
+pdans,Line A,A,datasets/modelnet40_original_up/pdans_x4,9843,2468,9843,2468,4096x3,0,False,4.0,40,True,PASS,
+pdans,Line B,B,datasets/modelnet40_downsampled50_up/pdans_x4,9843,2468,9843,2468,2048x3,0,False,4.0,40,True,PASS,

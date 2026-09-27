@@ -1,0 +1,13 @@
+experiment,line,branch,protocol_role,status,num_points,best_epoch,best_test_acc,final_epoch,final_test_acc,checkpoint,notes
+original_baseline,A,baseline,main Line A baseline,completed,1024,85,0.9195,200,0.9131,outputs/original_baseline/checkpoints/best_model.pth,PointNet++ on native 1024 pts
+downsampled50_native512_pointnet2,B,baseline,main Line B baseline,completed,512,197,91.2600,200,91.1400,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/outputs/downsampled50_native512_pointnet2/checkpoints/best_model.pth,allow_resample=false
+downsampled50_baseline,B,baseline,ablation only,pending,1024,,,,,outputs/downsampled50_baseline/checkpoints/best_model.pth,loader naive resample 512→1024; not main baseline
+downsampled50_ear_pointnet2,B,upsampling,ablation/preliminary only,pending,1024,,,,,outputs/downsampled50_ear_pointnet2/checkpoints/best_model.pth,legacy EAR ×2 → 1024; superseded by ×4 protocol
+original_ear_x4_pointnet2,A,upsampling,main Line A upsampling,completed,4096,61,91.4800,200,90.8500,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/outputs/original_ear_x4_pointnet2/checkpoints/best_model.pth,EAR ×4 1024→4096
+downsampled50_ear_x4_pointnet2,B,upsampling,main Line B upsampling,completed,2048,74,90.6100,200,89.7600,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/outputs/downsampled50_ear_x4_pointnet2/checkpoints/best_model.pth,EAR ×4 512→2048
+original_punet_x4_pointnet2,A,upsampling,main Line A upsampling,blocked,,,,,,,await punet ×4 full audit PASS; TF ops env blocked
+downsampled50_punet_x4_pointnet2,B,upsampling,main Line B upsampling,blocked,,,,,,,await punet ×4 full audit PASS; TF ops env blocked
+original_pugcn_x4_pointnet2,A,upsampling,main Line A upsampling,blocked,,,,,,,await pugcn ×4 full audit PASS; TF ops env blocked
+downsampled50_pugcn_x4_pointnet2,B,upsampling,main Line B upsampling,blocked,,,,,,,await pugcn ×4 full audit PASS; TF ops env blocked
+original_pdans_x4_pointnet2,A,upsampling,main Line A upsampling,completed,4096,84,91.6200,200,90.8700,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/outputs/original_pdans_x4_pointnet2/checkpoints/best_model.pth,blocked
+downsampled50_pdans_x4_pointnet2,B,upsampling,main Line B upsampling,completed,2048,164,91.4700,200,90.9900,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/outputs/downsampled50_pdans_x4_pointnet2/checkpoints/best_model.pth,blocked

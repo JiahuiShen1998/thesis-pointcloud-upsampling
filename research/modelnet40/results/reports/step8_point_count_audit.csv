@@ -1,0 +1,4 @@
+dataset_name,data_root,train_count,test_count,min_points,max_points,mean_points,sample_shape,nan_inf_exists,nan_inf_count
+original_baseline,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original,9843,2468,1024,1024,1024.0,"(1024, 3):12311",False,0
+downsampled50_baseline,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled50,9843,2468,512,512,512.0,"(512, 3):12311",False,0
+downsampled50_ear,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled50_up/ear,9843,2468,1024,1024,1024.0,"(1024, 3):12311",False,0

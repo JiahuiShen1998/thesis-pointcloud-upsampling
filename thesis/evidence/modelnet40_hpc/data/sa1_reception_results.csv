@@ -1,0 +1,15 @@
+bucket_points,method,role,mean_in_ball,discarded_percent,repeated_slots_percent,density_cv,kept_random_spread,best_oa_percent
+256,Mesh-ref 256,genuine,14.5,3.1,59.2,0.407,1.000,90.88
+256,Downsampled x4,decimated,14.5,3.1,59.2,0.406,1.000,90.85
+1024,Original,genuine,54.8,31.9,12.1,0.363,1.001,91.95
+1024,PU-Net,best at 1024,55.1,31.3,10.8,0.333,1.001,91.27
+1024,PDANS,upsampled,58.7,36.1,9.0,0.379,1.025,90.34
+1024,PU-GCN,upsampled,52.7,30.7,13.1,0.374,1.016,90.06
+1024,PU-EdgeFormer,upsampled,57.6,35.9,11.1,0.417,0.985,89.32
+1024,EAR,worst at 1024,72.3,53.0,14.5,0.645,1.054,88.81
+4096,Mesh-ref 4096,genuine,213.4,78.7,0.2,0.352,1.002,92.00
+4096,PU-GCN,best at 4096,211.1,78.1,0.1,0.334,1.026,91.63
+4096,PDANS,upsampled,215.1,78.9,0.1,0.359,1.034,91.62
+4096,EAR,upsampled,234.5,81.7,2.1,0.661,1.086,91.48
+4096,PU-Net,upsampled,216.6,79.2,0.1,0.319,0.997,90.95
+4096,PU-EdgeFormer,worst at 4096,222.2,79.8,0.2,0.365,0.970,90.54

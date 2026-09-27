@@ -1,0 +1,17 @@
+method,line,split,class,raw_count,strict_count,expected_count,min_points,max_points,exact_point_count_samples,nan_count,inf_count,missing_count,status
+PU-GCN,lineA,train,airplane,1,1,12311,4096,4096,1,0,0,12310,PASS
+PU-GCN,lineA,train,bathtub,1,1,12311,4096,4096,1,0,0,12309,PASS
+PU-GCN,lineA,train,bed,1,1,12311,4096,4096,1,0,0,12308,PASS
+PU-GCN,lineA,train,bench,1,1,12311,4096,4096,1,0,0,12307,PASS
+PU-GCN,lineA,test,airplane,1,1,12311,4096,4096,1,0,0,12306,PASS
+PU-GCN,lineA,test,bathtub,1,1,12311,4096,4096,1,0,0,12305,PASS
+PU-GCN,lineA,test,bed,1,1,12311,4096,4096,1,0,0,12304,PASS
+PU-GCN,lineA,test,bench,1,1,12311,4096,4096,1,0,0,12303,PASS
+PU-GCN,lineB,train,airplane,1,1,12311,1024,1024,1,0,0,12310,PASS
+PU-GCN,lineB,train,bathtub,1,1,12311,1024,1024,1,0,0,12309,PASS
+PU-GCN,lineB,train,bed,1,1,12311,1024,1024,1,0,0,12308,PASS
+PU-GCN,lineB,train,bench,1,1,12311,1024,1024,1,0,0,12307,PASS
+PU-GCN,lineB,test,airplane,1,1,12311,1024,1024,1,0,0,12306,PASS
+PU-GCN,lineB,test,bathtub,1,1,12311,1024,1024,1,0,0,12305,PASS
+PU-GCN,lineB,test,bed,1,1,12311,1024,1024,1,0,0,12304,PASS
+PU-GCN,lineB,test,bench,1,1,12311,1024,1024,1,0,0,12303,PASS

@@ -1,0 +1,11 @@
+input,car,pedestrian,cyclist,scope,frames
+Original baseline,79.2773,50.6533,64.6054,legacy frozen full-val,3769
+Downsampled baseline,64.5979,24.569,15.4577,legacy frozen full-val,3769
+Line A PDANS,64.3574,45.191,45.8953,legacy frozen full-val,3769
+Line A PU-GCN,58.8955,44.147,44.3082,legacy frozen full-val,3769
+Line A PU-EdgeFormer,45.7342,36.8205,35.2235,legacy frozen full-val,3769
+Line A PU-Net old,10.7512,19.493,13.1928,legacy frozen full-val,3769
+Line B PDANS,46.7512,28.179,15.5186,legacy frozen full-val,3769
+Line B PU-GCN,39.0714,24.9302,16.8458,legacy frozen full-val,3769
+Line B PU-EdgeFormer,24.7476,15.5896,7.0374,legacy frozen full-val,3769
+Line B PU-Net old,11.7178,11.9174,5.0172,legacy frozen full-val,3769

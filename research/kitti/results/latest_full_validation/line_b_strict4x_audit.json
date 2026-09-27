@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "frames_expected": 3769,
+  "frames_checked": 3769,
+  "frames_pass": 3769,
+  "frames_fail": 0,
+  "observed_dir": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/kitti_unified_x4_current_methods_no_detector/downsampled_x4/velodyne_downsampled_x4_val",
+  "predicted_dir": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/generation/val3769_lineb/pu_gcn_lineb_c2048_r4/line_b_downsampled_x4_up/final_bin",
+  "total_observed_points": 111851491,
+  "total_predicted_points": 447405964,
+  "failures": []
+}

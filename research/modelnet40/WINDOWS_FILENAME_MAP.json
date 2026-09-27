@@ -1,0 +1,121 @@
+[
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/ear_x4_generation/submit_2026-06-25T21:16:02Z.md",
+    "destination": "research/modelnet40/results/reports/ear_x4_generation/submit_2026-06-25T21-16-02Z.md",
+    "bytes": 382,
+    "sha256": "5309452818de8a9e29c5b43b20b8e717f0e39302c1f0f5ab25ba61de10933203",
+    "original_path": "research/results/reports/ear_x4_generation/submit_2026-06-25T21:16:02Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_all_2026-07-02T20:12:19Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_all_2026-07-02T20-12-19Z.md",
+    "bytes": 561,
+    "sha256": "5116aa9f414ed1145bad39c27eba35f705ed7b2e7c4603543d925ff92670ec18",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_all_2026-07-02T20:12:19Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_ear_2026-07-02T20:12:31Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_ear_2026-07-02T20-12-31Z.md",
+    "bytes": 315,
+    "sha256": "df90c4b3869db654beebc992d2c845be2ade78ab8b97450b07a3d7fad30e2ef9",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_ear_2026-07-02T20:12:31Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_ear}_2026-07-02T20:12:19Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_ear}_2026-07-02T20-12-19Z.md",
+    "bytes": 318,
+    "sha256": "1f40e1e70865b1effcf11b7a45e6920283ba42d7677646d0fea68ca982a6d43b",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_ear}_2026-07-02T20:12:19Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_pdans_2026-07-02T20:14:25Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_pdans_2026-07-02T20-14-25Z.md",
+    "bytes": 321,
+    "sha256": "7264de67d390d260d2fec541eca96841030f5b130f674358c784986cf0bbfd6c",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_pdans_2026-07-02T20:14:25Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_pdans_2026-07-02T20:17:42Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_pdans_2026-07-02T20-17-42Z.md",
+    "bytes": 321,
+    "sha256": "2081eb7c4fc139a354b88e0212078b73749776f902f157b7640b0f1e2037c829",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_pdans_2026-07-02T20:17:42Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_pdans}_2026-07-02T20:12:19Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_pdans}_2026-07-02T20-12-19Z.md",
+    "bytes": 324,
+    "sha256": "a7b96faadcd414a5d241271cb7f9b9d04c6a562e0fadfef17ee1ba555907d0b3",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_pdans}_2026-07-02T20:12:19Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_pu_net_2026-07-02T20:14:25Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_pu_net_2026-07-02T20-14-25Z.md",
+    "bytes": 324,
+    "sha256": "4bc3557561a330952e8ec6d7966b33d09a5bc1219202ec166966226c563a5e9f",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_pu_net_2026-07-02T20:14:25Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/lineB_downsampled_x4_up/submit_pu_net}_2026-07-02T20:12:19Z.md",
+    "destination": "research/modelnet40/results/reports/lineB_downsampled_x4_up/submit_pu_net}_2026-07-02T20-12-19Z.md",
+    "bytes": 327,
+    "sha256": "3759cec26234c35f2d3560269bbc4ba8ab3c9208b3c84c5f69df4a284b44afa9",
+    "original_path": "research/results/reports/lineB_downsampled_x4_up/submit_pu_net}_2026-07-02T20:12:19Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/pdans_x4_generation/submit_2026-06-26T20:26:06Z.md",
+    "destination": "research/modelnet40/results/reports/pdans_x4_generation/submit_2026-06-26T20-26-06Z.md",
+    "bytes": 537,
+    "sha256": "105b03b92d8d72dbfb227b3a0f97fc2a18ecbc1cf74bcfc0770127a9d905eb14",
+    "original_path": "research/results/reports/pdans_x4_generation/submit_2026-06-26T20:26:06Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/pdans}_x4_generation/submit_2026-06-26T08:24:24Z.md",
+    "destination": "research/modelnet40/results/reports/pdans}_x4_generation/submit_2026-06-26T08-24-24Z.md",
+    "bytes": 502,
+    "sha256": "382985c2205ecd8c5e45191353635253f84a281aed6ebc65b1cb5454afa1d124",
+    "original_path": "research/results/reports/pdans}_x4_generation/submit_2026-06-26T08:24:24Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/pugcn_x4_generation/submit_2026-06-26T20:26:06Z.md",
+    "destination": "research/modelnet40/results/reports/pugcn_x4_generation/submit_2026-06-26T20-26-06Z.md",
+    "bytes": 537,
+    "sha256": "72354aa4f02c07dd218ee92b7c9d2f48dd79c55722360960e1ddbeb4686b647b",
+    "original_path": "research/results/reports/pugcn_x4_generation/submit_2026-06-26T20:26:06Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/pugcn}_x4_generation/submit_2026-06-26T08:24:24Z.md",
+    "destination": "research/modelnet40/results/reports/pugcn}_x4_generation/submit_2026-06-26T08-24-24Z.md",
+    "bytes": 502,
+    "sha256": "253625dc6c294eb782b65da62039d3ae387e59b8befb8f0d148c29f8dd7734fe",
+    "original_path": "research/results/reports/pugcn}_x4_generation/submit_2026-06-26T08:24:24Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/punet_x4_generation/submit_2026-06-26T20:26:06Z.md",
+    "destination": "research/modelnet40/results/reports/punet_x4_generation/submit_2026-06-26T20-26-06Z.md",
+    "bytes": 537,
+    "sha256": "e96c5bca97c33050554c51f461c655f19102097bd4688ee508936542467ab7c0",
+    "original_path": "research/results/reports/punet_x4_generation/submit_2026-06-26T20:26:06Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/punet}_x4_generation/submit_2026-06-26T08:24:24Z.md",
+    "destination": "research/modelnet40/results/reports/punet}_x4_generation/submit_2026-06-26T08-24-24Z.md",
+    "bytes": 502,
+    "sha256": "9f5908719cf84843ce1f9411e894dddeae9e784d75bb18c66ad25218e9ea5c94",
+    "original_path": "research/results/reports/punet}_x4_generation/submit_2026-06-26T08:24:24Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/x4_parallel_generation/submit_2026-06-26T08:24:24Z.md",
+    "destination": "research/modelnet40/results/reports/x4_parallel_generation/submit_2026-06-26T08-24-24Z.md",
+    "bytes": 717,
+    "sha256": "7b2897c52a2100f051c71a5df8de7e5fce772d1f1b27c3424ad334d393822a8a",
+    "original_path": "research/results/reports/x4_parallel_generation/submit_2026-06-26T08:24:24Z.md"
+  },
+  {
+    "source": "Git/modelnet40_thesis_archive/.git index :research/results/reports/x4_parallel_generation/submit_corrected_2026-06-26T20:26:05Z.md",
+    "destination": "research/modelnet40/results/reports/x4_parallel_generation/submit_corrected_2026-06-26T20-26-05Z.md",
+    "bytes": 831,
+    "sha256": "eb452de1d09331488c24b7a2cd26dfbde8c195a60424b155d7a76a8222ec48fe",
+    "original_path": "research/results/reports/x4_parallel_generation/submit_corrected_2026-06-26T20:26:05Z.md"
+  }
+]

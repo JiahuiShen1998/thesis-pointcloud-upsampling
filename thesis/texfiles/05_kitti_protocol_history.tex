@@ -1,0 +1,158 @@
+\subsubsection{PointRCNN E2 and E3 Full-Validation Controls}
+\label{sec:k-e2-e3}
+
+The earlier E2 protocol evaluated a deterministic 16,384-point input
+constructed after field-of-view and range filtering, using 0.1~m voxel
+representatives and depth-stratified quotas. Its four depth intervals
+were 0--20, 20--40, 40--60 and 60--70.4~m; largest-remainder allocation
+assigned quotas from candidate counts without labels or AP-based
+selection. E3 tested a 32,768-point, observed-first input. Both completed
+ten conditions on all 3,769 validation frames. The primary CSV and
+runner identify these as C++ AP$_{R40}$ results.
+
+Figure~\ref{fig:k-e2-e3} and Tables~\ref{tab:k-e2-3d}--\ref{tab:k-e3}
+retain this independent comparison. E2's original and sparse Car
+Moderate baselines were 82.26 and 65.75. Among generated inputs, PDANS
+was highest in both lines at 67.22 and 44.08. These figures describe
+the integrated pipelines, including the old PU-Net error and
+PU-EdgeFormer compatibility path; they do not rank faithful original
+implementations.
+
+\thesisfigure{k_e2_e3}{PointRCNN input-budget sensitivity}{Car Moderate
+3D AP$_{R40}$ for the historical E2 (16,384-point) and E3 (32,768-point,
+observed-first) inputs, each evaluated on 3,769 frames. Markers share a
+0--100 axis. The change combines input budget and selection policy;
+it is not a pure point-count effect. Baselines belong to these protocols,
+not the later PU-GCN adaptation matrix.}{fig:k-e2-e3}
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrr}\toprule
+Line & Input & Easy & Moderate & Hard\\\midrule
+
+A & Baseline & 92.27 & 82.26 & 77.95\\
+
+A & PDANS & 84.61 & 67.22 & 62.40\\
+
+A & PU-GCN & 80.17 & 58.28 & 53.47\\
+
+A & PU-EF compat & 65.68 & 44.96 & 40.19\\
+
+A & PU-Net old & 11.76 & 8.38 & 7.44\\
+
+\midrule
+
+B & Baseline & 85.18 & 65.75 & 61.38\\
+
+B & PDANS & 65.01 & 44.08 & 39.17\\
+
+B & PU-GCN & 45.93 & 28.68 & 24.13\\
+
+B & PU-EF compat & 33.76 & 20.57 & 17.62\\
+
+B & PU-Net old & 12.41 & 8.78 & 7.76\\
+
+\bottomrule\end{tabular}
+\caption{Historical PointRCNN E2 3D AP$_{R40}$ for Car. Each row covers all 3,769 frames; the integrated input protocol is shared within E2. Values are percentages.}\label{tab:k-e2-3d}\end{table}
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrr}\toprule
+Line & Input & Easy & Moderate & Hard\\\midrule
+
+A & Baseline & 95.98 & 88.98 & 86.59\\
+
+A & PDANS & 90.00 & 78.02 & 73.21\\
+
+A & PU-GCN & 86.93 & 66.79 & 62.02\\
+
+A & PU-EF compat & 75.97 & 53.83 & 48.94\\
+
+A & PU-Net old & 28.95 & 18.74 & 16.85\\
+
+\midrule
+
+B & Baseline & 91.04 & 76.40 & 72.03\\
+
+B & PDANS & 76.63 & 54.57 & 48.14\\
+
+B & PU-GCN & 57.25 & 36.19 & 31.43\\
+
+B & PU-EF compat & 43.65 & 27.74 & 23.38\\
+
+B & PU-Net old & 23.77 & 15.52 & 13.62\\
+
+\bottomrule\end{tabular}
+\caption{Historical PointRCNN E2 BEV AP$_{R40}$ for Car. Each row covers all 3,769 frames; the integrated input protocol is shared within E2. Values are percentages.}\label{tab:k-e2-bev}\end{table}
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrr}\toprule
+Line & Input & Easy & Moderate & Hard\\\midrule
+
+A & Baseline & 99.32 & 94.08 & 90.10\\
+
+A & PDANS & 93.32 & 81.75 & 76.85\\
+
+A & PU-GCN & 92.44 & 71.77 & 67.07\\
+
+A & PU-EF compat & 81.95 & 58.80 & 52.30\\
+
+A & PU-Net old & 38.46 & 23.89 & 20.69\\
+
+\midrule
+
+B & Baseline & 95.24 & 79.95 & 75.58\\
+
+B & PDANS & 83.75 & 60.33 & 53.79\\
+
+B & PU-GCN & 60.61 & 38.61 & 32.40\\
+
+B & PU-EF compat & 52.75 & 33.49 & 28.71\\
+
+B & PU-Net old & 33.62 & 20.51 & 18.40\\
+
+\bottomrule\end{tabular}
+\caption{Historical PointRCNN E2 image-box AP$_{R40}$ for Car. Each row covers all 3,769 frames; the integrated input protocol is shared within E2. Values are percentages.}\label{tab:k-e2-bbox}\end{table}
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}\toprule
+Line & Input & Easy & Moderate & Hard & $\Delta$ Mod.\\\midrule
+
+A & Baseline & 92.03 & 80.38 & 77.52 & -1.88\\
+
+A & PDANS & 86.27 & 70.06 & 65.27 & +2.84\\
+
+A & PU-GCN & 85.19 & 64.95 & 58.66 & +6.68\\
+
+A & PU-EF compat & 71.54 & 51.63 & 45.65 & +6.67\\
+
+A & PU-Net old & 27.92 & 18.93 & 17.88 & +10.55\\
+
+\midrule
+
+B & Baseline & 84.59 & 64.14 & 57.50 & -1.61\\
+
+B & PDANS & 64.92 & 44.04 & 39.16 & -0.04\\
+
+B & PU-GCN & 45.09 & 28.28 & 23.83 & -0.40\\
+
+B & PU-EF compat & 32.50 & 20.03 & 16.20 & -0.54\\
+
+B & PU-Net old & 10.99 & 7.48 & 7.19 & -1.31\\
+
+\bottomrule\end{tabular}
+\caption{Historical PointRCNN E3 Car 3D AP$_{R40}$. $\Delta$ Mod. is E3
+minus E2 for the same input name, in AP points. All ten rows have 3,769
+prediction files.}\label{tab:k-e3}\end{table}
+
+E3 raised dense-input PDANS from 67.22 to 70.06 and PU-GCN from
+58.28 to 64.95, while the original baseline fell from 82.26 to 80.38.
+The stronger generated-input recovery therefore coexisted with a
+changed baseline, and all Line~A generated inputs remained below it.
+For Line~B, PDANS was approximately unchanged (44.08 to 44.04),
+PU-GCN declined slightly (28.68 to 28.28), and the sparse baseline
+fell from 65.75 to 64.14. Enlarging the budget with observed-first
+selection did not remove the downstream deficit. Because both budget
+and point selection changed, these results establish sensitivity of
+the complete input adapter rather than a causal effect of cardinality
+alone.
+
+\FloatBarrier

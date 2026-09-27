@@ -1,0 +1,127 @@
+%%%% Master thesis - LMS template (FAU Erlangen-Nuernberg)
+%%%% Based on the LMS-Bericht-LaTeX template by Dipl.-Ing. Marcus Laumer
+%%%% All files must be encoded in UTF-8.
+
+\documentclass[
+paper=A4,               % paper format
+pagesize=auto,          % provide page size for compiler
+fontsize=12pt,          % font size
+DIV=16,                 % type area calculation
+twoside=true,           % two-sided layout for printing
+BCOR=20mm,              % binding correction for printing (ask at copy shop!)
+parskip=false,          % space between paragraphs
+chapterprefix=true,     % prefix before chapter names: Chapter #
+listof=totoc,           % include lists of figures and tables in TOC
+bibliography=totoc,     % include bibliography in TOC
+headinclude=true,       % header included in type area
+footinclude=false,      % footer included in type area
+headsepline=true,       % separation line between header and text
+footsepline=false,      % separation line between footer and text
+headings=small,         % size of headings
+numbers=noenddot        % no dot after chapter heading prefixes
+] {scrbook}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{packages/wrapfig}
+\usepackage[caption=false]{subfig}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{placeins}
+\usepackage{etoolbox}
+\AtBeginEnvironment{longtable}{\singlespacing}
+% Keep bibliography text at 12 pt while avoiding isolated entries on a new page.
+\AtBeginEnvironment{thebibliography}{\singlespacing}
+\usepackage{multirow}
+% left-aligned fixed-width column: avoids heavy hyphenation in narrow columns
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\usepackage{siunitx}
+\usepackage{packages/xstring}
+\usepackage{packages/suffix}
+\usepackage[printonlyused]{packages/acronym}
+\acrodef{LiDAR}{Light Detection and Ranging}
+\acrodef{AP}{Average Precision}
+\acrodef{MLP}{Multi-Layer Perceptron}
+\acrodef{FPS}{Farthest Point Sampling}
+\acrodef{MSG}{Multi-Scale Grouping}
+\usepackage{pdfpages}
+\usepackage[nocompress]{cite}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figure/}}
+\setkomafont{caption}{\normalfont\normalsize}
+\setkomafont{captionlabel}{\normalfont\normalsize}
+\newcommand{\thesisfigure}[4]{%
+  \begin{figure}[!t]\centering
+  \includegraphics[width=\linewidth]{#1.pdf}%
+  \caption[#2]{#3}\label{#4}\end{figure}}
+\raggedbottom
+\widowpenalty=10000
+\clubpenalty=10000
+\emergencystretch=1.5em
+\makeatletter
+\let\tableinput\@@input
+\renewcommand{\@pnumwidth}{2.5em}
+\setlength{\@fptop}{0pt}
+\makeatother
+
+%%%% Float placement tuning.
+%%%% The LaTeX defaults are conservative and push tables onto pages of their
+%%%% own, leaving large holes in the preceding text page. These values allow a
+%%%% float to share a page with more text and require a float page to be
+%%%% better filled before it is created.
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\setcounter{totalnumber}{3}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.65}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.80}
+
+\recalctypearea
+
+\begin{document}
+
+    \pagenumbering{Alph} % will not be displayed
+    \input{texfiles/titlepage}
+    \cleardoublepage
+    % Signed thesis task / topic description. Replace topic/description.pdf
+    % with the signed Masterthesis task sheet before submission.
+    \includepdf[pages={1},scale={0.95}]{topic/description}
+    \cleardoublepage
+
+    \input{texfiles/declaration}
+
+    \frontmatter
+    \pagenumbering{Roman}
+    {\singlespacing\tableofcontents}
+    \input{texfiles/kurzfassung}
+    \input{texfiles/abstract}
+    \input{texfiles/symbols}
+    \input{texfiles/acronyms}
+
+    \mainmatter
+    \input{texfiles/01_introduction}
+    \input{texfiles/02_fundamentals}
+    \input{texfiles/03_concept}
+    \input{texfiles/04_experimental_setup}
+    \input{texfiles/05_results}
+    \input{texfiles/06_conclusion}
+
+    \backmatter
+    \listoffigures
+    \listoftables
+    \bibliographystyle{bibfiles/IEEEtran_thesis}
+    \bibliography{bibfiles/references}
+
+    \cleardoublepage
+    \input{texfiles/cv}
+    \addcontentsline{toc}{chapter}{Curriculum Vitae}
+
+\end{document}

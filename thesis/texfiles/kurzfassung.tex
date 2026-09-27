@@ -1,0 +1,36 @@
+\chapter*{Kurzfassung}\addcontentsline{toc}{chapter}{Kurzfassung}
+Die Hochabtastung von Punktwolken erhöht die Anzahl räumlicher Abtastpunkte.
+Ein Nutzen für nachgelagerte Wahrnehmungsaufgaben lässt sich jedoch nicht
+allein aus geometrischen Abständen ableiten. Diese Arbeit untersucht die
+Verdichtung einer ursprünglichen Eingabe sowie die Rekonstruktion nach
+einer Reduktion auf ein Viertel der Punkte. Auf ModelNet40 werden EAR,
+PDANS, PU-Net, PU-GCN und PU-EdgeFormer mit separat trainierten
+PointNet++-Klassifikatoren und geometrischen Referenzen gleicher
+Punktanzahl verglichen. Auf KITTI werden PointRCNN und CenterPoint
+untersucht. Eine PU-GCN-Eingabe- und Detektoranpassungsstudie über drei
+Epochen umfasst 20 Auswertungen. Anschließend wird das Training mit
+Eingaben unter Erhalt der beobachteten Punkte verlängert. Jede
+Hauptauswertung verwendet 3.769 Validierungsframes.
+
+Bei der protokollierten, über Batches gemittelten Genauigkeit übertrifft
+keine getestete Methode in ModelNet40-Linie~A die beste
+Gesamtgenauigkeit der ursprünglichen Darstellung mit 1.024 Punkten
+von 91,95\%. Nach der Ausdünnung verbessert PU-Net diese Genauigkeit
+von 90,85\% auf 91,27\%, während PU-GCN in beiden Linien den niedrigsten
+mittleren Chamfer-Abstand erreicht. Auf KITTI verschlechtern direkte
+PU-GCN-Eingaben die Ergebnisse der unveränderten Detektoren. Der Erhalt
+gemessener Punkte und die Anpassung der Detektoren verbessern die
+Ergebnisse, übertreffen jedoch nicht die jeweiligen Referenzen. Das
+verlängerte Training verbessert alle vier Detektor-Linien-Kombinationen
+weiter und erfüllt das festgelegte Plateaukriterium für die
+Car-Validierungsmetrik. Dennoch verbleiben Rückstände von 3,31 bis
+11,28 AP-Punkten gegenüber den jeweiligen Linienreferenzen. Das
+PU-GCN-Netz selbst verwendet weiterhin seine veröffentlichten Gewichte.
+
+Diagnostische Versuche zu Patch-Normalisierung, Punktverarbeitung und
+Voxelbelegung zeigen, warum gespeicherte Punktdichte und wirksame
+Modelleingabe verschieden sind. Die Aussagekraft wird durch nur einen
+Trainingsseed, die Auswahl des besten Klassifikators anhand des Testsatzes,
+ungleiche Trainingsbudgets der Detektoren und die Auswahl ihrer
+Checkpoints anhand desselben Validierungssatzes begrenzt. Geometrische Qualität allein reicht somit nicht aus, um einen Nutzen
+für nachgelagerte Aufgaben nachzuweisen.

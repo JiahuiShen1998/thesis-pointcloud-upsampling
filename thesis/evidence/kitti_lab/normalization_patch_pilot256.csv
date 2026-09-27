@@ -1,0 +1,6 @@
+configuration,pointrcnn,centerpoint,frames
+Baseline,81.3033,79.8368,256
+Wrong / old,7.9823,15.9788,256
+Fixed / old,18.2742,41.2227,256
+Wrong / local,6.3008,16.4119,256
+Fixed / local,43.5424,46.2047,256

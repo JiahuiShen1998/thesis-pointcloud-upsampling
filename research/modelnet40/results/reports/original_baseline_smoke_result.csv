@@ -1,0 +1,10 @@
+metric,value
+variant,original_baseline_smoke
+overall_accuracy,0.000000
+class_accuracy,0.000000
+best_epoch,1
+checkpoint_path,outputs/original_baseline_smoke/checkpoints/best_model.pth
+log_path,logs/original_baseline_smoke.log
+
+class_idx,class_name,accuracy
+0,airplane,0.000000

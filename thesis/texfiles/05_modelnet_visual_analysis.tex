@@ -1,0 +1,49 @@
+\subsection{Multi-Method Point-Cloud Evidence}
+\label{sec:modelnet-visual}
+
+Figures~\ref{fig:mn_atlas_A_airplane} and~\ref{fig:mn_atlas_B_chair}
+retain two of the eight archived HPC examples, one per comparison line.
+The airplane illustrates agreement between the lowest CD and HD;
+the chair illustrates their different method orderings. These examples
+were selected for this geometric contrast, not to estimate its frequency.
+No per-object classification transition is assigned because complete
+classifier predictions were not retained.
+
+Each plate contains seven panels: input, reference and all five methods.
+Every output point in panels (c--g) is coloured by its Euclidean
+nearest-neighbour distance to the same reference, with one full-range
+colour scale shared across methods within that plate. All stored points
+are shown under the same orthographic view, extent and marker size.
+This colour measures output-to-reference deviation only; CD also
+includes reference-to-output coverage, and HD takes the worst of both
+directions. Colour intensity is consequently not the complete CD or HD.
+
+For airplane\_0627 in Line~A, PU-GCN had the lowest CD (0.02979) and
+HD (0.09912), while PU-Net had 0.04231 and 0.11862, respectively.
+PU-EdgeFormer's HD was close to PU-GCN's at 0.09976 despite its higher
+CD of 0.03285. Figure~\ref{fig:mn_atlas_A_airplane} locates deviations
+around the same wings, tail and fuselage under the retained reference.
+
+\thesisfigure{mn_atlas_A_airplane}{Airplane multi-method comparison, Line A}{
+HPC airplane\_0627. (a) Input, 1,024 points; (b) independent mesh
+reference, 4,096 points; (c--g) five 4,096-point outputs, all coloured
+by output-to-reference Euclidean distance in normalised coordinates.
+PU-EF denotes PU-EdgeFormer. Every method shares the view and colour
+range; the range is specific to this object.}{fig:mn_atlas_A_airplane}
+
+For chair\_0890 in Line~B, PU-GCN had lower CD than PU-Net, 0.03281
+versus 0.04330, but higher HD, 0.18622 versus 0.06956.
+Figure~\ref{fig:mn_atlas_B_chair} therefore complements the dataset-level
+winner shares: better average proximity can coexist with a worse
+extreme residual for the same object. The sparse input, reference and
+generated outputs retain the seat, back and narrow supports in a
+common view. Neither their denser appearance nor their geometric
+ordering establishes a classification improvement.
+
+\thesisfigure{mn_atlas_B_chair}{Chair multi-method comparison, Line B}{
+HPC chair\_0890. (a) Sparse input, 256 points; (b) Original~1024
+reference; (c--g) five 1,024-point outputs, all coloured by
+output-to-reference Euclidean distance in normalised coordinates.
+PU-EF denotes PU-EdgeFormer. Every method shares the view and colour
+range; the range is specific to this object.}{fig:mn_atlas_B_chair}
+\FloatBarrier

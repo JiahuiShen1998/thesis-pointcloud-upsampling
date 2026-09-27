@@ -1,0 +1,134 @@
+[
+  {
+    "key": "chen2017mv3d",
+    "copied": "bibfiles/papers/chen2017mv3d.pdf",
+    "bytes": 3019996,
+    "sha256": "79ca87c767ee5d22801e6d64eabe9c75451b2b81161ad40a2a7bb813d315de0a"
+  },
+  {
+    "key": "fan2017pointsetgen",
+    "copied": "bibfiles/papers/fan2017pointsetgen.pdf",
+    "bytes": 7098447,
+    "sha256": "ea95d5e40872cb8676ee09f82cd777158caf8f4f7e66988caa7f0221c43a7830"
+  },
+  {
+    "key": "geiger2012kitti",
+    "copied": "bibfiles/papers/geiger2012kitti.pdf",
+    "bytes": 875218,
+    "sha256": "e52e29804edbca87f3cb2577c56466898f4d90f71bbda56ce9e11def02129692"
+  },
+  {
+    "key": "geiger2013kitti",
+    "copied": "bibfiles/papers/geiger2013kitti.pdf",
+    "bytes": 3097042,
+    "sha256": "af54d6fd1042661cd7dc01aeece435d20fc418078f6343246779f9f1b6a523f5"
+  },
+  {
+    "key": "huang2013ear",
+    "copied": "bibfiles/papers/huang2013ear.pdf",
+    "bytes": 2356324,
+    "sha256": "49dcd318a4b6871875a126e0c5ee21fb2c7c6aab3aa18c0108dd17e0dfb166c6"
+  },
+  {
+    "key": "kim2023puedgeformer",
+    "copied": "bibfiles/papers/kim2023puedgeformer.pdf",
+    "bytes": 1198588,
+    "sha256": "f3ecdbe872ab3c6931de371a86064d62a5811a250b9d8f8b3eb0a71395701cf0"
+  },
+  {
+    "key": "kingma2015adam",
+    "copied": "bibfiles/papers/kingma2015adam.pdf",
+    "bytes": 584641,
+    "sha256": "eab9c73ae2ceda884b94830bda99312254bac4806f6c9f045cbab90721ecda31"
+  },
+  {
+    "key": "li2019pugan",
+    "copied": "bibfiles/papers/li2019pugan.pdf",
+    "bytes": 6813332,
+    "sha256": "2e57ed87d1c8708e957c21699fd4081dd8de09dbb1c57d70d9ab5a2cfe054f13"
+  },
+  {
+    "key": "lin2017focal",
+    "copied": "bibfiles/papers/lin2017focal.pdf",
+    "bytes": 1297358,
+    "sha256": "2e6f45b97007009f32b82a3c19f35638d8da7022d8d4e4416b9078de91339f71"
+  },
+  {
+    "key": "qi2017pointnet",
+    "copied": "bibfiles/papers/qi2017pointnet.pdf",
+    "bytes": 9083131,
+    "sha256": "f13e3b3c744a3977155876e2d5dcd1d0cf83c22f98ce9cc11e0a2f5e37388b6a"
+  },
+  {
+    "key": "qi2017pointnetpp",
+    "copied": "bibfiles/papers/qi2017pointnetpp.pdf",
+    "bytes": 4083329,
+    "sha256": "5cd120458cd481078aaf927f0bfed0ef646423e107f5cc2750b9c59f5b8e3795"
+  },
+  {
+    "key": "qian2021pugcn",
+    "copied": "bibfiles/papers/qian2021pugcn.pdf",
+    "bytes": 19336260,
+    "sha256": "61d8d2112f260d5f21ac45aedcfd55ecb1a322053c8bebf8744299cfbdf39f8a"
+  },
+  {
+    "key": "shi2019pointrcnn",
+    "copied": "bibfiles/papers/shi2019pointrcnn.pdf",
+    "bytes": 1570699,
+    "sha256": "2b5cbd23efcf4f885fec2b7bd492c69748b52630766a9bebc326dc36b0be7351"
+  },
+  {
+    "key": "simonelli2019disentangling",
+    "copied": "bibfiles/papers/simonelli2019disentangling.pdf",
+    "bytes": 13203780,
+    "sha256": "0be34c6507d71c5f79cc239a061cdb7e748b5e478bb0f17ea383051d21f20146"
+  },
+  {
+    "key": "wang2019mpu",
+    "copied": "bibfiles/papers/wang2019mpu.pdf",
+    "bytes": 7208414,
+    "sha256": "a7ac78670c61b408091b661fb888600f2549e300c48ffbedd4e4814e5460cc2f"
+  },
+  {
+    "key": "wu2015modelnet",
+    "copied": "bibfiles/papers/wu2015modelnet.pdf",
+    "bytes": 7767501,
+    "sha256": "0a3ff24602af62c4b475d2e6b9ee1859de3bc3d386c817ee2352364e8aea22fe"
+  },
+  {
+    "key": "yan2018second",
+    "copied": "bibfiles/papers/yan2018second.pdf",
+    "bytes": 2721400,
+    "sha256": "7811c5676d79e8cfce0f96ca40a566e2b18ffe902595fd937b7e7ba977206e86"
+  },
+  {
+    "key": "yin2021centerpoint",
+    "copied": "bibfiles/papers/yin2021centerpoint.pdf",
+    "bytes": 5452928,
+    "sha256": "991f7c6177ce22a595bff1d12f999559b36ebfa0963157f033a21029fc95ca52"
+  },
+  {
+    "key": "yu2018ecnet",
+    "copied": "bibfiles/papers/yu2018ecnet.pdf",
+    "bytes": 15950204,
+    "sha256": "bfe1decf0a23e24759582fde0da4a0ee43dd10d2c22802f9938363468d70d7bf"
+  },
+  {
+    "key": "yu2018punet",
+    "copied": "bibfiles/papers/yu2018punet.pdf",
+    "bytes": 2837378,
+    "sha256": "d57ab1fc6b79250e22e9abc5b9958d1a07bab67ff1b0e141bd2850d1aad56b4b"
+  },
+  {
+    "key": "zhang2025pdans",
+    "copied": "bibfiles/papers/zhang2025pdans.pdf",
+    "bytes": 2886060,
+    "sha256": "580b11cc472d1bd24636a3b80032fe9b4603aef1ed762ed19be7007124fcb2e1"
+  },
+  {
+    "key": "zhou2018voxelnet",
+    "copied": "bibfiles/papers/zhou2018voxelnet.pdf",
+    "bytes": 12392459,
+    "sha256": "c470615a7a56b1a84946cd7e00d1ab148636acc0b6ec074f8b6fb1e322309fd9"
+  }
+]

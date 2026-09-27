@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "frames_expected": 3769,
+  "frames_checked": 3769,
+  "frames_pass": 3769,
+  "frames_fail": 0,
+  "observed_dir": "/home/ra87racy/projects/baseline_detectors/PointRCNN/data/KITTI/object/training/velodyne_original_val",
+  "predicted_dir": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/generation/val3769_linea/pu_gcn_linea_surface_pr1_c32/line_a_original_x4_up/final_bin",
+  "total_observed_points": 447411677,
+  "total_predicted_points": 1789646708,
+  "failures": []
+}

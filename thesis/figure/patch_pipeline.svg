@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="437.598506pt" height="309.6pt" viewBox="0 0 437.598506 309.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-13T18:55:03.839990</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 309.6 
+L 437.598506 309.6 
+L 437.598506 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 44.197449 63.32868 
+L 393.401057 63.32868 
+Q 395.895368 63.32868 395.895368 61.56396 
+L 395.895368 24.50484 
+Q 395.895368 22.74012 393.401057 22.74012 
+L 44.197449 22.74012 
+Q 41.703138 22.74012 41.703138 24.50484 
+L 41.703138 61.56396 
+Q 41.703138 63.32868 44.197449 63.32868 
+z
+" clip-path="url(#p7f54e32b92)" style="fill: #f5f5f5; stroke: #858585; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 44.197449 119.21148 
+L 393.401057 119.21148 
+Q 395.895368 119.21148 395.895368 117.44676 
+L 395.895368 80.38764 
+Q 395.895368 78.62292 393.401057 78.62292 
+L 44.197449 78.62292 
+Q 41.703138 78.62292 41.703138 80.38764 
+L 41.703138 117.44676 
+Q 41.703138 119.21148 44.197449 119.21148 
+z
+" clip-path="url(#p7f54e32b92)" style="fill: #f5f5f5; stroke: #858585; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 44.197449 175.09428 
+L 393.401057 175.09428 
+Q 395.895368 175.09428 395.895368 173.32956 
+L 395.895368 136.27044 
+Q 395.895368 134.50572 393.401057 134.50572 
+L 44.197449 134.50572 
+Q 41.703138 134.50572 41.703138 136.27044 
+L 41.703138 173.32956 
+Q 41.703138 175.09428 44.197449 175.09428 
+z
+" clip-path="url(#p7f54e32b92)" style="fill: #f5f5f5; stroke: #858585; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 44.197449 230.97708 
+L 393.401057 230.97708 
+Q 395.895368 230.97708 395.895368 229.21236 
+L 395.895368 192.15324 
+Q 395.895368 190.38852 393.401057 190.38852 
+L 44.197449 190.38852 
+Q 41.703138 190.38852 41.703138 192.15324 
+L 41.703138 229.21236 
+Q 41.703138 230.97708 44.197449 230.97708 
+z
+" clip-path="url(#p7f54e32b92)" style="fill: #f5f5f5; stroke: #858585; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 44.197449 286.85988 
+L 393.401057 286.85988 
+Q 395.895368 286.85988 395.895368 285.09516 
+L 395.895368 248.03604 
+Q 395.895368 246.27132 393.401057 246.27132 
+L 44.197449 246.27132 
+Q 41.703138 246.27132 41.703138 248.03604 
+L 41.703138 285.09516 
+Q 41.703138 286.85988 44.197449 286.85988 
+z
+" clip-path="url(#p7f54e32b92)" style="fill: #f5f5f5; stroke: #858585; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 11.955168px; font-family: 'DejaVu Sans', sans-serif; text-anchor: middle" x="218.799253" y="46.140409" transform="rotate(-0 218.799253 46.140409)">Measured scene in metric coordinates</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 218.799253 67.095728 
+Q 218.799253 70.828977 218.799253 73.555996 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 221.190286 68.773928 
+L 218.799253 73.555996 
+L 216.408219 68.773928 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 11.955168px; font-family: 'DejaVu Sans', sans-serif; text-anchor: middle" x="218.799253" y="102.023209" transform="rotate(-0 218.799253 102.023209)">Unique local supports: 2,048 points per patch</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 218.799253 122.978528 
+Q 218.799253 126.711777 218.799253 129.438796 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 221.190286 124.656728 
+L 218.799253 129.438796 
+L 216.408219 124.656728 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11.955168px; font-family: 'DejaVu Sans', sans-serif; text-anchor: middle" x="218.799253" y="157.906009" transform="rotate(-0 218.799253 157.906009)">Centre and scale each patch; fixed PU-GCN</text>
+   </g>
+   <g id="patch_9">
+    <path d="M 218.799253 178.861328 
+Q 218.799253 182.594577 218.799253 185.321596 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 221.190286 180.539528 
+L 218.799253 185.321596 
+L 216.408219 180.539528 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 11.955168px; font-family: 'DejaVu Sans', sans-serif; text-anchor: middle" x="218.799253" y="213.788809" transform="rotate(-0 218.799253 213.788809)">Invert transform; merge 8,192-point outputs</text>
+   </g>
+   <g id="patch_10">
+    <path d="M 218.799253 234.744128 
+Q 218.799253 238.477377 218.799253 241.204396 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 221.190286 236.422328 
+L 218.799253 241.204396 
+L 216.408219 236.422328 
+" style="fill: none; stroke: #292929; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11.955168px; font-family: 'DejaVu Sans', sans-serif; text-anchor: middle" x="218.799253" y="269.671609" transform="rotate(-0 218.799253 269.671609)">Strict selection; transfer intensity from observations</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7f54e32b92">
+   <rect x="10.939963" y="7.74" width="415.71858" height="294.12"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,1239 @@
+\chapter{Fundamentals and Related Work}
+\label{chap:fundamentals}
+
+This chapter discusses the concepts and mathematical background needed to
+understand point cloud upsampling and its use in three-dimensional
+perception. It begins with point representation and sampling, then explains
+classification and detection before introducing the upsampling methods.
+The final section defines geometric and task metrics. The purpose is to
+explain how the methods work and how their outputs should be interpreted;
+the particular datasets, training settings and evaluation configurations
+are introduced in Chapter~\ref{chap:setup}.
+
+\section{Point Clouds and 3D Perception}
+\label{sec:point_clouds}
+
+Point clouds provide spatial observations; classification and detection
+assign semantic meaning to those observations. In object classification,
+a classifier receives the points of one segmented object and predicts one
+category~\cite{qi2017pointnet}. In three-dimensional object detection, a
+detector receives a scene and predicts object instances, their categories,
+confidence scores and oriented bounding boxes
+\cite{shi2019pointrcnn,yin2021centerpoint}. A detector must therefore
+localise objects as well as recognise them. The distinction connects the
+point representation introduced below to the classification networks in
+Section~\ref{sec:classification} and the detectors in
+Section~\ref{sec:detection}. Upsampling supplies denser coordinates to
+either task; it does not itself assign an object label or a detection box
+\cite{yu2018punet,qian2021pugcn}.
+
+\subsection{Definition and Properties of Point Clouds}
+\label{subsec:pc_definition}
+
+A point cloud is an unordered finite set of discretely sampled points in
+three-dimensional space~\cite{qi2017pointnet}. When only geometric
+coordinates $x_i$, $y_i$ and $z_i$ are used, a point cloud consisting
+of $N$ points is written as
+\begin{equation}
+  \mathcal P=\{\mathbf p_i\}_{i=1}^N,
+  \qquad \mathbf p_i=(x_i,y_i,z_i)^{\mathsf T}\in\mathbb R^3.
+  \label{eq:pointcloud}
+\end{equation}
+Here $N$ is the number of stored points, $i$ indexes a point, and
+$(x_i,y_i,z_i)$ are its Cartesian coordinates. The superscript
+$\mathsf T$ denotes transpose, so that $\mathbf p_i$ is a column vector;
+$\mathbb R^3$ is three-dimensional real coordinate space. A point gives a
+location, not a small solid object. Connections, faces and a surface normal
+are not supplied by the coordinate set itself. A mesh, in contrast,
+explicitly records connections between vertices~\cite{qi2017pointnet}.
+
+Figure~\ref{fig:random-point-cloud} illustrates this definition with a
+random point set. The example has no object category and no experimental
+meaning: it shows only positions in a coordinate system. The highlighted
+point has three coordinates just like every other point. The apparent
+distance between points in a projected image must not be confused with
+their full three-dimensional distance.
+\thesisfigure{random_point_cloud}{An unordered point cloud}{A synthetic
+random set of 192 points in the unit cube, used only to illustrate
+three-dimensional coordinates and irregular point spacing. All points are
+shown; the highlighted point is one member of the same set. Coordinates
+are dimensionless. This is a conceptual example, not an object sample or
+an experimental result.}{fig:random-point-cloud}
+
+If the sensor additionally provides reflectance, colour or normal vectors,
+the spatial coordinates can be stored together with an attribute vector as
+\begin{equation}
+  \mathbf u_i=[\mathbf p_i^{\mathsf T},\mathbf a_i^{\mathsf T}]^{\mathsf T}
+  \in\mathbb R^{3+d_a}.
+  \label{eq:point_attributes}
+\end{equation}
+Here $\mathbf a_i\in\mathbb R^{d_a}$ contains $d_a$ attributes, and
+$\mathbf u_i$ is the extended record. This notation keeps the spatial
+point $\mathbf p_i\in\mathbb R^3$ separate from its features. An XYZI record,
+for example, contains $(x_i,y_i,z_i,\iota_i)$ with measured reflectance
+$\iota_i$~\cite{geiger2013kitti}. Distances between positions use the first
+three coordinates; adding reflectance to a Euclidean distance without a
+defined scaling would mix different quantities.
+
+Point clouds possess, first of all, the property of being
+\emph{unordered}. Writing the records as rows of a matrix
+$\mathbf U\in\mathbb R^{N\times(3+d_a)}$ is a storage convention and
+does not express a natural ordering. For a set-level output such as a
+classification score, a function $f$ must satisfy
+\begin{equation}
+ f(\{\mathbf p_1,\ldots,\mathbf p_N\})
+ =f(\{\mathbf p_{\pi(1)},\ldots,\mathbf p_{\pi(N)}\})
+ \label{eq:permutation_invariance}
+\end{equation}
+for every permutation $\pi$ of the indices $1,\ldots,N$. This is
+permutation invariance. For a per-point output, such as foreground
+segmentation, reordering the inputs should reorder the outputs in the same
+way; this is permutation equivariance. A shared pointwise mapping followed
+by symmetric aggregation implements the invariant case in
+PointNet~\cite{qi2017pointnet}. Section~\ref{subsec:pointnet} explains how the network uses this construction.
+
+Point clouds often exhibit \emph{irregular sampling}. The representation
+does not require a fixed image-like lattice, and local distances and
+neighbourhood sizes can vary substantially~\cite{qi2017pointnetpp}.
+Measured point clouds are also often \emph{incomplete}, because a sensor
+records visible surfaces subject to occlusion and acquisition limitations
+\cite{geiger2013kitti}. Unordered storage, irregular density and incomplete
+coverage are different properties. A randomly reordered cloud preserves
+its geometry; removing points can change both its sampling density and its
+coverage. These distinctions lead to two different observation processes.
+
+An object-level cloud represents one segmented shape; surface sampling
+from a mesh can cover regions that would be hidden from a single viewpoint.
+A scene-level scan instead contains returns from several objects, ground
+and background. Surface coverage depends on the observation process, not
+on the definition of a point cloud
+\cite{wu2015modelnet,geiger2013kitti,qi2017pointnet}.
+The concrete object dataset, normalisation and scene data preparation are
+specified in Sections~\ref{sec:fc-4-3-1} and~\ref{sec:fc-4-3-2}.
+
+\subsection{Differences Between Object-Level and Scene-Level Point Clouds}
+\label{subsec:domain_gap}
+
+Table~\ref{tab:object_vs_scene} compares the two
+observation processes. It describes common surface-sampling and sensor
+settings; it does not specify a particular experimental split or point
+count~\cite{geiger2013kitti,shi2019pointrcnn,wu2015modelnet,qi2017pointnet}.
+\begin{table}[!t]
+ \centering
+ \caption[Object-level point clouds versus LiDAR scenes]{Structural
+ differences between object-level surface samples and LiDAR scenes.
+ Surface completeness and normalisation describe common preparation
+ conventions, not requirements of either representation
+ \cite{geiger2013kitti,shi2019pointrcnn,wu2015modelnet,qi2017pointnet}.}
+ \label{tab:object_vs_scene}
+ \begin{tabular}{L{0.24\textwidth}L{0.32\textwidth}L{0.32\textwidth}}
+ \toprule
+ \textbf{Comparison dimension}&\textbf{Object-level point cloud}&\textbf{LiDAR scene}\\
+ \midrule
+ Data source&Sampling of a CAD mesh surface&Real sensor returns\\
+ Spatial content&A single, already segmented object&Multiple objects, ground and background\\
+ Surface completeness&Can cover the complete available surface&Covers sensor-visible surfaces\\
+ Coordinate scale&Often centred and unit-normalised&Real metric coordinates\\
+ Sampling regularity&Controlled surface sampling&Determined by scan angles, range and occlusion\\
+ Primary task&Output of one object category&Output of multiple categories and 3D boxes\\
+ Dominant error consequence&Altered class-discriminative features&Altered class, centre, size and orientation\\
+ \bottomrule
+ \end{tabular}
+\end{table}
+
+In the last row, \emph{error} refers to a distortion of the input geometry,
+such as missing surface support, displaced points or spurious added points.
+Its \emph{consequence} is a possible change in the features used for a task.
+For classification, this can alter the evidence distinguishing categories.
+For detection, it can additionally affect the estimated centre, dimensions
+or orientation of an object~\cite{qi2017pointnet,shi2019pointrcnn}.
+The row describes possible pathways from geometric distortion to a task
+error; it does not assert that every upsampling operation causes them.
+
+The table therefore explains why the same geometric operation need not have
+the same task effect in both settings. A category label summarises one input shape;
+a detector must additionally separate instances and localise them within a
+scene~\cite{shi2019pointrcnn,qi2017pointnet}. To understand where additional
+points enter those decisions, the next two sections follow the processing
+chain from coordinates to class scores and then from scene features to
+three-dimensional boxes.
+
+\FloatBarrier
+\section{Point Cloud Classification}
+\label{sec:classification}
+
+\subsection{Problem Formulation}
+\label{subsec:cls_formulation}
+
+The input of point cloud classification is the point set $\mathcal{P}$ of a
+single object and the output is its category $y$~\cite{qi2017pointnetpp,qi2017pointnet}. Here $y\in\{1,\ldots,C\}$ and $C$ is the number of classes. The subscript $\theta$ denotes learned parameters. A classification network
+$f_\theta$ produces the logits of $C$ categories,
+%
+\begin{equation}
+    \label{eq:logits}
+    \mathbf{z} = f_\theta(\mathcal{P}) \in \mathbb{R}^{C}.
+\end{equation}
+%
+Here $\mathbf z$ is a vector of real-valued class scores, or logits. After softmax, the predicted probability $\hat p_c$ of class $c$ is
+%
+\begin{equation}
+    \label{eq:softmax}
+    \hat{p}_c = \frac{\exp(z_c)}{\sum_{j=1}^{C} \exp(z_j)} .
+\end{equation}
+%
+Here $z_c$ is the score of class $c$, $j$ indexes all candidate classes, and $\exp$ is the exponential function. The denominator makes the probabilities sum to one. Given the ground-truth label $y$, the cross-entropy objective used for classification~\cite{qi2017pointnet} is
+%
+\begin{equation}
+    \label{eq:cross_entropy}
+    \mathcal{L}_{\mathrm{cls}} = -\log \hat{p}_y ,
+\end{equation}
+%
+where $\log$ is the natural logarithm and $\hat p_y$ is the probability assigned to the true class. A confident correct prediction has a small loss; assigning little probability to the true class gives a large loss. For $M$ training samples the empirical risk is
+%
+\begin{equation}
+    \label{eq:empirical_risk}
+    \mathcal{L}_{\mathrm{train}}
+    = \frac{1}{M} \sum_{m=1}^{M} \mathcal{L}_{\mathrm{cls}}^{(m)} .
+\end{equation}
+%
+The superscript $(m)$ indexes a sample and $\mathcal L_{\mathrm{train}}$ is its sample-averaged training objective. These equations express the classification objective of PointNet-family networks~\cite{qi2017pointnetpp,qi2017pointnet}. The classification decision is $\hat{y} = \arg\max_c \hat{p}_c$. This
+formulation shows that upsampling yields a benefit only if it changes the
+features extracted by the network in such a way that the score of the true
+class is raised relative to the scores of the remaining classes. Defining
+the classification margin as
+%
+\begin{equation}
+    \label{eq:margin}
+    \Delta_{\mathrm{cls}}(\mathcal{P}) = z_y - \max_{c \neq y} z_c ,
+\end{equation}
+%
+a positive margin means that the true class has the largest score. Here
+$z_y$ is the true-class logit and the maximum selects the strongest competing
+class; a zero margin is a tie. For a fixed classifier, a change in point
+count alone imposes no constraint on this margin. The margin can increase or decrease when the input changes. A change
+across zero can correct a previous classification error or introduce a
+new one. These statements follow from the decision rule; they are not
+additional measured results. The
+following architectures explain how the point coordinates become the scores
+used by that rule.
+
+\subsection{PointNet}
+\label{subsec:pointnet}
+
+PointNet processes an unordered point set directly through a shared
+pointwise mapping, symmetric aggregation and a classification head
+\cite{qi2017pointnet}. The shared multilayer perceptron (MLP) applies
+the same learned transformation to every point. Its output is a feature
+vector describing that point in a learned space. A channelwise max
+operation then retains the largest response in each feature channel
+across the whole set. Because the maximum is unchanged by reordering,
+the resulting global feature satisfies the permutation invariance in
+Equation~\eqref{eq:permutation_invariance}. The classification head maps
+that feature to category scores.
+
+PointNet also uses transformation networks to align input coordinates
+and intermediate features in learned spaces. The feature transformation
+is regularised towards an orthogonal matrix, which discourages severe
+distortion without imposing an exact rigid rotation
+\cite{qi2017pointnet}. These transformations complement the shared
+mapping and pooling; they do not introduce an ordering of the points.
+
+The global maximum is determined by the points attaining the largest
+response in each channel. Qi et al. describe this property through a
+critical-point set~\cite{qi2017pointnet}. Repeating an identical
+pointwise feature does not change a channel's maximum. However, the
+shared mapping before pooling does not explicitly aggregate the relative
+positions of neighbouring points. PointNet++ addresses this limitation
+by applying local PointNet operations within nested metric regions
+\cite{qi2017pointnetpp}. This progression from global aggregation to
+local geometric aggregation connects the two architectures.
+
+\subsection{PointNet++}
+\label{subsec:pointnetpp}
+
+PointNet++~\cite{qi2017pointnetpp} learns local-to-global features
+progressively by means of hierarchical sampling, radius grouping and local
+PointNet aggregation. A set abstraction layer usually comprises the three
+steps of sampling, grouping and feature extraction.
+
+Figure~\ref{fig:pointnet-principle} connects these operations in the feature hierarchy.
+\thesisfigure{pointnet_principle}{PointNet++ principle}{Sampling, local
+grouping and shared feature aggregation in PointNet++, redrawn from the
+published architecture~\cite{qi2017pointnetpp}.}{fig:pointnet-principle}
+
+The first step selects $M < N$ centroids by
+\ac{FPS}, as used in PointNet++~\cite{qi2017pointnetpp}. If the set of already selected centroids is
+$\mathcal{M}_t$, the next centroid is
+%
+\begin{equation}
+    \label{eq:fps}
+    \mathbf{c}_{t+1}
+    = \arg\max_{\mathbf{p}_i \in \mathcal{P}}\;
+      \min_{\mathbf{c} \in \mathcal{M}_t} \big\| \mathbf{p}_i - \mathbf{c} \big\|_2 .
+\end{equation}
+%
+Here $t$ counts selection steps, and $\mathcal M_t$ contains the
+centroids already selected. The inner minimum gives a candidate point's
+distance to its nearest selected centroid. The outer maximum chooses the
+candidate with the largest such distance, namely the least-covered
+remaining point. Starting from an initial centroid, the procedure repeats
+until $M$ centroids have been selected~\cite{qi2017pointnetpp}.
+An initial-point rule and a rule for equal distances specify the selection
+completely. The operation selects existing points; it does not create
+new coordinates.
+
+The second step constructs a local neighbourhood
+around each centroid $\mathbf{c}_j$. The radius grouping takes the form
+%
+\begin{equation}
+    \label{eq:ball_query}
+    \mathcal{N}_j(R) = \big\{ \mathbf{p}_i : \| \mathbf{p}_i - \mathbf{c}_j \|_2 \le R \big\}.
+\end{equation}
+%
+Here $R>0$ is a radius in the coordinate units of the input; $j$ indexes centroids. A $k$-nearest-neighbour query instead fixes the number $k$ of neighbours and permits the neighbourhood radius to vary. The two alternatives are discussed in PointNet++~\cite{qi2017pointnetpp}. In order to
+obtain a translation-invariant local description, relative coordinates are
+obtained by subtracting the centroid,
+%
+\begin{equation}
+    \label{eq:relative_coords}
+    \Delta \mathbf{p}_{ij} = \mathbf{p}_i - \mathbf{c}_j .
+\end{equation}
+%
+Unlike a $k$ nearest neighbour query, the ball query of
+\eqref{eq:ball_query} guarantees a fixed metric scale, so that the learned
+features carry a consistent spatial scale in regions of differing
+density. For normalised coordinates this scale is relative to the normalisation radius, not a distance in metres.
+
+The third step applies a shared mapping and
+a symmetric pooling within each local set, expressing the grouped points
+relative to their centroid and producing one feature vector per centroid according to
+%
+\begin{equation}
+    \label{eq:sa_layer}
+    \mathbf{f}'_j
+    = \max_{\mathbf{p}_i \in \mathcal{N}_j}
+      \phi_\theta\big( [\, \Delta \mathbf{p}_{ij},\, \mathbf{f}_i \,] \big),
+\end{equation}
+%
+where $\phi_\theta$ is a shared MLP with learned parameters $\theta$,
+$\mathbf f^{\prime}_j$ is the output feature, $[\,\cdot,\cdot\,]$ denotes concatenation, $\mathcal N_j$ is the ball-query set, and $\mathbf{f}_i$ is the point feature of the preceding layer; the first
+layer may use the coordinates alone or the coordinates together with the
+normal vectors. Stacking several set abstraction layers steadily reduces the
+number of centroids while enlarging the receptive field, and finally yields
+an object-level feature. In order to accommodate a non-uniform density,
+PointNet++ can employ \ac{MSG}. Given several radii $R_1,\dots,R_L$, the
+local features are extracted separately and concatenated as
+%
+\begin{equation}
+    \label{eq:msg}
+    \mathbf{f}^{\mathrm{MSG}}_j
+    = \mathop{\Big\Vert}\limits_{\ell=1}^{L}\;
+      \max_{\mathbf{p}_i \in \mathcal{N}_j(R_\ell)}
+      \phi_{\theta_\ell}\big( [\, \mathbf{p}_i - \mathbf{c}_j,\, \mathbf{f}_i \,] \big).
+\end{equation}
+%
+Here $L$ is the number of scales, $\ell$ indexes a scale, $R_\ell$ is its radius, and $\theta_\ell$ denotes the parameters of that branch; $\Vert$ denotes feature concatenation. Single-scale grouping (SSG) uses one radius per layer, whereas multi-scale grouping (MSG) concatenates several radii~\cite{qi2017pointnetpp}. A small radius attends to
+detail, whereas a large radius provides a wider context whenever the number
+of local points is insufficient.
+
+\FloatBarrier
+\section{3D Object Detection from Point Clouds}
+\label{sec:detection}
+
+The preceding classifier maps one point cloud to one category. Detection
+extends this task to a scene containing several objects and background:
+it must decide which points support an object, distinguish instances, and
+estimate each object's position and extent~\cite{shi2019pointrcnn}.
+An oriented three-dimensional box can be written as
+\begin{equation}
+ \mathbf b=(x_c,y_c,z_c,l,w,h,\psi)^{\mathsf T},
+ \label{eq:box}
+\end{equation}
+where $(x_c,y_c,z_c)$ is the centre, $(l,w,h)$ are length, width and height,
+and $\psi$ is yaw about the vertical axis. A detector returns
+\begin{equation}
+ \hat{\mathcal B}=\{(\hat{\mathbf b}_j,\hat c_j,\hat s_j)\}_{j=1}^{n_\mathrm{det}}.
+ \label{eq:detections}
+\end{equation}
+Here $n_\mathrm{det}$ is the number of retained detections, $j$ indexes one
+detection, $\hat c_j$ is its predicted class and $\hat s_j$ its confidence.
+The box notation is independent of a particular coordinate convention;
+the choice of vertical axis must be stated when writing its regression
+targets~\cite{shi2019pointrcnn}.
+
+Both detection families considered below learn features, classify candidate
+objects and regress box parameters. They differ in the representation from
+which candidates are formed. PointRCNN predicts proposals from foreground
+points; CenterPoint predicts centre peaks from a spatial feature map
+\cite{shi2019pointrcnn,yin2021centerpoint}. Figure~\ref{fig:detector-principles}
+shows where these processing paths diverge. The distinction matters for
+upsampling because adding points changes the input to a sequence of
+sampling and aggregation operations, not directly the final boxes.
+\thesisfigure{detector_principles}{Point-based and centre-based detection}{
+Processing paths of PointRCNN and a voxel-based CenterPoint configuration,
+redrawn from the method descriptions~\cite{shi2019pointrcnn,yin2021centerpoint}.
+The diagram shows the principal representations; it omits layer sizes and
+implementation-specific input limits.}{fig:detector-principles}
+
+\subsection{PointRCNN}
+\label{subsec:pointrcnn}
+
+PointRCNN is a two-stage, point-based detector. Its first stage uses a
+PointNet++ backbone to obtain pointwise semantic features, segments points
+into foreground and background, and generates proposals directly from
+foreground points. Its second stage pools the points around each proposal
+and refines that proposal in local coordinates~\cite{shi2019pointrcnn}.
+This connects the local feature hierarchy of
+Section~\ref{subsec:pointnetpp} to instance localisation.
+
+Let $\mathbf f_i\in\mathbb R^F$ be the $F$-dimensional feature of point
+$\mathbf p_i$. A learned scalar mapping $g_\theta$ produces a foreground
+probability
+\begin{equation}
+ \hat q_i=\operatorname{sigmoid}(g_\theta(\mathbf f_i)),
+ \qquad\operatorname{sigmoid}(u)=\frac{1}{1+e^{-u}}.
+ \label{eq:fg_prob}
+\end{equation}
+PointRCNN derives foreground labels from annotated three-dimensional boxes
+and uses focal loss to address the foreground--background imbalance
+\cite{shi2019pointrcnn,lin2017focal}. For binary label $q_i\in\{0,1\}$,
+define the probability of the correct binary class and its weighting as
+\begin{equation}
+ \begin{aligned}
+ p_{t,i}&=q_i\hat q_i+(1-q_i)(1-\hat q_i),\\
+ \alpha_{t,i}&=q_i\alpha_f+(1-q_i)(1-\alpha_f).
+ \end{aligned}
+ \label{eq:focal_targets}
+\end{equation}
+The per-point focal loss is
+\begin{equation}
+ \ell_{\mathrm{seg},i}=-\alpha_{t,i}(1-p_{t,i})^{\gamma_f}\log p_{t,i}.
+ \label{eq:focal}
+\end{equation}
+Here $\alpha_f\in(0,1)$ controls class weighting and $\gamma_f\ge0$
+controls suppression of easily classified examples. If the correct class
+already has probability close to one, the factor
+$(1-p_{t,i})^{\gamma_f}$ reduces its contribution. For $q_i=0$ the formula
+uses $1-\hat q_i$, so it supervises background as well as foreground.
+This is the binary focal-loss formulation of Lin et al.; it does not
+specify the hyperparameters of the experiments in this
+thesis~\cite{lin2017focal}.
+
+A foreground point provides a local reference from which PointRCNN
+predicts the offset to the object centre, box dimensions and orientation.
+For horizontal position and yaw, PointRCNN combines a discrete bin
+classification with a continuous residual within the selected bin
+\cite{shi2019pointrcnn}. To express the centre-offset construction without
+mixing camera and LiDAR axes, let $\zeta$ denote either horizontal offset.
+For a horizontal offset $\zeta\in[-S,S)$ and bin width $\delta>0$,
+\begin{equation}
+ b^\star=\left\lfloor\frac{\zeta+S}{\delta}\right\rfloor,
+ \quad c_b=-S+(b+\tfrac12)\delta,
+ \quad r^\star=\frac{\zeta-c_{b^\star}}{\delta}.
+ \label{eq:bin_decomposition}
+\end{equation}
+Here $S>0$ is the half-width of the search range, $b^\star$ the target bin,
+$c_b$ the centre of bin $b$, and $r^\star$ its dimensionless residual.
+The floor operation selects a discrete interval. With predicted bin
+$\hat b$ and predicted residual $\hat r_{\hat b}$, the offset is recovered
+as $\hat\zeta=c_{\hat b}+\delta\hat r_{\hat b}$. Angular regression uses
+the analogous construction over an angular interval. The original paper
+uses camera-frame $x$ and $z$ as horizontal axes; this does not make
+$z$ horizontal in a LiDAR coordinate convention~\cite{shi2019pointrcnn}.
+
+The bin label is supervised by cross-entropy and the residual by smooth
+$L_1$ regression. For scalar residual error $e$, the latter is
+\begin{equation}
+ \operatorname{smooth}_{L_1}(e)=
+ \begin{cases}\tfrac12e^2,&|e|<1,\\|e|-\tfrac12,&|e|\ge1.\end{cases}
+ \label{eq:smooth_l1}
+\end{equation}
+It is quadratic near zero and linear for larger errors. Thus the network
+first learns a coarse location and then a finer correction, while other
+box terms such as dimensions are regressed separately
+\cite{shi2019pointrcnn}. Proposal filtering removes redundant candidates
+before the refinement stage.
+
+The second stage pools point coordinates and features within an enlarged
+proposal region. For proposal centre $\mathbf c$ and yaw $\psi$, a
+$z$-up notation for its local coordinates is
+\begin{equation}
+ \mathbf p_i^\mathrm{can}=\mathbf R_z(-\psi)(\mathbf p_i-\mathbf c),
+ \qquad
+ \mathbf R_z(\varphi)=
+ \begin{bmatrix}
+ \cos\varphi&-\sin\varphi&0\\
+ \sin\varphi&\cos\varphi&0\\
+ 0&0&1
+ \end{bmatrix}.
+ \label{eq:canonical}
+\end{equation}
+Here $\mathbf R_z(\varphi)$ rotates through angle $\varphi$ around the
+vertical axis. Translation removes the proposal centre and inverse yaw
+aligns its heading. The refinement network then predicts residual box
+parameters and confidence from the aligned region. PointRCNN uses the
+corresponding transformation about the vertical axis of its working frame
+\cite{shi2019pointrcnn}.
+
+These stages explain two possible routes by which generated points can
+affect a point-based detector. They can change the pointwise features and
+foreground proposals, and they can change the points pooled for refinement.
+Moreover, if an implementation samples an input set $\mathcal Y$ to a
+budget $B_p\le|\mathcal Y|$, it actually processes
+\begin{equation}
+ \mathcal P_\mathrm{det}=\mathcal S_{B_p}(\mathcal Y),
+ \qquad |\mathcal P_\mathrm{det}|=B_p,
+ \label{eq:point_budget}
+\end{equation}
+where $\mathcal S_{B_p}$ denotes the chosen sampling operator. PointRCNN
+uses input point sampling~\cite{shi2019pointrcnn}; the consequence is that
+file-level cardinality need not equal the number of points consumed.
+The implemented full-frame sampling and the separate region-split
+controls are distinguished in Sections~\ref{sec:fc-4-8-1}
+and~\ref{sec:fc-4-12-3}. The next detector aggregates points into spatial cells before
+forming object candidates, introducing a different kind of reduction.
+
+\subsection{CenterPoint}
+\label{subsec:centerpoint}
+
+CenterPoint extends the centre-keypoint idea of CenterNet to
+three-dimensional detection~\cite{yin2021centerpoint,zhou2019objectsaspoints}.
+It predicts a class-specific centre heatmap in bird's-eye view and regresses
+box attributes at the predicted centres. The centre head can operate with
+voxel or pillar encoders; voxelisation is a backbone choice rather than
+the definition of every CenterPoint variant~\cite{yin2021centerpoint}.
+The voxel-based path is explained here to show how point density and spatial
+occupancy differ.
+
+With voxel dimensions $\mathbf v=(v_x,v_y,v_z)^{\mathsf T}$, where each
+entry is positive, and a lower spatial bound $\mathbf o$, a point is
+assigned to the grid cell
+\begin{equation}
+ \mathbf k_i=\left\lfloor(\mathbf p_i-\mathbf o)\oslash\mathbf v\right\rfloor.
+ \label{eq:voxel_index}
+\end{equation}
+Here $\oslash$ denotes componentwise division and the floor acts on each
+coordinate. The integer vector $\mathbf k_i$ identifies a voxel. A voxel
+feature encoder combines the points within each occupied cell, and sparse
+convolutions propagate information across the occupied grid
+\cite{zhou2018voxelnet,yan2018second}.
+
+For example, the learned voxel encoding used by VoxelNet combines each
+point's features with its displacement from the voxel centroid before
+symmetric pooling~\cite{zhou2018voxelnet}. Abstracting this operation,
+\begin{equation}
+ \mathbf f_k=\max_{i:\mathbf k_i=k}
+ \phi_\theta([\mathbf u_i,\mathbf p_i-\bar{\mathbf p}_k]).
+ \label{eq:vfe_general}
+\end{equation}
+The vector $\bar{\mathbf p}_k$ is the mean position in voxel $k$,
+$\mathbf u_i$ is the coordinate-and-attribute record from
+Equation~\eqref{eq:point_attributes}, and $\phi_\theta$ is a shared learned
+mapping. The maximum operates channelwise. Mean encoders instead average
+retained point records; these are alternative implementations, not the
+same operation as VoxelNet's learned encoder. The spatial backbone converts
+the encoded grid into the bird's-eye-view feature map used by the centre
+head~\cite{yin2021centerpoint}.
+
+For one annotated centre projected onto a feature grid at integer position
+$\boldsymbol\mu$, a Gaussian target has the form
+\begin{equation}
+ H(\mathbf u)=\exp\left(-\frac{\|\mathbf u-\boldsymbol\mu\|_2^2}
+ {2\sigma^2}\right).
+ \label{eq:heatmap}
+\end{equation}
+Here $\mathbf u$ is a two-dimensional grid index, and $\sigma>0$ determines
+the target's spread in grid cells. The target is centred on a discrete grid
+location; a separate offset compensates for the continuous centre's
+displacement from that location. When several objects share a class,
+their Gaussian targets are combined by an elementwise maximum. This
+heatmap construction originates in CenterNet and is used in CenterPoint
+\cite{yin2021centerpoint,zhou2019objectsaspoints}.
+
+The centre head is trained with a variant of focal loss adapted to Gaussian
+targets. For target value $H_{uvc}$ and predicted value $\hat H_{uvc}$ at
+grid position $(u,v)$ and class channel $c$, a per-location term is
+\begin{equation}
+ \ell_{uvc}=
+ \begin{cases}
+ -(1-\hat H_{uvc})^a\log\hat H_{uvc},&H_{uvc}=1,\\
+ -(1-H_{uvc})^b(\hat H_{uvc})^a\log(1-\hat H_{uvc}),&H_{uvc}<1.
+ \end{cases}
+ \label{eq:center_heatmap_loss}
+\end{equation}
+The exponents $a,b\ge0$ control downweighting, and the complete heatmap
+loss sums these terms with normalisation by the number of target centres.
+Locations around a Gaussian peak are downweighted as negatives, rather
+than treated as additional positive object centres
+\cite{zhou2019objectsaspoints}. This supervision differs from the binary
+foreground loss in PointRCNN.
+
+At a detected peak, additional heads regress the centre offset, height,
+dimensions and orientation~\cite{yin2021centerpoint}. Orientation can be represented
+by $(\sin\psi,\cos\psi)$ and decoded by the two-argument arctangent,
+which avoids a scalar discontinuity where an angle wraps around.
+During training, the box attributes at annotated centres are supervised
+with weighted $L_1$ regression terms alongside the centre-heatmap loss.
+Each weight scales the contribution of an attribute, such as size or
+orientation; the loss therefore supervises localisation as well as the
+presence of a centre~\cite{yin2021centerpoint}. At inference, the predicted
+attributes are decoded into metric boxes and redundant boxes are
+suppressed.
+
+Several input points can occupy the same voxel. Added points may change
+the encoded feature of that cell without creating another occupied cell;
+the outcome depends on the encoder and point-selection rule
+\cite{zhou2018voxelnet}. This distinction explains how point-based and
+voxel-based representations process density differently. It is not a
+geometric accuracy metric or a claim that one detector is always more
+robust. With the downstream processing paths established, the next section
+explains how the additional points are generated.
+
+\FloatBarrier
+\section{Point Cloud Upsampling}
+\label{sec:upsampling}
+
+Classification and detection produce semantic predictions from an input
+representation. Upsampling instead changes that representation: it infers
+a denser point set from sparse spatial support. Given
+$\mathcal X=\{\mathbf x_i\}_{i=1}^N$, a fixed-ratio upsampling model is
+written as
+\begin{equation}
+ \mathcal Y=\mathcal U_\theta(\mathcal X;r)
+ =\{\mathbf y_j\}_{j=1}^{rN},\qquad |\mathcal Y|=rN.
+ \label{eq:upsampling_map}
+\end{equation}
+Here $r>1$ is an integer expansion ratio, $\theta$ denotes the parameters
+of a learned model, and $j$ indexes output points. This formulation follows
+the sparse-to-dense task used by PU-Net~\cite{yu2018punet}; a geometric
+optimisation method need not have learned parameters. The output should
+represent the underlying surface, preserve its local structure and avoid
+excessive clustering. Cardinality alone cannot establish any of those
+properties.
+
+It is not presupposed that $\mathcal X\subseteq\mathcal Y$. A coordinate
+regression network can predict the whole output anew, while a residual
+network can move every repeated input anchor~\cite{yu2018punet,kim2023puedgeformer}.
+Thus even an architecture that begins by repeating input coordinates need
+not retain the original measurements exactly. Whether observations are
+explicitly kept is a separate property of an output construction.
+
+The methods below illustrate five ways of addressing the ambiguity of
+sparse-to-dense reconstruction: geometric resampling, hierarchical feature
+expansion, graph-based expansion, graph attention and conditional diffusion.
+Related developments include adversarial distribution learning in PU-GAN,
+progressive patch refinement, and edge-supervised consolidation
+\cite{li2019pugan,wang2019mpu,yu2018ecnet}. The following descriptions
+separate the published method principles from the wrappers and downstream
+training choices introduced later in the thesis.
+
+\subsection{Edge-Aware Resampling (EAR)}
+\label{subsec:ear}
+
+EAR is an optimisation-based resampling method developed by Huang et al.
+to consolidate noisy point sets while preserving sharp features
+\cite{huang2013ear}. The central difficulty is that normals estimated close
+to a sharp edge can mix information from different surface sides. EAR
+therefore first resamples away from uncertain edge regions to obtain
+reliable oriented points. It then inserts points progressively towards
+the gaps near edges. This two-stage sequence is the reason for the term
+edge-aware resampling; it is more specific than simply smoothing a cloud
+and adding points.
+
+Let $\mathbf n_i$ be a unit normal associated with point $\mathbf p_i$.
+EAR combines a spatial weight and a normal-similarity weight
+\cite{huang2013ear}, giving
+\begin{equation}
+ \kappa_p(d)=\exp(-d^2/\sigma_p^2),\qquad
+ \kappa_n(\mathbf n_i,\mathbf n_j)
+ =\exp\left[-\left(\frac{1-\mathbf n_i^{\mathsf T}\mathbf n_j}
+ {1-\cos\sigma_n}\right)^2\right].
+ \label{eq:ear_kernels}
+\end{equation}
+Here $d=\|\mathbf p_i-\mathbf p_j\|_2$ is spatial distance,
+$\sigma_p>0$ sets its neighbourhood scale, and $0<\sigma_n<\pi$ is an angular
+bandwidth in radians. The dot product of unit normals is the cosine of their angular
+difference. Nearby points with compatible normals receive high weight;
+disagreeing normals are downweighted even when the points are close.
+Using $w_{ij}=\kappa_p(\|\mathbf p_i-\mathbf p_j\|_2)
+\kappa_n(\mathbf n_i,\mathbf n_j)$, the weighted normal update is
+\begin{equation}
+ \bar{\mathbf n}_i=
+ \frac{\sum_{j\in\mathcal N(i)}w_{ij}\mathbf n_j}
+ {\sum_{j\in\mathcal N(i)}w_{ij}}.
+ \label{eq:ear_normal_filter}
+\end{equation}
+The set $\mathcal N(i)$ contains spatial neighbours and $\bar{\mathbf n}_i$
+is their weighted mean direction; a nonzero vector can be normalised when
+a unit direction is required. This is the bilateral normal-smoothing step,
+not the entire EAR algorithm. EAR alternates normal processing with locally
+anisotropic projection to move samples away from ambiguous edges, because
+normal smoothing alone can retain incorrect assignments
+\cite{huang2013ear}.
+
+For a new sample, EAR chooses a base position between existing points,
+selects a projection direction compatible with surrounding normals, and
+computes a projection distance towards the latent surface. Positions and
+normals influence all three decisions. Repeating this process fills sparse
+regions and approaches sharp features from better-supported regions
+\cite{huang2013ear}. The method does not require a trained generator, but
+its geometric neighbourhoods and normals must be meaningful. Sparse or
+mixed-surface neighbourhoods therefore warrant inspection when the method
+is used outside the surface-scan setting of its original evaluation.
+Learned methods address the reconstruction ambiguity differently, through
+features estimated from training examples.
+
+\subsection{PU-Net}
+\label{subsec:punet}
+
+PU-Net is an early end-to-end network dedicated to point cloud upsampling.
+It consists of multi-level feature embedding, feature expansion and
+coordinate reconstruction~\cite{yu2018punet}. Its encoder adapts the
+hierarchical feature extraction of PointNet++ to local surface patches.
+Because deeper levels contain fewer sampled locations, their features are
+interpolated back to the original points before aggregation.
+
+For a point $\mathbf x$ and its three nearest feature locations
+$\mathbf x_j^{(\ell)}$ at level $\ell$, PU-Net uses inverse-distance
+interpolation~\cite{yu2018punet}, expressed as
+\begin{equation}
+ \tilde{\mathbf f}^{(\ell)}(\mathbf x)=
+ \frac{\sum_{j=1}^3 w_j(\mathbf x)\mathbf f^{(\ell)}(\mathbf x_j^{(\ell)})}
+ {\sum_{j=1}^3w_j(\mathbf x)},\qquad
+ w_j(\mathbf x)=\frac1{\|\mathbf x-\mathbf x_j^{(\ell)}\|_2}.
+ \label{eq:punet_interpolation}
+\end{equation}
+Here $\mathbf f^{(\ell)}$ is the feature field on the sampled level.
+The expression applies at positive distances; an exactly coincident
+location takes the coincident feature rather than dividing by zero.
+Features from the different levels are projected to compatible channel
+dimensions and concatenated, giving
+$\mathbf F\in\mathbb R^{N\times F}$. The number $F$ denotes the resulting
+feature width. Local detail and broader patch context are therefore made
+available to the expansion stage at every original point.
+
+PU-Net uses $r$ branches of independent pointwise convolutions, followed
+by a reshape~\cite{yu2018punet}, producing
+\begin{equation}
+ \mathbf F'=\operatorname{RS}\left[
+ C_1^2(C_1^1(\mathbf F)),\ldots,C_r^2(C_r^1(\mathbf F))\right]
+ \in\mathbb R^{rN\times F_2}.
+ \label{eq:punet_expansion}
+\end{equation}
+Each $C_m^1,C_m^2$ is a learned $1\times1$ convolution in branch $m$.
+The bracket concatenates channels into an $N\times rF_2$ tensor;
+$\operatorname{RS}$ reshapes it to $rN$ rows of width $F_2$.
+Separate branch weights reduce the correlation between the new features.
+A shared coordinate head then maps each expanded row to three coordinates,
+$\mathbf y_{i,m}=\psi_\theta(\mathbf f'_{i,m})$, with $i$ indexing
+an input feature and $m=1,\ldots,r$ its expanded features.
+
+\begin{samepage}
+PU-Net uses Earth Mover's Distance (EMD) for reconstruction.
+Let $\mathcal Y$ be the predicted point set and $\mathcal R$ its dense
+reference, with $|\mathcal Y|=|\mathcal R|$. The reconstruction loss is
+\begin{equation}
+ \mathcal L_\mathrm{rec}
+ =\min_{\substack{\varphi:\mathcal Y\to\mathcal R\\
+                  \varphi\ \mathrm{bijective}}}
+ \sum_{\mathbf y\in\mathcal Y}\|\mathbf y-\varphi(\mathbf y)\|_2.
+ \label{eq:emd}
+\end{equation}
+\end{samepage}
+Here $\mathbf y$ denotes an output point and $\varphi(\mathbf y)$ its
+assigned reference point. The bijective map $\varphi$ pairs every output
+with exactly one reference point,
+unlike nearest-neighbour Chamfer matching, which permits many outputs to
+share one reference~\cite{yu2018punet,fan2017pointsetgen}. Equal cardinality
+is required by this discrete bijection. Dividing the sum by $|\mathcal Y|$
+would give a mean variant with different numerical scaling.
+
+Reconstruction alone can leave clustered outputs. PU-Net therefore adds
+the local repulsion term
+\begin{equation}
+ \mathcal L_\mathrm{rep}=\sum_{i=1}^{rN}\sum_{j\in\mathcal N_k(i)}
+ -d_{ij}\exp(-d_{ij}^2/h^2),
+ \qquad d_{ij}=\|\mathbf y_i-\mathbf y_j\|_2.
+ \label{eq:repulsion}
+\end{equation}
+Here $\mathcal N_k(i)$ contains the $k$ nearest other output points and
+$h>0$ controls the decay scale. The negative distance favours separation
+of very close neighbours, while the exponential limits the range over
+which the interaction is effective. The published loss combines
+reconstruction, weighted repulsion and parameter regularisation
+\cite{yu2018punet}. These terms are expressed in the coordinates used for
+training. Patch normalisation and its inverse therefore affect the scale
+of both reconstructed geometry and local separation. The next method
+changes the expansion operation itself by incorporating graph neighbours.
+
+\subsection{PU-GCN}
+\label{subsec:pugcn}
+
+PU-GCN proposes an Inception DenseGCN feature extractor and the NodeShuffle
+upsampling module~\cite{qian2021pugcn}. Graph convolution represents local
+relations between points explicitly. For features $\mathbf h_i$ and
+neighbour indices $j\in\mathcal N_k(i)$, the EdgeConv construction used
+in this graph-convolution family is
+\begin{equation}
+ \mathbf e_{ij}=\phi_\theta([\mathbf h_i,\mathbf h_j-\mathbf h_i]),
+ \qquad\mathbf h'_i=\max_{j\in\mathcal N_k(i)}\mathbf e_{ij}.
+ \label{eq:edge_feature}
+\end{equation}
+Here $\mathcal N_k(i)$ is the set of indices of the $k$ neighbours of
+node $i$; $\mathbf h_i$ and $\mathbf h_j$ are the centre and neighbour
+features. The learned shared mapping $\phi_\theta$ transforms their
+concatenation into the edge feature $\mathbf e_{ij}$. Channelwise max
+aggregation produces the updated node feature $\mathbf h'_i$
+\cite{wang2019dgcnn}.
+The centre feature preserves information about the point itself, while
+the feature difference describes its relationship to a neighbour.
+Neighbourhoods may be constructed in a coordinate or feature space; the
+space and graph rule are part of the architecture specification.
+
+Inception DenseGCN combines densely connected graph layers with branches
+having different receptive fields. Dilated neighbourhoods let the branches
+reach different spatial extents without simply duplicating one local
+operation. Their features are fused with broader pooled information
+\cite{qian2021pugcn}. Dense connections retain intermediate features
+so that later processing can use both earlier local detail and deeper
+representations. Figure~\ref{fig:pugcn-principle} shows how feature
+extraction leads to expansion and coordinate reconstruction.
+\thesisfigure{pugcn_principle}{PU-GCN principle}{Graph feature extraction,
+NodeShuffle and coordinate reconstruction in PU-GCN, redrawn from the
+published method~\cite{qian2021pugcn}.}{fig:pugcn-principle}
+
+The graph layers first embed coordinates and then combine features from
+different receptive fields. The block outputs are combined through
+residual connections and passed through a pointwise bottleneck before
+upsampling~\cite{qian2021pugcn}. Denote the resulting feature of point $i$
+by $\mathbf f_i^{\mathrm{multi}}$. Stacking these features as rows gives
+$\mathbf F\in\mathbb R^{N\times F}$, where the scalar $F$ is their channel
+width. Thus $\mathbf F$ is the processed output of feature extraction,
+not an independently supplied input.
+
+NodeShuffle applies a graph convolution to $\mathbf F$ that expands each
+node's channel width from $F$ to $rF$,
+
+\begin{equation}
+ \mathbf F_\mathrm{exp}=\operatorname{GCN}_\theta(\mathbf F)
+ \in\mathbb R^{N\times rF}.
+ \label{eq:nodeshuffle_expand}
+\end{equation}
+The operator $\operatorname{GCN}_\theta$ denotes the graph-convolution
+layer with learned parameters $\theta$, and $\mathbf F_\mathrm{exp}$
+contains its expanded features. Periodic shuffling then rearranges groups
+of $F$ channels into additional rows,
+\begin{equation}
+ \mathbf F_\mathrm{shuffle}=\operatorname{PS}(\mathbf F_\mathrm{exp})
+ \in\mathbb R^{rN\times F}.
+ \label{eq:nodeshuffle_ps}
+\end{equation}
+The matrix $\mathbf F_\mathrm{shuffle}$ contains one feature row per
+prospective output point. The operator $\operatorname{PS}$ is a
+deterministic rearrangement, not a learned coordinate displacement. The preceding graph convolution learns the new
+features; the following coordinate head converts the shuffled features
+into dense point positions~\cite{qian2021pugcn}. PU-GCN trains this output
+with a squared Chamfer reconstruction loss, whose distance convention is
+distinguished from the unsquared metric in Section~\ref{sec:metrics}.
+
+The construction makes neighbourhood selection relevant to transfer.
+For fixed $k$, a sparse region can have a much larger neighbourhood radius
+than a dense one. A graph that crosses unrelated surfaces presents
+different relations to the learned mapping. The graph construction therefore determines which local relationships
+reach the learned feature extractor.
+
+Reconstruction training and downstream detector retraining have different
+targets. PU-GCN learns dense coordinates using a geometric reconstruction
+loss~\cite{qian2021pugcn}. PointRCNN and CenterPoint learn object
+classification and box localisation through their detection losses
+\cite{shi2019pointrcnn,yin2021centerpoint}. With a fixed upsampler, its
+outputs can be supplied as detector-training inputs while the detection
+loss updates only the detector parameters. The saved point-cloud files are not regenerated by that optimisation.
+
+The detector-side retraining studied in this thesis follows this
+separation: PointRCNN and CenterPoint are adapted to PU-GCN inputs,
+while the PU-GCN upsampling network retains its fixed checkpoint.
+Section~\ref{sec:fc-4-11} specifies the completed training conditions;
+Figure~\ref{fig:adaptation-design} identifies which network is updated.
+
+Attention-based upsampling changes feature generation itself by combining
+local relationships with the wider patch context.
+
+\subsection{PU-EdgeFormer}
+\label{subsec:puedgeformer}
+
+PU-EdgeFormer combines local graph features with multi-head
+self-attention~\cite{kim2023puedgeformer}. Its encoder stacks EdgeFormer
+units, followed by feature extension and coordinate reconstruction. To
+explain the modification, standard scaled dot-product attention first
+forms queries, keys and values from a feature matrix
+$\mathbf H\in\mathbb R^{N\times F}$ through learned projections,
+\begin{equation}
+ \mathbf Q=\mathbf H\mathbf W_Q,\quad
+ \mathbf K=\mathbf H\mathbf W_K,\quad
+ \mathbf V=\mathbf H\mathbf W_V,
+ \label{eq:qkv}
+\end{equation}
+\begin{equation}
+ \operatorname{Attn}(\mathbf Q,\mathbf K,\mathbf V)
+ =\operatorname{softmax}\left(\frac{\mathbf Q\mathbf K^{\mathsf T}}
+ {\sqrt{d_k}}\right)\mathbf V.
+ \label{eq:attention}
+\end{equation}
+The learned matrices $\mathbf W_Q,\mathbf W_K$ produce $d_k$-dimensional
+query and key vectors; $\mathbf W_V$ produces value vectors. The dot
+product scores relationships between locations. Rowwise softmax turns
+each row into nonnegative weights summing to one, and multiplication by
+$\mathbf V$ gives a weighted feature combination. Scaling by
+$\sqrt{d_k}$ controls the magnitude of the dot products. Multiple heads
+perform these operations in separate learned subspaces, concatenate their
+outputs and apply an output projection~\cite{vaswani2017attention}.
+
+The defining change in PU-EdgeFormer is that EdgeConv replaces the linear
+query, key and value transformations. In an architectural shorthand,
+\begin{equation}
+ \mathbf Q=\operatorname{EdgeConv}_Q(\mathbf H),\quad
+ \mathbf K=\operatorname{EdgeConv}_K(\mathbf H),\quad
+ \mathbf V=\operatorname{EdgeConv}_V(\mathbf H).
+ \label{eq:edgeformer_qkv}
+\end{equation}
+Each branch groups nearest neighbours, convolves the grouped features and
+max-pools them. The resulting query, key and value features therefore
+contain local relationships before attention combines information across
+the patch~\cite{kim2023puedgeformer}. 
+
+The feature-extension stage shuffles an $N\times F$ tensor into
+$rN\times(F/r)$ features and applies MLPs, giving a dense feature matrix
+$\mathbf F'$. If $\tilde{\mathbf X}\in\mathbb R^{rN\times3}$ repeats
+each input coordinate $r$ times, the coordinate reconstruction is
+\begin{equation}
+ \mathbf Y=\tilde{\mathbf X}+\Phi_\theta(\mathbf F').
+ \label{eq:edgeformer_reconstruction}
+\end{equation}
+The mapping $\Phi_\theta$ predicts three-dimensional offsets, and the rows
+of $\mathbf Y$ form the output set~\cite{kim2023puedgeformer}. Repeated
+anchors do not imply repeated outputs because their predicted offsets can
+differ. Equally, residual reconstruction does not guarantee exact retention
+of the measured coordinates. The method trains with squared Chamfer
+distance. Attention expands the available context within the input patch,
+but cannot establish whether that patch corresponds to a coherent observed
+surface. Conditional diffusion takes a different route by generating the
+output through successive denoising steps.
+
+\subsection{PDANS}
+\label{subsec:pdans}
+
+PDANS combines a conditional diffusion model with Adaptive Noise
+Suppression (ANS) and a TreeTrans decoder~\cite{zhang2025pdans}. Its starting
+point is the denoising diffusion probabilistic model (DDPM), which learns
+to reverse a gradual Gaussian noising process~\cite{ho2020ddpm}. The
+sparse point cloud conditions this reversal so that the generated dense
+points correspond to the supplied geometry.
+
+Let $\mathbf Z_0\in\mathbb R^{3rN}$ be the vectorised dense point
+coordinates, and let $t=1,\ldots,T$ index noising steps. A forward step is
+\begin{equation}
+ q(\mathbf Z_t\mid\mathbf Z_{t-1})=
+ \mathcal N(\sqrt{1-\beta_t}\mathbf Z_{t-1},\beta_t\mathbf I),
+ \label{eq:diffusion_forward}
+\end{equation}
+where $\beta_t\in(0,1)$ is the variance increment, $\mathbf I$ is the
+identity in $3rN$ dimensions, and $\mathcal N(\boldsymbol\mu,\boldsymbol\Sigma)$
+denotes a Gaussian with mean $\boldsymbol\mu$ and covariance
+$\boldsymbol\Sigma$. With $\alpha_t=1-\beta_t$ and
+$\bar\alpha_t=\prod_{s=1}^t\alpha_s$, the state can be sampled directly as
+\begin{equation}
+ \mathbf Z_t=\sqrt{\bar\alpha_t}\mathbf Z_0+
+ \sqrt{1-\bar\alpha_t}\boldsymbol\epsilon,
+ \qquad\boldsymbol\epsilon\sim\mathcal N(\mathbf0,\mathbf I).
+ \label{eq:diffusion_direct}
+\end{equation}
+The product $\bar\alpha_t$ is the remaining signal fraction after $t$
+steps; the product index $s$ runs over the forward steps up to $t$,
+and $\boldsymbol\epsilon$ is standard Gaussian noise. These are the
+DDPM forward equations also used to introduce PDANS
+\cite{zhang2025pdans,ho2020ddpm}.
+
+If $\mathbf c$ denotes the conditioning representation of the sparse
+input and requested expansion, a learned reverse step is
+\begin{equation}
+ p_\theta(\mathbf Z_{t-1}\mid\mathbf Z_t,\mathbf c)
+ =\mathcal N(\boldsymbol\mu_\theta(\mathbf Z_t,t,\mathbf c),
+ \sigma_t^2\mathbf I).
+ \label{eq:diffusion_reverse}
+\end{equation}
+Here $\boldsymbol\mu_\theta$ is the learned reverse mean and $\sigma_t^2$
+the reverse variance. The conditioning vector $\mathbf c$ encodes the
+sparse input and requested expansion. In the noise-prediction
+parameterisation, $\boldsymbol\epsilon_\theta$ is the learned function
+that estimates the noise present at step $t$, given the noisy coordinates
+and their conditioning. It is trained through the mean-squared objective
+\begin{equation}
+ \mathcal L_\mathrm{diff}=\mathbb E_{\mathbf Z_0,t,\boldsymbol\epsilon}
+ \left[\|\boldsymbol\epsilon-
+ \boldsymbol\epsilon_\theta(\mathbf Z_t,t,\mathbf c)\|_2^2\right].
+ \label{eq:diffusion_loss}
+\end{equation}
+The expectation averages over training shapes, sampled times and sampled
+noise; $\mathbf Z_t$ is constructed by Equation~\eqref{eq:diffusion_direct}.
+At inference the process starts from noise and repeatedly estimates a
+less noisy state. Unlike a direct coordinate head, generation therefore
+depends on a sequence of denoising updates. The squared noise-prediction
+loss supervises the denoising process. Geometric metrics instead assess
+the final generated coordinates, as described in Section~\ref{sec:metrics}
+\cite{zhang2025pdans,ho2020ddpm}.
+
+The ANS module constructs neighbourhoods for the input points and uses attention
+to calculate weights for refining coordinates and features
+\cite{zhang2025pdans}. For centre $\mathbf x_i$ and neighbour
+$\mathbf x_{ij}$, write the coordinate-based attention score as
+\begin{equation}
+ a_{ij}=\frac{\exp(s_{ij})}{\sum_{m\in\mathcal N_k(i)}\exp(s_{im})},
+ \qquad s_{ij}=\frac{q_\theta(\mathbf x_i)^{\mathsf T}
+ k_\theta(\mathbf x_{ij}-\mathbf x_i)}{\sqrt{d_q}}.
+ \label{eq:pdans_attention}
+\end{equation}
+Here $q_\theta$ and $k_\theta$ are learned coordinate transformations,
+$d_q$ is their channel dimension, and $\mathcal N_k(i)$ indexes the $k$
+neighbours. The query uses the centre coordinates and the key uses
+relative neighbour coordinates. With a learned linear feature transform
+$\gamma_\theta$, the weighted neighbourhood representation is
+\begin{equation}
+ \mathbf w_i=\sum_{j\in\mathcal N_k(i)}a_{ij}\gamma_\theta(\mathbf f_{ij}).
+ \label{eq:pdans_weights}
+\end{equation}
+The vector $\mathbf f_{ij}$ is the neighbour feature. ANS uses learned
+activations of $\mathbf w_i$ to rescale both the centre coordinates and
+its features, then fuses the refined information. This is a learned
+suppression mechanism; the attention weights are not independently
+validated probabilities that a point is noise~\cite{zhang2025pdans}.
+
+TreeTrans propagates features from coarser tree nodes to finer descendants
+using transformations of the current node and information from ancestor
+nodes. Local and global attention then combine the tree features with
+corresponding encoder features. The conditional and diffusion networks
+use these representations to guide dense-point generation
+\cite{zhang2025pdans}. ANS addresses unreliable input support, while
+TreeTrans improves how features at different levels enter the decoder.
+The resulting surface quality must still be checked against downstream
+predictions; a denoising objective does not directly optimise class labels
+or detection boxes. This brings the discussion to evaluation: the metrics
+must distinguish geometric fidelity, point distribution and task success.
+
+\FloatBarrier
+\section{Evaluation Metrics}
+\label{sec:metrics}
+
+The methods above produce point coordinates, whereas the downstream
+models produce labels or boxes. These outputs answer different questions
+and require different metrics. Geometric evaluation compares a point set
+with a reference surface or reference samples. Classification and detection
+evaluation compare predictions with semantic annotations
+\cite{qian2021pugcn,shi2019pointrcnn,qi2017pointnet}. Their definitions are
+given here; the implemented aggregation rules and experimental reference
+construction are specified in Chapter~\ref{chap:setup}.
+
+\subsection{Geometric Metrics}
+\label{subsec:metrics_geometric}
+
+Let $\mathcal Y$ be a nonempty output point set and $\mathcal R$ a nonempty
+reference set. Define the distance from a point $\mathbf y$ to its nearest
+reference point as
+\begin{equation}
+ d(\mathbf y,\mathcal R)=\min_{\mathbf r\in\mathcal R}
+ \|\mathbf y-\mathbf r\|_2.
+ \label{eq:nearest_reference}
+\end{equation}
+This nearest-neighbour construction is used in Chamfer and Hausdorff
+comparisons~\cite{qian2021pugcn,fan2017pointsetgen}. It requires a common
+coordinate frame. If the coordinates are measured in metres, an unsquared
+distance is in metres; after unit-sphere normalisation it is dimensionless.
+Squaring the distance changes its units and its sensitivity to large errors.
+
+A symmetric averaged, unsquared Chamfer distance is
+\begin{equation}
+ \begin{aligned}
+ \operatorname{CD}(\mathcal Y,\mathcal R)
+ ={}&\frac1{|\mathcal Y|}\sum_{\mathbf y\in\mathcal Y}
+ \min_{\mathbf r\in\mathcal R}\|\mathbf y-\mathbf r\|_2\\
+ &+\frac1{|\mathcal R|}\sum_{\mathbf r\in\mathcal R}
+ \min_{\mathbf y\in\mathcal Y}\|\mathbf r-\mathbf y\|_2.
+ \end{aligned}
+ \label{eq:fc-2-10}
+\end{equation}
+The cardinality symbols $|\mathcal Y|$ and $|\mathcal R|$ denote the
+numbers of points. The first term measures how far outputs lie from the
+reference; the second measures how well the output covers the reference.
+Both directions are necessary: points concentrated on one small part of
+a surface can have a small first term while leaving much of the reference
+uncovered. This bidirectional construction follows the nearest-neighbour
+matching used for point-set reconstruction
+\cite{fan2017pointsetgen,qian2021pugcn}. Because the terms are averages,
+a small number of severe deviations can be hidden by many close matches.
+
+Distance conventions must be distinguished explicitly. Fan et al. define
+the sum of squared nearest-neighbour distances, and PU-GCN uses averaged
+squared Euclidean distances in its Chamfer loss
+\cite{qian2021pugcn,fan2017pointsetgen}. Equation~\eqref{eq:fc-2-10} defines
+an unsquared, averaged variant, so it must not be cited as numerically
+identical to those losses. Replacing each norm by its square produces the
+averaged squared variant; multiplying a reported value by a display factor
+does not convert one variant into the other.
+
+The symmetric Hausdorff distance takes the worst nearest-neighbour error
+in either direction~\cite{huttenlocher1993hausdorff}, with
+\begin{equation}
+ \begin{aligned}
+ h(\mathcal Y,\mathcal R)&=
+ \max_{\mathbf y\in\mathcal Y}\min_{\mathbf r\in\mathcal R}
+ \|\mathbf y-\mathbf r\|_2,\\
+ \operatorname{HD}(\mathcal Y,\mathcal R)&=
+ \max\{h(\mathcal Y,\mathcal R),h(\mathcal R,\mathcal Y)\}.
+ \end{aligned}
+ \label{eq:fc-2-11}
+\end{equation}
+Here $h$ is the directed distance; reversing its arguments exchanges output
+deviation and reference coverage. HD highlights isolated outliers and
+uncovered regions that may be diluted in CD. It is correspondingly sensitive
+to the worst reference error. PU-GCN reports HD alongside CD and P2F to
+characterise different geometric properties~\cite{qian2021pugcn}.
+
+If a continuous reference mesh surface $S$ is available, a mean unsquared
+point-to-surface distance is
+\begin{equation}
+ \operatorname{P2F}(\mathcal Y,S)=\frac1{|\mathcal Y|}
+ \sum_{\mathbf y\in\mathcal Y}\min_{\mathbf s\in S}\|\mathbf y-\mathbf s\|_2.
+ \label{eq:p2f}
+\end{equation}
+Here $\mathbf s$ ranges over the surface, including face interiors, rather
+than only its vertices. Such mesh-based distances are used in point-cloud
+consolidation and upsampling evaluation~\cite{qian2021pugcn,yu2018ecnet}.
+They reduce the influence of how densely a discrete reference is sampled.
+However, P2F is one-directional: a few points on the surface can obtain a
+small value without covering the whole surface. The mesh and output must
+share a coordinate frame and scale, and the mesh must represent the intended
+target geometry.
+
+Geometric fidelity does not fully describe distribution. PU-Net uses local
+repulsion to discourage clustered predictions, while PU-GAN includes a
+separate uniformity objective~\cite{yu2018punet,li2019pugan}.
+A basic local spacing quantity is
+\begin{equation}
+ d_i^\mathrm{NN}=\min_{j\ne i}\|\mathbf y_i-\mathbf y_j\|_2.
+ \label{eq:nnd}
+\end{equation}
+Here $i$ and $j$ index distinct stored rows, so repeated coordinates can
+produce zero spacing. Neighbour distances underlie the local repulsion
+and uniformity constructions in PU-Net and PU-GAN
+\cite{yu2018punet,li2019pugan}. A nearest-neighbour distribution, a disk-count
+uniformity statistic and a repulsion loss describe related but different
+properties. Their neighbourhood definition, scale and aggregation must be
+given before their numbers are compared. A metric abbreviated as a
+uniformity coefficient should not silently be replaced by another such
+statistic.
+
+CD and HD are mathematically defined for nonempty sets of unequal
+cardinality; the discrete EMD bijection in Equation~\eqref{eq:emd} is not.
+Equal point counts in a method comparison are an experimental control,
+not a condition needed to evaluate a nearest-neighbour minimum. Changing
+the sample count or reference density can change coverage and matching
+distances, so both must be reported. There is no general theorem that
+adding arbitrary points improves the symmetric CD: additional outliers
+can worsen its output-to-reference term. The implemented equal-count
+protocol, reference construction and uniformity statistic are defined in
+Chapter~\ref{chap:setup}.
+
+\subsection{Classification Metrics}
+\label{subsec:metrics_classification}
+
+Point-cloud classification studies report overall accuracy (OA) and mean
+class accuracy (mAcc)~\cite{qi2017pointnet}. For $M$ evaluated samples
+with true labels $y_m$ and predicted labels $\hat y_m$, OA is
+\begin{equation}
+ \operatorname{OA}=\frac1M\sum_{m=1}^M\mathbb I[\hat y_m=y_m].
+ \label{eq:fc-2-12}
+\end{equation}
+The indicator $\mathbb I[\cdot]$ equals one when the condition holds and
+zero otherwise; $m$ indexes an object, not an individual point. OA weights
+each evaluated object equally. For class $c$ containing $M_c>0$ objects,
+\begin{equation}
+ \operatorname{Acc}_c=\frac1{M_c}\sum_{m:y_m=c}\mathbb I[\hat y_m=c],
+ \qquad
+ \operatorname{mAcc}=\frac1C\sum_{c=1}^C\operatorname{Acc}_c.
+ \label{eq:macc}
+\end{equation}
+Here $C$ is the number of evaluated classes. mAcc gives each class equal
+weight regardless of its sample count, whereas OA gives more aggregate
+weight to larger classes. They can therefore change by different amounts
+on an imbalanced evaluation set~\cite{qi2017pointnet}.
+
+These equations define sample-level aggregation. Averaging batch
+accuracies without weighting by batch size gives a different quantity when
+batches differ in size. Similarly, averaging only the class entries present
+in each batch can differ from pooling all class predictions first. The
+actual evaluator must be read to determine which aggregation produced a
+reported result; the implementation used here is stated explicitly in
+Chapter~\ref{chap:setup}. This distinction prevents a textbook definition
+from being substituted for an executed metric.
+
+\subsection{Detection Metrics}
+\label{subsec:metrics_detection}
+
+Detection evaluates class correctness together with localisation. For
+predicted and ground-truth boxes $B_\mathrm{pred}$ and $B_\mathrm{gt}$, the
+three-dimensional intersection over union is
+\begin{equation}
+ \operatorname{IoU}_{3D}=
+ \frac{\operatorname{Vol}(B_\mathrm{pred}\cap B_\mathrm{gt})}
+ {\operatorname{Vol}(B_\mathrm{pred}\cup B_\mathrm{gt})}.
+ \label{eq:iou3d}
+\end{equation}
+The operators $\cap$ and $\cup$ denote intersection and union, and
+$\operatorname{Vol}$ is volume. For nondegenerate boxes IoU lies between
+zero and one. Replacing the volumes by the areas of horizontal box
+footprints gives BEV IoU. A BEV overlap can remain high when vertical
+localisation is inaccurate, so BEV and full 3D evaluation should not be
+interchanged~\cite{shi2019pointrcnn,simonelli2019disentangling}.
+
+Predictions are ranked by confidence and matched to eligible ground-truth
+instances according to class, overlap and benchmark rules. A matched
+prediction is a true positive (TP); an unmatched eligible prediction is a
+false positive (FP), and a missed eligible object is a false negative (FN).
+At a given score threshold,
+\begin{equation}
+ \operatorname{Precision}=\frac{TP}{TP+FP},
+ \qquad
+ \operatorname{Recall}=\frac{TP}{TP+FN}.
+ \label{eq:precision_recall}
+\end{equation}
+The denominators count retained eligible predictions and eligible annotated
+objects, respectively. Duplicate detections cannot all match the same
+object as true positives; ignored annotations and empty denominators must
+be handled according to the benchmark implementation. Sweeping the score
+threshold produces a precision--recall curve~\cite{everingham2010voc}.
+
+Interpolated precision at recall $\nu$ is the upper envelope
+\begin{equation}
+ p_\mathrm{interp}(\nu)=\max_{\tilde\nu\ge\nu}p(\tilde\nu),
+ \label{eq:interp_precision}
+\end{equation}
+where $p(\tilde\nu)$ is the precision achieved at an attained recall
+$\tilde\nu$. The maximum removes local upward fluctuations in precision
+\cite{everingham2010voc}. Average precision summarises the interpolated precision across the
+recall positions specified by an evaluation protocol
+\cite{everingham2010voc,simonelli2019disentangling}. Different sampling
+conventions need not yield the same numerical AP. The implemented
+40-position convention, class thresholds and difficulty rules are
+specified in Section~\ref{sec:fc-4-10-3}.
+
+An individual scene image can illustrate a missed or recovered detection,
+but it does not determine AP for a complete evaluation set. Likewise,
+changing confidence ordering can affect AP even if some selected boxes
+appear similar. Qualitative examples and aggregate precision--recall
+evaluation therefore play complementary roles.
+
+The geometric and task metrics quantify different outputs. Their
+relationship is examined through the comparison design in
+Chapter~\ref{chap:concept}; the datasets and executed evaluation settings
+are specified in Chapter~\ref{chap:setup}.
+\FloatBarrier

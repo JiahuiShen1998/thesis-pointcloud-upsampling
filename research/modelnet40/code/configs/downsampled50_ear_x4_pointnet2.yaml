@@ -1,0 +1,39 @@
+# Line B main upsampling: Downsampled50 + EAR ×4 → PointNet++
+# Native 2048 points from 512→2048 upsampling; no loader resample.
+
+experiment_name: downsampled50_ear_x4_pointnet2
+line: B
+branch: upsampling
+upsampling_method: EAR
+upsampling_factor: 4
+
+data_root: datasets/modelnet40_downsampled50_up/ear_x4
+native_points: 2048
+num_point: 2048
+allow_resample: false
+
+model: pointnet2_cls_ssg
+num_category: 40
+use_normals: false
+
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  scheduler_step: 20
+  scheduler_gamma: 0.7
+  seed: 42
+  num_workers: 4
+
+output_dir: outputs/downsampled50_ear_x4_pointnet2
+log_dir: logs/downsampled50_ear_x4_pointnet2
+reports_dir: reports/downsampled50_ear_x4_pointnet2
+
+module: python/pytorch2.6py3.12
+pip_packages:
+  - tqdm
+
+# Comparison reference (main Line B baseline):
+#   downsampled50_native512_pointnet2: native 512, best acc = 91.26%

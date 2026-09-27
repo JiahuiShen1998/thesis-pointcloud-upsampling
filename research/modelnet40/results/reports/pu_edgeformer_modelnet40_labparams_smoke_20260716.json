@@ -1,0 +1,113 @@
+{
+  "DETECTOR_EVAL_STARTED": "NO",
+  "KITTI_AP_EVAL_STARTED": "NO",
+  "POINTNET_CLASSIFIER_STARTED": "NO",
+  "env_info": {
+    "env_name": "tf15_upsampling",
+    "gpu": "tf.test.is_gpu_available=True",
+    "nvidia_smi_L": "GPU 0: NVIDIA GeForce RTX 2080 Ti (UUID: GPU-50661bc1-9e69-cc45-84db-58bd565b59d9)",
+    "python": "3.7.12 | packaged by conda-forge | (default, Oct 26 2021, 06:08:21)  [GCC 9.4.0]",
+    "tensorflow": "1.15.0"
+  },
+  "lineA_A1": {
+    "any_nan_inf": false,
+    "any_raw_shortfall": false,
+    "chunked": false,
+    "elapsed_total_sec": 13.162362328032032,
+    "fake_points_used": false,
+    "infer": {
+      "elapsed_sec": 12.992327571031637,
+      "log_path": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_x4_up/pu_edgeformer_labparams_smoke_20260716/logs/lineA_A1_direct_1024_to_4096_infer.log",
+      "returncode": 0,
+      "stderr_tail": "e/Upsampling/generator.py:318: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.\n\nWARNING:tensorflow:From /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.\n\nWARNING:tensorflow:From /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/imports/transfer_pu_edgeformer_to_hpc_20260716/wrappers/tf_pugcn_family_patch_infer_many.py:83: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/imports/transfer_pu_edgeformer_to_hpc_20260716/wrappers/tf_pugcn_family_patch_infer_many.py:83: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.\n\nINFO:tensorflow:Restoring parameters from /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100/model-100\nRestoring parameters from /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100/model-100\n2026-07-16 20:01:51.456488: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0\n2026-07-16 20:01:51.786918: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7\n",
+      "stdout_tail": "load pre-trained model from:  /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100\n{\"frame_id\": \"train__airplane__airplane_0001\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0002\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0003\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0004\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0005\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0627\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0628\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0629\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0630\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0631\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"failures\": 0, \"jobs\": 10, \"runtime_total_sec\": 11.426051616668701, \"status\": \"PASS\"}\n",
+      "wrapper_summary": {
+        "failures": 0,
+        "jobs": 10,
+        "runtime_total_sec": 11.426051616668701,
+        "status": "PASS"
+      }
+    },
+    "interpolation_used": false,
+    "jitter_used": false,
+    "manifest_csv": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_x4_up/pu_edgeformer_labparams_smoke_20260716/manifests/lineA_A1_direct_1024_to_4096_smoke_manifest.csv",
+    "method_inference_called_on_pass": true,
+    "mode": "lineA_A1_direct_1024_to_4096",
+    "n_fail": 0,
+    "n_pass": 10,
+    "n_samples": 10,
+    "padding_used": false,
+    "patch_input_points": 1024,
+    "patch_output_points": 4096,
+    "status": "PASS",
+    "target_points": 4096
+  },
+  "lineA_A2": {
+    "any_nan_inf": false,
+    "any_raw_shortfall": false,
+    "chunked": true,
+    "elapsed_total_sec": 13.993713775998913,
+    "fake_points_used": false,
+    "infer": {
+      "elapsed_sec": 13.802182788960636,
+      "log_path": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_x4_up/pu_edgeformer_labparams_smoke_20260716/logs/lineA_A2_4x256_chunks_infer.log",
+      "returncode": 0,
+      "stderr_tail": "e/Upsampling/generator.py:318: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.\n\nWARNING:tensorflow:From /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.\n\nWARNING:tensorflow:From /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/imports/transfer_pu_edgeformer_to_hpc_20260716/wrappers/tf_pugcn_family_patch_infer_many.py:83: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/imports/transfer_pu_edgeformer_to_hpc_20260716/wrappers/tf_pugcn_family_patch_infer_many.py:83: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.\n\nINFO:tensorflow:Restoring parameters from /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100/model-100\nRestoring parameters from /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100/model-100\n2026-07-16 20:02:04.855180: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0\n2026-07-16 20:02:05.148914: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7\n",
+      "stdout_tail": "load pre-trained model from:  /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100\n{\"frame_id\": \"train__airplane__airplane_0001\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0002\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0003\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0004\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0005\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0627\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0628\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0629\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0630\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0631\", \"patch_count\": 4, \"status\": \"PASS\"}\n{\"failures\": 0, \"jobs\": 10, \"runtime_total_sec\": 12.024678230285645, \"status\": \"PASS\"}\n",
+      "wrapper_summary": {
+        "failures": 0,
+        "jobs": 10,
+        "runtime_total_sec": 12.024678230285645,
+        "status": "PASS"
+      }
+    },
+    "interpolation_used": false,
+    "jitter_used": false,
+    "manifest_csv": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_x4_up/pu_edgeformer_labparams_smoke_20260716/manifests/lineA_A2_4x256_chunks_smoke_manifest.csv",
+    "method_inference_called_on_pass": true,
+    "mode": "lineA_A2_4x256_chunks",
+    "n_fail": 0,
+    "n_pass": 10,
+    "n_samples": 10,
+    "padding_used": false,
+    "patch_input_points": 256,
+    "patch_output_points": 1024,
+    "status": "PASS",
+    "target_points": 4096
+  },
+  "lineB": {
+    "any_nan_inf": false,
+    "any_raw_shortfall": false,
+    "chunked": false,
+    "elapsed_total_sec": 29.30037692800397,
+    "fake_points_used": false,
+    "infer": {
+      "elapsed_sec": 29.13466784299817,
+      "log_path": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4_up/pu_edgeformer_labparams_smoke_20260716/logs/lineB_direct_256_to_1024_infer.log",
+      "returncode": 0,
+      "stderr_tail": "e/Upsampling/generator.py:318: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.\n\nWARNING:tensorflow:From /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/Upsampling/generator.py:318: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.\n\nWARNING:tensorflow:From /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/imports/transfer_pu_edgeformer_to_hpc_20260716/wrappers/tf_pugcn_family_patch_infer_many.py:83: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.\n\nFrom /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/imports/transfer_pu_edgeformer_to_hpc_20260716/wrappers/tf_pugcn_family_patch_infer_many.py:83: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.\n\nINFO:tensorflow:Restoring parameters from /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100/model-100\nRestoring parameters from /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100/model-100\n2026-07-16 20:01:34.407353: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0\n2026-07-16 20:01:35.319298: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7\n",
+      "stdout_tail": "load pre-trained model from:  /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/pu_edgeformer_ops_reuse/checkpoint_model100\n{\"frame_id\": \"train__airplane__airplane_0001\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0002\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0003\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0004\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"train__airplane__airplane_0005\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0627\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0628\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0629\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0630\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"frame_id\": \"test__airplane__airplane_0631\", \"patch_count\": 1, \"status\": \"PASS\"}\n{\"failures\": 0, \"jobs\": 10, \"runtime_total_sec\": 27.09023666381836, \"status\": \"PASS\"}\n",
+      "wrapper_summary": {
+        "failures": 0,
+        "jobs": 10,
+        "runtime_total_sec": 27.09023666381836,
+        "status": "PASS"
+      }
+    },
+    "interpolation_used": false,
+    "jitter_used": false,
+    "manifest_csv": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4_up/pu_edgeformer_labparams_smoke_20260716/manifests/lineB_direct_256_to_1024_smoke_manifest.csv",
+    "method_inference_called_on_pass": true,
+    "mode": "lineB_direct_256_to_1024",
+    "n_fail": 0,
+    "n_pass": 10,
+    "n_samples": 10,
+    "padding_used": false,
+    "patch_input_points": 256,
+    "patch_output_points": 1024,
+    "status": "PASS",
+    "target_points": 1024
+  },
+  "recommended_lineA_mode": "A1_direct_1024_to_4096",
+  "recommended_reason": "A1 direct whole-object inference PASS and finite; prefers whole-object context."
+}

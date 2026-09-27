@@ -1,0 +1,225 @@
+2026-07-07 22:27:14,167 - INFO - Args: Namespace(variant='lineA_original_up_ear', data_root=PosixPath('/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_inputs/lineA_original_up/ear'), output_dir=PosixPath('/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear'), log_file=PosixPath('/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/train.log'), model='pointnet2_cls_ssg', num_category=40, num_point=4096, allow_resample=False, reports_dir=PosixPath('/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear'), batch_size=24, epoch=200, learning_rate=0.001, decay_rate=0.0001, optimizer='Adam', seed=42, gpu='0', use_cpu=False, num_workers=4, max_train_batches=0, max_eval_batches=0)
+2026-07-07 22:27:14,168 - INFO - PointNet++ repo: /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/external/Pointnet_Pointnet2_pytorch
+2026-07-07 22:27:14,168 - INFO - Data root: /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_inputs/lineA_original_up/ear
+2026-07-07 22:27:14,168 - INFO - num_point=4096 allow_resample=False
+2026-07-07 22:27:14,601 - INFO - First train sample shape after loader: (4096, 3)
+2026-07-07 22:27:14,601 - INFO - Dataset sizes: train=9843 test=2468
+2026-07-07 22:27:18,829 - INFO - First train batch tensor shape before device move: (24, 3, 4096) (batch=24, channels=3, points=4096)
+2026-07-07 22:27:20,698 - INFO - First train batch loss: 3.682938
+2026-07-07 22:29:56,559 - INFO - Epoch 1/200 train_acc=0.5358 test_overall=0.6297 test_class=0.5437
+2026-07-07 22:29:56,749 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:32:31,341 - INFO - Epoch 2/200 train_acc=0.6892 test_overall=0.6794 test_class=0.6259
+2026-07-07 22:32:31,533 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:35:07,719 - INFO - Epoch 3/200 train_acc=0.7360 test_overall=0.7497 test_class=0.6651
+2026-07-07 22:35:07,912 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:37:41,971 - INFO - Epoch 4/200 train_acc=0.7682 test_overall=0.7769 test_class=0.7109
+2026-07-07 22:37:42,164 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:40:14,757 - INFO - Epoch 5/200 train_acc=0.7856 test_overall=0.8180 test_class=0.7565
+2026-07-07 22:40:14,950 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:42:48,311 - INFO - Epoch 6/200 train_acc=0.7977 test_overall=0.8311 test_class=0.7769
+2026-07-07 22:42:48,503 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:45:22,575 - INFO - Epoch 7/200 train_acc=0.8023 test_overall=0.7667 test_class=0.7226
+2026-07-07 22:47:55,281 - INFO - Epoch 8/200 train_acc=0.8146 test_overall=0.8422 test_class=0.7826
+2026-07-07 22:47:55,472 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:50:29,509 - INFO - Epoch 9/200 train_acc=0.8290 test_overall=0.8381 test_class=0.7955
+2026-07-07 22:53:03,181 - INFO - Epoch 10/200 train_acc=0.8299 test_overall=0.8626 test_class=0.8255
+2026-07-07 22:53:03,376 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 22:55:37,098 - INFO - Epoch 11/200 train_acc=0.8320 test_overall=0.8563 test_class=0.8196
+2026-07-07 22:58:08,756 - INFO - Epoch 12/200 train_acc=0.8399 test_overall=0.8602 test_class=0.8235
+2026-07-07 23:00:41,660 - INFO - Epoch 13/200 train_acc=0.8433 test_overall=0.8713 test_class=0.8208
+2026-07-07 23:00:41,858 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 23:03:17,072 - INFO - Epoch 14/200 train_acc=0.8441 test_overall=0.8638 test_class=0.8086
+2026-07-07 23:05:53,588 - INFO - Epoch 15/200 train_acc=0.8512 test_overall=0.8690 test_class=0.8210
+2026-07-07 23:08:27,646 - INFO - Epoch 16/200 train_acc=0.8517 test_overall=0.8743 test_class=0.8310
+2026-07-07 23:08:27,837 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 23:11:03,148 - INFO - Epoch 17/200 train_acc=0.8563 test_overall=0.8613 test_class=0.8228
+2026-07-07 23:13:35,271 - INFO - Epoch 18/200 train_acc=0.8604 test_overall=0.8161 test_class=0.7763
+2026-07-07 23:16:04,065 - INFO - Epoch 19/200 train_acc=0.8599 test_overall=0.8782 test_class=0.8296
+2026-07-07 23:16:04,262 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 23:18:40,571 - INFO - Epoch 20/200 train_acc=0.8765 test_overall=0.8982 test_class=0.8588
+2026-07-07 23:18:40,766 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-07 23:21:13,837 - INFO - Epoch 21/200 train_acc=0.8869 test_overall=0.8850 test_class=0.8532
+2026-07-07 23:23:48,604 - INFO - Epoch 22/200 train_acc=0.8825 test_overall=0.8850 test_class=0.8646
+2026-07-07 23:26:22,730 - INFO - Epoch 23/200 train_acc=0.8810 test_overall=0.8811 test_class=0.8495
+2026-07-07 23:28:54,465 - INFO - Epoch 24/200 train_acc=0.8911 test_overall=0.8867 test_class=0.8494
+2026-07-07 23:31:27,495 - INFO - Epoch 25/200 train_acc=0.8919 test_overall=0.8840 test_class=0.8520
+2026-07-07 23:34:04,522 - INFO - Epoch 26/200 train_acc=0.8901 test_overall=0.8978 test_class=0.8541
+2026-07-07 23:36:37,430 - INFO - Epoch 27/200 train_acc=0.8900 test_overall=0.8837 test_class=0.8491
+2026-07-07 23:39:14,646 - INFO - Epoch 28/200 train_acc=0.8929 test_overall=0.8926 test_class=0.8573
+2026-07-07 23:41:50,222 - INFO - Epoch 29/200 train_acc=0.8940 test_overall=0.8854 test_class=0.8425
+2026-07-07 23:44:27,318 - INFO - Epoch 30/200 train_acc=0.9001 test_overall=0.8892 test_class=0.8588
+2026-07-07 23:47:02,807 - INFO - Epoch 31/200 train_acc=0.8966 test_overall=0.8867 test_class=0.8554
+2026-07-07 23:49:38,545 - INFO - Epoch 32/200 train_acc=0.9045 test_overall=0.8952 test_class=0.8618
+2026-07-07 23:52:16,233 - INFO - Epoch 33/200 train_acc=0.8978 test_overall=0.8916 test_class=0.8460
+2026-07-07 23:54:51,487 - INFO - Epoch 34/200 train_acc=0.9062 test_overall=0.8913 test_class=0.8540
+2026-07-07 23:57:25,160 - INFO - Epoch 35/200 train_acc=0.9069 test_overall=0.8898 test_class=0.8553
+2026-07-08 00:00:00,436 - INFO - Epoch 36/200 train_acc=0.9006 test_overall=0.9038 test_class=0.8642
+2026-07-08 00:00:00,635 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-08 00:02:34,999 - INFO - Epoch 37/200 train_acc=0.8997 test_overall=0.8939 test_class=0.8474
+2026-07-08 00:05:08,590 - INFO - Epoch 38/200 train_acc=0.9024 test_overall=0.9000 test_class=0.8684
+2026-07-08 00:07:44,223 - INFO - Epoch 39/200 train_acc=0.9100 test_overall=0.8970 test_class=0.8583
+2026-07-08 00:10:20,600 - INFO - Epoch 40/200 train_acc=0.9128 test_overall=0.9006 test_class=0.8650
+2026-07-08 00:12:56,815 - INFO - Epoch 41/200 train_acc=0.9226 test_overall=0.8994 test_class=0.8649
+2026-07-08 00:15:32,985 - INFO - Epoch 42/200 train_acc=0.9234 test_overall=0.9010 test_class=0.8713
+2026-07-08 00:18:07,635 - INFO - Epoch 43/200 train_acc=0.9211 test_overall=0.8997 test_class=0.8641
+2026-07-08 00:20:42,176 - INFO - Epoch 44/200 train_acc=0.9202 test_overall=0.9087 test_class=0.8624
+2026-07-08 00:20:42,370 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-08 00:23:17,780 - INFO - Epoch 45/200 train_acc=0.9234 test_overall=0.8991 test_class=0.8574
+2026-07-08 00:25:53,400 - INFO - Epoch 46/200 train_acc=0.9218 test_overall=0.9044 test_class=0.8743
+2026-07-08 00:28:28,641 - INFO - Epoch 47/200 train_acc=0.9277 test_overall=0.8995 test_class=0.8615
+2026-07-08 00:31:09,347 - INFO - Epoch 48/200 train_acc=0.9233 test_overall=0.8933 test_class=0.8695
+2026-07-08 00:33:45,542 - INFO - Epoch 49/200 train_acc=0.9243 test_overall=0.8981 test_class=0.8752
+2026-07-08 00:36:21,145 - INFO - Epoch 50/200 train_acc=0.9233 test_overall=0.8986 test_class=0.8683
+2026-07-08 00:38:50,925 - INFO - Epoch 51/200 train_acc=0.9298 test_overall=0.9086 test_class=0.8741
+2026-07-08 00:41:27,486 - INFO - Epoch 52/200 train_acc=0.9270 test_overall=0.9075 test_class=0.8656
+2026-07-08 00:44:02,034 - INFO - Epoch 53/200 train_acc=0.9287 test_overall=0.8996 test_class=0.8759
+2026-07-08 00:46:38,700 - INFO - Epoch 54/200 train_acc=0.9266 test_overall=0.8912 test_class=0.8644
+2026-07-08 00:49:15,726 - INFO - Epoch 55/200 train_acc=0.9313 test_overall=0.8958 test_class=0.8659
+2026-07-08 00:51:52,130 - INFO - Epoch 56/200 train_acc=0.9279 test_overall=0.9006 test_class=0.8577
+2026-07-08 00:54:28,416 - INFO - Epoch 57/200 train_acc=0.9244 test_overall=0.9103 test_class=0.8668
+2026-07-08 00:54:28,619 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-08 00:57:03,474 - INFO - Epoch 58/200 train_acc=0.9314 test_overall=0.8952 test_class=0.8585
+2026-07-08 00:59:37,450 - INFO - Epoch 59/200 train_acc=0.9356 test_overall=0.8977 test_class=0.8600
+2026-07-08 01:02:11,779 - INFO - Epoch 60/200 train_acc=0.9393 test_overall=0.9040 test_class=0.8706
+2026-07-08 01:04:49,719 - INFO - Epoch 61/200 train_acc=0.9440 test_overall=0.9148 test_class=0.8819
+2026-07-08 01:04:49,917 - INFO - Saved checkpoint to /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_up/ear/checkpoints/best_model.pth
+2026-07-08 01:07:27,326 - INFO - Epoch 62/200 train_acc=0.9393 test_overall=0.9042 test_class=0.8738
+2026-07-08 01:10:03,787 - INFO - Epoch 63/200 train_acc=0.9443 test_overall=0.8939 test_class=0.8600
+2026-07-08 01:12:40,275 - INFO - Epoch 64/200 train_acc=0.9455 test_overall=0.9116 test_class=0.8673
+2026-07-08 01:15:15,638 - INFO - Epoch 65/200 train_acc=0.9465 test_overall=0.9074 test_class=0.8676
+2026-07-08 01:17:52,577 - INFO - Epoch 66/200 train_acc=0.9442 test_overall=0.9021 test_class=0.8670
+2026-07-08 01:20:24,794 - INFO - Epoch 67/200 train_acc=0.9430 test_overall=0.8958 test_class=0.8674
+2026-07-08 01:22:57,570 - INFO - Epoch 68/200 train_acc=0.9467 test_overall=0.9032 test_class=0.8743
+2026-07-08 01:25:26,498 - INFO - Epoch 69/200 train_acc=0.9486 test_overall=0.9142 test_class=0.8776
+2026-07-08 01:28:02,096 - INFO - Epoch 70/200 train_acc=0.9456 test_overall=0.8892 test_class=0.8491
+2026-07-08 01:30:37,400 - INFO - Epoch 71/200 train_acc=0.9474 test_overall=0.9032 test_class=0.8703
+2026-07-08 01:33:14,116 - INFO - Epoch 72/200 train_acc=0.9455 test_overall=0.9035 test_class=0.8699
+2026-07-08 01:35:46,637 - INFO - Epoch 73/200 train_acc=0.9467 test_overall=0.9018 test_class=0.8619
+2026-07-08 01:38:20,295 - INFO - Epoch 74/200 train_acc=0.9461 test_overall=0.9015 test_class=0.8640
+2026-07-08 01:40:56,008 - INFO - Epoch 75/200 train_acc=0.9517 test_overall=0.9029 test_class=0.8660
+2026-07-08 01:43:31,184 - INFO - Epoch 76/200 train_acc=0.9492 test_overall=0.9042 test_class=0.8749
+2026-07-08 01:46:06,326 - INFO - Epoch 77/200 train_acc=0.9502 test_overall=0.9004 test_class=0.8666
+2026-07-08 01:48:41,550 - INFO - Epoch 78/200 train_acc=0.9464 test_overall=0.9037 test_class=0.8732
+2026-07-08 01:51:17,280 - INFO - Epoch 79/200 train_acc=0.9507 test_overall=0.9021 test_class=0.8675
+2026-07-08 01:53:49,785 - INFO - Epoch 80/200 train_acc=0.9578 test_overall=0.9006 test_class=0.8834
+2026-07-08 01:56:23,695 - INFO - Epoch 81/200 train_acc=0.9584 test_overall=0.9045 test_class=0.8791
+2026-07-08 01:58:57,929 - INFO - Epoch 82/200 train_acc=0.9563 test_overall=0.9070 test_class=0.8822
+2026-07-08 02:01:30,839 - INFO - Epoch 83/200 train_acc=0.9619 test_overall=0.9104 test_class=0.8835
+2026-07-08 02:04:06,771 - INFO - Epoch 84/200 train_acc=0.9597 test_overall=0.9130 test_class=0.8817
+2026-07-08 02:06:40,555 - INFO - Epoch 85/200 train_acc=0.9606 test_overall=0.9104 test_class=0.8819
+2026-07-08 02:09:14,782 - INFO - Epoch 86/200 train_acc=0.9590 test_overall=0.9048 test_class=0.8737
+2026-07-08 02:11:49,366 - INFO - Epoch 87/200 train_acc=0.9606 test_overall=0.8989 test_class=0.8705
+2026-07-08 02:14:24,321 - INFO - Epoch 88/200 train_acc=0.9625 test_overall=0.9053 test_class=0.8728
+2026-07-08 02:16:59,509 - INFO - Epoch 89/200 train_acc=0.9591 test_overall=0.9099 test_class=0.8810
+2026-07-08 02:19:35,321 - INFO - Epoch 90/200 train_acc=0.9590 test_overall=0.9073 test_class=0.8816
+2026-07-08 02:22:10,985 - INFO - Epoch 91/200 train_acc=0.9605 test_overall=0.9016 test_class=0.8608
+2026-07-08 02:24:43,800 - INFO - Epoch 92/200 train_acc=0.9598 test_overall=0.9070 test_class=0.8774
+2026-07-08 02:27:19,705 - INFO - Epoch 93/200 train_acc=0.9632 test_overall=0.9050 test_class=0.8691
+2026-07-08 02:29:54,656 - INFO - Epoch 94/200 train_acc=0.9587 test_overall=0.9053 test_class=0.8784
+2026-07-08 02:32:28,926 - INFO - Epoch 95/200 train_acc=0.9614 test_overall=0.9034 test_class=0.8829
+2026-07-08 02:35:04,010 - INFO - Epoch 96/200 train_acc=0.9588 test_overall=0.9005 test_class=0.8668
+2026-07-08 02:37:37,010 - INFO - Epoch 97/200 train_acc=0.9641 test_overall=0.9066 test_class=0.8682
+2026-07-08 02:40:09,904 - INFO - Epoch 98/200 train_acc=0.9634 test_overall=0.9099 test_class=0.8815
+2026-07-08 02:42:45,400 - INFO - Epoch 99/200 train_acc=0.9633 test_overall=0.9070 test_class=0.8761
+2026-07-08 02:45:18,934 - INFO - Epoch 100/200 train_acc=0.9698 test_overall=0.9092 test_class=0.8823
+2026-07-08 02:47:49,229 - INFO - Epoch 101/200 train_acc=0.9686 test_overall=0.9090 test_class=0.8786
+2026-07-08 02:50:23,594 - INFO - Epoch 102/200 train_acc=0.9697 test_overall=0.9044 test_class=0.8649
+2026-07-08 02:52:56,981 - INFO - Epoch 103/200 train_acc=0.9678 test_overall=0.9087 test_class=0.8817
+2026-07-08 02:55:31,705 - INFO - Epoch 104/200 train_acc=0.9714 test_overall=0.9038 test_class=0.8791
+2026-07-08 02:58:04,904 - INFO - Epoch 105/200 train_acc=0.9689 test_overall=0.8998 test_class=0.8819
+2026-07-08 03:00:38,786 - INFO - Epoch 106/200 train_acc=0.9692 test_overall=0.8935 test_class=0.8687
+2026-07-08 03:03:09,495 - INFO - Epoch 107/200 train_acc=0.9688 test_overall=0.9028 test_class=0.8755
+2026-07-08 03:05:43,214 - INFO - Epoch 108/200 train_acc=0.9709 test_overall=0.8970 test_class=0.8670
+2026-07-08 03:08:18,225 - INFO - Epoch 109/200 train_acc=0.9724 test_overall=0.9014 test_class=0.8808
+2026-07-08 03:10:54,035 - INFO - Epoch 110/200 train_acc=0.9706 test_overall=0.9066 test_class=0.8792
+2026-07-08 03:13:28,445 - INFO - Epoch 111/200 train_acc=0.9703 test_overall=0.8989 test_class=0.8708
+2026-07-08 03:16:04,751 - INFO - Epoch 112/200 train_acc=0.9729 test_overall=0.9028 test_class=0.8698
+2026-07-08 03:18:37,548 - INFO - Epoch 113/200 train_acc=0.9748 test_overall=0.8982 test_class=0.8786
+2026-07-08 03:21:13,100 - INFO - Epoch 114/200 train_acc=0.9727 test_overall=0.9027 test_class=0.8775
+2026-07-08 03:23:44,473 - INFO - Epoch 115/200 train_acc=0.9724 test_overall=0.9050 test_class=0.8710
+2026-07-08 03:26:19,396 - INFO - Epoch 116/200 train_acc=0.9709 test_overall=0.9115 test_class=0.8825
+2026-07-08 03:28:48,213 - INFO - Epoch 117/200 train_acc=0.9759 test_overall=0.9045 test_class=0.8725
+2026-07-08 03:31:22,645 - INFO - Epoch 118/200 train_acc=0.9717 test_overall=0.8944 test_class=0.8754
+2026-07-08 03:33:57,250 - INFO - Epoch 119/200 train_acc=0.9716 test_overall=0.8993 test_class=0.8681
+2026-07-08 03:36:31,516 - INFO - Epoch 120/200 train_acc=0.9765 test_overall=0.9088 test_class=0.8739
+2026-07-08 03:39:07,360 - INFO - Epoch 121/200 train_acc=0.9769 test_overall=0.9013 test_class=0.8790
+2026-07-08 03:41:41,421 - INFO - Epoch 122/200 train_acc=0.9764 test_overall=0.8991 test_class=0.8703
+2026-07-08 03:44:16,117 - INFO - Epoch 123/200 train_acc=0.9789 test_overall=0.9078 test_class=0.8743
+2026-07-08 03:46:50,801 - INFO - Epoch 124/200 train_acc=0.9806 test_overall=0.9041 test_class=0.8706
+2026-07-08 03:49:26,454 - INFO - Epoch 125/200 train_acc=0.9785 test_overall=0.9094 test_class=0.8752
+2026-07-08 03:51:58,854 - INFO - Epoch 126/200 train_acc=0.9775 test_overall=0.8985 test_class=0.8649
+2026-07-08 03:54:33,158 - INFO - Epoch 127/200 train_acc=0.9775 test_overall=0.9037 test_class=0.8738
+2026-07-08 03:57:06,034 - INFO - Epoch 128/200 train_acc=0.9782 test_overall=0.9089 test_class=0.8813
+2026-07-08 03:59:39,050 - INFO - Epoch 129/200 train_acc=0.9777 test_overall=0.9033 test_class=0.8674
+2026-07-08 04:02:27,400 - INFO - Epoch 130/200 train_acc=0.9787 test_overall=0.9013 test_class=0.8677
+2026-07-08 04:05:03,751 - INFO - Epoch 131/200 train_acc=0.9792 test_overall=0.9013 test_class=0.8678
+2026-07-08 04:07:38,924 - INFO - Epoch 132/200 train_acc=0.9762 test_overall=0.8997 test_class=0.8662
+2026-07-08 04:10:12,731 - INFO - Epoch 133/200 train_acc=0.9784 test_overall=0.9036 test_class=0.8679
+2026-07-08 04:12:49,206 - INFO - Epoch 134/200 train_acc=0.9780 test_overall=0.9019 test_class=0.8752
+2026-07-08 04:15:23,515 - INFO - Epoch 135/200 train_acc=0.9803 test_overall=0.9019 test_class=0.8718
+2026-07-08 04:17:59,953 - INFO - Epoch 136/200 train_acc=0.9793 test_overall=0.9078 test_class=0.8763
+2026-07-08 04:20:35,597 - INFO - Epoch 137/200 train_acc=0.9797 test_overall=0.9045 test_class=0.8679
+2026-07-08 04:23:09,688 - INFO - Epoch 138/200 train_acc=0.9822 test_overall=0.9091 test_class=0.8780
+2026-07-08 04:25:44,524 - INFO - Epoch 139/200 train_acc=0.9799 test_overall=0.9062 test_class=0.8711
+2026-07-08 04:28:19,765 - INFO - Epoch 140/200 train_acc=0.9821 test_overall=0.9048 test_class=0.8748
+2026-07-08 04:30:54,523 - INFO - Epoch 141/200 train_acc=0.9832 test_overall=0.8981 test_class=0.8665
+2026-07-08 04:33:30,068 - INFO - Epoch 142/200 train_acc=0.9823 test_overall=0.9009 test_class=0.8724
+2026-07-08 04:36:05,332 - INFO - Epoch 143/200 train_acc=0.9806 test_overall=0.9037 test_class=0.8720
+2026-07-08 04:38:40,974 - INFO - Epoch 144/200 train_acc=0.9842 test_overall=0.9017 test_class=0.8678
+2026-07-08 04:41:16,703 - INFO - Epoch 145/200 train_acc=0.9854 test_overall=0.9050 test_class=0.8628
+2026-07-08 04:43:49,609 - INFO - Epoch 146/200 train_acc=0.9850 test_overall=0.9047 test_class=0.8723
+2026-07-08 04:46:25,126 - INFO - Epoch 147/200 train_acc=0.9823 test_overall=0.8998 test_class=0.8737
+2026-07-08 04:48:57,350 - INFO - Epoch 148/200 train_acc=0.9848 test_overall=0.9086 test_class=0.8756
+2026-07-08 04:51:33,144 - INFO - Epoch 149/200 train_acc=0.9848 test_overall=0.9060 test_class=0.8762
+2026-07-08 04:54:08,012 - INFO - Epoch 150/200 train_acc=0.9852 test_overall=0.9058 test_class=0.8792
+2026-07-08 04:56:42,829 - INFO - Epoch 151/200 train_acc=0.9854 test_overall=0.9020 test_class=0.8709
+2026-07-08 04:59:18,511 - INFO - Epoch 152/200 train_acc=0.9840 test_overall=0.9009 test_class=0.8758
+2026-07-08 05:01:53,445 - INFO - Epoch 153/200 train_acc=0.9838 test_overall=0.9015 test_class=0.8723
+2026-07-08 05:04:28,957 - INFO - Epoch 154/200 train_acc=0.9849 test_overall=0.8999 test_class=0.8686
+2026-07-08 05:07:03,991 - INFO - Epoch 155/200 train_acc=0.9820 test_overall=0.9056 test_class=0.8761
+2026-07-08 05:09:38,668 - INFO - Epoch 156/200 train_acc=0.9855 test_overall=0.8973 test_class=0.8761
+2026-07-08 05:12:14,244 - INFO - Epoch 157/200 train_acc=0.9831 test_overall=0.8969 test_class=0.8636
+2026-07-08 05:14:46,468 - INFO - Epoch 158/200 train_acc=0.9843 test_overall=0.9037 test_class=0.8684
+2026-07-08 05:17:21,313 - INFO - Epoch 159/200 train_acc=0.9834 test_overall=0.9057 test_class=0.8734
+2026-07-08 05:19:56,439 - INFO - Epoch 160/200 train_acc=0.9853 test_overall=0.9023 test_class=0.8667
+2026-07-08 05:22:30,245 - INFO - Epoch 161/200 train_acc=0.9855 test_overall=0.8993 test_class=0.8665
+2026-07-08 05:25:05,451 - INFO - Epoch 162/200 train_acc=0.9875 test_overall=0.9052 test_class=0.8706
+2026-07-08 05:27:40,810 - INFO - Epoch 163/200 train_acc=0.9855 test_overall=0.9036 test_class=0.8705
+2026-07-08 05:30:16,729 - INFO - Epoch 164/200 train_acc=0.9868 test_overall=0.9039 test_class=0.8739
+2026-07-08 05:32:50,128 - INFO - Epoch 165/200 train_acc=0.9858 test_overall=0.9036 test_class=0.8766
+2026-07-08 05:35:22,331 - INFO - Epoch 166/200 train_acc=0.9848 test_overall=0.9003 test_class=0.8718
+2026-07-08 05:37:56,716 - INFO - Epoch 167/200 train_acc=0.9863 test_overall=0.9025 test_class=0.8703
+2026-07-08 05:40:32,164 - INFO - Epoch 168/200 train_acc=0.9881 test_overall=0.8985 test_class=0.8732
+2026-07-08 05:43:07,157 - INFO - Epoch 169/200 train_acc=0.9861 test_overall=0.9045 test_class=0.8730
+2026-07-08 05:45:42,316 - INFO - Epoch 170/200 train_acc=0.9860 test_overall=0.9077 test_class=0.8776
+2026-07-08 05:48:09,688 - INFO - Epoch 171/200 train_acc=0.9886 test_overall=0.9049 test_class=0.8720
+2026-07-08 05:50:43,010 - INFO - Epoch 172/200 train_acc=0.9856 test_overall=0.9081 test_class=0.8806
+2026-07-08 05:53:16,413 - INFO - Epoch 173/200 train_acc=0.9868 test_overall=0.9093 test_class=0.8801
+2026-07-08 05:55:51,661 - INFO - Epoch 174/200 train_acc=0.9881 test_overall=0.8996 test_class=0.8708
+2026-07-08 05:58:25,092 - INFO - Epoch 175/200 train_acc=0.9870 test_overall=0.9080 test_class=0.8807
+2026-07-08 06:01:00,138 - INFO - Epoch 176/200 train_acc=0.9902 test_overall=0.9022 test_class=0.8761
+2026-07-08 06:03:33,403 - INFO - Epoch 177/200 train_acc=0.9878 test_overall=0.9086 test_class=0.8789
+2026-07-08 06:06:08,391 - INFO - Epoch 178/200 train_acc=0.9871 test_overall=0.9007 test_class=0.8702
+2026-07-08 06:08:43,070 - INFO - Epoch 179/200 train_acc=0.9890 test_overall=0.9030 test_class=0.8758
+2026-07-08 06:11:17,310 - INFO - Epoch 180/200 train_acc=0.9885 test_overall=0.9107 test_class=0.8839
+2026-07-08 06:13:50,943 - INFO - Epoch 181/200 train_acc=0.9879 test_overall=0.9066 test_class=0.8830
+2026-07-08 06:16:24,940 - INFO - Epoch 182/200 train_acc=0.9895 test_overall=0.9098 test_class=0.8853
+2026-07-08 06:18:57,949 - INFO - Epoch 183/200 train_acc=0.9897 test_overall=0.9103 test_class=0.8844
+2026-07-08 06:21:30,987 - INFO - Epoch 184/200 train_acc=0.9885 test_overall=0.9053 test_class=0.8764
+2026-07-08 06:24:05,350 - INFO - Epoch 185/200 train_acc=0.9900 test_overall=0.9057 test_class=0.8764
+2026-07-08 06:26:40,383 - INFO - Epoch 186/200 train_acc=0.9900 test_overall=0.9065 test_class=0.8667
+2026-07-08 06:29:14,498 - INFO - Epoch 187/200 train_acc=0.9879 test_overall=0.9002 test_class=0.8660
+2026-07-08 06:31:45,645 - INFO - Epoch 188/200 train_acc=0.9887 test_overall=0.8991 test_class=0.8650
+2026-07-08 06:34:17,152 - INFO - Epoch 189/200 train_acc=0.9886 test_overall=0.9044 test_class=0.8668
+2026-07-08 06:36:48,358 - INFO - Epoch 190/200 train_acc=0.9891 test_overall=0.8992 test_class=0.8664
+2026-07-08 06:39:20,903 - INFO - Epoch 191/200 train_acc=0.9905 test_overall=0.9061 test_class=0.8810
+2026-07-08 06:41:56,493 - INFO - Epoch 192/200 train_acc=0.9894 test_overall=0.9049 test_class=0.8697
+2026-07-08 06:44:26,871 - INFO - Epoch 193/200 train_acc=0.9914 test_overall=0.9052 test_class=0.8740
+2026-07-08 06:47:00,059 - INFO - Epoch 194/200 train_acc=0.9885 test_overall=0.9028 test_class=0.8696
+2026-07-08 06:49:35,089 - INFO - Epoch 195/200 train_acc=0.9900 test_overall=0.9024 test_class=0.8724
+2026-07-08 06:52:06,935 - INFO - Epoch 196/200 train_acc=0.9904 test_overall=0.9090 test_class=0.8751
+2026-07-08 06:54:42,830 - INFO - Epoch 197/200 train_acc=0.9915 test_overall=0.9002 test_class=0.8695
+2026-07-08 06:57:16,971 - INFO - Epoch 198/200 train_acc=0.9894 test_overall=0.9052 test_class=0.8694
+2026-07-08 06:59:49,342 - INFO - Epoch 199/200 train_acc=0.9920 test_overall=0.9090 test_class=0.8793
+2026-07-08 07:02:23,942 - INFO - Epoch 200/200 train_acc=0.9908 test_overall=0.9085 test_class=0.8730
+2026-07-08 07:02:23,950 - INFO - Training finished. best_overall=0.9148 best_class=0.8819

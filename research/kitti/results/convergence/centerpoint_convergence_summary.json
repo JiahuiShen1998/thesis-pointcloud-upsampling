@@ -1,0 +1,60 @@
+{
+  "status": "CONVERGED",
+  "detector": "CenterPoint",
+  "pu_gcn_training": "frozen released PU1K model-100; not retrained here",
+  "adaptation_schedule": "clean 12-epoch schedule from official detector checkpoint",
+  "validation_frames_per_epoch": 3769,
+  "primary_metric": "Car 3D Moderate AP_R40",
+  "arms": {
+    "line_a_pugcn_observed_first": {
+      "criterion": "Car 3D Moderate AP_R40; improvement must exceed min_delta",
+      "min_delta_ap_points": 0.2,
+      "patience_epochs": 3,
+      "early_stop_triggered": true,
+      "terminal_plateau_reached": true,
+      "terminal_non_improving_epochs": 4,
+      "first_stop_epoch": 11,
+      "best_epoch_at_first_stop": 8,
+      "best_ap_at_first_stop": 75.7998,
+      "global_best_epoch": 12,
+      "global_best_ap": 75.9661,
+      "old_epoch3_ap": 74.7012,
+      "gain_vs_old_epoch3_ap": 1.2648999999999972,
+      "unadapted_same_input_ap": 63.2064,
+      "gain_vs_unadapted_same_input_ap": 12.759699999999995,
+      "baseline_label": "official detector on original-N Line A input",
+      "baseline_ap": 79.2773,
+      "gap_to_existing_baseline_ap": -3.3111999999999995,
+      "reference_files": {
+        "old_epoch3": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/evaluations/centerpoint/fullval3769_20260908_line_a_pugcn_observed_first_adapted/result_summary.json",
+        "unadapted_same_input": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/evaluations/centerpoint/fullval3769_20260908_line_a_pugcn_observed_first_official/result_summary.json",
+        "baseline": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/evaluations/centerpoint/fullval3769_20260908_line_a_baseline_official/result_summary.json"
+      }
+    },
+    "line_b_pugcn_observed_first": {
+      "criterion": "Car 3D Moderate AP_R40; improvement must exceed min_delta",
+      "min_delta_ap_points": 0.2,
+      "patience_epochs": 3,
+      "early_stop_triggered": true,
+      "terminal_plateau_reached": true,
+      "terminal_non_improving_epochs": 3,
+      "first_stop_epoch": 12,
+      "best_epoch_at_first_stop": 9,
+      "best_ap_at_first_stop": 62.8977,
+      "global_best_epoch": 12,
+      "global_best_ap": 62.9007,
+      "old_epoch3_ap": 61.6639,
+      "gain_vs_old_epoch3_ap": 1.2368000000000023,
+      "unadapted_same_input_ap": 44.0929,
+      "gain_vs_unadapted_same_input_ap": 18.8078,
+      "baseline_label": "existing 3-epoch adapted sparse Line B baseline",
+      "baseline_ap": 68.049,
+      "gap_to_existing_baseline_ap": -5.148300000000006,
+      "reference_files": {
+        "old_epoch3": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/evaluations/centerpoint/fullval3769_20260908_line_b_pugcn_observed_first_adapted/result_summary.json",
+        "unadapted_same_input": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/evaluations/centerpoint/fullval3769_20260908_line_b_pugcn_observed_first_official/result_summary.json",
+        "baseline": "/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/evaluations/centerpoint/fullval3769_20260908_line_b_baseline_adapted/result_summary.json"
+      }
+    }
+  }
+}

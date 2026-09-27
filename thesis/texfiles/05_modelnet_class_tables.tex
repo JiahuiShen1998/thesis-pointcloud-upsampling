@@ -1,0 +1,98 @@
+\subsubsection{Complete Reported Category Scores}\label{sec:class-results}
+These tables reproduce the HPC exported class scores. They are retained as reported aggregates. Several fractional values do not correspond to integer correct counts at the nominal category size; the retained exports do not justify reconstructing a confusion matrix, object-level predictions, or binomial confidence intervals. These tables are secondary to the logged overall accuracy. PU-EF abbreviates PU-EdgeFormer; the baseline is Original in Line A and Sparse in Line B.
+\paragraph{Line A.}
+{\setlength{\tabcolsep}{3pt}
+\begin{longtable}{lrrrrrr}
+\caption{Reported class scores (\%), Line A.}\\
+\toprule Class & Base & EAR & PDANS & PU-Net & PU-GCN & PU-EF\\\midrule\endfirsthead
+\toprule Class & Base & EAR & PDANS & PU-Net & PU-GCN & PU-EF\\\midrule\endhead
+\bottomrule\endfoot
+airplane & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 \\
+bathtub & 95.3 & 94.4 & 95.6 & 95.8 & 95.6 & 94.4 \\
+bed & 99.2 & 99.2 & 99.2 & 99.2 & 99.2 & 99.2 \\
+bench & 72.6 & 67.9 & 67.9 & 67.9 & 67.9 & 67.9 \\
+bookshelf & 94.9 & 99.2 & 96.7 & 91.3 & 96.1 & 96.3 \\
+bottle & 98.0 & 96.3 & 96.7 & 96.3 & 94.6 & 93.8 \\
+bowl & 94.4 & 100.0 & 95.0 & 100.0 & 95.0 & 95.0 \\
+car & 100.0 & 100.0 & 99.2 & 98.3 & 98.3 & 97.5 \\
+chair & 97.2 & 98.3 & 95.6 & 98.3 & 95.5 & 98.3 \\
+cone & 79.8 & 84.5 & 84.5 & 88.1 & 84.5 & 84.5 \\
+cup & 75.0 & 70.0 & 65.0 & 55.0 & 65.0 & 75.0 \\
+curtain & 100.0 & 77.4 & 81.0 & 77.4 & 96.4 & 77.4 \\
+desk & 92.2 & 87.8 & 91.0 & 89.6 & 86.0 & 89.7 \\
+door & 84.4 & 87.5 & 93.8 & 96.9 & 90.6 & 84.4 \\
+dresser & 86.7 & 85.0 & 88.3 & 77.5 & 93.3 & 89.2 \\
+flower pot & 3.7 & 8.3 & 2.8 & 8.3 & 2.8 & 8.3 \\
+glass box & 91.8 & 94.8 & 96.5 & 91.4 & 96.5 & 94.0 \\
+guitar & 99.2 & 100.0 & 98.1 & 99.2 & 100.0 & 94.1 \\
+keyboard & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 \\
+lamp & 91.7 & 88.9 & 94.4 & 94.4 & 88.9 & 94.4 \\
+laptop & 95.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 \\
+mantel & 97.2 & 96.5 & 96.5 & 95.8 & 97.2 & 97.9 \\
+monitor & 99.2 & 97.5 & 98.3 & 98.3 & 98.3 & 96.7 \\
+night stand & 83.4 & 72.9 & 75.7 & 81.2 & 81.8 & 70.8 \\
+person & 100.0 & 96.9 & 96.9 & 96.9 & 84.4 & 87.5 \\
+piano & 82.8 & 92.3 & 91.3 & 93.2 & 93.2 & 94.0 \\
+plant & 86.7 & 87.5 & 82.5 & 85.0 & 91.7 & 90.8 \\
+radio & 70.0 & 70.0 & 85.0 & 80.0 & 60.0 & 75.0 \\
+range hood & 94.2 & 96.7 & 97.5 & 90.8 & 96.7 & 95.0 \\
+sink & 80.0 & 80.0 & 80.0 & 80.0 & 85.0 & 70.0 \\
+sofa & 95.0 & 100.0 & 100.0 & 100.0 & 100.0 & 99.2 \\
+stairs & 85.0 & 85.0 & 90.0 & 90.0 & 90.0 & 85.0 \\
+stool & 78.1 & 93.8 & 78.1 & 84.4 & 84.4 & 78.1 \\
+table & 89.8 & 86.3 & 84.5 & 83.5 & 76.2 & 80.2 \\
+tent & 96.9 & 96.9 & 96.9 & 96.9 & 96.9 & 84.4 \\
+toilet & 100.0 & 100.0 & 96.7 & 97.5 & 97.5 & 97.5 \\
+tv stand & 90.0 & 84.2 & 88.3 & 88.3 & 86.7 & 84.2 \\
+vase & 75.8 & 86.7 & 88.3 & 81.7 & 83.3 & 84.2 \\
+wardrobe & 90.0 & 80.0 & 75.0 & 70.0 & 80.0 & 70.0 \\
+xbox & 75.0 & 85.0 & 95.0 & 80.0 & 80.0 & 80.0 \\
+\end{longtable}}
+\paragraph{Line B.}
+{\setlength{\tabcolsep}{3pt}
+\begin{longtable}{lrrrrrr}
+\caption{Reported class scores (\%), Line B.}\\
+\toprule Class & Base & EAR & PDANS & PU-Net & PU-GCN & PU-EF\\\midrule\endfirsthead
+\toprule Class & Base & EAR & PDANS & PU-Net & PU-GCN & PU-EF\\\midrule\endhead
+\bottomrule\endfoot
+airplane & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 \\
+bathtub & 92.5 & 92.5 & 92.5 & 97.2 & 90.8 & 91.1 \\
+bed & 99.2 & 96.7 & 100.0 & 98.3 & 99.2 & 99.2 \\
+bench & 84.5 & 67.9 & 76.2 & 67.9 & 67.9 & 64.3 \\
+bookshelf & 96.1 & 96.1 & 94.9 & 93.6 & 97.2 & 96.1 \\
+bottle & 95.4 & 94.4 & 95.5 & 97.7 & 97.7 & 96.9 \\
+bowl & 100.0 & 95.0 & 95.0 & 100.0 & 100.0 & 100.0 \\
+car & 100.0 & 98.3 & 98.3 & 100.0 & 97.5 & 98.3 \\
+chair & 98.3 & 99.2 & 98.3 & 99.2 & 99.2 & 98.3 \\
+cone & 91.4 & 84.5 & 88.1 & 96.4 & 84.5 & 88.1 \\
+cup & 55.5 & 55.0 & 70.0 & 65.0 & 65.0 & 65.0 \\
+curtain & 100.0 & 82.1 & 89.3 & 77.4 & 85.7 & 77.4 \\
+desk & 87.4 & 85.3 & 86.4 & 88.3 & 89.7 & 85.5 \\
+door & 75.0 & 87.5 & 75.0 & 100.0 & 81.2 & 90.6 \\
+dresser & 83.3 & 77.5 & 80.8 & 81.7 & 85.8 & 85.8 \\
+flower pot & 2.8 & 8.3 & 2.8 & 5.6 & 13.9 & 16.7 \\
+glass box & 92.3 & 83.9 & 92.3 & 94.9 & 91.5 & 93.1 \\
+guitar & 100.0 & 98.9 & 99.2 & 100.0 & 97.2 & 94.1 \\
+keyboard & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 \\
+lamp & 91.7 & 88.9 & 91.7 & 91.7 & 94.4 & 91.7 \\
+laptop & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 \\
+mantel & 97.2 & 95.8 & 98.6 & 97.2 & 96.5 & 96.5 \\
+monitor & 96.5 & 97.4 & 98.3 & 99.2 & 97.5 & 97.5 \\
+night stand & 82.3 & 69.2 & 74.6 & 79.2 & 78.3 & 71.1 \\
+person & 100.0 & 87.5 & 96.9 & 100.0 & 100.0 & 96.9 \\
+piano & 91.3 & 87.2 & 94.0 & 91.3 & 86.5 & 86.5 \\
+plant & 86.7 & 79.2 & 81.7 & 87.5 & 81.7 & 85.0 \\
+radio & 70.0 & 55.0 & 60.0 & 70.0 & 70.0 & 50.0 \\
+range hood & 91.6 & 90.0 & 96.7 & 86.7 & 87.5 & 87.5 \\
+sink & 89.5 & 70.0 & 70.0 & 75.0 & 80.0 & 70.0 \\
+sofa & 95.0 & 95.0 & 95.0 & 95.0 & 89.2 & 99.2 \\
+stairs & 85.0 & 85.0 & 85.0 & 85.0 & 85.0 & 90.0 \\
+stool & 75.0 & 84.4 & 81.2 & 93.8 & 65.6 & 75.0 \\
+table & 83.3 & 89.8 & 81.0 & 84.3 & 81.2 & 78.5 \\
+tent & 100.0 & 96.9 & 96.9 & 96.9 & 93.8 & 96.9 \\
+toilet & 100.0 & 100.0 & 97.5 & 100.0 & 96.7 & 95.8 \\
+tv stand & 80.0 & 84.2 & 82.5 & 84.2 & 86.7 & 85.0 \\
+vase & 85.8 & 76.7 & 81.7 & 84.2 & 81.7 & 80.0 \\
+wardrobe & 70.0 & 60.0 & 70.0 & 70.0 & 80.0 & 60.0 \\
+xbox & 70.0 & 85.0 & 80.0 & 80.0 & 80.0 & 75.0 \\
+\end{longtable}}

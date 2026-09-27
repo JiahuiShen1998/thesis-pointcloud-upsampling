@@ -1,0 +1,401 @@
+line,method,class_idx,class_name,n_test,accuracy,source_file,baseline_accuracy,baseline,delta_pp
+A,EAR,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,1.0,Original,0.0
+A,EAR,1,bathtub,50,0.944444,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.952778,Original,-0.8334000000000064
+A,EAR,2,bed,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.991667,Original,0.0
+A,EAR,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.72619,Original,-4.761899999999997
+A,EAR,4,bookshelf,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.949444,Original,4.222300000000001
+A,EAR,5,bottle,100,0.963095,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.980235,Original,-1.7139999999999933
+A,EAR,6,bowl,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.944444,Original,5.555600000000005
+A,EAR,7,car,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,1.0,Original,0.0
+A,EAR,8,chair,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.971667,Original,1.1666000000000065
+A,EAR,9,cone,20,0.845238,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.797619,Original,4.761900000000008
+A,EAR,10,cup,20,0.7,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.75,Original,-5.000000000000004
+A,EAR,11,curtain,20,0.77381,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,1.0,Original,-22.619
+A,EAR,12,desk,86,0.878472,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.921528,Original,-4.305599999999998
+A,EAR,13,door,20,0.875,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.84375,Original,3.125
+A,EAR,14,dresser,86,0.85,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.866667,Original,-1.6666999999999987
+A,EAR,15,flower_pot,20,0.083333,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.037037,Original,4.6296
+A,EAR,16,glass_box,100,0.948485,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.917609,Original,3.0876000000000015
+A,EAR,17,guitar,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.991667,Original,0.8333000000000035
+A,EAR,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,1.0,Original,0.0
+A,EAR,19,lamp,20,0.888889,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.916667,Original,-2.777799999999997
+A,EAR,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.95,Original,5.000000000000004
+A,EAR,21,mantel,100,0.965278,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.972222,Original,-0.6944000000000061
+A,EAR,22,monitor,100,0.975,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.991667,Original,-1.6666999999999987
+A,EAR,23,night_stand,86,0.729167,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.834028,Original,-10.486099999999999
+A,EAR,24,person,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,1.0,Original,-3.125
+A,EAR,25,piano,100,0.923333,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.828333,Original,9.499999999999996
+A,EAR,26,plant,100,0.875,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.866667,Original,0.8333000000000035
+A,EAR,27,radio,20,0.7,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.7,Original,0.0
+A,EAR,28,range_hood,100,0.966667,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.941667,Original,2.500000000000002
+A,EAR,29,sink,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.8,Original,0.0
+A,EAR,30,sofa,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.95,Original,5.000000000000004
+A,EAR,31,stairs,20,0.85,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.85,Original,0.0
+A,EAR,32,stool,20,0.9375,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.78125,Original,15.625
+A,EAR,33,table,100,0.863333,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.898333,Original,-3.500000000000003
+A,EAR,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.96875,Original,0.0
+A,EAR,35,toilet,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,1.0,Original,0.0
+A,EAR,36,tv_stand,100,0.841667,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.9,Original,-5.833299999999997
+A,EAR,37,vase,100,0.866667,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.758333,Original,10.833399999999994
+A,EAR,38,wardrobe,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.9,Original,-9.999999999999998
+A,EAR,39,xbox,20,0.85,pointnet2_results/x4_two_line_final/lineA_original_up/ear/lineA_original_up_ear_result.csv,0.75,Original,9.999999999999998
+A,PDANS,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,1.0,Original,0.0
+A,PDANS,1,bathtub,50,0.955556,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.952778,Original,0.2777999999999947
+A,PDANS,2,bed,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.991667,Original,0.0
+A,PDANS,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.72619,Original,-4.761899999999997
+A,PDANS,4,bookshelf,100,0.966667,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.949444,Original,1.72230000000001
+A,PDANS,5,bottle,100,0.966667,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.980235,Original,-1.3567999999999913
+A,PDANS,6,bowl,20,0.95,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.944444,Original,0.5556000000000005
+A,PDANS,7,car,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,1.0,Original,-0.8333000000000035
+A,PDANS,8,chair,100,0.955556,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.971667,Original,-1.6110999999999986
+A,PDANS,9,cone,20,0.845238,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.797619,Original,4.761900000000008
+A,PDANS,10,cup,20,0.65,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.75,Original,-9.999999999999998
+A,PDANS,11,curtain,20,0.809524,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,1.0,Original,-19.0476
+A,PDANS,12,desk,86,0.909722,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.921528,Original,-1.1805999999999983
+A,PDANS,13,door,20,0.9375,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.84375,Original,9.375
+A,PDANS,14,dresser,86,0.883333,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.866667,Original,1.666600000000007
+A,PDANS,15,flower_pot,20,0.027778,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.037037,Original,-0.9259
+A,PDANS,16,glass_box,100,0.965152,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.917609,Original,4.754300000000001
+A,PDANS,17,guitar,100,0.980556,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.991667,Original,-1.1110999999999982
+A,PDANS,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,1.0,Original,0.0
+A,PDANS,19,lamp,20,0.944444,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.916667,Original,2.777699999999994
+A,PDANS,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.95,Original,5.000000000000004
+A,PDANS,21,mantel,100,0.965278,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.972222,Original,-0.6944000000000061
+A,PDANS,22,monitor,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.991667,Original,-0.8333999999999953
+A,PDANS,23,night_stand,86,0.756944,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.834028,Original,-7.708400000000005
+A,PDANS,24,person,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,1.0,Original,-3.125
+A,PDANS,25,piano,100,0.913333,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.828333,Original,8.499999999999996
+A,PDANS,26,plant,100,0.825,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.866667,Original,-4.1667000000000005
+A,PDANS,27,radio,20,0.85,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.7,Original,15.000000000000002
+A,PDANS,28,range_hood,100,0.975,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.941667,Original,3.3332999999999946
+A,PDANS,29,sink,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.8,Original,0.0
+A,PDANS,30,sofa,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.95,Original,5.000000000000004
+A,PDANS,31,stairs,20,0.9,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.85,Original,5.000000000000004
+A,PDANS,32,stool,20,0.78125,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.78125,Original,0.0
+A,PDANS,33,table,100,0.845,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.898333,Original,-5.3333000000000075
+A,PDANS,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.96875,Original,0.0
+A,PDANS,35,toilet,100,0.966667,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,1.0,Original,-3.3332999999999946
+A,PDANS,36,tv_stand,100,0.883333,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.9,Original,-1.6666999999999987
+A,PDANS,37,vase,100,0.883333,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.758333,Original,12.5
+A,PDANS,38,wardrobe,20,0.75,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.9,Original,-15.000000000000002
+A,PDANS,39,xbox,20,0.95,pointnet2_results/x4_two_line_final/lineA_original_up/pdans/lineA_original_up_pdans_result.csv,0.75,Original,19.999999999999996
+A,PU-Net,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,1.0,Original,0.0
+A,PU-Net,1,bathtub,50,0.958333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.952778,Original,0.5554999999999977
+A,PU-Net,2,bed,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.991667,Original,0.0
+A,PU-Net,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.72619,Original,-4.761899999999997
+A,PU-Net,4,bookshelf,100,0.913333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.949444,Original,-3.6111000000000004
+A,PU-Net,5,bottle,100,0.963095,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.980235,Original,-1.7139999999999933
+A,PU-Net,6,bowl,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.944444,Original,5.555600000000005
+A,PU-Net,7,car,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,1.0,Original,-1.6666999999999987
+A,PU-Net,8,chair,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.971667,Original,1.1666000000000065
+A,PU-Net,9,cone,20,0.880952,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.797619,Original,8.3333
+A,PU-Net,10,cup,20,0.55,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.75,Original,-19.999999999999996
+A,PU-Net,11,curtain,20,0.77381,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,1.0,Original,-22.619
+A,PU-Net,12,desk,86,0.895833,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.921528,Original,-2.5695000000000023
+A,PU-Net,13,door,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.84375,Original,12.5
+A,PU-Net,14,dresser,86,0.775,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.866667,Original,-9.166699999999995
+A,PU-Net,15,flower_pot,20,0.083333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.037037,Original,4.6296
+A,PU-Net,16,glass_box,100,0.914394,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.917609,Original,-0.3214999999999968
+A,PU-Net,17,guitar,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.991667,Original,0.0
+A,PU-Net,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,1.0,Original,0.0
+A,PU-Net,19,lamp,20,0.944444,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.916667,Original,2.777699999999994
+A,PU-Net,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.95,Original,5.000000000000004
+A,PU-Net,21,mantel,100,0.958333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.972222,Original,-1.388900000000004
+A,PU-Net,22,monitor,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.991667,Original,-0.8333999999999953
+A,PU-Net,23,night_stand,86,0.8125,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.834028,Original,-2.152799999999999
+A,PU-Net,24,person,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,1.0,Original,-3.125
+A,PU-Net,25,piano,100,0.931667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.828333,Original,10.333400000000005
+A,PU-Net,26,plant,100,0.85,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.866667,Original,-1.6666999999999987
+A,PU-Net,27,radio,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.7,Original,10.000000000000009
+A,PU-Net,28,range_hood,100,0.908333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.941667,Original,-3.3334000000000086
+A,PU-Net,29,sink,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.8,Original,0.0
+A,PU-Net,30,sofa,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.95,Original,5.000000000000004
+A,PU-Net,31,stairs,20,0.9,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.85,Original,5.000000000000004
+A,PU-Net,32,stool,20,0.84375,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.78125,Original,6.25
+A,PU-Net,33,table,100,0.835,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.898333,Original,-6.333300000000008
+A,PU-Net,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.96875,Original,0.0
+A,PU-Net,35,toilet,100,0.975,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,1.0,Original,-2.500000000000002
+A,PU-Net,36,tv_stand,100,0.883333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.9,Original,-1.6666999999999987
+A,PU-Net,37,vase,100,0.816667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.758333,Original,5.833399999999999
+A,PU-Net,38,wardrobe,20,0.7,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.9,Original,-20.000000000000007
+A,PU-Net,39,xbox,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/pu_net/lineA_original_up_pu_net_result.csv,0.75,Original,5.000000000000004
+A,PU-GCN,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,1.0,Original,0.0
+A,PU-GCN,1,bathtub,50,0.955556,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.952778,Original,0.2777999999999947
+A,PU-GCN,2,bed,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.991667,Original,0.0
+A,PU-GCN,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.72619,Original,-4.761899999999997
+A,PU-GCN,4,bookshelf,100,0.961111,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.949444,Original,1.1667000000000094
+A,PU-GCN,5,bottle,100,0.946429,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.980235,Original,-3.3806000000000003
+A,PU-GCN,6,bowl,20,0.95,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.944444,Original,0.5556000000000005
+A,PU-GCN,7,car,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,1.0,Original,-1.6666999999999987
+A,PU-GCN,8,chair,100,0.955,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.971667,Original,-1.6666999999999987
+A,PU-GCN,9,cone,20,0.845238,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.797619,Original,4.761900000000008
+A,PU-GCN,10,cup,20,0.65,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.75,Original,-9.999999999999998
+A,PU-GCN,11,curtain,20,0.964286,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,1.0,Original,-3.5714000000000024
+A,PU-GCN,12,desk,86,0.860417,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.921528,Original,-6.111100000000002
+A,PU-GCN,13,door,20,0.90625,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.84375,Original,6.25
+A,PU-GCN,14,dresser,86,0.933333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.866667,Original,6.666600000000001
+A,PU-GCN,15,flower_pot,20,0.027778,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.037037,Original,-0.9259
+A,PU-GCN,16,glass_box,100,0.965152,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.917609,Original,4.754300000000001
+A,PU-GCN,17,guitar,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.991667,Original,0.8333000000000035
+A,PU-GCN,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,1.0,Original,0.0
+A,PU-GCN,19,lamp,20,0.888889,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.916667,Original,-2.777799999999997
+A,PU-GCN,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.95,Original,5.000000000000004
+A,PU-GCN,21,mantel,100,0.972222,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.972222,Original,0.0
+A,PU-GCN,22,monitor,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.991667,Original,-0.8333999999999953
+A,PU-GCN,23,night_stand,86,0.818056,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.834028,Original,-1.5971999999999986
+A,PU-GCN,24,person,20,0.84375,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,1.0,Original,-15.625
+A,PU-GCN,25,piano,100,0.931667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.828333,Original,10.333400000000005
+A,PU-GCN,26,plant,100,0.916667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.866667,Original,5.000000000000004
+A,PU-GCN,27,radio,20,0.6,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.7,Original,-9.999999999999998
+A,PU-GCN,28,range_hood,100,0.966667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.941667,Original,2.500000000000002
+A,PU-GCN,29,sink,20,0.85,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.8,Original,4.999999999999993
+A,PU-GCN,30,sofa,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.95,Original,5.000000000000004
+A,PU-GCN,31,stairs,20,0.9,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.85,Original,5.000000000000004
+A,PU-GCN,32,stool,20,0.84375,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.78125,Original,6.25
+A,PU-GCN,33,table,100,0.761667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.898333,Original,-13.666600000000006
+A,PU-GCN,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.96875,Original,0.0
+A,PU-GCN,35,toilet,100,0.975,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,1.0,Original,-2.500000000000002
+A,PU-GCN,36,tv_stand,100,0.866667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.9,Original,-3.3333000000000057
+A,PU-GCN,37,vase,100,0.833333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.758333,Original,7.499999999999996
+A,PU-GCN,38,wardrobe,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.9,Original,-9.999999999999998
+A,PU-GCN,39,xbox,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/pu_gcn/lineA_original_up_pu_gcn_result.csv,0.75,Original,5.000000000000004
+A,PU-EdgeFormer,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,1.0,Original,0.0
+A,PU-EdgeFormer,1,bathtub,50,0.944444,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.952778,Original,-0.8334000000000064
+A,PU-EdgeFormer,2,bed,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.991667,Original,0.0
+A,PU-EdgeFormer,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.72619,Original,-4.761899999999997
+A,PU-EdgeFormer,4,bookshelf,100,0.963333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.949444,Original,1.388900000000004
+A,PU-EdgeFormer,5,bottle,100,0.938095,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.980235,Original,-4.213999999999995
+A,PU-EdgeFormer,6,bowl,20,0.95,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.944444,Original,0.5556000000000005
+A,PU-EdgeFormer,7,car,100,0.975,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,1.0,Original,-2.500000000000002
+A,PU-EdgeFormer,8,chair,100,0.983333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.971667,Original,1.1666000000000065
+A,PU-EdgeFormer,9,cone,20,0.845238,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.797619,Original,4.761900000000008
+A,PU-EdgeFormer,10,cup,20,0.75,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.75,Original,0.0
+A,PU-EdgeFormer,11,curtain,20,0.77381,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,1.0,Original,-22.619
+A,PU-EdgeFormer,12,desk,86,0.897222,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.921528,Original,-2.430600000000005
+A,PU-EdgeFormer,13,door,20,0.84375,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.84375,Original,0.0
+A,PU-EdgeFormer,14,dresser,86,0.891667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.866667,Original,2.500000000000002
+A,PU-EdgeFormer,15,flower_pot,20,0.083333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.037037,Original,4.6296
+A,PU-EdgeFormer,16,glass_box,100,0.940152,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.917609,Original,2.254299999999998
+A,PU-EdgeFormer,17,guitar,100,0.940556,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.991667,Original,-5.111100000000002
+A,PU-EdgeFormer,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,1.0,Original,0.0
+A,PU-EdgeFormer,19,lamp,20,0.944444,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.916667,Original,2.777699999999994
+A,PU-EdgeFormer,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.95,Original,5.000000000000004
+A,PU-EdgeFormer,21,mantel,100,0.979167,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.972222,Original,0.6944999999999979
+A,PU-EdgeFormer,22,monitor,100,0.966667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.991667,Original,-2.499999999999991
+A,PU-EdgeFormer,23,night_stand,86,0.707639,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.834028,Original,-12.638899999999998
+A,PU-EdgeFormer,24,person,20,0.875,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,1.0,Original,-12.5
+A,PU-EdgeFormer,25,piano,100,0.94,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.828333,Original,11.166699999999995
+A,PU-EdgeFormer,26,plant,100,0.908333,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.866667,Original,4.166599999999998
+A,PU-EdgeFormer,27,radio,20,0.75,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.7,Original,5.000000000000004
+A,PU-EdgeFormer,28,range_hood,100,0.95,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.941667,Original,0.8332999999999924
+A,PU-EdgeFormer,29,sink,20,0.7,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.8,Original,-10.000000000000009
+A,PU-EdgeFormer,30,sofa,100,0.991667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.95,Original,4.1667000000000005
+A,PU-EdgeFormer,31,stairs,20,0.85,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.85,Original,0.0
+A,PU-EdgeFormer,32,stool,20,0.78125,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.78125,Original,0.0
+A,PU-EdgeFormer,33,table,100,0.801667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.898333,Original,-9.666600000000003
+A,PU-EdgeFormer,34,tent,20,0.84375,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.96875,Original,-12.5
+A,PU-EdgeFormer,35,toilet,100,0.975,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,1.0,Original,-2.500000000000002
+A,PU-EdgeFormer,36,tv_stand,100,0.841667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.9,Original,-5.833299999999997
+A,PU-EdgeFormer,37,vase,100,0.841667,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.758333,Original,8.333400000000001
+A,PU-EdgeFormer,38,wardrobe,20,0.7,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.9,Original,-20.000000000000007
+A,PU-EdgeFormer,39,xbox,20,0.8,pointnet2_results/x4_two_line_final/lineA_original_up/pu_edgeformer/lineA_original_up_pu_edgeformer_result.csv,0.75,Original,5.000000000000004
+B,EAR,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,0.0
+B,EAR,1,bathtub,50,0.925,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.925,Downsampled x4,0.0
+B,EAR,2,bed,100,0.966667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.991667,Downsampled x4,-2.499999999999991
+B,EAR,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.845238,Downsampled x4,-16.666700000000002
+B,EAR,4,bookshelf,100,0.960556,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.960556,Downsampled x4,0.0
+B,EAR,5,bottle,100,0.944048,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.953526,Downsampled x4,-0.9477999999999986
+B,EAR,6,bowl,20,0.95,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,-5.000000000000004
+B,EAR,7,car,100,0.983333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,-1.6666999999999987
+B,EAR,8,chair,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.983333,Downsampled x4,0.8333999999999953
+B,EAR,9,cone,20,0.845238,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.914141,Downsampled x4,-6.890299999999994
+B,EAR,10,cup,20,0.55,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.554945,Downsampled x4,-0.4944999999999977
+B,EAR,11,curtain,20,0.821429,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,-17.857100000000003
+B,EAR,12,desk,86,0.853472,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.874306,Downsampled x4,-2.083400000000002
+B,EAR,13,door,20,0.875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.75,Downsampled x4,12.5
+B,EAR,14,dresser,86,0.775,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.833333,Downsampled x4,-5.833299999999997
+B,EAR,15,flower_pot,20,0.083333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.027778,Downsampled x4,5.5555
+B,EAR,16,glass_box,100,0.838636,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.923485,Downsampled x4,-8.484899999999996
+B,EAR,17,guitar,100,0.988889,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,-1.1110999999999982
+B,EAR,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,0.0
+B,EAR,19,lamp,20,0.888889,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.916667,Downsampled x4,-2.777799999999997
+B,EAR,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,0.0
+B,EAR,21,mantel,100,0.958333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.972222,Downsampled x4,-1.388900000000004
+B,EAR,22,monitor,100,0.974242,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.964646,Downsampled x4,0.9596000000000049
+B,EAR,23,night_stand,86,0.691667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.823298,Downsampled x4,-13.163099999999995
+B,EAR,24,person,20,0.875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,-12.5
+B,EAR,25,piano,100,0.871667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.913333,Downsampled x4,-4.166599999999998
+B,EAR,26,plant,100,0.791667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.866667,Downsampled x4,-7.499999999999996
+B,EAR,27,radio,20,0.55,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.7,Downsampled x4,-14.999999999999991
+B,EAR,28,range_hood,100,0.9,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.916063,Downsampled x4,-1.6062999999999938
+B,EAR,29,sink,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.894737,Downsampled x4,-19.473700000000004
+B,EAR,30,sofa,100,0.95,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.95,Downsampled x4,0.0
+B,EAR,31,stairs,20,0.85,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.85,Downsampled x4,0.0
+B,EAR,32,stool,20,0.84375,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.75,Downsampled x4,9.375
+B,EAR,33,table,100,0.898333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.833333,Downsampled x4,6.500000000000005
+B,EAR,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,-3.125
+B,EAR,35,toilet,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,1.0,Downsampled x4,0.0
+B,EAR,36,tv_stand,100,0.841667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.8,Downsampled x4,4.1667000000000005
+B,EAR,37,vase,100,0.766667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.858333,Downsampled x4,-9.166600000000003
+B,EAR,38,wardrobe,20,0.6,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.7,Downsampled x4,-9.999999999999998
+B,EAR,39,xbox,20,0.85,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/ear/lineB_downsampled_x4_up_ear_result.csv,0.7,Downsampled x4,15.000000000000002
+B,PDANS,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,0.0
+B,PDANS,1,bathtub,50,0.925,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.925,Downsampled x4,0.0
+B,PDANS,2,bed,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.991667,Downsampled x4,0.8333000000000035
+B,PDANS,3,bench,20,0.761905,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.845238,Downsampled x4,-8.3333
+B,PDANS,4,bookshelf,100,0.949444,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.960556,Downsampled x4,-1.111200000000001
+B,PDANS,5,bottle,100,0.954762,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.953526,Downsampled x4,0.12360000000000149
+B,PDANS,6,bowl,20,0.95,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,-5.000000000000004
+B,PDANS,7,car,100,0.983333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,-1.6666999999999987
+B,PDANS,8,chair,100,0.983333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.983333,Downsampled x4,0.0
+B,PDANS,9,cone,20,0.880952,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.914141,Downsampled x4,-3.3189000000000024
+B,PDANS,10,cup,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.554945,Downsampled x4,14.505499999999994
+B,PDANS,11,curtain,20,0.892857,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,-10.714299999999998
+B,PDANS,12,desk,86,0.863889,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.874306,Downsampled x4,-1.041700000000001
+B,PDANS,13,door,20,0.75,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.75,Downsampled x4,0.0
+B,PDANS,14,dresser,86,0.808333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.833333,Downsampled x4,-2.500000000000002
+B,PDANS,15,flower_pot,20,0.027778,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.027778,Downsampled x4,0.0
+B,PDANS,16,glass_box,100,0.923485,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.923485,Downsampled x4,0.0
+B,PDANS,17,guitar,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,-0.8333000000000035
+B,PDANS,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,0.0
+B,PDANS,19,lamp,20,0.916667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.916667,Downsampled x4,0.0
+B,PDANS,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,0.0
+B,PDANS,21,mantel,100,0.986111,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.972222,Downsampled x4,1.388899999999993
+B,PDANS,22,monitor,100,0.983333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.964646,Downsampled x4,1.868700000000001
+B,PDANS,23,night_stand,86,0.745833,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.823298,Downsampled x4,-7.746500000000001
+B,PDANS,24,person,20,0.96875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,-3.125
+B,PDANS,25,piano,100,0.94,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.913333,Downsampled x4,2.6666999999999996
+B,PDANS,26,plant,100,0.816667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.866667,Downsampled x4,-4.999999999999993
+B,PDANS,27,radio,20,0.6,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.7,Downsampled x4,-9.999999999999998
+B,PDANS,28,range_hood,100,0.966667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.916063,Downsampled x4,5.060400000000009
+B,PDANS,29,sink,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.894737,Downsampled x4,-19.473700000000004
+B,PDANS,30,sofa,100,0.95,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.95,Downsampled x4,0.0
+B,PDANS,31,stairs,20,0.85,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.85,Downsampled x4,0.0
+B,PDANS,32,stool,20,0.8125,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.75,Downsampled x4,6.25
+B,PDANS,33,table,100,0.81,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.833333,Downsampled x4,-2.3332999999999937
+B,PDANS,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,-3.125
+B,PDANS,35,toilet,100,0.975,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,1.0,Downsampled x4,-2.500000000000002
+B,PDANS,36,tv_stand,100,0.825,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.8,Downsampled x4,2.499999999999991
+B,PDANS,37,vase,100,0.816667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.858333,Downsampled x4,-4.166599999999998
+B,PDANS,38,wardrobe,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.7,Downsampled x4,0.0
+B,PDANS,39,xbox,20,0.8,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pdans/lineB_downsampled_x4_up_pdans_result.csv,0.7,Downsampled x4,10.000000000000009
+B,PU-Net,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,1,bathtub,50,0.972222,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.925,Downsampled x4,4.722199999999999
+B,PU-Net,2,bed,100,0.983333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.991667,Downsampled x4,-0.8333999999999953
+B,PU-Net,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.845238,Downsampled x4,-16.666700000000002
+B,PU-Net,4,bookshelf,100,0.935556,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.960556,Downsampled x4,-2.499999999999991
+B,PU-Net,5,bottle,100,0.977381,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.953526,Downsampled x4,2.385500000000007
+B,PU-Net,6,bowl,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,7,car,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,8,chair,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.983333,Downsampled x4,0.8333999999999953
+B,PU-Net,9,cone,20,0.964286,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.914141,Downsampled x4,5.0145
+B,PU-Net,10,cup,20,0.65,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.554945,Downsampled x4,9.5055
+B,PU-Net,11,curtain,20,0.77381,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,-22.619
+B,PU-Net,12,desk,86,0.883333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.874306,Downsampled x4,0.9027000000000007
+B,PU-Net,13,door,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.75,Downsampled x4,25.0
+B,PU-Net,14,dresser,86,0.816667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.833333,Downsampled x4,-1.6665999999999959
+B,PU-Net,15,flower_pot,20,0.055556,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.027778,Downsampled x4,2.7778
+B,PU-Net,16,glass_box,100,0.949242,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.923485,Downsampled x4,2.575700000000003
+B,PU-Net,17,guitar,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,19,lamp,20,0.916667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.916667,Downsampled x4,0.0
+B,PU-Net,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,21,mantel,100,0.972222,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.972222,Downsampled x4,0.0
+B,PU-Net,22,monitor,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.964646,Downsampled x4,2.702099999999996
+B,PU-Net,23,night_stand,86,0.792361,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.823298,Downsampled x4,-3.0936999999999992
+B,PU-Net,24,person,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,25,piano,100,0.913333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.913333,Downsampled x4,0.0
+B,PU-Net,26,plant,100,0.875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.866667,Downsampled x4,0.8333000000000035
+B,PU-Net,27,radio,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.7,Downsampled x4,0.0
+B,PU-Net,28,range_hood,100,0.866667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.916063,Downsampled x4,-4.9395999999999995
+B,PU-Net,29,sink,20,0.75,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.894737,Downsampled x4,-14.473700000000001
+B,PU-Net,30,sofa,100,0.95,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.95,Downsampled x4,0.0
+B,PU-Net,31,stairs,20,0.85,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.85,Downsampled x4,0.0
+B,PU-Net,32,stool,20,0.9375,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.75,Downsampled x4,18.75
+B,PU-Net,33,table,100,0.843333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.833333,Downsampled x4,1.0000000000000009
+B,PU-Net,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,-3.125
+B,PU-Net,35,toilet,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,1.0,Downsampled x4,0.0
+B,PU-Net,36,tv_stand,100,0.841667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.8,Downsampled x4,4.1667000000000005
+B,PU-Net,37,vase,100,0.841667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.858333,Downsampled x4,-1.6665999999999959
+B,PU-Net,38,wardrobe,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.7,Downsampled x4,0.0
+B,PU-Net,39,xbox,20,0.8,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_net/lineB_downsampled_x4_up_pu_net_result.csv,0.7,Downsampled x4,10.000000000000009
+B,PU-GCN,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,0.0
+B,PU-GCN,1,bathtub,50,0.908333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.925,Downsampled x4,-1.6667000000000098
+B,PU-GCN,2,bed,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.991667,Downsampled x4,0.0
+B,PU-GCN,3,bench,20,0.678571,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.845238,Downsampled x4,-16.666700000000002
+B,PU-GCN,4,bookshelf,100,0.971667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.960556,Downsampled x4,1.1110999999999982
+B,PU-GCN,5,bottle,100,0.977381,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.953526,Downsampled x4,2.385500000000007
+B,PU-GCN,6,bowl,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,0.0
+B,PU-GCN,7,car,100,0.975,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,-2.500000000000002
+B,PU-GCN,8,chair,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.983333,Downsampled x4,0.8333999999999953
+B,PU-GCN,9,cone,20,0.845238,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.914141,Downsampled x4,-6.890299999999994
+B,PU-GCN,10,cup,20,0.65,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.554945,Downsampled x4,9.5055
+B,PU-GCN,11,curtain,20,0.857143,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,-14.285700000000002
+B,PU-GCN,12,desk,86,0.897222,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.874306,Downsampled x4,2.2915999999999936
+B,PU-GCN,13,door,20,0.8125,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.75,Downsampled x4,6.25
+B,PU-GCN,14,dresser,86,0.858333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.833333,Downsampled x4,2.500000000000002
+B,PU-GCN,15,flower_pot,20,0.138889,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.027778,Downsampled x4,11.111100000000002
+B,PU-GCN,16,glass_box,100,0.915152,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.923485,Downsampled x4,-0.8333000000000035
+B,PU-GCN,17,guitar,100,0.971667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,-2.8333000000000053
+B,PU-GCN,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,0.0
+B,PU-GCN,19,lamp,20,0.944444,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.916667,Downsampled x4,2.777699999999994
+B,PU-GCN,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,0.0
+B,PU-GCN,21,mantel,100,0.965278,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.972222,Downsampled x4,-0.6944000000000061
+B,PU-GCN,22,monitor,100,0.975,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.964646,Downsampled x4,1.0353999999999974
+B,PU-GCN,23,night_stand,86,0.783333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.823298,Downsampled x4,-3.996500000000003
+B,PU-GCN,24,person,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,0.0
+B,PU-GCN,25,piano,100,0.865,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.913333,Downsampled x4,-4.833299999999996
+B,PU-GCN,26,plant,100,0.816667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.866667,Downsampled x4,-4.999999999999993
+B,PU-GCN,27,radio,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.7,Downsampled x4,0.0
+B,PU-GCN,28,range_hood,100,0.875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.916063,Downsampled x4,-4.106299999999996
+B,PU-GCN,29,sink,20,0.8,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.894737,Downsampled x4,-9.473699999999996
+B,PU-GCN,30,sofa,100,0.891667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.95,Downsampled x4,-5.833299999999997
+B,PU-GCN,31,stairs,20,0.85,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.85,Downsampled x4,0.0
+B,PU-GCN,32,stool,20,0.65625,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.75,Downsampled x4,-9.375
+B,PU-GCN,33,table,100,0.811667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.833333,Downsampled x4,-2.1665999999999963
+B,PU-GCN,34,tent,20,0.9375,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,-6.25
+B,PU-GCN,35,toilet,100,0.966667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,1.0,Downsampled x4,-3.3332999999999946
+B,PU-GCN,36,tv_stand,100,0.866667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.8,Downsampled x4,6.666699999999992
+B,PU-GCN,37,vase,100,0.816667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.858333,Downsampled x4,-4.166599999999998
+B,PU-GCN,38,wardrobe,20,0.8,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.7,Downsampled x4,10.000000000000009
+B,PU-GCN,39,xbox,20,0.8,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_gcn/lineB_downsampled_x4_up_pu_gcn_result.csv,0.7,Downsampled x4,10.000000000000009
+B,PU-EdgeFormer,0,airplane,100,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,0.0
+B,PU-EdgeFormer,1,bathtub,50,0.911111,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.925,Downsampled x4,-1.388900000000004
+B,PU-EdgeFormer,2,bed,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.991667,Downsampled x4,0.0
+B,PU-EdgeFormer,3,bench,20,0.642857,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.845238,Downsampled x4,-20.238100000000003
+B,PU-EdgeFormer,4,bookshelf,100,0.960556,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.960556,Downsampled x4,0.0
+B,PU-EdgeFormer,5,bottle,100,0.969048,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.953526,Downsampled x4,1.5522000000000036
+B,PU-EdgeFormer,6,bowl,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,0.0
+B,PU-EdgeFormer,7,car,100,0.983333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,-1.6666999999999987
+B,PU-EdgeFormer,8,chair,100,0.983333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.983333,Downsampled x4,0.0
+B,PU-EdgeFormer,9,cone,20,0.880952,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.914141,Downsampled x4,-3.3189000000000024
+B,PU-EdgeFormer,10,cup,20,0.65,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.554945,Downsampled x4,9.5055
+B,PU-EdgeFormer,11,curtain,20,0.77381,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,-22.619
+B,PU-EdgeFormer,12,desk,86,0.854861,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.874306,Downsampled x4,-1.9445000000000046
+B,PU-EdgeFormer,13,door,20,0.90625,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.75,Downsampled x4,15.625
+B,PU-EdgeFormer,14,dresser,86,0.858333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.833333,Downsampled x4,2.500000000000002
+B,PU-EdgeFormer,15,flower_pot,20,0.166667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.027778,Downsampled x4,13.888900000000001
+B,PU-EdgeFormer,16,glass_box,100,0.931061,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.923485,Downsampled x4,0.7576000000000027
+B,PU-EdgeFormer,17,guitar,100,0.941111,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,-5.888899999999997
+B,PU-EdgeFormer,18,keyboard,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,0.0
+B,PU-EdgeFormer,19,lamp,20,0.916667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.916667,Downsampled x4,0.0
+B,PU-EdgeFormer,20,laptop,20,1.0,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,0.0
+B,PU-EdgeFormer,21,mantel,100,0.965278,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.972222,Downsampled x4,-0.6944000000000061
+B,PU-EdgeFormer,22,monitor,100,0.975,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.964646,Downsampled x4,1.0353999999999974
+B,PU-EdgeFormer,23,night_stand,86,0.711111,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.823298,Downsampled x4,-11.218699999999993
+B,PU-EdgeFormer,24,person,20,0.96875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,-3.125
+B,PU-EdgeFormer,25,piano,100,0.865,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.913333,Downsampled x4,-4.833299999999996
+B,PU-EdgeFormer,26,plant,100,0.85,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.866667,Downsampled x4,-1.6666999999999987
+B,PU-EdgeFormer,27,radio,20,0.5,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.7,Downsampled x4,-19.999999999999996
+B,PU-EdgeFormer,28,range_hood,100,0.875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.916063,Downsampled x4,-4.106299999999996
+B,PU-EdgeFormer,29,sink,20,0.7,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.894737,Downsampled x4,-19.473700000000004
+B,PU-EdgeFormer,30,sofa,100,0.991667,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.95,Downsampled x4,4.1667000000000005
+B,PU-EdgeFormer,31,stairs,20,0.9,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.85,Downsampled x4,5.000000000000004
+B,PU-EdgeFormer,32,stool,20,0.75,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.75,Downsampled x4,0.0
+B,PU-EdgeFormer,33,table,100,0.785,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.833333,Downsampled x4,-4.833299999999996
+B,PU-EdgeFormer,34,tent,20,0.96875,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,-3.125
+B,PU-EdgeFormer,35,toilet,100,0.958333,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,1.0,Downsampled x4,-4.1667000000000005
+B,PU-EdgeFormer,36,tv_stand,100,0.85,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.8,Downsampled x4,4.999999999999993
+B,PU-EdgeFormer,37,vase,100,0.8,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.858333,Downsampled x4,-5.833299999999997
+B,PU-EdgeFormer,38,wardrobe,20,0.6,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.7,Downsampled x4,-9.999999999999998
+B,PU-EdgeFormer,39,xbox,20,0.75,pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer/lineB_downsampled_x4_up_pu_edgeformer_result.csv,0.7,Downsampled x4,5.000000000000004

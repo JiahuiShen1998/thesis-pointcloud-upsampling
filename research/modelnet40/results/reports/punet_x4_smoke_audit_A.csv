@@ -1,0 +1,2 @@
+method,variant,line,output_root,train_count,test_count,expected_train,expected_test,expected_shape,expected_input,shape_ok,bad_shapes,nan_inf,class_count,label_mismatch_files,expected_ratio,legacy_ear_x2_intact,legacy_ear_x2_file_count,overwrite_hits,status,issues
+punet,Line A,A,datasets/modelnet40_original_up/punet_x4_smoke,20,20,20,20,4096x3,1024,True,,False,40,0,4.0,True,12311,0,PASS,

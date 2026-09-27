@@ -1,0 +1,14 @@
+# Step 2 — ModelNet40 original dataset preparation
+raw_root: /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/raw_modelnet40/ModelNet40
+output_root: /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original
+report_path: /home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/reports/step2_modelnet40_prepare_report.md
+
+seed: 42
+num_points: 1024
+num_workers: 16
+
+expected:
+  num_classes: 40
+  train_samples: 9843
+  test_samples: 2468
+  total_samples: 12311

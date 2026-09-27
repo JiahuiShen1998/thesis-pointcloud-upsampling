@@ -1,0 +1,4 @@
+frame_id,score,lost,recovered,localization_degraded,confidence_degraded,maintained,missed_both,new_fp,removed_fp,pointrcnn_events,centerpoint_events,gt_car,gt_pedestrian,gt_cyclist,class_diversity,rank
+000590,1168.75,126,0,12,40,30,72,97,39,105,209,17,0,1,2,2
+005625,975.25,94,10,10,42,38,54,84,43,114,169,15,0,1,2,10
+006682,749.0,42,3,6,12,8,73,246,20,28,301,3,7,5,3,62

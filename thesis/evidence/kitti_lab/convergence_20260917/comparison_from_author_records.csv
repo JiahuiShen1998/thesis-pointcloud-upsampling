@@ -1,0 +1,5 @@
+detector,line,frames,metric,unadapted,three_epoch,extended_best,line_reference,gap_to_line_reference,original_official,sparse_official,sparse_three_epoch,gain_from_unadapted,gain_from_three_epoch,gap_to_original,gap_to_sparse_official
+PointRCNN,A,3769,Car 3D Moderate AP_R40,64.2748,71.0075,71.5920,81.9528,-10.3608,81.9528,65.5757,68.3312,+7.3172,+0.5845,-10.3608,+6.0163
+PointRCNN,B,3769,Car 3D Moderate AP_R40,35.5289,55.2145,57.0485,68.3312,-11.2827,81.9528,65.5757,68.3312,+21.5196,+1.8340,-24.9043,-8.5272
+CenterPoint,A,3769,Car 3D Moderate AP_R40,63.2064,74.7012,75.9661,79.2773,-3.3112,79.2773,64.5979,68.0490,+12.7597,+1.2649,-3.3112,+11.3682
+CenterPoint,B,3769,Car 3D Moderate AP_R40,44.0929,61.6639,62.9007,68.0490,-5.1483,79.2773,64.5979,68.0490,+18.8078,+1.2368,-16.3766,-1.6972

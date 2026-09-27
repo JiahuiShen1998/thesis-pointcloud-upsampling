@@ -1,0 +1,3 @@
+variant,line,output_root,train_count,test_count,expected_train,expected_test,expected_shape,shape_ok,bad_shapes,nan_inf,class_count,label_mismatch_files,expected_ratio,legacy_ear_x2_intact,legacy_ear_x2_file_count,status,issues
+Original + EAR ×4 smoke,A,datasets/modelnet40_original_up/ear_x4_smoke,20,20,20,20,4096x3,True,,False,40,0,4.0,True,12311,PASS,
+Downsampled50 + EAR ×4 smoke,B,datasets/modelnet40_downsampled50_up/ear_x4_smoke,20,20,20,20,2048x3,True,,False,40,0,4.0,True,12311,PASS,

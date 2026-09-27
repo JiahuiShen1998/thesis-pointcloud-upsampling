@@ -1,0 +1,22 @@
+\chapter{Results and Evaluation}
+\label{chap:results}
+
+The experiments show that increasing point count does not reliably improve
+downstream perception. The object-classification study identifies a limited
+recovery benefit after sparsification, whereas the scene-detection study
+shows large losses under frozen detectors and partial recovery after detector
+adaptation. This chapter establishes those task outcomes and then uses
+geometric measurements, genuine-sampling controls, and input diagnostics to
+interpret them. A visually plausible point cloud and a low geometric error
+are evidence about a representation, not substitutes for task evaluation.
+
+All ModelNet40 results come from the completed HPC experiment and its
+exported arrays, training logs, and tables. All KITTI results come from
+the lab experiment. The initial KITTI adaptation matrix comprises 20 completed
+evaluations with 3,769 validation frames each; subsequent observed-first
+experiments add extended training and epoch-wise validation. Earlier multi-method studies
+and diagnostic subsets retain their own protocol and evaluation scope.
+
+\input{texfiles/05_modelnet_results}
+\input{texfiles/05_kitti_results}
+\input{texfiles/05_joint_discussion}

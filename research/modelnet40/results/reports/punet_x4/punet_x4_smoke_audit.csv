@@ -1,0 +1,5 @@
+line,split,sample_count,input_shape,output_shape,target_points,nan_inf,method_call_evidence,status
+A,train,20,1024x3,4096x3,4096,no,PUNetUpsampler.upsample_xyz + main.py test checkpoint model-120,PASS
+A,test,20,1024x3,4096x3,4096,no,PUNetUpsampler.upsample_xyz + main.py test checkpoint model-120,PASS
+B,train,20,512x3,2048x3,2048,no,PUNetUpsampler.upsample_xyz + main.py test checkpoint model-120,PASS
+B,test,20,512x3,2048x3,2048,no,PUNetUpsampler.upsample_xyz + main.py test checkpoint model-120,PASS

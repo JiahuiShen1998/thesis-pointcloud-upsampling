@@ -1,0 +1,20 @@
+# Auto-generated mesh-ref PointNet++ baseline
+experiment_name: mesh_ref_baseline_256
+line: mesh_ref
+branch: mesh_ref_baseline_256
+method: mesh_ref_baseline
+data_root: pointnet2_inputs/mesh_ref_baseline_256
+expected_point_count: 256
+num_point: 256
+allow_resample: false
+model: pointnet2_cls_ssg
+num_category: 40
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  seed: 42
+  num_workers: 4
+output_dir: pointnet2_results/x4_two_line_final/mesh_ref_baseline_256

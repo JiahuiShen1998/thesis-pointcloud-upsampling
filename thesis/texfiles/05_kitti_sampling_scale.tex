@@ -1,0 +1,56 @@
+\subsubsection{Frame-Subset Size and AP Stability}
+\label{sec:k-subset-scale}
+
+A separate completed probe varied which validation frames were scored,
+while keeping saved detector predictions fixed. It drew 200 subsets
+without replacement at each size of 20, 50, 100, 256 and 512 frames,
+using seed 0 and paired frame identities for the original, sparse and
+sparse-PDANS inputs. Car Moderate 3D AP$_{R40}$ was recomputed from the
+saved predictions. This is variation from frame selection, distinct
+from the preceding 16-seed detector-input sampling probe and from
+retraining variability.
+
+Figure~\ref{fig:k-subset-scale} and Table~\ref{tab:k-subset-scale} show
+the standard deviation of each paired AP contrast. For the sparse
+minus original contrast, it fell from 6.02 points at 20 frames to
+1.26 at 512 frames. For PDANS minus sparse, the standard deviation was
+4.78 at 50 frames and 2.27 at 256 frames. Quoting the former contrast's
+variability as uncertainty of the latter would misstate the experiment.
+
+\thesisfigure{k_subset_scale}{Frame-subset size and paired AP variability}{
+Standard deviation across 200 random frame subsets per size, calculated
+from fixed historical PointRCNN predictions. Each curve is a different
+paired Car Moderate 3D AP$_{R40}$ contrast. These are observed
+subsampling standard deviations, not confidence intervals for the final
+matrix and not results of additional detector training.}{fig:k-subset-scale}
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{5pt}
+\begin{tabular}{rrrr}\toprule
+Frames & Sparse $-$ original & PDANS $-$ original & PDANS $-$ sparse\\\midrule
+
+20 & 6.02 & 8.60 & 7.89\\
+
+50 & 3.71 & 5.21 & 4.78\\
+
+100 & 2.87 & 3.84 & 3.37\\
+
+256 & 1.75 & 2.57 & 2.27\\
+
+512 & 1.26 & 1.57 & 1.54\\
+
+\bottomrule\end{tabular}
+\caption{Sample standard deviations of paired Car Moderate AP contrasts
+in AP points. All three contrasts use the same sampled frames within
+a draw.}\label{tab:k-subset-scale}\end{table}
+
+At 20 frames, the original-input AP's empirical 5th--95th percentile
+range was 51.96--89.95, despite fixed model predictions. The mean was
+75.63 compared with 81.99 on the complete source set. Small-subset AP
+therefore changed both variability and average value, reflecting the
+composition and recall support of the selected frames. This is a
+reason to distinguish case diagnosis from full-validation evaluation.
+The archived probe also multiplies standard deviation by 1.96 under a
+sensitivity label. That number is only a descriptive scale here; it is
+not a formal minimum detectable effect established by a power analysis.
+No repeated-training uncertainty or extrapolated full-set confidence
+interval is inferred from this probe.

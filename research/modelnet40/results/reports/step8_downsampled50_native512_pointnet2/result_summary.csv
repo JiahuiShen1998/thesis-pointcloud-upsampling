@@ -1,0 +1,2 @@
+experiment,dataset,num_points,train_count,test_count,best_epoch,best_test_acc,final_epoch,final_test_acc,checkpoint,log_path,protocol_status
+downsampled50_native512_pointnet2,downsampled50_baseline,512,9843,2468,197,0.912621,200,0.911400,outputs/downsampled50_native512_pointnet2/checkpoints/best_model.pth,logs/downsampled50_native512_pointnet2/train_1716131.log,PASS

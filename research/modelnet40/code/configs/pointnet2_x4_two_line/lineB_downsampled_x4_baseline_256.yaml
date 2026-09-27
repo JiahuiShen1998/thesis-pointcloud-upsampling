@@ -1,0 +1,20 @@
+# Auto-generated branch config for lineB_downsampled_x4_baseline
+experiment_name: lineB_downsampled_x4_baseline
+line: B
+branch: lineB_downsampled_x4_baseline
+method: baseline
+data_root: pointnet2_inputs/lineB_downsampled_x4_baseline
+expected_point_count: 256
+num_point: 256
+allow_resample: false
+model: pointnet2_cls_ssg
+num_category: 40
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  seed: 42
+  num_workers: 4
+output_dir: pointnet2_results/x4_two_line_final/lineB_downsampled_x4_baseline

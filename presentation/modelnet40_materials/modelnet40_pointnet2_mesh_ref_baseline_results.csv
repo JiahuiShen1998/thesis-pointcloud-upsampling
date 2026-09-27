@@ -1,0 +1,3 @@
+method,points,best_overall,final_overall,best_epoch,compare_to,compare_points,compare_best_overall,delta_best_vs_compare_pp,metrics_path,status
+Mesh-ref 256,256,0.9088187702265372,0.9038025889967635,129,Downsampled ×4 (from Original 1024),256,0.908495145631068,0.03236245954691963,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/mesh_ref_baseline_256/metrics.json,DONE
+Mesh-ref 4096,4096,0.9199838187702265,0.9118122977346279,148,Original 1024 baseline,1024,0.9194983818770229,0.04854368932035724,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/mesh_ref_baseline_4096/metrics.json,DONE

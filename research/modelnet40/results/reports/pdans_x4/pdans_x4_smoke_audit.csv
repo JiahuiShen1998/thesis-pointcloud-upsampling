@@ -1,0 +1,3 @@
+method,variant,line,output_root,train_count,test_count,expected_train,expected_test,expected_shape,expected_input,shape_ok,bad_shapes,nan_inf,class_count,label_mismatch_files,expected_ratio,legacy_ear_x2_intact,legacy_ear_x2_file_count,overwrite_hits,status,issues
+pdans,Line A,A,datasets/modelnet40_original_up/pdans_x4_smoke,40,40,40,40,4096x3,1024,True,,False,40,0,4.0,True,12311,0,PASS,
+pdans,Line B,B,datasets/modelnet40_downsampled50_up/pdans_x4_smoke,40,40,40,40,2048x3,512,True,,False,40,0,4.0,True,12311,0,PASS,

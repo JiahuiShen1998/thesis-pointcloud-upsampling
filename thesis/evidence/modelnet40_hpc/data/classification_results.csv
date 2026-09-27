@@ -1,0 +1,13 @@
+line,method,points,best_oa_percent,final_oa_percent,best_macc_percent,delta_vs_line_baseline_pp,gap_vs_original_1024_pp,role
+A,Original baseline,1024,91.95,91.31,88.00,0.00,0.00,baseline
+A,PU-GCN,4096,91.63,91.00,87.74,-0.32,-0.32,upsampled
+A,PDANS,4096,91.62,90.87,88.44,-0.33,-0.33,upsampled
+A,EAR,4096,91.48,90.85,88.19,-0.47,-0.47,upsampled
+A,PU-Net,4096,90.95,90.55,87.46,-1.00,-1.00,upsampled
+A,PU-EdgeFormer,4096,90.54,90.13,86.35,-1.41,-1.41,upsampled
+B,Downsampled x4 baseline,256,90.85,90.46,87.37,0.00,-1.10,baseline
+B,PU-Net,1024,91.27,90.65,87.86,0.42,-0.68,upsampled
+B,PDANS,1024,90.34,89.46,86.20,-0.51,-1.61,upsampled
+B,PU-GCN,1024,90.06,89.63,86.41,-0.79,-1.89,upsampled
+B,PU-EdgeFormer,1024,89.32,88.58,85.21,-1.53,-2.63,upsampled
+B,EAR,1024,88.81,88.02,84.50,-2.04,-3.14,upsampled

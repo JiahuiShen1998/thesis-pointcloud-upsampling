@@ -1,0 +1,6 @@
+method,median_voxels,cap_frames,frames
+Original,14944,0,32
+PDANS,36913,6,32
+PU-GCN,45108,29,32
+PU-EdgeFormer,46182,29,32
+PU-Net old,55384,32,32

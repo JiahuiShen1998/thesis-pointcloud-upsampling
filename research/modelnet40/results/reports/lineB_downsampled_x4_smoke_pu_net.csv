@@ -1,0 +1,361 @@
+method,split,class_name,label,shape_id,input_path,input_points,target_points,final_output_path,final_points,status,error_message
+pu_net,test,airplane,0,airplane_0627,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0627.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0627.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0627.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0627.npy'
+"
+pu_net,test,airplane,0,airplane_0628,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0628.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0628.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0628.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0628.npy'
+"
+pu_net,test,airplane,0,airplane_0629,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0629.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0629.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0629.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0629.npy'
+"
+pu_net,test,airplane,0,airplane_0630,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0630.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0630.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0630.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0630.npy'
+"
+pu_net,test,airplane,0,airplane_0631,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0631.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0631.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0631.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0631.npy'
+"
+pu_net,test,airplane,0,airplane_0632,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0632.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0632.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0632.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0632.npy'
+"
+pu_net,test,airplane,0,airplane_0633,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0633.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0633.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0633.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0633.npy'
+"
+pu_net,test,airplane,0,airplane_0634,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0634.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0634.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0634.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0634.npy'
+"
+pu_net,test,airplane,0,airplane_0635,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0635.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0635.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0635.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0635.npy'
+"
+pu_net,test,airplane,0,airplane_0636,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0636.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0636.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0636.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0636.npy'
+"
+pu_net,test,airplane,0,airplane_0637,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0637.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0637.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0637.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0637.npy'
+"
+pu_net,test,airplane,0,airplane_0638,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0638.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0638.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0638.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0638.npy'
+"
+pu_net,test,airplane,0,airplane_0639,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0639.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0639.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0639.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0639.npy'
+"
+pu_net,test,airplane,0,airplane_0640,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0640.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0640.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0640.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0640.npy'
+"
+pu_net,test,airplane,0,airplane_0641,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0641.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0641.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0641.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0641.npy'
+"
+pu_net,test,airplane,0,airplane_0642,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0642.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0642.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0642.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0642.npy'
+"
+pu_net,test,airplane,0,airplane_0643,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0643.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0643.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0643.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0643.npy'
+"
+pu_net,test,airplane,0,airplane_0644,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0644.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0644.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0644.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0644.npy'
+"
+pu_net,test,airplane,0,airplane_0645,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0645.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0645.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0645.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0645.npy'
+"
+pu_net,test,airplane,0,airplane_0646,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/test/airplane/airplane_0646.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0646.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0646.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/test/airplane/airplane_0646.npy'
+"
+pu_net,train,airplane,0,airplane_0001,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0001.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0001.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0001.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0001.npy'
+"
+pu_net,train,airplane,0,airplane_0002,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0002.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0002.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0002.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0002.npy'
+"
+pu_net,train,airplane,0,airplane_0003,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0003.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0003.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0003.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0003.npy'
+"
+pu_net,train,airplane,0,airplane_0004,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0004.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0004.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0004.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0004.npy'
+"
+pu_net,train,airplane,0,airplane_0005,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0005.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0005.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0005.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0005.npy'
+"
+pu_net,train,airplane,0,airplane_0006,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0006.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0006.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0006.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0006.npy'
+"
+pu_net,train,airplane,0,airplane_0007,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0007.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0007.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0007.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0007.npy'
+"
+pu_net,train,airplane,0,airplane_0008,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0008.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0008.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0008.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0008.npy'
+"
+pu_net,train,airplane,0,airplane_0009,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0009.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0009.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0009.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0009.npy'
+"
+pu_net,train,airplane,0,airplane_0010,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0010.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0010.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0010.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0010.npy'
+"
+pu_net,train,airplane,0,airplane_0011,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0011.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0011.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0011.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0011.npy'
+"
+pu_net,train,airplane,0,airplane_0012,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0012.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0012.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0012.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0012.npy'
+"
+pu_net,train,airplane,0,airplane_0013,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0013.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0013.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0013.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0013.npy'
+"
+pu_net,train,airplane,0,airplane_0014,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0014.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0014.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0014.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0014.npy'
+"
+pu_net,train,airplane,0,airplane_0015,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0015.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0015.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0015.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0015.npy'
+"
+pu_net,train,airplane,0,airplane_0016,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0016.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0016.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0016.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0016.npy'
+"
+pu_net,train,airplane,0,airplane_0017,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0017.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0017.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0017.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0017.npy'
+"
+pu_net,train,airplane,0,airplane_0018,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0018.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0018.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0018.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0018.npy'
+"
+pu_net,train,airplane,0,airplane_0019,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0019.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0019.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0019.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0019.npy'
+"
+pu_net,train,airplane,0,airplane_0020,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4/train/airplane/airplane_0020.npy,256,1024,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0020.npy,,failed,"[Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0020.npy'
+Traceback (most recent call last):
+  File ""scripts/run_lineB_downsampled_x4_smoke.py"", line 137, in process_gpu
+    np.save(raw_out, raw)
+  File ""<__array_function__ internals>"", line 6, in save
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/numpy/lib/npyio.py"", line 525, in save
+    file_ctx = open(file, ""wb"")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up_smoke/strict_N/pu_net/train/airplane/airplane_0020.npy'
+"

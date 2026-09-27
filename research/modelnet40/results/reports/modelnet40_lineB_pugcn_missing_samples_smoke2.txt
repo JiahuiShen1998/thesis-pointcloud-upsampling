@@ -1,0 +1,2 @@
+train/sofa/sofa_0425.npy
+train/sofa/sofa_0426.npy

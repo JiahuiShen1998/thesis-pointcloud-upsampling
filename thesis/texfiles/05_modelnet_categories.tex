@@ -1,0 +1,53 @@
+\subsection{Category-Dependent Classification Response}
+\label{sec:mn-categories}
+
+The overall results conceal different category responses. The exported
+Line~A class scores contain both gains and losses for every method.
+PU-GCN improved 18 categories, left 5 unchanged, and reduced 17; PDANS
+improved 16 and reduced 18. Thus a method can lose overall accuracy
+without degrading every category. These are descriptive comparisons of
+the retained class aggregates, not paired counts of correctly classified
+objects.
+
+Table~\ref{tab:mn-category-counts} summarises all 40 categories in each
+method--line pair. In Line~B, PU-Net had the most favourable balance:
+15 improved, 15 unchanged, and 10 reduced. EAR reduced 24 categories,
+while PU-EdgeFormer reduced 20. This broader distribution of losses
+helps interpret their lower overall accuracy; it does not identify
+which individual objects changed their predictions.
+
+\begin{table}[!t]\centering
+\begin{tabular}{llrrrr}\toprule
+Line & Method & Improved & Same & Reduced & Mean $\Delta$ (pp)\\\midrule
+A & EAR & 16 & 9 & 15 & +0.19 \\
+A & PDANS & 16 & 6 & 18 & +0.44 \\
+A & PU-Net & 15 & 6 & 19 & -0.54 \\
+A & PU-GCN & 18 & 5 & 17 & -0.26 \\
+A & PU-EdgeFormer & 17 & 7 & 16 & -1.66 \\
+B & EAR & 8 & 8 & 24 & -2.86 \\
+B & PDANS & 10 & 12 & 18 & -1.17 \\
+B & PU-Net & 15 & 15 & 10 & +0.49 \\
+B & PU-GCN & 13 & 8 & 19 & -0.96 \\
+B & PU-EdgeFormer & 11 & 9 & 20 & -2.15 \\
+\bottomrule\end{tabular}
+\caption{Direction of reported category-score changes relative to the
+native baseline. Each row covers all 40 categories. The mean is an
+unweighted mean of archived category deltas and is not reconstructed OA.}
+\label{tab:mn-category-counts}\end{table}
+
+Figures~\ref{fig:mn-cat-A-1}, \ref{fig:mn-cat-A-2}, \ref{fig:mn-cat-B-1}, and~\ref{fig:mn-cat-B-2} retain the complete
+category distribution using a common colour range. Categories are split
+alphabetically across two panels per line, rather than selected by the
+size or sign of a result. For example, Line~B PU-Net gained 25.00~pp on
+door but lost 22.62~pp on curtain. Its positive aggregate result therefore
+coexists with a substantial category-specific failure. Line~B PU-GCN
+gained 11.11~pp on flower pot but lost 16.67~pp on bench. These differences motivate retaining the complete category distribution
+in the heatmaps; the underlying scores remain in the archived export.
+
+\thesisfigure{mn_categories_A_1}{Line A category changes, part 1}{Reported class-score changes for Line~A, alphabetical categories 1--20. Blue denotes improvement and red denotes reduction from the native baseline; the colour range is shared by all four maps. PU-EF denotes PU-EdgeFormer. These are archived category aggregates, with no reconstructed object-level counts.}{fig:mn-cat-A-1}
+\thesisfigure{mn_categories_A_2}{Line A category changes, part 2}{Reported class-score changes for Line~A, alphabetical categories 21--40. Blue denotes improvement and red denotes reduction from the native baseline; the colour range is shared by all four maps. PU-EF denotes PU-EdgeFormer. These are archived category aggregates, with no reconstructed object-level counts.}{fig:mn-cat-A-2}
+\thesisfigure{mn_categories_B_1}{Line B category changes, part 1}{Reported class-score changes for Line~B, alphabetical categories 1--20. Blue denotes improvement and red denotes reduction from the native baseline; the colour range is shared by all four maps. PU-EF denotes PU-EdgeFormer. These are archived category aggregates, with no reconstructed object-level counts.}{fig:mn-cat-B-1}
+\thesisfigure{mn_categories_B_2}{Line B category changes, part 2}{Reported class-score changes for Line~B, alphabetical categories 21--40. Blue denotes improvement and red denotes reduction from the native baseline; the colour range is shared by all four maps. PU-EF denotes PU-EdgeFormer. These are archived category aggregates, with no reconstructed object-level counts.}{fig:mn-cat-B-2}
+
+\FloatBarrier
+

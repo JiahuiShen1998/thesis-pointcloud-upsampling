@@ -1,0 +1,37 @@
+\label{sec:implementation-changes}
+
+The completed work also included the compatibility and data-integrity
+changes needed to execute the experiments. Table~\ref{tab:implementation-changes}
+summarises changes that affect reproducibility or interpretation. These
+were integration changes to existing methods, not new upsampling
+architectures. In particular, rebuilding PU-GCN's TensorFlow/CUDA
+operators did not alter its graph blocks, NodeShuffle or pretrained
+weights.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{L{0.20\linewidth}L{0.70\linewidth}}\toprule
+Component & Executed change and significance\\\midrule
+PointRCNN I/O & Checked short reads and point-record alignment; retried
+transient shared-filesystem reads so truncated files could not silently
+be treated as complete clouds.\\
+PointRCNN sampling & Handled far-point and sparse-input edge cases;
+recorded safe-sampling fallback conditions. These paths belong to the
+specified historical configurations.\\
+PointRCNN proposals & Handled an empty near-region proposal bucket in
+regional/far-only inputs. Such diagnostic configurations retain their
+own baselines.\\
+OpenPCDet & Made unrelated dataset imports optional, supported the
+checkpoint-loading environment, and corrected sparse fill sampling.\\
+PU-GCN & Replaced fixed CUDA paths with environment-aware compilation
+and the actual TensorFlow compile/link flags.\\
+PDANS & Made point-operator tensors follow the model device. Formal
+sampling used float32; a half-precision trial with non-finite outputs
+was not used for reported results.\\
+Output generation & Resumed missing objects or frames, then checked
+shape, finite values, required point counts and completion coverage
+before downstream evaluation.\\\bottomrule
+\end{tabular}
+\caption{Selected recorded integration changes with an effect on
+execution or evidence quality. Exact code paths, environment details
+and recovery records are archived with the updated HPC and lab records.}
+\label{tab:implementation-changes}\end{table}

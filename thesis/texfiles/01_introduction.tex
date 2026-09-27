@@ -1,0 +1,172 @@
+\chapter{Introduction}
+\label{chap:introduction}
+
+As a principal data source for perception in autonomous driving, \ac{LiDAR}
+provides direct and precise range measurements of the three-dimensional
+environment~\cite{geiger2013kitti}. The measurement process is, however, inherently non-uniform.
+Because a \ac{LiDAR} sensor emits rotating laser beams at a fixed angular
+resolution, two adjacent beams are always separated by a constant angle:
+close to the sensor the beams lie near one another, whereas their separation
+grows steadily with distance. An object of a given size therefore receives
+progressively fewer laser returns the farther away it is located. As a
+consequence, \ac{LiDAR} point clouds are dense in the near range and sparse
+in the far range, and they additionally suffer from occlusion and from an
+insufficient number of points on small objects. The density of the points in
+turn affects both the classification of an object and the localisation of
+its three-dimensional bounding box. In the KITTI detection
+benchmark~\cite{geiger2012kitti,geiger2013kitti}, objects that are more
+distant or occluded and thus carry fewer points are harder to detect.
+
+Precisely because the detection difficulty is caused by a shortage of
+points, an idea suggests itself: to make the points denser, that is, to
+generate a denser and more uniform point cloud from the sparse input, in the
+hope of recovering the object surface and its local structure. In other
+words, before the data enter the classification, segmentation or detection
+module, an independent module could generate additional points that lie on
+the observed surfaces and thereby recover part of the lost performance ---
+without replacing the sensor and without retraining the downstream detector.
+Point cloud upsampling provides exactly such methods. Covering both
+object-level and scene-level problems, this thesis compares different
+upsampling methods, comprising classical geometric-optimisation approaches,
+represented by edge-aware resampling~\cite{huang2013ear}, and
+deep-learning-based
+approaches~\cite{yu2018punet,qian2021pugcn,kim2023puedgeformer,%
+zhang2025pdans}. Whether a method that performs better on geometric metrics
+also performs better in downstream classification and detection, however,
+remains open. This leads to the fundamental question addressed in this
+thesis.
+
+To examine this relationship, it is necessary to distinguish geometric
+reconstruction quality from downstream task performance. Geometric
+evaluation in point cloud upsampling uses distances to reference points or
+surfaces and measures of sampling uniformity~\cite{yu2018punet,qian2021pugcn}.
+These include Chamfer distance (CD), Hausdorff distance (HD),
+point-to-surface distance and uniformity measures. They can reflect changes
+in surface boundaries and local point distribution, so these properties
+are not exclusive to detector evaluation. However, such geometric scores
+do not directly evaluate a downstream network's predicted classes or
+bounding boxes. PointRCNN uses foreground classification and proposal
+refinement, whereas CenterPoint predicts object centres and box
+attributes~\cite{shi2019pointrcnn,yin2021centerpoint}. Whether an
+improvement in geometric reconstruction also improves these predictions
+therefore needs to be evaluated on the downstream task.
+
+The automotive setting poses a further difficulty when applying networks
+trained on sampled object surfaces to \ac{LiDAR} scenes. PU-Net, for
+example, learns from point patches sampled from 3D
+models~\cite{yu2018punet}. This differs from the partial observations
+obtained by a vehicle-mounted \ac{LiDAR}
+sensor~\cite{geiger2012kitti,geiger2013kitti}. In this thesis, the
+integration of the selected patch-based networks includes local patch
+extraction and normalisation. In the later PU-GCN pipeline, predicted
+patches are rescaled and translated back to \ac{LiDAR} coordinates before
+merging and detector-input construction
+(Section~\ref{sec:fc-4-5-2}). Normalisation is therefore reversed before
+the downstream task; it does not itself imply a permanent change in scene
+scale. The integration experiments examine coordinate-transformation
+errors and the effects of patch construction and merging
+(Section~\ref{sec:fc-4-12}). This allows implementation effects to be
+examined separately from the behaviour attributed to the upsampling method.
+
+This thesis therefore investigates upsampling under controlled output
+point counts and explicitly specified downstream training conditions.
+The central question is whether upsampling recovers useful surface
+evidence and improves downstream classification or detection. A related
+question is how changes in geometric quality correspond to changes in
+these task outcomes. The study compares CD and HD with downstream
+performance and considers the recorded point-to-face (P2F) distances as a
+separate surface diagnostic. The different normalisation used for this
+diagnostic is specified in Section~\ref{sec:geometry-audit}.
+
+To address these questions, this thesis makes the following contributions.
+
+\begin{enumerate}
+    \item \textbf{A strict, cardinality-controlled evaluation protocol.}
+    Within each input line, upsampling methods produce the same target
+    number of output points for a given input. Original and sparse
+    baselines retain their native point counts. Direct outputs are
+    distinguished from observed-first KITTI inputs, which concatenate
+    all measured input rows with selected predicted rows. Preservation
+    applies to the constructed point-cloud file in that condition; direct
+    outputs do not impose this requirement. Later detector sampling or
+    voxelisation can still limit which points enter the network
+    (Sections~\ref{sec:fc-4-6} and~\ref{sec:fc-4-8}).
+
+    \item \textbf{A two-line experimental design.} Line~A tests whether
+    densifying the original input improves performance over that original
+    input. Line~B tests recovery after deliberate fourfold downsampling,
+    using the sparse input as the baseline and the original input as a
+    recovery reference. Results are reported separately because the lines
+    start from different observations and address different performance
+    questions.
+
+    \item \textbf{A cross-task evaluation framework.} The same protocol is
+    applied both to object-level shape classification on
+    ModelNet40~\cite{wu2015modelnet} with PointNet++~\cite{qi2017pointnetpp}
+    and to scene-level 3D detection on KITTI --- with the point-based
+    detector PointRCNN~\cite{shi2019pointrcnn} and the voxel-based detector
+    CenterPoint~\cite{yin2021centerpoint}. The two detectors consume the
+    input in structurally different ways, which makes it possible to
+    distinguish the effect of the generated geometry itself from the effect
+    of a particular detector architecture; the object-level branch, in turn,
+    provides a controlled surface-sampling setting in which to examine
+    whether the same behaviour also occurs outside real sensor scenes.
+
+    \item \textbf{Task-level evaluation.} Geometric metrics are used
+    together with the classification accuracy of PointNet++ and the
+    detection \ac{AP} of PointRCNN and CenterPoint.
+
+    \item \textbf{An explicit treatment of the input budget.} This thesis
+    formalises the observation that a detector accepts only a bounded
+    amount of input, so that adding points beyond that budget forces a selection. The protocol includes configurations that separate
+    this effect from the geometric quality of the generated points.
+
+    \item \textbf{The integration process itself as an object of study.}
+    The spatial locality of the patches, unique support, coverage and
+    normalisation are explicitly defined, measured and audited rather than
+    taken for granted, so that conclusions about a method do not
+    inadvertently become conclusions about its wrapper code.
+\end{enumerate}
+
+To describe this evaluation design consistently, the experiments
+distinguish between \emph{task branches} and \emph{input lines}.
+
+Two task branches are studied:
+\begin{itemize}
+    \item classification with PointNet++ on ModelNet40, and
+    \item detection with PointRCNN and CenterPoint on KITTI.
+\end{itemize}
+
+Each task branch contains two input lines: Line~A densifies the original
+observation, whereas Line~B first degrades the observation
+by a deterministic fourfold reduction and then attempts to recover it. Both
+lines are specified formally in Section~\ref{sec:fc-3-3}.
+Throughout this thesis the terminology is therefore used uniformly as
+follows: \emph{task branch} refers to ModelNet40 or KITTI, and \emph{input
+line} refers to Line~A or Line~B.
+
+The primary detection comparison keeps the downstream detectors frozen.
+A later, separate experiment adapts PointRCNN and CenterPoint to PU-GCN
+inputs while retaining a fixed PU-GCN upsampler. This is detector adaptation,
+not retraining of the upsampling network. The object-classification branch
+uses separately trained PointNet++ SSG classifiers under the common training
+recipe described in Chapter~\ref{chap:setup}; it is distinct from this later
+detector-adaptation experiment.
+
+The following chapters describe the foundations, experimental design and
+results of this evaluation. Chapter~\ref{chap:fundamentals} introduces
+point clouds, \ac{LiDAR} perception and the networks used for classification
+and detection. It explains the upsampling methods and their mathematical
+formulation. It also defines the geometric and task metrics used in the
+evaluation.
+Chapter~\ref{chap:concept} develops the concept: the research hypothesis,
+the evaluation pipeline, the two comparison lines, the fairness protocol,
+and the challenges that had to be solved. Chapter~\ref{chap:setup} documents
+the experimental setup at the level of detail required for reproduction:
+data preparation, downsampling, the integration of each upsampling method,
+the format conversions, the detector and classifier configurations, the
+computation of the geometric metrics, and the verification procedures.
+Chapter~\ref{chap:results} presents and discusses the results.
+Chapter~\ref{chap:conclusion} summarises the findings and outlines the
+direction in which an upsampling method would have to be developed in order
+to be genuinely useful for downstream 3D perception.

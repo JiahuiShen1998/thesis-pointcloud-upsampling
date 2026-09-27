@@ -1,0 +1,39 @@
+# Step 8: Downsampled50 + EAR → PointNet++ classification
+# Compare downstream classification after EAR upsampling (native 1024 pts)
+
+experiment_name: downsampled50_ear_pointnet2
+line: B
+upsampling_method: EAR
+
+data_root: datasets/modelnet40_downsampled50_ear
+native_points: 1024
+num_point: 1024
+allow_resample: false
+
+model: pointnet2_cls_ssg
+num_category: 40
+use_normals: false
+
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  scheduler_step: 20
+  scheduler_gamma: 0.7
+  seed: 42
+  num_workers: 4
+
+output_dir: outputs/step8_downsampled50_ear_pointnet2
+log_dir: logs/step8_downsampled50_ear_pointnet2
+reports_dir: reports/step8_downsampled50_ear_pointnet2
+
+module: python/pytorch2.6py3.12
+pip_packages:
+  - tqdm
+
+# Comparison reference (not trained in this job):
+#   downsampled50_native512_pointnet2: main Line B baseline, native 512, num_point=512
+#   downsampled50_baseline: ablation only, loader 512→1024, num_point=1024
+#   original_baseline: Line A, native 1024, num_point=1024

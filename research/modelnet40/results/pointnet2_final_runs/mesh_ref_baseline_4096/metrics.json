@@ -1,0 +1,13 @@
+{
+  "variant": "mesh_ref_baseline_4096",
+  "overall_accuracy": 0.9199838187702265,
+  "class_accuracy": 0.8870038875174743,
+  "best_epoch": 148,
+  "checkpoint_path": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/mesh_ref_baseline_4096/checkpoints/best_model.pth",
+  "final_test_overall_accuracy": 0.9118122977346279,
+  "final_test_class_accuracy": 0.8797197735839042,
+  "final_epoch": 200,
+  "data_root": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_inputs/mesh_ref_baseline_4096",
+  "num_point": 4096,
+  "allow_resample": false
+}

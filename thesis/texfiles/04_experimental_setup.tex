@@ -1,0 +1,895 @@
+\chapter{Experimental Setup}
+\label{chap:setup}
+
+This chapter describes the implementation of the design defined in Chapter~\ref{chap:concept}. It reports only configurations that were actually built, run, audited, or used as formal diagnostic controls. Mathematical derivations of the networks are not repeated; instead, the focus is on the information required to reproduce the data preparation, upsampling integration, downstream training or inference, and evaluation.
+
+\section{System Overview and Final Experiment Matrix}
+\label{sec:fc-4-1}
+
+The implementation is organised as an offline pipeline. Input point clouds are prepared first and stored under a fixed manifest. Upsampling methods then generate outputs independently of the downstream evaluation. Method-native outputs are preserved, transformed back to the common coordinate system where required, and passed through the strict point-count validation. Only after those checks are complete are the files converted into the representation required by PointNet++, PointRCNN, or CenterPoint.
+
+Separating these pipeline stages allowed detector-input fixes and metric corrections to be evaluated without rerunning every upsampling network and allowed failures in point generation to be distinguished from failures in detector preprocessing.
+
+The high-performance computing (HPC) branch contains 12 primary classification conditions: the
+original and sparse baselines and five upsampling methods in each
+line. Each condition has its own PointNet++ training run. Two further
+mesh-reference conditions provide controls for directly sampled
+surface support. Their generation, training and evaluation are
+specified in Sections~\ref{sec:fc-4-3-1}, \ref{sec:fc-4-9}
+and~\ref{sec:fc-4-10}. An input's nominal point count is checked against
+the tensor read by the classifier, so a method directory cannot stand
+in for evidence that the intended representation was used.
+
+The lab branch first compares four learned upsampling pipelines under
+the recorded full-validation detector protocols. Later diagnostics
+alter patch construction, point admission or voxel occupancy while
+retaining a corresponding baseline. The final PU-GCN study adds
+detector adaptation and evaluates 20 input--checkpoint arms on the
+complete validation split. These are separate blocks of the experiment
+matrix: a repaired subset pipeline does not replace a historical
+full-validation input retrospectively, and an adapted checkpoint does
+not belong in a frozen-weight comparison.
+
+Table~\ref{tab:lines} fixes the point counts used by the two comparison lines.
+
+\begin{table}[t]\centering
+\begin{tabular}{llll}\toprule
+Branch & Line & Native baseline & Upsampling \\
+\midrule
+ModelNet40 & A & 1,024 & $1,024\rightarrow4,096$ \\
+ModelNet40 & B & 256 & $256\rightarrow1,024$ \\
+KITTI & A & $N_s$ & $N_s\rightarrow4N_s$ \\
+KITTI & B & $M_s=\lfloor N_s/4\rfloor$ & $M_s\rightarrow4M_s$ \\
+\bottomrule\end{tabular}
+\caption{Executed comparison lines.
+ModelNet40 uses one separately trained classifier per representation;
+KITTI separates frozen inference and detector adaptation.}\label{tab:lines}
+\end{table}
+
+The sequence of this chapter follows those interfaces. Data preparation
+and downsampling define the visible information; method integration and
+strict assembly define the saved output; format conversion and model
+loaders define the consumed input. Evaluation, adaptation and diagnostic
+controls then specify how each result in Chapter~\ref{chap:results} was
+obtained. The underlying network principles remain in
+Chapter~\ref{chap:fundamentals}.
+
+\section{Software and Hardware Environment}
+\label{sec:fc-4-2}
+
+The project combines current PyTorch implementations, legacy TensorFlow 1.x research code, custom Compute Unified Device Architecture (CUDA) operators, and two independent 3D detector codebases. A single software environment was therefore not imposed across all methods. Instead, each research implementation was run in an environment in which its released checkpoint and required custom operators could be loaded reproducibly, while the interfaces between stages were fixed through explicit point-cloud files, manifests, and validation scripts.
+
+ModelNet40 generation and PointNet++ training were executed as Slurm jobs on the Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg (FAU) HPC system. The recorded PU-GCN recovery used RTX 2080 Ti nodes after failures on RTX 3080 nodes. KITTI results in this thesis come exclusively from the lab workspace. Both branches required method-specific PyTorch or legacy TensorFlow environments and custom CUDA operators; no single software or graphics processing unit (GPU) configuration is assumed to describe every run. The archived source records identify the actual environments and recovery operations.
+
+The lab environment audit of 2 September 2026 records separate
+installations for the detector stacks: PointRCNN used Python 3.9.25
+with PyTorch 2.8.0+cu128, whereas CenterPoint/OpenPCDet used Python
+3.10.20 with PyTorch 2.7.1+cu128 and spconv 2.3.6. The legacy
+PU-Net/PU-GCN installation used Python 3.6.8 and TensorFlow 1.13.1.
+These are the archived lab environment observations, not a common
+version specification for the earlier HPC jobs. Lab execution logs
+identify a Quadro RTX 4000 with 8~GiB GPU memory; HPC jobs used
+Slurm-allocated resources appropriate to their recorded environments.
+
+Because the goal of the thesis is algorithmic evaluation rather than framework benchmarking, framework version differences are not interpreted as method advantages. Reproducibility is instead maintained by recording the method name, checkpoint, input manifest, random seed where relevant, strict target count, and downstream configuration for each final run.
+
+\input{texfiles/04_implementation_changes}
+
+\section{Data Preparation}
+\label{sec:fc-4-3}
+
+Data preparation preserves the difference between a sampled CAD surface
+and a partial sensor observation
+\cite{wu2015modelnet,geiger2013kitti}. The two branches share the
+Line~A/Line~B comparison logic, but retain their own coordinate
+systems, identities and reference data. The following subsections
+contain the dataset-specific preparation and coordinate conventions
+needed to interpret the experiment.
+
+\subsection{ModelNet40}
+\label{sec:fc-4-3-1}
+\label{subsec:object_samples}
+
+The object-level branch uses surface samples from CAD meshes rather than
+single-view sensor returns. Such a reference can cover surfaces hidden
+from a particular viewpoint; its coverage is determined by the mesh and
+sampling process~\cite{wu2015modelnet,qi2017pointnet}.
+
+ModelNet40 contains 12,311 CAD models from 40 object categories, with 9,843 training objects and 2,468 test objects in the standard split \cite{wu2015modelnet}. The preprocessing executed for this thesis sampled 1,024 points from each .off mesh by triangle-area-weighted surface sampling. Each sampled object was then centred and scaled to the unit sphere. The complete preprocessing produced all 12,311 object point clouds with no failed samples, and the generated files were checked for point count, shape, finite values, and normalisation range.
+
+\begin{equation}
+\boldsymbol{\mu}=\frac1N\sum_{i=1}^{N}\mathbf{x}_i,\qquad s=\max_i\|\mathbf{x}_i-\boldsymbol{\mu}\|_2,\qquad \mathbf{x}_i^{\mathrm{norm}}=\frac{\mathbf{x}_i-\boldsymbol{\mu}}{s}.
+\label{eq:fc-4-1}
+\end{equation}
+
+Here $N$ is the sample count, $\boldsymbol\mu$ the sample centroid,
+$s>0$ its maximum centred radius, and $\mathbf x_i^{\mathrm{norm}}$
+the normalised coordinate. The Euclidean norm $\|\cdot\|_2$ measures
+distance from the centroid. Centring and division by $s$ give zero mean
+and maximum radius one; the inverse is
+$\mathbf x_i=s\mathbf x_i^{\mathrm{norm}}+\boldsymbol\mu$.
+This normalisation removes absolute translation and scale, rather than
+adding surface information~\cite{qi2017pointnet}. The same object identity, class index, and split are used in every experimental condition. The final Line A visible input is the 1,024-point representation. The final Line B visible input contains 256 points selected without replacement by the fixed, object-specific random sampling rule of the final preprocessing pipeline. The same prepared sparse files are reused by all five upsampling methods so that method comparisons do not depend on different random subsets.
+
+Two additional reference datasets were generated directly from the original .off meshes for the final equal-cardinality geometric analysis. Area-weighted surface sampling produced independent 256-point and 4,096-point mesh-reference point sets for every object, followed by the same unit-sphere normalisation algorithm applied independently
+to each newly sampled point set. They do not reuse the centroid and radius
+of Original 1024. These references are evaluation-side data; they are not visible to the upsampling networks.
+
+The earlier unequal-cardinality geometric comparison was superseded after a repeat-x4 control demonstrated a cardinality bias. The final primary geometric comparison therefore uses equal-cardinality references: 4,096-point Line A outputs are compared with 4,096-point mesh references; the 256-point Line B sparse representation can be compared with the 256-point mesh reference; and 1,024-point restored outputs are compared with the original 1,024-point object representation. Unequal-cardinality CD/HD values may remain in development logs but are not used for the final method ranking.
+
+The initial mesh sampler used Python's built-in hash of class, split, and
+shape identifier in its seed. Its output is therefore not guaranteed to be
+identical across fresh processes without controlling Python hash randomisation.
+The stored point sets are the reproducible inputs to the completed runs;
+the later stable-seed downsampler does not retrospectively remove this
+limitation of rebuilding the original clouds from meshes.
+
+\subsection{KITTI}
+\label{sec:fc-4-3-2}
+\label{subsec:lidar_scenes}
+
+The scene-level branch uses LiDAR returns from multiple objects and
+background surfaces. A rotating sensor measures range along discrete
+beam directions; visibility and surface reflectance influence which
+returns are recorded~\cite{geiger2013kitti}.
+
+MV3D evaluates KITTI by dividing the labelled training data into training and validation subsets of approximately equal size \cite{chen2017mv3d}. The present KITTI branch uses a fixed split of 3,712 training frames and 3,769 validation frames. The 3,769-frame validation set is used for the formal full-validation detector comparisons. The 3,712-frame training split is additionally used for the detector-adaptation experiment in Section~\ref{sec:fc-4-11}. Pilot and diagnostic experiments use explicitly named subsets and are never presented as full-validation results.
+
+Each LiDAR frame is stored as an $N_s\times4$ float32 array of $(x,y,z,\iota)$, where the first three values are the Velodyne-frame coordinates in metres and $\iota$ is reflectance. Upsampling networks that operate only on XYZ receive the coordinate channels, but the spatial coordinates remain in the Velodyne frame at the scene level. If a method requires local centring or scaling, the transformation is applied within the local patch and inverted before the generated points are merged back into the frame.
+
+To make the scan geometry explicit, let $\rho>0$ be range, $\alpha$ azimuth around the
+vertical axis, and $\beta$ elevation above the horizontal plane. The
+spherical-to-Cartesian conversion is
+\begin{equation}
+ \begin{aligned}
+ x&=\rho\cos\beta\cos\alpha,\\
+ y&=\rho\cos\beta\sin\alpha,\\
+ z&=\rho\sin\beta.
+ \end{aligned}
+ \label{eq:spherical_to_cartesian}
+\end{equation}
+The coordinate convention in this equation takes $z$ as vertical. It parametrises the measured beam directions. For two rays separated by a small angle
+$\Delta\alpha$ at the same range and elevation, the chord length is
+\begin{equation}
+ d_\alpha=2\rho\cos\beta\sin(\Delta\alpha/2)
+ \approx\rho\cos\beta\,\Delta\alpha.
+ \label{eq:angular_spacing}
+\end{equation}
+The approximation uses $\sin u\approx u$ for small $u$, with angles in
+radians. It explains why constant angular spacing produces increasing
+physical separation with range. It does not imply a universal return-count
+law: surface inclination, missing returns, nonuniform vertical beam angles
+and occlusion also matter in a real scan~\cite{geiger2013kitti}.
+
+Coordinate transformations require equal care. With a rotation
+$\mathbf R\in\mathbb R^{3\times3}$ and translation
+$\mathbf t\in\mathbb R^3$, the same physical point expressed in a second
+coordinate frame is
+\begin{equation}
+ \mathbf p^{\prime}=\mathbf R\mathbf p+\mathbf t,
+ \qquad \mathbf R^{\mathsf T}\mathbf R=\mathbf I,
+ \qquad\det(\mathbf R)=1.
+ \label{eq:rigid_coordinates}
+\end{equation}
+The identity matrix $\mathbf I$ and determinant condition specify a proper
+rotation. Sensor calibration provides these transforms when measurements
+and annotations use different frames~\cite{geiger2013kitti}. Normalising a
+patch for a neural network is a separate operation; its translation and
+scale must also be inverted before combining it with metric scene data.
+
+
+Calibration files and ground-truth labels are not used during upsampling candidate generation or strict point selection. They are read only by the detector and evaluation stages. The deleted points from Line B are likewise unavailable to the upsampling method; they can be used only in later diagnostic analyses as previously observed sensor locations.
+
+\section{Downsampling Procedure}
+\label{sec:fc-4-4}
+
+The Line B downsampling procedures are designed as controlled information removal rather than as physical simulation of a lower-resolution sensor.
+
+For ModelNet40, the final sparse representation contains 256 points selected without replacement from the stored 1,024-point object. The archived HPC implementation uses NumPy random choice with a stable per-object seed derived from global seed 42, the downsampling operation, split, class name, and shape identifier. The seed helper hashes this token with Message-Digest Algorithm 5 (MD5); the operation does not retain every fourth row and does not use farthest-point sampling. The resulting files were generated once, audited, and reused across all methods. The purpose is to create a common sparse object representation without changing the object's class, pose, or normalisation.
+
+For KITTI, each original frame with \ensuremath{N_s} points is reduced to $M_s=\lfloor N_s/4\rfloor$ points using a deterministic per-frame random selection without replacement. A fixed seed rule ensures that the same frame produces the same sparse point indices for every upsampling method. XYZ coordinates and reflectance are retained together for selected points, so the Line B sparse baseline remains a valid KITTI XYZI point cloud.
+
+This procedure is a controlled decimation rather than a physical low-beam LiDAR simulation. A physical change in LiDAR channel count would alter the angular scan pattern rather than remove points independently. The chosen reduction is instead a controlled stress test that provides identical visible information to every method.
+
+\section{Upsampling Method Integration}
+\label{sec:fc-4-5}
+
+All learning-based upsampling networks are run in inference mode using the pretrained model available for the integrated implementation. No upsampling network is fine-tuned on the downstream validation data. Because the original repositories differ in language version, framework, custom operators, and input representation, the integration standardises the external protocol rather than rewriting each method into an identical internal architecture.
+
+\subsection{Shared Input and Coordinate Interfaces}
+\label{sec:fc-4-5-1}
+
+ModelNet40 objects already satisfy the object-level input assumption of the upsampling methods and therefore do not require scene decomposition. Each method receives the fixed Line A 1,024-point object or the fixed Line B 256-point object and generates the target point count for the corresponding line. Final accessible outputs were verified for all 12,311 objects in both lines for EAR, PDANS, PU-Net, PU-GCN, and PU-EdgeFormer. Line A files contain 4,096 points and Line B files contain 1,024 points.
+
+The method outputs are not modified merely to make them contain a copy of every input point. This is important because the object-level experiment evaluates the representation produced by the upsampling method itself. Output shapes and finite values are audited before the point clouds are passed to PointNet++.
+
+\label{sec:fc-4-5-2}
+
+The learned methods were developed for object or local-patch inputs \cite{yu2018punet,qian2021pugcn,kim2023puedgeformer,zhang2025pdans}. Their integrated inference paths in this project do not directly consume a complete KITTI scene as one tensor. The scene is therefore decomposed into spatially local fixed-size patches. Development experiments showed that grouping points merely by their row order or by overly coarse bins can combine physically unrelated surfaces. The final integration therefore uses spatially local neighbourhood construction and audits unique support and coverage.
+
+For a patch $\mathcal Q_j=\{\mathbf q_i\}$, the local normalisation used by methods requiring unit-scale input is
+
+\begin{equation}
+\boldsymbol{\mu}_j=\frac1{|\mathcal{Q}_j|}\sum_{\mathbf{q}\in\mathcal{Q}_j}\mathbf{q},\qquad s_j=\max_{\mathbf{q}\in\mathcal{Q}_j}\|\mathbf{q}-\boldsymbol{\mu}_j\|_2.
+\label{eq:fc-4-2}
+\end{equation}
+
+\begin{equation}
+\hat{\mathbf{q}}=\frac{\mathbf{q}-\boldsymbol{\mu}_j}{s_j},\qquad\mathbf{q}_{\mathrm{back}}=s_j\hat{\mathbf{q}}_{\mathrm{out}}+\boldsymbol{\mu}_j.
+\label{eq:fc-4-3}
+\end{equation}
+
+Here $\boldsymbol\mu_j$ and $s_j$ are the centroid and maximum radius of patch $\mathcal Q_j$; $\hat{\mathbf q}$ is a normalised input, $\hat{\mathbf q}_{\mathrm{out}}$ a network prediction, and $\mathbf q_{\mathrm{back}}$ its restored metric coordinate. Each patch stores its own centre and scale so that the inverse transformation cannot accidentally use parameters from another patch. The reconstructed patch outputs are merged into a scene-level candidate pool before strict cardinality normalisation.
+
+The final PU-GCN full-validation patch pipeline provides the most fully audited instance of this process. It uses 2,048 input points per patch and produces 8,192 patch-output points. The final \texttt{fps\_ball\_cover\_knn\_v3} construction uses a primary radius of 2 m in Line A and 4 m in Line B, a cover radius of 6 m, and a unique-support threshold of 2,048 points. Local patches are centred and unit-sphere normalised before PU-GCN inference and transformed back afterwards. The released PU1K model-100 checkpoint is used; the PU-GCN upsampling network itself is not retrained on KITTI.
+
+Patch centres are selected from observations with sufficient local
+support. A seeded first centre is followed by XYZ farthest-point
+selection among eligible centres. Points around a primary centre are
+ordered by distance and original row index before the first 2,048
+are taken. Supplemental patches address still-uncovered eligible
+observations; the metadata retains their source indices. Coverage is
+guaranteed for the cover-eligible set, not for isolated observations
+with fewer than 32 neighbours inside 6~m.
+
+The final study retained a fixed PU1K \texttt{model-100} upsampler;
+``retraining'' refers to PointRCNN and CenterPoint adaptation. Primary patch centres required 2,048 supporting
+points within 2~m for Line~A or 4~m for Line~B. Supplemental coverage
+considered uncovered points with at least 32 neighbours inside 6~m,
+then used unique nearest neighbours to reach 2,048 rows. The 6~m cover
+radius is therefore not a hard bound on every supplemental patch.
+
+Figure~\ref{fig:patch-pipeline} locates patch normalisation and reconstruction.
+\thesisfigure{patch_pipeline}{Local patch processing}{The final lab PU-GCN
+patch and strict-output pipeline. Centres and scales
+are stored per patch; metric coordinates are restored before merging.}{fig:patch-pipeline}
+
+\subsection{EAR}
+\label{sec:fc-4-5-3}
+
+The project EAR-style geometric baseline, labelled EAR in the result tables, is fully executed on HPC in both final ModelNet40 lines. Edge-aware resampling provides its methodological background \cite{huang2013ear}; the archived project wrapper calls a migrated EAR-style implementation and does not establish an exact reproduction of the published algorithm. For KITTI, a strict fourfold full-scene wrapper was implemented and verified on five frames in Line A and five frames in Line B. The central processing unit (CPU) implementation contains global neighbourhood and principal component analysis (PCA) operations and Python-level loops; measured runtime was approximately 26-29 minutes per Line A frame and 9-10 minutes per Line B frame. Extrapolation to the full validation set made the strict scene-level run impractical, so EAR is not reported as a completed strict full-validation KITTI method.
+
+For the HPC object branch, the fixed wrapper uses 20 neighbours,
+edge sensitivity 4.0, upsampling threshold 0.93, zero positional-noise
+parameter and at most five iterations. It adds a zero-valued intensity
+channel only to satisfy the migrated implementation's interface and
+retains XYZ for ModelNet40 classification. These settings describe the
+project implementation; the EAR paper supplies the methodological
+background \cite{huang2013ear}.
+
+EAR therefore has no entry in the strict full-validation KITTI tables. Earlier detector measurements used a different protocol and are retained only in the archived work record.
+
+\subsection{PU-Net}
+\label{sec:fc-4-5-4}
+
+PU-Net uses hierarchical point features and learned feature expansion \cite{yu2018punet}. Its integration in this project required substantial compatibility work before stable inference. The original TensorFlow-era code was adapted for Python 3, and custom sampling, grouping, and interpolation operators were rebuilt for the available environment. The KITTI integration also required explicit verification of unit-sphere normalisation. A dedicated 2 \ensuremath{\times}  2 diagnostic experiment later confirmed that incorrect normalisation and non-local patch construction were both genuine causes of severe detector degradation. The final corrected pipeline therefore stores patch centres and scales, performs the inverse transformation explicitly, and audits the reconstructed coordinates.
+
+The HPC wrapper invokes the restored PU-Net generator in test mode
+with upsampling ratio four and the actual line-specific input count.
+The input count is 1,024 in Line~A and 256 in Line~B; the wrapper does
+not substitute a fixed-size baseline cloud for a method output.
+Checkpoint loading, candidate generation and strict-file writing are
+checked separately, because successful network inference alone does
+not establish that the evaluated output file was written correctly.
+
+On ModelNet40, final Line A and Line B outputs were completed for all 12,311 objects. The initial full-generation attempt encountered timeouts and one TensorFlow subprocess failure, after which a missing-only resume strategy completed and audited the full output set. On KITTI, the strict full-validation method is included in the four-method unified frozen-detector comparison under the earlier integration path, whose PU-Net normalisation error is explicitly flagged. Corrected subset experiments are reported separately.
+
+\subsection{PU-GCN}
+\label{sec:fc-4-5-5}
+
+PU-GCN \cite{qian2021pugcn} uses graph-based local features and NodeShuffle feature expansion. Its TensorFlow custom graph operations were rebuilt for the available environment. The ModelNet40 final outputs were completed for both lines; a stalled Line B generation segment was recovered through an explicit missing-sample resume process, after which 12,311/12,311 outputs were available.
+
+The HPC invocation specifies the PU-GCN model, NodeShuffle
+upsampler, ratio four, graph neighbourhood size 20 and inference
+seed 42. It sets the input point count from the chosen line. The lab
+patch protocol instead runs the fixed PU1K checkpoint on
+$2,048\rightarrow8,192$ point patches. This change in inference input
+size and the CUDA-operator recovery are distinct from optimising the
+network weights; neither is a PU-GCN retraining experiment.
+
+For KITTI, PU-GCN is evaluated in the unified strict frozen-detector comparison and is also the method used for the later observed-first and detector-adaptation study. Its final full-validation patch configuration is given in Section~\ref{sec:fc-4-5-2}. Candidate patch outputs are merged and then selected to the exact scene-level target using a fixed seed without replacement. If the merged candidate pool is smaller than the exact target, the sample fails rather than being completed with duplicated points.
+
+\subsection{PU-EdgeFormer}\label{sec:fc-4-5-6}
+The published PU-EdgeFormer model uses an edge transformer \cite{kim2023puedgeformer}. The two project branches have different execution provenance. On HPC, the final
+ModelNet40 record verifies native EdgeTransformer inference, its epoch-100
+checkpoint, complete outputs in both lines, and independent PointNet++
+training. On lab, the original environment failed
+and the completed KITTI compatibility path reused PU-GCN-compatible
+operators and checkpoint inference components.
+The lab results are therefore labelled as compatibility-pipeline evidence,
+not as an unmodified reproduction of the published PU-EdgeFormer model.
+
+The verified HPC path uses direct $1,024\rightarrow4,096$ inference
+for Line~A and $256\rightarrow1,024$ for Line~B, with inference seed
+20260702. Its audit checks the loaded model and checkpoint, complete
+output coverage, finite float32 coordinates and the required counts.
+A shortage raises an error rather than invoking interpolation or
+duplicate padding. This preserves the distinction between a native
+EdgeTransformer result on HPC and the lab compatibility experiment.
+
+\subsection{PDANS}
+\label{sec:fc-4-5-7}
+
+PDANS combines conditional diffusion and adaptive noise suppression \cite{zhang2025pdans}. The PyTorch implementation used here required compatibility changes in its point-operator utilities, including replacing hard-coded CUDA tensor creation with device-aware handling. After the environment and point operators were validated, final ModelNet40 Line A and Line B outputs were generated and trained with PointNet++.
+
+The HPC invocation uses the released PU1K PDANS checkpoint,
+upsampling ratio four, 30 denoising diffusion implicit model (DDIM) sampling steps and a sampler
+blending coefficient $\gamma=0.5$. In the released sampler, this
+coefficient scales the sum of the denoising update and an
+interpolated input \cite{zhang2025pdans}. Each object is processed independently
+and checked for finite output. The archived formal generation uses
+float32; the non-finite half-precision trial is an implementation
+failure record, not a separate result condition. Diffusion and noise
+suppression provide the method's basis \cite{zhang2025pdans}, while
+these numerical settings identify the executed inference path.
+
+For KITTI, PDANS is part of the four-method strict full-validation comparison. It also serves as the method in several detector-aware diagnostic experiments because its generated candidates were used to study patch locality, generated-point dose, voxel activation, and proposal-aware selection. These experiments are described collectively in Section~\ref{sec:fc-4-12} rather than being presented as separate upsampling methods.
+
+\section{Ratio Normalisation and Point-Count Verification}
+\label{sec:fc-4-6}
+
+The primary protocol uses fourfold upsampling. ModelNet40 Line~A
+maps 1,024 to 4,096 points, and Line~B maps 256 to 1,024 points.
+All five method datasets were audited for these exact shapes.
+For KITTI sample $s$, let $N_s$ be the original point count and
+$M_s=\lfloor N_s/4\rfloor$ the sparse count. The targets are
+\begin{equation}
+N^A_{\mathrm{target},s}=4N_s,\qquad
+N^B_{\mathrm{target},s}=4M_s.
+\label{eq:fc-3-3}
+\end{equation}
+The restored Line~B count can differ from $N_s$ by at most three points.
+Both native baselines retain their original counts.
+
+For visible input $\mathcal X_s$ with $n_s=|\mathcal X_s|$ rows and
+method-native candidate pool $\mathcal C_{s,m}$, the strict assembly is
+\begin{equation}
+\mathcal Y_{s,m}=S_4(\mathcal C_{s,m}),\qquad
+|\mathcal Y_{s,m}|=4n_s.
+\label{eq:fc-3-6}
+\end{equation}
+For the unified scene pipeline, $S_4$ selects the required number of
+candidate rows with a fixed seed and without replacement after patch
+merging. It does not consult ground truth, surface references or task
+predictions. A candidate shortage is a protocol failure; duplicate
+padding is not used to reach the target.
+
+Observed-first KITTI input is a separate condition:
+\begin{equation}
+\mathcal Y^{\mathrm{obs}}_{s,m}
+ =\mathcal X_s\uplus S(\mathcal Y_{s,m},3n_s),\qquad
+|\mathcal Y^{\mathrm{obs}}_{s,m}|=4n_s.
+\label{eq:fc-3-7}
+\end{equation}
+Here $\uplus$ concatenates rows and $S(\cdot,3n_s)$ selects $3n_s$
+predicted rows without replacement. This preserves every observed
+input row while matching the direct condition's total cardinality.
+A direct strict output does not guarantee such preservation.
+
+Every saved output is reloaded to verify its row count, dimensionality
+and finite coordinates. Frame-level coverage is checked before task
+evaluation, so a reported AP does not silently omit generation failures.
+
+Line~B sampled $M_s=\lfloor N_s/4\rfloor$ indices without replacement
+using seed $20260702+\mathrm{frame\_id}$ and sorted the indices to retain
+relative row order. Strict output sampling used the same seed base after
+merging patch predictions. Observed-first construction used a separately derived Secure Hash Algorithm 256-bit (SHA-256) seed with base 20260718 and drew $3N_s$ or $3M_s$
+prediction rows without replacement. No confidence, curvature, surface
+reference, or ground-truth box guided that selection. Distinct row indices
+do not guarantee distinct coordinates.
+
+\section{KITTI Format Conversion and Intensity Transfer}
+\label{sec:fc-4-7}
+
+The upsampling methods generate XYZ coordinates, whereas KITTI point-cloud files store four float32 values per point. Every generated XYZ point must therefore be assigned an intensity before the file can be read by the detector pipelines.
+
+The implemented rule transfers the intensity of the nearest observed
+point. For a generated coordinate $\mathbf g$, the assigned reflectance is
+
+\begin{equation}
+\iota(\mathbf{g})=\iota\!\left(\operatorname*{arg\,min}_{\mathbf{x}_i\in\mathcal{X}_{\mathrm{obs}}}\|\mathbf{g}-\mathbf{x}_i\|_2\right).
+\label{eq:fc-4-4}
+\end{equation}
+
+Here $\mathcal X_{\mathrm{obs}}$ is the visible measured set, $\mathbf g$ a generated coordinate, and $\iota$ reflectance. The rule is deterministic, local, and independent of labels or detector predictions. Original observed points retain their measured intensity values in conditions where they are explicitly preserved. The resulting XYZI arrays are stored as float32 and reloaded to verify that the file size is compatible with four channels, the shape is $Q\times4$, where $Q$ is the output row count, and all values are finite.
+
+\section{Detector Integration}
+\label{sec:fc-4-8}
+
+The converted scene is now passed to the detector input adapter.
+PointRCNN selects a point tensor, whereas the implemented CenterPoint
+pipeline forms bounded voxel features
+\cite{shi2019pointrcnn,yin2021centerpoint}. Their inference constraints
+are described separately because equal saved point counts need not
+produce equal changes in their effective inputs.
+
+Figure~\ref{fig:input-budget} compares the two detector input adapters.
+\thesisfigure{input_budget}{Effective detector input}{Alternative PointRCNN
+and CenterPoint input constraints after scene-level filtering. File cardinality does not equal model capacity.}{fig:input-budget}
+
+
+\subsection{PointRCNN Integration}
+\label{sec:fc-4-8-1}
+
+The main full-validation runs pass complete frames through the detector's
+filtering and fixed-budget sampling. The region-split procedure is a
+separate diagnostic control described in
+Section~\ref{sec:fc-4-12-3}; it does not replace full-frame inference in
+the final comparison.
+
+PointRCNN \cite{shi2019pointrcnn} is evaluated with a fixed pretrained checkpoint and fixed inference configuration in the primary KITTI comparison. The standard input preprocessing uses a point budget of 16,384 points per frame. When a strict upsampled frame contains more than this number of eligible points, the detector's sampling stage determines which points are actually processed by the network. Thus, the 4\ensuremath{\times}  file-level cardinality is intentionally reported separately from the effective PointRCNN input.
+
+The actual reader first applies camera-field-of-view and configured
+range filtering. For eligible clouds above the point budget, its
+usual sampling path retains the far-point pool, defined by depth of
+at least 40~m, and selects the remaining required rows from the near
+pool. For a sparse eligible cloud, repeated row selection fills the
+network tensor. Such loader repetition is not new spatial evidence
+and is separate from the prohibition on padding strict upsampling
+outputs. The recorded primary PointRCNN setup does not use intensity
+as a network feature, although it reads valid XYZI files.
+
+During the strict full-scene experiments, a sampler-safe fallback was added to the dataset loader for frames in which the far-range pool alone already reached or exceeded the required region proposal network (RPN) point count. In that case, 16,384 points are sampled without replacement from the valid frame rather than attempting to construct a negative number of near-range samples. This change fixed a runtime failure and was applied consistently to affected variants; it is not interpreted as an accuracy enhancement.
+
+The primary comparison keeps the checkpoint, score thresholds, non-maximum suppression settings, class mapping, and evaluation code fixed across point-cloud variants. A separate no-resample diagnostic was executed in an isolated PointRCNN copy to determine whether simply removing the 16,384-point sampling cap improves upsampled inputs. Because that experiment changes the detector's input distribution, it is treated only as a diagnostic control and is specified further in Section~\ref{sec:fc-4-12}.
+
+For the final PointRCNN comparison, the dataset reader reset the sampling
+seed for every frame to $(20260908+\mathrm{frame\_id})\bmod2^{32}$.
+The same input consequently produced the same sampled tensor under frozen
+and adapted weights. Actual tensor shapes and SHA-256 hashes were retained.
+
+\subsection{CenterPoint Integration}
+\label{sec:fc-4-8-2}
+
+CenterPoint \cite{yin2021centerpoint} is evaluated through OpenPCDet \cite{openpcdet2020} with fixed pretrained weights in the primary KITTI comparison. The implemented configuration uses voxel size (0.05, 0.05, 0.10) m. At test time, at most five points are represented per voxel and at most 40,000 voxels are retained for a frame. These limits make it necessary to distinguish raw point count from occupied-voxel count.
+
+The full strict point cloud is retained as an auditable intermediate file. CenterPoint then applies its standard point-range filtering and voxelisation. Diagnostic scripts record the number of occupied voxels and whether the 40,000-voxel limit is reached. This allows a performance loss to be interpreted in relation to the number of generated points that activate new spatial cells rather than only the total number of new coordinates.
+
+The same voxel size, point-cloud range, per-voxel limit, maximum voxel count, checkpoint, score threshold, and post-processing configuration are used for all comparable variants. Absolute AP values from PointRCNN and CenterPoint are not used to rank the detector architectures against each other; the relevant quantity is the change relative to each detector's own baseline.
+
+CenterPoint evaluation used no test-time shuffling and retained the
+configured range $[0,70.4]\times[-40,40]\times[-3,1]$~m after
+field-of-view filtering. The implemented chain is MeanVFE,
+VoxelResBackBone8x, HeightCompression, BaseBEVBackbone and CenterHead.
+Thus input order can affect retained points when a voxel exceeds its
+five-point limit. The historical ordering-only diagnostic and the
+later observed-first PU-GCN construction are recorded separately:
+the former changes the order of the same point multiset, whereas the
+latter constructs an observed-plus-predicted input.
+
+\section{Classifier Integration}
+\label{sec:fc-4-9}
+
+\label{sec:fc-4-9-1}
+
+The object branch uses the same idea of an explicit input interface,
+but its task is shape classification rather than scene detection.
+Each saved XYZ array is paired with its class through the fixed
+class map. The final loader reads files from the selected method
+directory; a corrected metadata link exposes only the class maps
+and cannot redirect a method branch to the sparse-baseline manifest.
+
+The final ModelNet40 classifier uses the PointNet++ single-scale grouping architecture \cite{qi2017pointnetpp}, implemented here as \texttt{pointnet2\_cls\_ssg}. Every final branch is trained independently from random initialisation for 200 epochs using Adam \cite{kingma2015adam}, an initial learning rate of 0.001, seed 42, and XYZ coordinates without normals. The class mapping and official ModelNet40 train/test identities are fixed across all runs.
+
+The final primary classification matrix contains 12 branches: the 1,024-point Line A original baseline, five 4,096-point Line A upsampled datasets, the 256-point Line B sparse baseline, and five 1,024-point Line B restored datasets. In addition, two mesh-reference controls - 256 points and 4,096 points sampled independently from the CAD meshes - were trained under the same recipe.
+
+The final data loader exposed each condition at its native point count. A later audit confirmed that the five 4,096-point Line A models genuinely received batches of 4,096 points and were independently trained rather than reusing the 1,024-point checkpoint.
+
+For each run, the training history records epoch-level accuracy and the resulting checkpoint. Both the best observed overall accuracy and the final-epoch overall accuracy are retained. Each result table identifies its checkpoint statistic. Because only one final seed (42) was trained for each main branch, the reported values are individual-run results without a cross-seed standard deviation. A separate determinism audit showed identical parameters for repeated runs under the same seed in selected conditions, but this does not substitute for a cross-seed statistical analysis.
+
+\label{sec:classifier-setup}
+The HPC classifier was PointNet++ SSG with XYZ-only input, batch size 24,
+four loader workers, Adam, learning rate 0.001, weight decay 0.0001,
+StepLR period 20 and factor 0.7, 200 epochs, and seed 42. Its first abstraction layer used 512 centroids,
+radius 0.2 and 32 neighbours; the second used 128 centroids, radius 0.4
+and 64 neighbours; the last grouped globally. Each branch retained its
+native point count with loader resampling disabled. Best OA selected the
+checkpoint on the test set, with ties retaining the latest epoch. Final OA
+uses epoch 200; neither statistic is a multi-seed estimate.
+
+The loader centres and unit-sphere normalises each object when
+reading it, with point-count resampling disabled. Training uses
+random point dropout, scaling and translation, shuffles samples and
+drops an incomplete final training batch. Evaluation retains all
+test objects. The abstraction-layer feature widths are
+$[64,64,128]$ followed by $[128,128,256]$; the classification head
+maps $1024\rightarrow512\rightarrow256\rightarrow40$, with dropout
+probability 0.4 in both hidden stages and negative log-likelihood
+loss. These are the recorded SSG implementation settings, whose
+hierarchical grouping follows PointNet++ \cite{qi2017pointnetpp}.
+
+The wider HPC inventory contains 22 completed classifier jobs: the
+12 canonical branches, two mesh-reference controls and eight earlier
+jobs. Three earlier/final pairs have identical values in all 79 saved
+weight tensors at seed 42. They demonstrate repeatability for those
+stored inputs, not eight extra independent confirmations of the final
+comparison. The earlier point-count protocols and their results are
+summarised with the controls in Section~\ref{sec:controls}.
+
+\section{Geometric and Task Evaluation Protocol}
+\label{sec:fc-4-10}
+
+Evaluation follows the distinction established in
+Section~\ref{sec:research-hypotheses}: geometric proximity, classification
+accuracy and detection AP measure different properties. Geometry uses
+the stored point sets and the declared reference; task evaluation uses
+the predictions of the specified input--model condition. The following
+protocols state point counts, evaluation units and aggregation rules so
+that a numerical change can be traced to the comparison that produced it.
+
+\subsection{ModelNet40 geometric evaluation}
+\label{sec:fc-4-10-1}
+
+The final geometric analysis corrects the reference-cardinality bias identified during development. CD and HD are computed on the 2,468-object test split under equal-cardinality comparisons. For Line A, each 4,096-point upsampled output is compared with an independently sampled 4,096-point mesh reference. For Line B, the final 1,024-point restored output is compared with the original 1,024-point representation; the 256-point sparse baseline can be compared with the independent 256-point mesh reference as a matching-cardinality control.
+
+Table~\ref{tab:geometry-counts} states the actual point-count controls.
+The HPC evaluator resolves output and reference by the same split, class
+and shape identifier, checks both array shapes against $(n,3)$, and
+rejects a mismatched point count before computing distances. It uses the
+stored arrays without evaluation-time resampling or alignment. The
+archived test audit contains 14 conditions with 2,468 objects each,
+34,552 rows in total, and zero failed rows.
+The sparse-control comparison uses a different reference and is not
+pooled with the restored-output ranking.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{L{0.35\linewidth}rL{0.30\linewidth}r}\toprule
+Evaluated condition & Points & Reference & Points\\\midrule
+Line A method output & 4,096 & Mesh-ref 4,096 & 4,096\\
+Line B method output & 1,024 & Original 1,024 & 1,024\\
+Line B sparse control & 256 & Mesh-ref 256 & 256\\\bottomrule
+\end{tabular}
+\caption{Equal-cardinality CD/HD comparisons on 2,468 test objects per condition.}\label{tab:geometry-counts}\end{table}
+
+Equal cardinality does not remove every source of geometric discrepancy.
+Original 1024 and the mesh-reference clouds were independently sampled,
+centred and scaled using their own sample centroids and maximum radii.
+Although each comparison uses the same saved reference for all methods,
+the mesh-reference comparisons can include sampling-dependent translation
+and scale differences. Their values describe the stored normalised point
+sets; they are not absolute surface errors under a shared mesh-derived
+transform. No common-transform reevaluation was performed in this thesis.
+
+The final CD implementation uses the non-squared Euclidean nearest-neighbour distance defined in Equation~\eqref{eq:fc-2-10}. HD follows Equation~\eqref{eq:fc-2-11}. NUC is computed with the implementation used by the project and reported as a distribution/uniformity diagnostic. Point-to-surface distance is retained as a secondary geometric analysis using the CAD surface, but it is not substituted for the equal-N primary comparison.
+
+A repeat-x4 cardinality-bias probe was also executed. Repeating each original point four times can yield a deceptively favourable unequal-cardinality nearest-neighbour comparison despite adding no new spatial support. This probe is the reason unequal-cardinality CD/HD are not used for the final geometric ranking.
+
+PU-Net introduced normalised uniformity coefficient (NUC) evaluation \cite{yu2018punet}. The project uses a neighbourhood-count variant, whose values are not claimed to reproduce the original NUC protocol. The HPC code used 128 query centres and radii 0.02, 0.05, and
+0.10, averaging the coefficient of variation of neighbourhood counts.
+Query centres were not perfectly shared by object across methods; the
+seed also includes the method name and Python's built-in hash. For a
+zero mean neighbour count, the implementation returns zero rather than
+an undefined coefficient. NUC is therefore a project-specific diagnostic,
+not an unconditional measure of surface quality. P2F
+independently normalised cloud and mesh and is therefore a secondary
+normalisation-conditioned audit. Four reused mesh-reference training
+shapes limit the classifier controls but do not affect test geometry.
+
+The secondary uniformity tables report mean absolute deviation from the
+reference, not a signed difference of aggregate uniformity scores:
+\begin{equation}
+ D_{\mathrm{NUC}}=\frac{1}{S}\sum_{i=1}^{S}
+ |\mathrm{NUC}(Y_i)-\mathrm{NUC}(R_i)|.
+ \label{eq:nuc-deviation}
+\end{equation}
+Here $S$ is the number of evaluated objects, $Y_i$ the method output and
+$R_i$ its designated reference. The absolute value is taken per object
+before averaging. The independently chosen query centres remain a
+limitation of this secondary comparison.
+
+\subsection{ModelNet40 classification evaluation}
+\label{sec:fc-4-10-2}
+
+All 2,468 test objects are evaluated, but the saved metrics are averages of
+batch-level ratios rather than the population formula in
+Equation~\eqref{eq:fc-2-12}. The archived evaluator accumulates
+\begin{equation}
+ \mathrm{OA}_{\mathrm{rep}}=\frac{1}{B}\sum_{b=1}^{B}\frac{C_b}{n_b},
+ \qquad a_c=\frac{1}{|\mathcal B_c|}\sum_{b\in\mathcal B_c}
+ \frac{C_{bc}}{n_{bc}},\qquad
+ \mathrm{mAcc}_{\mathrm{rep}}=\frac{1}{K}\sum_{c=1}^{K}a_c.
+ \label{eq:reported-classification}
+\end{equation}
+Here $B$ is the number of test batches, $n_b$ and $C_b$ are their object
+and correct-prediction counts, $\mathcal B_c$ contains batches with class
+$c$, and $n_{bc}$ and $C_{bc}$ are the corresponding class-specific
+counts. All $K=40$ classes are present. With batch size 24 and no dropped
+test samples there are 102 full batches and a final batch of 20 objects.
+Each batch has equal weight in reported OA, including the smaller last
+batch; the class scores also average the ratios of batches containing
+that class. Multiplication by 100 gives the percentages in Chapter~5.
+The table labels OA and mAcc retain these recorded implementation
+statistics throughout; they have not been converted into object-count
+accuracies. The main Line A comparison is each 4,096-point upsampled condition against the 1,024-point original baseline. The main Line B comparison is each 1,024-point restored condition against the 256-point sparse baseline, with the 1,024-point original baseline retained as a reference level.
+
+The project stores per-class accuracy summaries, but complete per-object predictions were not preserved for every final run. A McNemar comparison of correlated correctness proportions \cite{mcnemar1947correlated} would require paired object-level outcomes; aggregate class scores are insufficient. That test was not performed. Complete probability outputs were also unavailable, so calibration and probability-level analyses were not performed.
+
+\subsection{KITTI detection evaluation}
+\label{sec:fc-4-10-3}
+
+The formal KITTI evaluation uses the fixed 3,769-frame validation split. PointRCNN is evaluated primarily for Car, consistent with the available reference setup. CenterPoint is evaluated for Car, Pedestrian, and Cyclist. Easy, Moderate, and Hard difficulty levels are reported under the
+class-specific KITTI rules detailed below \cite{kittieval2026}.
+BBox, BEV, and 3D AP are kept as separate quantities.
+
+The final PU-GCN matrix and the earlier CenterPoint multi-method matrix
+use AP$_{R40}$. The archived PointRCNN E2/E3 runner independently confirms
+C++ R40 evaluation: it averages the last 40 entries of each 41-entry
+precision row. These earlier full-validation experiments are reported
+under their own input protocols. In contrast, the 64-frame adaptation
+screen explicitly used the repository's legacy Python evaluator. Its AP
+values are retained under that label and are not pooled with R40 results.
+
+For the central claims, 3D AP$_{R40}$ at Moderate difficulty is emphasised, while Easy/Hard and BEV/BBox results are retained to provide context. Every formal method entry must have complete 3,769/3,769 prediction coverage before it enters the main full-validation table.
+
+KITTI uses class-specific overlap and difficulty rules \cite{kittieval2026}.
+Car requires 3D IoU 0.70; Pedestrian and Cyclist require 0.50. Easy,
+Moderate, and Hard require image-box heights of at least 40, 25, and
+25 pixels, maximum truncations of 0.15, 0.30, and 0.50, and maximum
+occlusion levels of 0, 1, and 2, respectively. Let TP, FP, and FN be
+true positives, false positives, and false negatives under the evaluator's
+matching and ignore rules. Using the precision, recall, and interpolated-envelope definitions described for detection evaluation \cite{everingham2010voc}, precision is $P=\mathrm{TP}/(\mathrm{TP}+\mathrm{FP})$
+and recall is $R=\mathrm{TP}/(\mathrm{TP}+\mathrm{FN})$. The interpolated
+precision envelope is $P_{\mathrm{int}}(r)=\max_{\tilde r\ge r}P(\tilde r)$.
+The final implementation uses the 40 positive recall-grid entries proposed for KITTI AP$_{R40}$ \cite{simonelli2019disentangling}, giving
+\begin{equation}
+\operatorname{AP}_{R40}=\frac1{40}\sum_{j=1}^{40}P_{\mathrm{int}}(j/40).
+\label{eq:ap40}
+\end{equation}
+Here $j$ indexes recall-grid positions and $\tilde r$ an achieved recall.
+Percent AP multiplies this fraction by 100. Historical AP$_{R11}$ values
+use another sampling rule and are not interchanged with AP$_{R40}$.
+
+\subsection{Geometry-task relationship}
+\label{sec:fc-4-10-4}
+
+The ModelNet40 branch provides the cleanest direct comparison because both geometry and classification are available for the same object-level outputs. Method rankings under equal-N CD/HD/NUC are compared with their OA changes. The archived category-level analysis uses Spearman rank correlation \cite{spearman1904association}. The reported geometry intervals use bootstrap resampling \cite{efron1979bootstrap}: objects are the resampling units for aggregate geometric errors, and categories for geometry--score associations. These analyses are descriptive. They do not identify a causal effect of a geometric metric on classification.
+
+For KITTI, complete dense ground-truth surfaces are not available. Geometry-task interpretation therefore uses measurable scan- and detector-side diagnostics, such as duplicate behaviour, occupied voxels, generated-only voxel activation, and the relationship between point-budget changes and AP. Distances to deleted Line B observations can be interpreted as recovery of previously observed sensor locations, but they are not labelled as distance to the true complete scene surface.
+
+The paired category summaries use the same category identities when
+relating geometric changes to classification scores. Their observations
+are category-level aggregates; they do not supply the missing
+object-level classification predictions. Bootstrap intervals for
+geometry and rank associations consequently quantify variation in those
+saved summaries, not variation across independently trained classifiers.
+The training curves are examined separately as within-run histories.
+
+\section{Detector Retraining with PU-GCN Inputs}
+\label{sec:fc-4-11}
+
+The frozen-detector experiments measured substantial degradation on upsampled inputs, motivating an input-distribution mismatch hypothesis. A full-train adaptation experiment was therefore executed for PU-GCN to test whether detector retraining can recover part of the lost performance.
+
+This KITTI study changes the detector weights while keeping the PU-GCN
+PU1K \texttt{model-100} checkpoint fixed. Upsampling is performed offline;
+the detection loss does not update the upsampling network. Retraining
+here means continuing detector optimisation from an existing checkpoint,
+rather than training PU-GCN or a ModelNet40 classifier.
+
+PointRCNN has separately adapted checkpoints for the direct strict
+PU-GCN inputs and the observed-first inputs. For CenterPoint, the
+PU-GCN-adapted checkpoints are trained on observed-first inputs; direct
+strict inputs are evaluated with official weights only. Both detectors
+also have a separately adapted sparse baseline for Line B. No adapted
+original-input baseline was trained for Line A.
+
+The training split contains 3,712 KITTI frames, and each final evaluation
+arm covers all 3,769 validation frames. The complete matrix contains
+11 PointRCNN arms and 9 CenterPoint arms, including the corresponding
+official-weight comparisons.
+
+
+Table~\ref{tab:adaptation-arms-setup} identifies the available
+input--weight combinations. Here F denotes the official frozen
+checkpoint and A a separately adapted detector checkpoint. An F/A
+entry therefore represents two evaluation arms, not one model
+evaluated twice with untracked settings.
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{L{0.22\linewidth}L{0.07\linewidth}L{0.18\linewidth}L{0.15\linewidth}L{0.19\linewidth}}\toprule
+Detector & Line & Baseline & Direct & Observed-first\\\midrule
+PointRCNN & A & Original: F & F/A & F/A\\
+PointRCNN & B & Sparse: F/A & F/A & F/A\\
+CenterPoint & A & Original: F & F & F/A\\
+CenterPoint & B & Sparse: F/A & F & F/A\\\bottomrule
+\end{tabular}
+\caption{Initial three-epoch detector-adaptation matrix. F: frozen detector
+weights; A: adapted detector weights.}
+\label{tab:adaptation-arms-setup}\end{table}
+
+Figure~\ref{fig:adaptation-design} identifies the detector weights updated during adaptation.
+\thesisfigure{adaptation_design}{Three-epoch detector adaptation}
+{Initial three-epoch detector adaptation with a fixed PU-GCN upsampler.
+The 3,712 training frames denote the source split; each evaluation
+uses all 3,769 validation frames. PointRCNN adapts both input variants;
+CenterPoint adapts observed-first PU-GCN inputs only. The later extended
+schedules are described separately in the text.}{fig:adaptation-design}
+
+The training and evaluation manifest for the initial matrix is archived with its results. In that matrix, each adapted PointRCNN arm is trained with a three-epoch RPN stage followed by a three-epoch offline region-based convolutional neural network (RCNN) stage. Batch size is 1, workers are set to 0, Adam one-cycle optimisation is used with learning rate 0.0002, and seed 20260823 is fixed. Ground-truth database augmentation is disabled. Only the epoch-3 checkpoint is retained for each adapted arm of that initial matrix.
+
+After the PointRCNN RPN stage, the epoch-3 RPN exports proposals
+and features for the training split. Its adapted RPN weights are
+combined with the official RCNN weights to initialise the offline
+RCNN stage. This handoff explains why the record contains separate
+three-epoch RPN and RCNN stages rather than one undifferentiated
+three-epoch PointRCNN run.
+
+For CenterPoint in the initial matrix, adaptation starts from the official 80-epoch checkpoint; the two PU-GCN training conditions use observed-first inputs. Training uses all 3,712 training frames for three epochs with batch size 2, workers 0, Adam one-cycle, learning rate 0.0003, weight decay 0.01, and seed 666. Ground-truth sampling is disabled, while the configured world flip, rotation and scaling augmentations are retained. The adapted models are evaluated with the same AP$_{R40}$ procedure as the frozen models.
+
+The initial three-epoch loss decrease demonstrated completed optimisation, but that matrix did not include epoch-by-epoch validation. It is retained as the fixed-duration comparison. The subsequent observed-first experiments added the longer schedules and plateau assessment described below.
+
+\input{texfiles/04_kitti_extended_adaptation}
+
+\FloatBarrier
+
+\section{Executed Diagnostic and Mechanism Experiments}
+\label{sec:fc-4-12}
+
+The diagnostics are grouped by the interface they test: patch
+construction, detector input admission, and classifier point
+reception. Each retains its own inputs, baseline and sample count.
+This organisation links the controls to the implementation described
+above while reserving measured performance and its interpretation for
+Chapter~\ref{chap:results}.
+
+\subsection{Patch Construction and Normalisation}
+\label{sec:fc-4-12-1}
+
+Early full-scene patch extraction could group points that were adjacent in memory but not local on a physical surface. A locality audit measured the spatial extent of patches, and a revised local construction based on spatial FPS/ball/kNN neighbourhoods was executed. One early local version revealed a large duplicate-row fraction, which motivated a further unique-support and coverage constraint. Final local-patch comparisons were executed for PDANS, PU-GCN, PU-EdgeFormer, and corrected PU-Net on a controlled subset before the corresponding improved integrations were used in later evaluation.
+
+The early local-patch control used a unique-neighbour floor of
+256 and repeated rows to reach the 2,048-point network input.
+Its geometric audit covered 20 frames, with a separate source-row
+inspection of frame 000001 and detector evaluation on 256 frames.
+Recording patch extent, source coverage and distinct source rows
+made it possible to distinguish spatial locality from duplicate
+padding. This historical construction must not be confused with
+the later PU-GCN pipeline requiring 2,048 unique neighbours in
+Section~\ref{sec:fc-4-5-2}.
+
+\label{sec:fc-4-12-2}
+
+A 256-frame 2 \ensuremath{\times}  2 diagnostic crossed old versus corrected unit-sphere normalisation with old versus local patch construction for PU-Net. The purpose was to isolate whether extreme detector failure was caused by the upsampling network itself or by integration errors. The performance values belong to Chapter~\ref{chap:results}; Chapter~\ref{chap:setup} records only that all four combinations were executed under the same subset and detector evaluation.
+
+The four PU-Net conditions combine the erroneous normalisation
+with old patches, corrected unit-sphere normalisation and inverse
+transformation with old patches, erroneous normalisation with local
+repeated patches, and corrected normalisation with those local
+patches. This crossed design compares each change while holding the
+other factor fixed. Both detectors use the same 256-frame subset
+and their corresponding unchanged baseline within the ablation.
+The local repeated-patch condition is retained as such; it is not
+renamed as the final unique-support implementation.
+
+\subsection{Detector Input Budgets and Generated-Point Dose}
+\label{sec:fc-4-12-3}
+
+Two complementary controls were executed. First, an observed-first / enlarged-input experiment tested whether explicitly prioritising measured points reduces budget competition. Second, a separate ``direct no-resample'' PointRCNN copy removed the standard fixed-sample stage and supplied all valid points. Because the latter changes the detector input distribution even for the original baseline, it is treated strictly as a mechanism experiment rather than an alternative main protocol.
+
+A region-split experiment was also executed to construct smaller spatial regions whose point counts remain under the PointRCNN cap. Shared core regions with a 3 m halo were used so that method and baseline comparisons refer to the same spatial support. These experiments were used to investigate whether the fixed full-frame sampling budget is sufficient to explain the degradation.
+
+\label{sec:fc-4-12-4}
+
+For a controlled set of frames, scripts measured occupied voxels, the number of newly activated voxels, and the frequency with which the 40,000-voxel cap was reached. Further detector-aware PDANS variants restricted generation to measured or selected voxel/proposal regions. These V2-V5 experiments were development diagnostics and were evaluated on explicitly limited subsets. They are not reported as new general-purpose upsampling methods.
+
+The explicit occupancy audit uses 32 frames and records voxel
+counts before the test cap, cap-hit frequency and generated-only
+activation. Its units are detector-input cells under the configured
+voxel grid. They are not an additional voxel-based surface-accuracy
+metric. An ordering-only full-validation control separately retains
+the same point multiset while putting observations first; its
+same-multiset check covers eight method/line combinations. This
+control tests ordering under bounded voxel retention, while the
+later PU-GCN observed-first condition changes the composition of
+the input by copying measured rows and selecting predicted rows.
+
+\label{sec:fc-4-12-5}
+
+The dose study varies the fraction of generated points admitted
+to the PointRCNN input while holding its total budget fixed.
+The 256-frame fine-dose series includes 2.5\%, 5\%, 7.5\% and
+10\% conditions across four methods and both lines, giving 32
+completed combinations. A separate coarse-dose series includes
+10\%, 15\%, 25\%, 35\%, 40\% and 50\%, giving 48 completed
+combinations on that subset. A matched real-point filling control
+was also evaluated for the low-dose comparison. It separates
+the effect of changing input composition from the effect of using
+method-generated coordinates.
+
+The 10\% dose was evaluated on all 3,769 validation frames.
+The corresponding full-validation 25\% and 50\% runs were not
+completed. Thus the higher-dose subset results are executed
+evidence, while full-split confirmation at those doses is absent.
+The subset baselines, historical PU-Net defect and compatibility
+implementation labels are retained in the associated result tables.
+
+\label{sec:fc-4-12-6}
+
+A 16-seed PointRCNN probe was executed with fixed input, checkpoint, split, and merge rules while varying only the evaluator/input sampling seed. Its purpose is to estimate how much small AP differences can arise from sampling stochasticity in the split-region pathway. This probe is especially important when interpreting apparent gains near one AP point on small or sampling-sensitive subsets.
+
+The paired baseline and candidate are evaluated under the same
+seed within each repetition. The resulting spread describes the
+sampling-sensitive split-region pathway, including repeated filling
+of sparse regions. It is not a variance estimate for the final
+per-frame deterministic 16,384-point comparison. The 16 evaluation
+seeds also do not constitute 16 independently retrained detectors.
+
+\subsection{ModelNet40 Controls and Input Reception}
+\label{sec:fc-4-12-7}
+
+Several object-level controls were executed in addition to the main 12 branches. Independent 256- and 4,096-point mesh-reference PointNet++ models were trained. A PointNet++ first-set-abstraction reception probe measured how the network handles different input point counts. A deterministic repeat-run audit compared trained tensors under the same seed, and the repeat-x4 geometry control demonstrated why unequal-cardinality CD/HD should not be used for the final ranking.
+
+The first-abstraction probe uses all 2,468 test objects to
+count available neighbours within radius 0.2 against the 32-slot
+grouping limit. It distinguishes occupied neighbourhood slots,
+repeated filling and points excluded by that limit for the
+256-, 1,024- and 4,096-point controls. The 256-point input still
+passes through a layer requesting 512 FPS centres, so repeated
+centres are an architectural boundary shared by both 256-point
+controls. These measurements describe point reception rather than
+proving why a classifier prediction changes.
+
+Training stability is examined through the saved 200-epoch
+histories of the 14 final and control branches and the selected
+same-seed checkpoint comparisons. Epoch-to-epoch variation and
+bit-identical repeated checkpoints answer different questions:
+the former describes one optimisation trajectory, and the latter
+checks repeatability for fixed stored data. Neither supplies
+cross-seed uncertainty for the main classification comparison.
+
+\section{Reproducibility and Validity Checks}
+\label{sec:fc-4-13}
+\label{sec:fc-4-14}
+
+The pipeline uses explicit checks at the data, generation, strict-output, downstream-input, and evaluation stages. A formal result is accepted only when the corresponding input list, checkpoint/configuration, outputs, and evaluation coverage can be identified.
+
+For ModelNet40, preprocessing checks verify 12,311 expected objects, per-object shape, finite coordinates, class mapping, and split identity. Final upsampled data are checked for exact 4,096-point Line A or 1,024-point Line B shape. PointNet++ training logs are audited for the configured point count, actual batch tensor shape, 200 completed epochs, and independent checkpoints.
+
+For KITTI, checks verify frame identity, XYZI shape, finite values, exact target cardinality, and full 3,769-frame validation coverage. Patch-based methods additionally record the transform and output integrity of local inference. PointRCNN and CenterPoint predictions are generated for every intended frame before AP is accepted into the formal matrix.
+
+The project distinguishes smoke, pilot/diagnostic, and formal full-split evidence. A smoke run proves only that a real checkpoint can execute end to end on a small number of samples. A pilot or diagnostic run intentionally limits the sample set to isolate an implementation or mechanism. A formal result requires the fixed evaluation split and complete output coverage. This terminology prevents an attractive small-subset number from being mistaken for the final benchmark result.
+
+A final protocol audit also separates historical and current evaluators. Earlier PointRCNN tables using a different precision-sampling convention are retained for provenance but are not combined numerically with the final AP$_{R40}$ matrix. Likewise, early ModelNet40 $512\rightarrow2,048$ experiments remain genuine historical experiments but are not used as the final Line B protocol, which is $256\rightarrow1,024$.
+
+\label{sec:visual-provenance}
+The source package separates ModelNet40 HPC data from KITTI lab data.
+The retained HPC arrays include both lines for eight selected shapes,
+together with category scores, full training curves, per-object geometry,
+paired summaries, and reference-sensitivity audits. KITTI files include
+the final evaluation matrix and the earlier lab point-cloud and
+object-transition package. The local visualisation copies preserve
+their lab paths and case manifests; local rendering is not a separate
+source experiment.
+
+For the historical matched-object audit, same-class oriented 3D IoU
+was used with thresholds 0.70 for Car and 0.50 for Pedestrian and Cyclist.
+Greedy matching produced maintained, confidence-degraded,
+localisation-degraded, lost, recovered, and missed-both events.
+These diagnostic events do not reproduce the complete official
+difficulty, DontCare, and score-integration procedure. They are kept
+separate from the final AP$_{R40}$ evaluation. The three visual frames
+were selected in the original audit for high event counts, recovery
+examples, and multiple classes; they are not a random validation sample.
+
+The ModelNet40 plates use common views and all rows in the stored arrays.
+KITTI overview and object figures retain all points inside explicitly
+defined spatial windows. PointRCNN examples use the archived effective
+16,384-point inputs. CenterPoint examples reproduce the documented
+field-of-view, range, voxel-cap, and per-voxel retention rules and are
+checked against the case-manifest counts. Only saved qualifying
+predictions are drawn; no new detection inference is performed.
+Sources, transformations, output dimensions, and checks are recorded
+with the figures.
+
+All figure PDFs use the thesis text width and a physical text size
+equal to the 12-point body. Editable vector graphics, raster previews, plotting scripts,
+and source data are included. File manifests retain SHA-256 hashes.
+The main comparisons and nonredundant class and difficulty results are
+reported in Chapter~\ref{chap:results}. The archived exports retain the
+complete class scores, secondary summaries and precision beyond the
+rounded manuscript values.
+
+The completed protocols distinguish generated geometry, input
+assembly and downstream model adaptation. ModelNet40 supplies the
+controlled object comparison; KITTI adds scene integration and the
+targeted detector diagnostics. Their settings and evidence boundaries
+now define the comparisons used in Chapter~\ref{chap:results}, where
+the measurements and their interpretation are presented together.

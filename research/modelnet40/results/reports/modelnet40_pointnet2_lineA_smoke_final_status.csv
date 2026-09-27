@@ -1,0 +1,6 @@
+branch,method,final_job_id,expected_point_count,actual_point_count,final_state,exit_code,status,note
+lineA_original_baseline_1024,baseline,1733475,1024,1024,COMPLETED,0:0,PASS,round 1 smoke PASS (unchanged)
+lineA_ear_4096,EAR,1733487,4096,4096,COMPLETED,0:0,PASS,retry after metadata v2 fix
+lineA_pdans_4096,PDANS,1733488,4096,4096,COMPLETED,0:0,PASS,retry after metadata v2 fix
+lineA_punet_4096,PU-Net,1733489,4096,4096,COMPLETED,0:0,PASS,retry after metadata v2 fix
+lineA_pugcn_4096,PU-GCN,1733490,4096,4096,COMPLETED,0:0,PASS,retry after metadata v2 fix

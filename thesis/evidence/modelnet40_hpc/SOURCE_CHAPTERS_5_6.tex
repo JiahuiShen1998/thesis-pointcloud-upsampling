@@ -1,0 +1,704 @@
+\chapter{Results and Evaluation}
+\label{chap:results}
+
+This chapter evaluates the ModelNet40 part of the thesis at four evidence levels: aggregate classification, category-resolved classification, object-resolved geometry, and a direct probe of the first PointNet++ set-abstraction layer. The separation is deliberate. A higher point count, a smaller geometric distance, a visually plausible point set, and a higher downstream accuracy are related questions, but they are not equivalent measurements. Sections~5.3 and~5.4 remain reserved for the KITTI detector experiments and are not inferred from the object-classification results.
+
+\section{Overview of Experiments}
+\label{sec:results-overview}
+
+\subsection{Comparison Lines and Research Questions}
+
+ModelNet40 contains 12,311 CAD models in 40 categories, divided into 9,843 training and 2,468 test objects~\cite{r9}. The retained experiment evaluates EAR~\cite{r3}, PU-Net~\cite{r4}, PU-GCN~\cite{r5}, PU-EdgeFormer~\cite{r6}, and PDANS~\cite{r7}. Each upsampler uses its released pretrained parameters and is not fine-tuned on ModelNet40.
+
+Line~A tests \emph{densification}: Original~1024 is increased to 4,096 generated points. Line~B tests \emph{recovery}: Original~1024 is reduced to 256 points and then reconstructed to 1,024 points. The immediate Line~B baseline is therefore the sparse 256-point branch, while Original~1024 records the pre-degradation result. Independently sampled Mesh-ref~256 and Mesh-ref~4096 clouds serve as genuine-surface controls.
+
+The executed Line~B point counts are important because an earlier planning document used a 512-to-2,048 branch. That branch was subsequently classified as a legacy, wrong-protocol variant. All tables, curves, geometry calculations, and point-cloud plates below are read from the final 256-to-1,024 directories and from training logs that report \texttt{num\_point=256} or \texttt{num\_point=1024} with resampling disabled.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\linewidth}{llXXrr}
+\toprule
+Line & Role & Source & Evaluated representation & Train & Test \\
+\midrule
+A & Baseline & Original surface sample & 1,024 points & 9,843 & 2,468 \\
+A & Upsampled & Original $\rightarrow$ method & 4,096 points ($\times4$) & 9,843 & 2,468 \\
+A & Geometry reference & Independent mesh sample & 4,096 points & -- & 2,468 \\
+B & Sparse baseline & Original decimated $\times4$ & 256 points & 9,843 & 2,468 \\
+B & Reconstructed & Sparse $\rightarrow$ method & 1,024 points ($\times4$) & 9,843 & 2,468 \\
+B & Geometry reference & Original surface sample & 1,024 points & -- & 2,468 \\
+\bottomrule
+\end{tabularx}
+\caption{Executed ModelNet40 comparison branches. Point counts and split sizes are taken from final loader logs and array audits, not from superseded planning files.}
+\label{tab:executed-branches}
+\end{table}
+
+\subsection{Classification Protocol}
+
+Every data branch is classified by a separate PointNet++ SSG model~\cite{r10} trained from random initialisation at the branch's native point count. The common settings are XYZ-only input, 200 epochs, Adam with learning rate 0.001 and weight decay 0.0001, batch size 24, and seed~42. No classifier checkpoint is transferred between branches. The results therefore quantify the \emph{learnability of each representation under matched training}, rather than the effect of inserting an upsampler before one frozen classifier.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\linewidth}{lllX}
+\toprule
+Component & Parameter & Value & Evidence source \\
+\midrule
+Input & channels / categories & XYZ only / 40 & Run namespace and first batch \\
+Optimisation & optimiser / epochs & Adam / 200 & Training script and all logs \\
+Optimisation & initial LR / scheduler & 0.001 / StepLR(20, 0.7) & Training script \\
+Regularisation & weight decay / dropout & 0.0001 / 0.4, 0.4 & Script and saved model \\
+Loading & batch / workers & 24 / 4 & Run namespace \\
+Sampling & native count / resample & branch count / false & Loader audit \\
+Reproducibility & seed & 42 & Run namespace \\
+Selection & checkpoint rule & test OA, ties keep latest & Lines 322--328 of script \\
+\bottomrule
+\end{tabularx}
+\caption{Common PointNet++ training and selection parameters used by all canonical branches.}
+\label{tab:classifier-parameters}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{llll}
+\toprule
+Stage & Sampling / grouping & Shared MLP & Output \\
+\midrule
+SA1 & 512 centroids, $r=0.2$, $K=32$ & 64, 64, 128 & 128 channels \\
+SA2 & 128 centroids, $r=0.4$, $K=64$ & 128, 128, 256 & 256 channels \\
+SA3 & global grouping & 256, 512, 1,024 & 1,024 channels \\
+Head & FC + BN + dropout & 512, 256, 40 & log-softmax \\
+\bottomrule
+\end{tabular}
+\caption{Executed PointNet++ SSG classifier architecture copied from the model file saved with every run.}
+\label{tab:pointnet-architecture}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\linewidth}{l>{\raggedright\arraybackslash}p{0.31\linewidth}lX}
+\toprule
+Method & Inference implementation / parameters & Output rule & Weight provenance \\
+\midrule
+EAR & \texttt{ear\_upsample\_kitti}, factor 4.0 & exact $4N$; post-hook inactive & none (algorithm only) \\
+PU-Net & native generator, \texttt{up\_ratio=4} & exact $4N$ & generator epoch 120 \\
+PU-GCN & native PU-GCN inference, ratio 4 & strict $4N$ & released PU1K PU-GCN \\
+PDANS & \texttt{sampling\_ddim}, factor 4 & raw count equals target & PU1K PDANS \\
+PU-EdgeFormer & \texttt{EdgeTransformer}, factor 4 & exact $4N$ & model epoch 100 \\
+\bottomrule
+\end{tabularx}
+\caption{Upsampler execution and weight parameters supported by method call-path, checkpoint, point-count, and copy/repeat audits. None of the five final branches is a generic repeat-only baseline.}
+\label{tab:upsampler-parameters}
+\end{table}
+
+The primary reported statistic is Best Overall Accuracy (Best OA), the largest test OA observed during the 200 epochs. Final OA is the result at epoch~200. The reported mean class accuracy is the mAcc at the checkpoint selected by Best OA; it is not the maximum mAcc over epochs. Because the test set is used for checkpoint selection and only one training seed is available, classification differences are descriptive. No classification confidence intervals or significance claims are made.
+
+The retained result files also contain all 40 reported category accuracies at the selected checkpoint. They support a category decomposition of mAcc, but not paired object-level transition counts, because per-object labels and predictions were not exported. Consequently, a McNemar test requires a new, audited inference pass through the retained checkpoints and is not claimed here.
+
+\subsection{Geometry Protocols and Metric Definitions}
+
+The primary geometry protocol uses the same 2,468 test objects and equal cardinality within each comparison. Each Line~A output is compared with an independently sampled Mesh-ref~4096 cloud; each reconstructed Line~B output is compared with Original~1024; and the 256-point sparse input is separately compared with Mesh-ref~256. This avoids ranking a method merely because its point count is closer to the reference.
+
+The implemented Chamfer statistic is the sum of mean unsquared Euclidean nearest-neighbour distances,
+\begin{equation}
+\mathrm{CD}_{L2}(P,Q)=
+\frac{1}{|P|}\sum_{p\in P}\min_{q\in Q}\lVert p-q\rVert_2+
+\frac{1}{|Q|}\sum_{q\in Q}\min_{p\in P}\lVert q-p\rVert_2 .
+\label{eq:implemented-cd}
+\end{equation}
+The first term measures output-to-reference deviation and the second measures reference coverage. Hausdorff Distance (HD) records the largest nearest-neighbour residual in either direction. NUC averages the coefficient of variation of local counts at radii 0.02, 0.05, and 0.10. Lower NUC means more uniform sampling, but the relevant preservation quantity is $|\mathrm{NUC}(P)-\mathrm{NUC}(Q)|$, because a cloud can be uniformly distributed in the wrong places.
+
+Equation~\eqref{eq:implemented-cd} is not the squared Chamfer formula presently written in Eq.~(2.86). The two definitions must be reconciled before submission. Every numerical Chamfer result in this chapter is explicitly labelled $\mathrm{CD}_{L2}$ to prevent accidental comparison with squared-distance values.
+
+A secondary dense-mesh report also contains CD, HD, NUC, and exact ray-cast Point-to-Face (P2F) distances. Its P2F code normalises the evaluated point cloud and the source mesh independently to unit spheres. Therefore the original mesh-sampled cloud does not have a zero P2F baseline. These values are retained as a \emph{normalisation-conditioned surface diagnostic}, not as the primary same-frame surface distance. The equal-cardinality results remain the principal geometry evidence.
+
+For object-resolved geometry, 95\% percentile bootstrap intervals are computed by resampling the 2,468 test objects 4,000 times with deterministic seed generation. These intervals measure variation across test objects only. They do not include classifier training variance, upsampler checkpoint variance, or alternative dataset splits.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\linewidth}{l>{\raggedright\arraybackslash}p{0.30\linewidth}X}
+\toprule
+Metric / analysis & Executed parameters & Interpretation and restriction \\
+\midrule
+$\mathrm{CD}_{L2}$ & bidirectional mean, unsquared Euclidean NN & average deviation plus missing coverage; lower is better \\
+HD & maximum of both NN directions & worst observed local gap or outlier; lower is better \\
+NUC & 128 centres; radii 0.02, 0.05, 0.10; seed base 42 & coefficient-of-variation profile; compare absolute reference deviation \\
+Equal-cardinality & A: 4,096 vs 4,096; B: 1,024 vs 1,024 & primary method ranking, 2,468 paired objects \\
+Bootstrap & 4,000 percentile draws; 2.5/97.5 percentiles & object variation only; deterministic SHA-256-derived seeds \\
+P2F diagnostic & exact ray casting; independently unit-normalised frames & secondary diagnostic, not strict same-frame surface error \\
+\bottomrule
+\end{tabularx}
+\caption{Geometric metrics, numerical settings, references, and interpretation boundaries.}
+\label{tab:geometry-parameters}
+\end{table}
+
+\section{ModelNet40 Classification and Geometry Results}
+\label{sec:modelnet-results}
+
+\subsection{Line A: Densification of the Original Input}
+\label{sec:linea-results}
+
+Table~\ref{tab:linea-classification} shows that none of the five 4,096-point generated representations exceeds Original~1024 at 91.95\% Best OA. PU-GCN and PDANS are closest, at 91.63\% and 91.62\%, corresponding to deficits of 0.32 and 0.33 percentage points (pp). PU-EdgeFormer is 1.41~pp below the baseline. Figure~\ref{fig:overall-bars} places both comparison lines on one unbroken accuracy scale and distinguishes the selected checkpoint from epoch~200.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Input & Points & Best OA & Final OA & mAcc@Best OA & $\Delta$ OA \\
+\midrule
+Original baseline & 1,024 & 91.95 & 91.31 & 88.00 & 0.00 \\
+PU-GCN & 4,096 & 91.63 & 91.00 & 87.74 & $-0.32$ \\
+PDANS & 4,096 & 91.62 & 90.87 & 88.44 & $-0.33$ \\
+EAR & 4,096 & 91.48 & 90.85 & 88.19 & $-0.47$ \\
+PU-Net & 4,096 & 90.95 & 90.55 & 87.46 & $-1.00$ \\
+PU-EdgeFormer & 4,096 & 90.54 & 90.13 & 86.35 & $-1.41$ \\
+\bottomrule
+\end{tabular}
+\caption{PointNet++ SSG classification on Line~A. Accuracy values are percentages. mAcc@Best OA is the mean class accuracy at the checkpoint selected by test OA, not the maximum mAcc over epochs. Each row is one seed-42 training.}
+\label{tab:linea-classification}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig22_best_final_oa_grouped_bars.pdf}
+\caption{Best and epoch-200 OA on the original percentage scale. Filled squares are Best OA, open circles are epoch~200, and horizontal segments show their separation. No uncertainty bars are shown because every branch has one classifier seed.}
+\label{fig:overall-bars}
+\end{figure}
+\FloatBarrier
+
+The aggregate ranking conceals redistribution among categories. PDANS and EAR have mAcc changes of $+0.44$ and $+0.19$~pp even though their OA decreases. Table~\ref{tab:class-direction} shows that these changes are not broad uniform gains: PDANS improves 16 categories and worsens 18, while EAR improves 16 and worsens 15. The positive mAcc changes arise from the magnitudes and test frequencies of the category changes.
+
+Figures~\ref{fig:linea-classes-1} and~\ref{fig:linea-classes-2} replace the crowded annotated heatmap with monochrome marker panels on a common 0--100\% scale. Three patterns are visible. First, ceiling classes such as airplane, bed, and keyboard cannot explain aggregate differences. Second, several large changes occur in small $n=20$ categories, including bench, bowl, and cone, so their effect on OA is limited even when their percentage-point change is large. Third, low-accuracy flower pot is now shown from zero rather than being hidden by a truncated axis. Exact one-decimal values and class sizes are provided in Table~\ref{tab:linea-all-classes}.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig26_lineA_class_accuracy_01_20.pdf}
+\caption{Line~A selected-checkpoint accuracy for ModelNet40 classes 1--20. All methods and Original use a common 0--100\% axis; the legend is separated from the bars.}
+\label{fig:linea-classes-1}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig27_lineA_class_accuracy_21_40.pdf}
+\caption{Line~A selected-checkpoint accuracy for ModelNet40 classes 21--40, continuing the same parallel-bar encoding and scale.}
+\label{fig:linea-classes-2}
+\end{figure}
+\FloatBarrier
+
+\subsection{Line B: Recovery after Fourfold Decimation}
+\label{sec:lineb-results}
+
+Reducing Original~1024 to 256 points lowers Best OA by 1.10~pp, from 91.95\% to 90.85\%. PU-Net is the only reconstruction above the sparse baseline: 91.27\%, or $+0.42$~pp. It remains 0.68~pp below Original~1024 and therefore recovers approximately $0.42/1.10=38\%$ of the aggregate decimation loss. This ratio is descriptive and is not a probability.
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Input & Points & Best OA & Final OA & mAcc@Best OA & $\Delta$ sparse & Gap original \\
+\midrule
+Downsampled $\times4$ & 256 & 90.85 & 90.46 & 87.37 & 0.00 & $-1.10$ \\
+PU-Net & 1,024 & 91.27 & 90.65 & 87.86 & $+0.42$ & $-0.68$ \\
+PDANS & 1,024 & 90.34 & 89.46 & 86.20 & $-0.51$ & $-1.61$ \\
+PU-GCN & 1,024 & 90.06 & 89.63 & 86.41 & $-0.79$ & $-1.89$ \\
+PU-EdgeFormer & 1,024 & 89.32 & 88.58 & 85.21 & $-1.53$ & $-2.63$ \\
+EAR & 1,024 & 88.81 & 88.02 & 84.50 & $-2.04$ & $-3.14$ \\
+\bottomrule
+\end{tabular}
+\caption{PointNet++ SSG classification on Line~B. Differences are percentage points. The immediate reference is the native 256-point branch; Original~1024 is the pre-degradation reference.}
+\label{tab:lineb-classification}
+\end{table}
+
+The right panel of Figure~\ref{fig:overall-bars} shows that PU-Net also retains the largest epoch-200 OA. The other four reconstructions are below the sparse branch at both reporting points, so their conclusion is not caused solely by one selected checkpoint.
+
+PU-Net also increases mAcc by 0.49~pp. It improves 15 categories, leaves 15 unchanged at the reported precision, and worsens 10. EAR worsens 24 categories and improves only eight; PU-EdgeFormer worsens 20 and improves 11. For PU-Net, the largest reported gains occur for door ($+25.0$~pp), stool ($+18.75$~pp), and xbox ($+10.0$~pp), while curtain, bench, and sink decrease. Because per-object predictions are unavailable, these category differences cannot be converted into paired transition counts without rerunning checkpoint inference.
+
+Figures~\ref{fig:lineb-classes-1} and~\ref{fig:lineb-classes-2} show all 40 absolute class accuracies instead of placing 200 signed numbers inside heatmap cells. The monochrome marker panels make the evidence behind the aggregate recovery explicit: PU-Net is not uniformly superior, and its advantage is a balance of category magnitude and category frequency. Exact values and $n$ are in Table~\ref{tab:lineb-all-classes}.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig28_lineB_class_accuracy_01_20.pdf}
+\caption{Line~B selected-checkpoint accuracy for ModelNet40 classes 1--20. Sparse input and all five reconstructions share a 0--100\% axis.}
+\label{fig:lineb-classes-1}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig29_lineB_class_accuracy_21_40.pdf}
+\caption{Line~B selected-checkpoint accuracy for ModelNet40 classes 21--40. This second panel completes the class-level evidence without clipped values or overprinted annotations.}
+\label{fig:lineb-classes-2}
+\end{figure}
+\FloatBarrier
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Line & Method & Improved & Unchanged & Worsened & Mean category $\Delta$ (pp) \\
+\midrule
+A & EAR & 16 & 9 & 15 & $+0.19$ \\
+A & PDANS & 16 & 6 & 18 & $+0.44$ \\
+A & PU-Net & 15 & 6 & 19 & $-0.54$ \\
+A & PU-GCN & 18 & 5 & 17 & $-0.26$ \\
+A & PU-EdgeFormer & 17 & 7 & 16 & $-1.66$ \\
+\midrule
+B & EAR & 8 & 8 & 24 & $-2.86$ \\
+B & PDANS & 10 & 12 & 18 & $-1.17$ \\
+B & PU-Net & 15 & 15 & 10 & $+0.49$ \\
+B & PU-GCN & 13 & 8 & 19 & $-0.96$ \\
+B & PU-EdgeFormer & 11 & 9 & 20 & $-2.15$ \\
+\bottomrule
+\end{tabular}
+\caption{Direction of the 40 reported category-accuracy changes. ``Unchanged'' means exactly equal at the six-decimal precision stored by the original result files.}
+\label{tab:class-direction}
+\end{table}
+
+Figure~\ref{fig:class-change-counts} renders Table~\ref{tab:class-direction} as direct counts. The asymmetry is especially clear in Line~B: PU-Net has five more improved than worsened classes, whereas every other method has more worsened than improved classes. This is breadth evidence, while the class tables preserve magnitude and sample-size evidence.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig25_class_change_counts.pdf}
+\caption{Numbers of improved, unchanged, and worsened classes relative to the corresponding line baseline. Bar labels are counts out of 40.}
+\label{fig:class-change-counts}
+\end{figure}
+
+\subsection{Genuine-Sampling Controls and Checkpoint Selection}
+\label{sec:controls}
+
+Mesh-ref~256 reaches 90.88\% Best OA, only 0.03~pp above the decimated 256-point branch. Original~1024 reaches 91.95\%, 1.07~pp above Mesh-ref~256. A further fourfold increase to Mesh-ref~4096 produces 92.00\%, only 0.05~pp above Original. The return from genuine density therefore diminishes sharply beyond 1,024 points for this PointNet++ SSG configuration.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig05_genuine_density_control.pdf}
+\caption{Best OA for genuinely sampled controls. The improvement from 1,024 to 4,096 points is 0.05~pp, compared with 1.07~pp from 256 to 1,024 points. Both are single-seed differences.}
+\label{fig:density-control}
+\end{figure}
+
+The control data require one qualification: four training shapes in the mesh-reference builds were reused instead of regenerated with the final stable-seed rule. No test object is affected, so test-only geometry is intact, but both mesh-reference classifier results are provisional until those training shapes are rebuilt and the controls are retrained.
+
+The retained logs contain a complete 200-epoch record for all 12 canonical branches. Figure~\ref{fig:training-curves} shows both the full optimisation trajectories and a magnified epoch-51--200 region. The curves establish that the reported Line~B ordering is persistent across the converged region: PU-Net is generally above the sparse curve late in training, while EAR and PU-EdgeFormer remain separated below it. They also show substantial epoch-to-epoch noise, which is why a single best point should not be treated as uncertainty evidence.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig23_training_test_oa_curves.pdf}
+\caption{Measured test OA for every training epoch. Left panels show all 200 epochs; right panels magnify epochs 51--200. These are trajectories from one seed per branch, not independent repetitions.}
+\label{fig:training-curves}
+\end{figure}
+
+\begin{table}[p]
+\centering
+\small
+\begin{tabular}{llrrrrr}
+\toprule
+Line & Representation & Best epoch & Best OA & Final OA & Last-20 OA & Final train--test \\
+\midrule
+A & Original & 85 & 91.95 & 91.31 & $91.18\pm0.23$ & 6.51 \\
+A & EAR & 61 & 91.48 & 90.85 & $90.50\pm0.35$ & 8.23 \\
+A & PDANS & 84 & 91.62 & 90.87 & $91.01\pm0.24$ & 8.44 \\
+A & PU-Net & 189 & 90.95 & 90.55 & $90.35\pm0.27$ & 8.96 \\
+A & PU-GCN & 81 & 91.63 & 91.00 & $90.89\pm0.32$ & 8.36 \\
+A & PU-EF & 83 & 90.54 & 90.13 & $90.08\pm0.19$ & 9.38 \\
+\midrule
+B & Sparse & 124 & 90.85 & 90.46 & $90.32\pm0.20$ & 2.52 \\
+B & EAR & 116 & 88.81 & 88.02 & $88.11\pm0.25$ & 8.84 \\
+B & PDANS & 145 & 90.34 & 89.46 & $89.53\pm0.29$ & 8.77 \\
+B & PU-Net & 148 & 91.27 & 90.65 & $90.85\pm0.19$ & 7.24 \\
+B & PU-GCN & 164 & 90.06 & 89.63 & $89.56\pm0.16$ & 8.15 \\
+B & PU-EF & 194 & 89.32 & 88.58 & $88.77\pm0.31$ & 9.58 \\
+\bottomrule
+\end{tabular}
+\caption{Checkpoint and late-training evidence. Last-20 OA is the mean and descriptive standard deviation over epochs 181--200, not a confidence interval. The final train--test column is a percentage-point gap.}
+\label{tab:training-stability}
+\end{table}
+
+Figure~\ref{fig:training-stability} compares the best checkpoint with the last-20 mean. The largest best-to-final gaps remain 0.88~pp for Line~B PDANS and 0.79~pp for Line~B EAR. More importantly, the last-20 means preserve the central Line~B conclusion: PU-Net is 0.53~pp above Sparse, whereas PDANS, PU-GCN, PU-EdgeFormer, and EAR are respectively 0.79, 0.77, 1.56, and 2.22~pp below. Thus the only observed recovery is not solely a best-epoch spike.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig24_training_stability_last20.pdf}
+\caption{Best OA (filled square) versus the epoch-181--200 mean (open circle) and one descriptive epoch standard deviation (whisker). Epochs are serially dependent; whiskers are not confidence intervals.}
+\label{fig:training-stability}
+\end{figure}
+\FloatBarrier
+
+\subsection{Equal-Cardinality Geometric Fidelity}
+\label{sec:equaln-geometry}
+
+Table~\ref{tab:geometry-bootstrap} replaces mean-only reporting with the median, mean, and object-bootstrap interval for each primary metric. PU-GCN has the smallest mean $\mathrm{CD}_{L2}$ in both lines. Its intervals do not overlap those of the other methods. It also has the smallest Line~A HD. In Line~B, however, PU-Net has the smallest HD by a large margin: 0.1083 compared with 0.1514 for PU-GCN. For relative sampling uniformity, PU-Net and PU-EdgeFormer are closest to the matched reference, while PU-GCN has the largest mean $|\Delta\mathrm{NUC}|$ in Line~A and the second largest in Line~B.
+
+\begin{table}[p]
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+Line & Method & $\mathrm{CD}_{L2}$ mean [95\% CI] & HD mean [95\% CI] & mean $|\Delta$NUC$|$ \\
+\midrule
+A & EAR & .0547 [.0541,.0553] & .1154 [.1138,.1171] & .2023 \\
+A & PDANS & .0468 [.0463,.0474] & .1135 [.1120,.1151] & .0725 \\
+A & PU-Net & .0497 [.0492,.0502] & .1112 [.1096,.1128] & .0673 \\
+A & PU-GCN & .0423 [.0418,.0428] & .0932 [.0918,.0947] & .3960 \\
+A & PU-EdgeFormer & .0467 [.0461,.0472] & .1109 [.1094,.1125] & .0690 \\
+\midrule
+B & EAR & .0767 [.0760,.0775] & .1932 [.1906,.1958] & .2294 \\
+B & PDANS & .0627 [.0620,.0634] & .1905 [.1880,.1931] & .7141 \\
+B & PU-Net & .0646 [.0641,.0650] & .1083 [.1067,.1100] & .1154 \\
+B & PU-GCN & .0558 [.0552,.0563] & .1514 [.1491,.1537] & .4462 \\
+B & PU-EdgeFormer & .0619 [.0613,.0625] & .1776 [.1752,.1799] & .1233 \\
+\bottomrule
+\end{tabular}
+\caption{Object-resolved equal-cardinality geometry on the 2,468-object test split. Intervals are 4,000-draw percentile bootstrap intervals over objects and do not represent run-to-run variation. $|\Delta$NUC$|$ is computed per object relative to the matched reference.}
+\label{tab:geometry-bootstrap}
+\end{table}
+
+Figures~\ref{fig:geometry-bars-a} and~\ref{fig:geometry-bars-b} place the mean, exact value, and object-bootstrap interval on separate metric axes. This avoids normalising unlike quantities into a decorative composite score. The monochrome point--interval plots make two trade-offs immediate: PU-GCN is the CD leader in both lines but has the largest Line~A uniformity deviation, while PU-Net is fourth by Line~B CD yet first by both Line~B HD and uniformity preservation.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig30_lineA_geometry_bars.pdf}
+\caption{Line~A primary geometry: mean $\mathrm{CD}_{L2}$, HD, and absolute NUC deviation over 2,468 objects. Whiskers are 95\% object-bootstrap intervals.}
+\label{fig:geometry-bars-a}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig31_lineB_geometry_bars.pdf}
+\caption{Line~B primary geometry with the same layout as Line~A. PU-GCN minimises CD, whereas PU-Net minimises HD and reference-relative NUC deviation.}
+\label{fig:geometry-bars-b}
+\end{figure}
+
+The distributions in Figure~\ref{fig:geometry-distributions} show that these rankings are not artefacts of a few extreme objects. PU-GCN's CD distribution is shifted lower across both lines, whereas PU-Net's Line~B HD distribution is visibly lower. The object-level winner shares provide a still stronger descriptive statement: PU-GCN has the lowest CD on 93.96\% of Line~A objects and 93.31\% of Line~B objects; it also has the lowest HD on 72.65\% of Line~A objects. PU-Net has the lowest Line~B HD on 89.87\% of objects. No method dominates all three geometry criteria.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig11_equalN_geometry_distributions.pdf}
+\caption{Equal-cardinality CD and HD distributions for all 2,468 test objects. Boxes show the interquartile range and whiskers the 5th and 95th percentiles; outliers are omitted from the drawing but retained in every statistic.}
+\label{fig:geometry-distributions}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig12_geometry_objectwise_winners.pdf}
+\caption{Share of test objects on which each upsampler has the best value among the five methods. A winner is selected separately for $\mathrm{CD}_{L2}$, HD, and absolute per-object NUC deviation.}
+\label{fig:geometry-winners}
+\end{figure}
+
+The object-wise winner statistic can still hide which rival loses. Figure~\ref{fig:pugcn-punet-pairs} therefore performs a direct paired comparison between the two task-relevant methods. PU-GCN beats PU-Net on CD for 97.29\% of Line~A and 96.03\% of Line~B objects. The direction reverses for Line~B HD, where PU-Net wins on 90.15\% of objects, and for absolute NUC deviation, where PU-Net wins on 84.81\% and 86.83\% of Line~A and Line~B objects. These comparisons use the same shape IDs, so they are stronger descriptive evidence than comparing two unpaired means.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig35_pugcn_punet_pairwise_wins.pdf}
+\caption{Direct paired win rates for PU-GCN and PU-Net over all 2,468 test objects. A win means the smaller value for the indicated geometry criterion; no aggregation across criteria is performed.}
+\label{fig:pugcn-punet-pairs}
+\end{figure}
+\FloatBarrier
+
+\subsection{Coverage, Outliers, and Multi-Scale Uniformity}
+
+Chamfer's two directions expose different errors. In Line~B, PU-EdgeFormer has the smallest mean output-to-reference term (0.0238) but a much larger reference-to-output term (0.0381), indicating that its generated points lie relatively near observed locations while leaving weaker coverage. PU-GCN is more balanced (0.0282 and 0.0276) and obtains the smallest total CD. PU-Net has terms of 0.0319 and 0.0327, yet its substantially lower HD shows that it avoids the worst local gaps and outliers more effectively. Figure~\ref{fig:cd-directions} makes this decomposition explicit.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig13_chamfer_directional_components.pdf}
+\caption{Mean directional components of the implemented unsquared Chamfer distance. Output-to-reference measures generated-point deviation; reference-to-output measures missing coverage.}
+\label{fig:cd-directions}
+\end{figure}
+
+NUC is strongly scale-dependent. Figure~\ref{fig:nuc-scales} shows that the largest disagreements occur at radius 0.02. For Line~B, PU-GCN reaches NUC$_{0.02}=3.20$ compared with approximately 1.98 for Original, while its larger-radius values approach the other methods. PDANS and PU-EdgeFormer also show elevated small-radius variation. An average NUC alone would conceal this concentration at the finest neighbourhood scale.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig14_nuc_multiscale_profiles.pdf}
+\caption{NUC at radii 0.02, 0.05, and 0.10. Dashed curves are the matched genuine references. The strongest method differences occur at the finest radius.}
+\label{fig:nuc-scales}
+\end{figure}
+
+\subsection{P2F Diagnostic and Reference Sensitivity}
+
+The independently normalised P2F diagnostic in Figure~\ref{fig:p2f-diagnostic} uses paired differences from Original for each test object. In Line~B, PDANS and PU-Net reduce mean P2F by $2.97\times10^{-3}$ and $2.38\times10^{-3}$, with object-bootstrap intervals excluding zero and improvements on 71.9\% and 70.2\% of objects. PU-GCN and PU-EdgeFormer increase it by $1.36\times10^{-3}$ and $2.03\times10^{-3}$. These values add a surface-oriented diagnostic but do not overturn the primary equal-cardinality analysis. Because mesh and points are independently normalised, they should not be cited as strict same-frame P2F until the transform convention is corrected and the metric is recomputed.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig15_p2f_paired_diagnostic.pdf}
+\caption{Paired change in the normalisation-conditioned mean P2F diagnostic relative to Original. Error bars are 95\% object-bootstrap intervals; labels give the share of objects with a lower value. This is secondary evidence because the mesh and point cloud use independently estimated unit-sphere transforms.}
+\label{fig:p2f-diagnostic}
+\end{figure}
+
+Reference choice materially changes Line~A rankings. Against the lower-cardinality Original~1024 reference, PDANS ranks first and PU-GCN fourth by CD. Under the equal-cardinality Mesh-ref~4096 protocol, PU-GCN ranks first and PDANS third. For HD, PU-GCN moves from fifth to first. The rank paths in Figure~\ref{fig:reference-sensitivity} demonstrate why the unequal-cardinality values must not be used as the principal method ranking.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig17_reference_rank_sensitivity.pdf}
+\caption{Line~A method ranks under the older unequal-cardinality Original-1024 reference and the adopted equal-cardinality Mesh-ref-4096 reference. Rank reversals are evidence of cardinality/reference sensitivity.}
+\label{fig:reference-sensitivity}
+\end{figure}
+
+Figure~\ref{fig:parallel-ranks} extends the comparison across downstream OA and the three primary geometric criteria without mixing their units. In Line~A, PU-GCN moves from rank~1 in OA, CD, and HD to rank~5 in uniformity preservation. In Line~B, PU-Net moves from rank~1 in OA to rank~4 in CD but returns to rank~1 in HD and uniformity. The crossing paths are direct visual evidence that the answer to ``which method is best?'' depends on a declared criterion.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig32_parallel_metric_ranks.pdf}
+\caption{Parallel method ranks for Best OA, CD, HD, and absolute NUC deviation. Rank~1 is best within the five upsamplers; ranks do not imply equal numerical spacing.}
+\label{fig:parallel-ranks}
+\end{figure}
+
+\subsection{Geometry--Classification Alignment}
+
+Method-level agreement remains weak. After orienting lower geometric values as better, Spearman agreement with Best OA over the five methods is 0.30 for CD, 0.10 for HD, and $-0.20$ for $|\Delta\mathrm{NUC}|$ in Line~A. The corresponding Line~B values are 0.10, 0.70, and 0.70. With $n=5$ methods and one classifier seed, these coefficients are diagnostic only.
+
+Table~\ref{tab:category-alignment} gives the category-level coefficients directly, replacing the coloured matrix. Nearly every bootstrap interval includes zero, so there is no stable positive category-level association between better geometry and a larger class-accuracy change. The only interval excluding zero is the negative Line~A PU-EdgeFormer CD association ($\rho=-0.30$, interval $[-0.56,-0.02]$). Because 30 exploratory correlations were inspected without multiplicity correction, the isolated result is not confirmatory.
+
+\begin{table}[p]
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+Line & Method & CD $\rho$ & HD $\rho$ & $|\Delta$NUC$|$ $\rho$ \\
+\midrule
+A & EAR & $-0.15$ & $-0.15$ & $-0.02$ \\
+A & PDANS & $-0.16$ & $-0.07$ & $+0.03$ \\
+A & PU-Net & $+0.02$ & $+0.02$ & $+0.05$ \\
+A & PU-GCN & $-0.15$ & $-0.19$ & $-0.09$ \\
+A & PU-EF & $-0.30$ & $-0.29$ & $-0.24$ \\
+\midrule
+B & EAR & $+0.08$ & $+0.12$ & $+0.24$ \\
+B & PDANS & $-0.11$ & $+0.05$ & $-0.18$ \\
+B & PU-Net & $+0.03$ & $+0.05$ & $-0.05$ \\
+B & PU-GCN & $-0.10$ & $+0.06$ & $-0.13$ \\
+B & PU-EF & $-0.14$ & $+0.00$ & $-0.06$ \\
+\bottomrule
+\end{tabular}
+\caption{Spearman agreement between category-level geometry quality and category-accuracy change, 40 categories per row. Geometry is oriented so a positive coefficient would mean better geometry accompanies larger accuracy gain. Full 4,000-draw intervals are in the delivered CSV.}
+\label{tab:category-alignment}
+\end{table}
+
+The defensible conclusion is therefore narrower than a causal claim: none of the available geometric statistics is a reliable standalone surrogate for downstream category accuracy in these experiments.
+
+\subsection{Point-Cloud Visual Evidence}
+\label{sec:qualitative}
+
+Figures~\ref{fig:linea-parallel-clouds}--\ref{fig:lineb-parallel-clouds-set2} expand the qualitative audit to eight test objects. Every row contains Input, Reference, EAR, PDANS, PU-Net, PU-GCN, and PU-EdgeFormer, so each method is inspected under both experimental lines rather than through isolated examples. All seven columns in a row use the same orthographic projection and axis limits. The red region is selected automatically from a $5\times5$ grid using the largest mean reference-to-input nearest-neighbour gap before any method output is read. The inset therefore targets an input-defined coverage challenge rather than a region chosen to favour a method.
+
+The first set retains the previously reported airplane, chair, guitar, and lamp objects. The second set adds table, toilet, sofa, and car. For each added category, the selected shape is the object whose mean CD across both lines and all five methods is closest to that category's median. Category choice covers planar, curved, thin-support, and closed-body geometry; within-category object selection is deterministic and does not use visual appearance or downstream classification outcome.
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textheight]{fig36_lineA_parallel_pointclouds.pdf}
+\caption{Line~A parallel evidence, set~1: airplane\_0627, chair\_0890, guitar\_0156, and lamp\_0125. Input has 1,024 points; Reference and every method have 4,096. Each row compares the same object, projection, limits, and input-defined ROI across all five methods.}
+\label{fig:linea-parallel-clouds}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textheight]{fig37_lineB_parallel_pointclouds.pdf}
+\caption{Line~B parallel evidence, set~1, for the same four objects and all five methods. Input has 256 points; Reference and every reconstruction have 1,024.}
+\label{fig:lineb-parallel-clouds}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textheight]{fig38_lineA_parallel_pointclouds_set2.pdf}
+\caption{Line~A parallel evidence, set~2: table\_0475, toilet\_0365, sofa\_0687, and car\_0241. These median-difficulty category representatives expose planar coverage, curved boundaries, support structures, and closed-body surfaces.}
+\label{fig:linea-parallel-clouds-set2}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textheight]{fig39_lineB_parallel_pointclouds_set2.pdf}
+\caption{Line~B parallel evidence, set~2, under the 256-to-1,024 recovery protocol. Every row includes Input, Reference, and all five upsamplers with an identical projection and ROI.}
+\label{fig:lineb-parallel-clouds-set2}
+\end{sidewaysfigure}
+
+The visual plates are tied to object-specific measurements in Figures~\ref{fig:visual-metrics-a}--\ref{fig:visual-metrics-b-set2}. On set~1, PU-GCN has the smallest Line~A CD for airplane, chair, and guitar, while PU-Net has the smallest CD for lamp. On Line~B, PU-GCN has the smallest CD for all four, but PU-Net has the smallest HD for airplane and chair and ties PU-GCN for guitar to four decimals. The chair case is diagnostic: PU-GCN has lower CD (0.0328 versus 0.0433), whereas PU-Net has far lower HD (0.0696 versus 0.1862).
+
+Set~2 strengthens this pattern without selecting extrema. PU-GCN has the smallest CD and HD on all four Line~A objects. For Line~B, PU-GCN has the smallest CD on table, toilet, sofa, and car, whereas PU-Net has the smallest HD on all four. For example, table\_0475 gives Line~B CD 0.0431 to PU-GCN but HD 0.0636 to PU-Net. Thus the method conflict recurs across eight visualised objects and multiple geometries: average bidirectional coverage and the worst local gap must be reported separately.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig33_lineA_visual_objects_metrics.pdf}
+\caption{Line~A CD and HD for visual set~1. Thin monochrome paths identify methods; values describe the pictured objects only, while dataset-wide conclusions use all 2,468 objects.}
+\label{fig:visual-metrics-a}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig34_lineB_visual_objects_metrics.pdf}
+\caption{Line~B CD and HD for visual set~1. Different CD and HD winners remain visible within identical retained shapes.}
+\label{fig:visual-metrics-b}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig40_lineA_visual_objects_metrics_set2.pdf}
+\caption{Line~A CD and HD for visual set~2. PU-GCN is lowest on both metrics for these four median-difficulty category representatives.}
+\label{fig:visual-metrics-a-set2}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig41_lineB_visual_objects_metrics_set2.pdf}
+\caption{Line~B CD and HD for visual set~2. PU-GCN is lowest by CD, whereas PU-Net is lowest by HD on every displayed object.}
+\label{fig:visual-metrics-b-set2}
+\end{figure}
+\FloatBarrier
+
+\setcounter{section}{4}
+\section{Discussion of Results}
+\label{sec:discussion}
+
+\subsection{Effect of Upsampling}
+\label{sec:effect-upsampling}
+
+The evidence separates a limited recovery case from a failed densification case. In Line~A, the genuine representation is already close to the observed PointNet++ density ceiling, and all generated variants remain below it. In Line~B, PU-Net recovers 0.42 of the 1.10~pp loss, but the remaining methods reduce accuracy. The category analysis prevents an overly simple reading: even PU-Net's aggregate recovery contains ten worsened categories, while PDANS and EAR in Line~A can raise mAcc slightly while lowering OA.
+
+The full first-layer reception probe in Figure~\ref{fig:sa1-all} offers a concrete architectural mechanism. PointNet++ SSG samples 512 centroids, uses radius 0.2, and retains at most 32 neighbours. At 256 points, 59.2\% of retained slots are repeated because neighbourhoods are under-populated. At Original~1024 the repeated-slot rate falls to 12.1\%, while 31.9\% of in-radius candidates are already discarded. At Mesh-ref~4096 only 0.2\% of slots are repeated, but 78.7\% of candidates are discarded. Thus, most extra points beyond 1,024 cannot enter the first local aggregation.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig18_sa1_all_variants.pdf}
+\caption{Measured SA1 reception for all 14 variants. Horizontal separators divide the 256-, 1,024-, and 4,096-point groups. Repeated slots, discarded candidates, and local-density CV describe distinct failure modes.}
+\label{fig:sa1-all}
+\end{figure}
+
+EAR illustrates simultaneous local concentration and starvation. At 1,024 points its density CV is 0.645, it discards 53.0\% of candidates, and 14.5\% of retained slots are repeated. PU-Net has density CV 0.333, discards 31.3\%, repeats 10.8\%, and obtains the strongest recovery OA. At 4,096 points the branch-to-branch accuracy spread is smaller and the first layer is saturated for every method, so this probe explains the limited available channel for benefit more strongly than it explains the complete within-bucket ranking.
+
+\subsection{Transfer from Object-Level Data to LiDAR Scenes}
+\label{sec:transfer-lidar}
+
+The ModelNet40 evidence identifies hypotheses for LiDAR, not LiDAR conclusions. CAD objects are centred, normalised, isolated, and fully observed. Automotive scenes add range-dependent sparsity, occlusion, background points, class imbalance, and detector-specific proposals or voxels. The finding that a generated point can improve a surface metric without improving PointNet++ classification motivates measuring detection directly, but it cannot establish the sign of a PointRCNN or CenterPoint effect. Sections~5.3 and~5.4 must supply those measurements.
+
+\subsection{Relationship Between Geometry and Detection}
+\label{sec:geometry-detection}
+
+Within ModelNet40, geometry and task utility are demonstrably multi-dimensional. PU-GCN dominates CD object-wise but does not provide the strongest Line~B classification. PU-Net dominates Line~B HD and is the only classifier above the sparse baseline. PDANS improves the secondary P2F diagnostic on many objects without recovering OA. These comparisons rule out a one-metric explanation. They do not prove that HD causes the PU-Net gain; all representations are observational method outputs, and the classifiers are independently trained.
+
+For the detector branch, the same discipline should be retained: report a geometry panel, a detector panel, and a paired analysis of disagreements. A single composite score should not be introduced unless its weighting is fixed independently of the detector result.
+
+\subsection{Detector Dependency}
+\label{sec:detector-dependency}
+
+The SA1 probe shows why the effect of density depends on the consumer. A point-based radius neighbourhood with a 32-point cap discards information differently from a voxel encoder or transformer. The present result is therefore specific to PointNet++ SSG and its hyperparameters. A detector may benefit in regions where its receptive field remains unsaturated, or may suppress generated points during voxelisation. PointRCNN and CenterPoint must consequently be analysed as separate downstream systems rather than as interchangeable replications.
+
+\section{Summary of Main Findings}
+\label{sec:summary-findings}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\linewidth}{p{0.23\linewidth}p{0.39\linewidth}X}
+\toprule
+Finding & Direct evidence & Strength and boundary \\
+\midrule
+No Line~A classification gain & All five Best OA values are 0.32--1.41~pp below Original~1024 & Single seed and test-selected checkpoint; consistent across OA, but two methods redistribute mAcc positively \\
+Partial Line~B recovery only for PU-Net & $+0.42$~pp vs sparse, still $-0.68$~pp vs Original; 15 classes improve and 10 worsen & Aggregate and category-resolved descriptive evidence; no paired predictions \\
+Geometry is not one-dimensional & PU-GCN wins CD on about 94\% of objects; PU-Net wins Line~B HD on 89.9\% & Strong object-resolved test-set pattern; metric convention and reference remain protocol-specific \\
+Geometry is not a task surrogate & Method and category rank analyses show no stable positive relation across metrics & Exploratory correlations; classifier seed variance is unavailable \\
+High density has limited PointNet++ intake & SA1 discards 78.7\% of candidates at genuine 4,096 points; OA rises only 0.05~pp from 1,024 & Direct deterministic architecture/data probe; applies to this SSG configuration \\
+\bottomrule
+\end{tabularx}
+\caption{Evidence-calibrated summary of the ModelNet40 findings.}
+\label{tab:evidence-summary}
+\end{table}
+
+The central result is not that upsampling never helps. It is that nominal density and geometric fidelity are insufficient to predict downstream benefit. Under the retained protocol, a recovery gain appears only for PU-Net and remains incomplete; densifying an already adequate input provides no OA gain; and the strongest geometric method depends on whether CD, HD, uniformity, or surface deviation is emphasised.
+
+\chapter{Conclusion and Outlook}
+\label{chap:conclusion}
+
+\section{Conclusion}
+
+This study evaluates point-cloud upsampling as an intermediate representation rather than only as a geometric reconstruction task. On ModelNet40, PointNet++ SSG gains 1.10~pp when genuine density rises from approximately 256 to 1,024 points, but only 0.05~pp from 1,024 to 4,096 points. The reception probe explains the asymmetry: sparse neighbourhoods require repeated padding, whereas dense neighbourhoods exceed the first-layer 32-neighbour capacity.
+
+Among five reconstruction methods, PU-Net recovers 0.42~pp after fourfold decimation and is the only method above the sparse baseline. PU-GCN provides the best equal-cardinality Chamfer fidelity on more than 93\% of test objects in both lines, yet it is not the best Line~B classifier. PU-Net instead provides the best Line~B Hausdorff result on almost 90\% of objects. The combined evidence supports a precise conclusion: downstream recognition depends on how generated points change local coverage, worst-case gaps, and the consumer's receptive field, not on point count or average nearest-neighbour distance alone.
+
+\section{Quantitative Synthesis}
+
+Table~\ref{tab:method-synthesis} summarises the method-specific evidence without inventing a single composite score. OA ranks are within the five generated representations. The table shows why the final recommendation must be conditional: PU-GCN is the consistent CD choice, whereas PU-Net is the only demonstrated sparse-recovery choice and the strongest Line~B tail-error/uniformity choice.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+& \multicolumn{2}{c}{$\Delta$OA (pp)} & \multicolumn{2}{c}{CD rank} & \multicolumn{2}{c}{HD rank} & \multicolumn{2}{c}{NUC rank} \\
+Method & A & B & A & B & A & B & A & B \\
+\midrule
+EAR & $-0.47$ & $-2.04$ & 5 & 5 & 5 & 5 & 4 & 3 \\
+PDANS & $-0.33$ & $-0.51$ & 3 & 3 & 4 & 4 & 3 & 5 \\
+PU-Net & $-1.00$ & $+0.42$ & 4 & 4 & 3 & 1 & 1 & 1 \\
+PU-GCN & $-0.32$ & $-0.79$ & 1 & 1 & 1 & 2 & 5 & 4 \\
+PU-EF & $-1.41$ & $-1.53$ & 2 & 2 & 2 & 3 & 2 & 2 \\
+\bottomrule
+\end{tabular}
+\caption{Method-level synthesis. Accuracy differences are relative to each line baseline; geometry rank 1 is best among the five methods under the equal-cardinality protocol.}
+\label{tab:method-synthesis}
+\end{table}
+
+For an already adequate 1,024-point input, no generated 4,096-point representation has demonstrated a classification reason to replace Original. For a 256-point input, PU-Net is the only branch with positive Best OA and positive last-20 mean recovery. Selecting PU-GCN instead would be justified only when average geometric coverage, represented by CD, is the declared primary objective. These are protocol-bound recommendations rather than universal method rankings.
+
+\section{Limitations and Evidence Gaps}
+
+First, every canonical classifier has only one training seed. Same-seed reruns establish implementation determinism but not cross-seed uncertainty. Second, checkpoints are selected by test OA, making Best OA optimistic. Third, per-object classification predictions and logits were not retained, so paired error transitions, confidence intervals for accuracy differences, calibration, and confusion matrices require a new audited inference pass and are not available in the current evidence package.
+
+Fourth, the classifiers are trained separately for every representation. This answers a representation-learnability question but not the deployment question of adding an upsampler before a frozen downstream model. Any earlier chapter statement that the downstream classifier is fixed must be revised or supported by a new experiment.
+
+Fifth, the geometry evidence contains convention issues. The implemented Chamfer metric is unsquared while Chapter~2 currently defines a squared form. NUC query selection is not deterministically bound to the same object across every method. The dense-mesh P2F report uses independently normalised mesh and point frames and is therefore secondary. Finally, four reused training shapes make the mesh-reference classification controls provisional, although test-only geometry is unaffected.
+
+\section{Outlook}
+
+The first priority is a confirmation matrix with at least several predefined classifier seeds per canonical branch, validation-based checkpoint selection, and a single untouched test evaluation. Every run should export shape ID, target, prediction, logits, and checkpoint epoch. This would permit paired bootstrap intervals for OA differences, McNemar tests, calibrated uncertainty, class confusion, and error-set overlap.
+
+Second, a frozen-classifier protocol should complement the present from-scratch protocol. One Original-trained PointNet++ model should evaluate matched baseline and reconstructed clouds under a predefined cardinality adaptation rule. The two protocols should remain separate because they estimate different quantities.
+
+Third, the geometry pipeline should be definition-complete. Chapter~2 and code should use the same Chamfer convention; NUC centres should be fixed by shape ID and shared across methods; and P2F should use an explicitly shared similarity transform or a documented alignment. The existing 2,468-object distributions and object-level winner shares provide the reporting template for the corrected metrics.
+
+Fourth, the mechanism should be tested by varying initial point count, upsampling ratio, radius, neighbour cap, and downstream architecture. PointNet++ multi-scale grouping, graph classifiers, and transformer classifiers may occupy different saturation regimes. Finally, PointRCNN and CenterPoint should be evaluated independently on KITTI, preserving the same separation between geometric quality, representation intake, and task utility.
+
+\appendix
+\setcounter{chapter}{2}
+\chapter{Additional ModelNet40 Evidence and Audit}
+\label{app:modelnet-evidence}
+
+\section{Evidence Inventory}
+
+The expanded package retains 600 reported category-accuracy rows, 2,800 epoch records from 14 complete training logs, 34,552 equal-cardinality geometry rows, 29,616 test-only dense-reference geometry rows, 150 ordered pairwise geometry comparisons, and 112 copied point-cloud arrays for the parallel plates. The equal-cardinality table contains 14 variants across 2,468 objects; primary method comparisons use the five upsamplers in each line. Every derived CSV is stored beside the figures and can be regenerated by the supplied scripts.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.39\linewidth}r>{\raggedright\arraybackslash}p{0.17\linewidth}X}
+\toprule
+Evidence file & Rows excl. header & Unit & Use \\
+\midrule
+\path{classification_per_class.csv} & 600 & category / branch & Complete reported 40-class accuracy tables \\
+\path{training_curves.csv} & 2,800 & epoch / branch & Every train accuracy, test OA, and test mAcc \\
+\path{training_stability_summary.csv} & 14 & training run & Best epoch, final result, last-20 stability \\
+\path{geometry_equal_n_per_sample.csv} & 34,552 & object / variant & Primary equal-cardinality CD, HD, NUC \\
+\path{geometry_pairwise_win_rates.csv} & 150 & ordered pair / metric & Direct paired method comparisons \\
+\path{geometry_dense_gt_test_per_sample.csv} & 29,616 & object / variant & Secondary dense-reference and P2F audit \\
+\path{category_geometry_classification_alignment.csv} & 30 & method / metric & Category-level Spearman diagnostics and intervals \\
+\bottomrule
+\end{tabularx}
+\caption{Machine-readable evidence included in the delivery.}
+\label{tab:evidence-inventory}
+\end{table}
+
+\section{Complete Per-Class Accuracy Tables}
+
+The following tables are generated directly from the 600-row retained category result file. They contain the exact evidence plotted in Figures~\ref{fig:linea-classes-1}--\ref{fig:lineb-classes-2}; no values are transcribed from pixels.
+
+{\small\setlength{\tabcolsep}{3.5pt}\input{tables/per_class_lineA.tex}}
+
+{\small\setlength{\tabcolsep}{3.5pt}\input{tables/per_class_lineB.tex}}
+
+\section{Reproducibility and Quality Checks}
+
+All equal-cardinality geometry groups contain exactly 2,468 valid test objects and zero recorded failures. The output count audits report no invalid shapes or non-finite coordinates for the final method directories. The figure scripts read the delivered CSV files, use deterministic bootstrap and ROI selection, and export vector PDF plus 300~dpi PNG. Statistical figures use a native 12~pt size at 6.25-inch insertion; landscape point-cloud plates use 12~pt text at the document text-height width. The red ROI is selected from input/reference coverage before method outputs are read, and the complete source manifest is delivered.
+
+The strongest remaining reproducibility gaps are not hidden by additional plots: no cross-seed classifier matrix, no held-out checkpoint selection, no saved object-level predictions, an unresolved Chamfer-definition mismatch, non-shared NUC query randomness, the independent P2F normalisation convention, and the four provisional mesh-control training objects. These items should be treated as an experimental completion checklist.
+

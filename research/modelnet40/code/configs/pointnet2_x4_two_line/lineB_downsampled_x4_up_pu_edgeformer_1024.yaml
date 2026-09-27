@@ -1,0 +1,25 @@
+# PointNet++ config: Line B PU-EdgeFormer (smoke/config prep only)
+experiment_name: lineB_downsampled_x4_up_pu_edgeformer
+line: B
+branch: lineB_downsampled_x4_up_pu_edgeformer
+method: PU-EdgeFormer
+data_root: pointnet2_inputs/lineB_downsampled_x4_up/pu_edgeformer
+expected_point_count: 1024
+num_point: 1024
+allow_resample: false
+model: pointnet2_cls_ssg
+num_category: 40
+# Classification comparison (do not mix with geometry deltas):
+#   primary: vs Downsampled x4 baseline 256
+#   secondary gap: vs Original baseline 1024
+comparison_baseline_primary: Downsampled x4 baseline 256
+comparison_baseline_secondary: Original baseline 1024
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  seed: 42
+  num_workers: 4
+output_dir: pointnet2_results/x4_two_line_final/lineB_downsampled_x4_up/pu_edgeformer

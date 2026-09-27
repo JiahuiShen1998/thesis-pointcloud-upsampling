@@ -1,0 +1,12 @@
+{
+  "source": "Author-provided copies of lab work records, dated 2026-09-17",
+  "files": {
+    "EXPERIMENT_WORK_RECORD_202602_TO_20260917_ZH.md": "3b42acbb014f197a385f12467d2c803d83268739c5ab0857a95fc8e96d937145",
+    "EXPERIMENT_BRIEF_20260917_ZH.md": "5f3678d872f9756288f2dc2301a9ef83c42904895e60413e5da1ff2364990b0f"
+  },
+  "baseline_source": "../full_val_ap_r40.csv",
+  "baseline_and_three_epoch_values_cross_checked": true,
+  "raw_epoch_files_retrieved": false,
+  "remote_access": "Two lab SSH attempts timed out. Full per-epoch CSV/JSON not retrieved; manuscript terminal plot uses only six values explicitly tabulated in the supplied record.",
+  "derived_csvs": "Transcribed from tables in the supplied records; differences computed with Decimal. Not raw evaluator outputs."
+}

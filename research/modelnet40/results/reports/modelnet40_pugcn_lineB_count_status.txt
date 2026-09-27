@@ -1,0 +1,5 @@
+===== PU-GCN Line B counts =====
+raw: 10010
+strict: 10010
+expected input: 12311
+Line A strict: 12311

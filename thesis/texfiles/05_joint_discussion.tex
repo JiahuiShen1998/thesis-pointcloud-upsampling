@@ -1,0 +1,105 @@
+\FloatBarrier
+\section{Joint Discussion}
+\label{sec:discussion}
+
+The shared finding is a separation between nominal density, geometric
+fidelity, and task utility. The HPC classification study demonstrates it
+without a full-scene detector adapter: PU-GCN leads both Chamfer comparisons,
+yet PU-Net alone improves Line~B classification and no method improves
+Line~A. The lab detection study then shows an additional sensitivity to
+patch construction, measured-point preservation, and detector input processing.
+Together, the branches make a geometry-only account of upsampling quality
+insufficient for the tested downstream tasks.
+
+The experimental designs are complementary but not interchangeable.
+ModelNet40 measures how well a separately trained PointNet++ learns each
+representation. Frozen KITTI insertion measures compatibility with a
+pretrained detector. KITTI adaptation then tests whether representation-specific
+training can reduce that mismatch. Neither OA and AP nor the two Line~A/B
+scores should be averaged into a universal measure of upsampling quality.
+Their denominators, target tasks, and training interventions differ.
+
+The tested geometric and learned methods target surface organisation,
+local feature expansion, or generative reconstruction
+\cite{huang2013ear,yu2018punet,qian2021pugcn,kim2023puedgeformer,zhang2025pdans}.
+Those objectives provide useful geometric priors, but they do not directly
+optimise the particular PointNet++, PointRCNN, or CenterPoint decisions
+evaluated here. A point may reduce average surface distance while changing
+a neighbourhood, occupying a previously empty voxel, or replacing a
+measurement inside a finite downstream budget.
+
+The reception and voxel probes support this interpretation at different
+levels of the pipeline. PointNet++ discards much local candidate support
+at high density; CenterPoint can activate or truncate many additional
+voxels; PointRCNN resampling changes which points reach the network.
+These are measured properties, but they do not uniquely decompose every
+AP or OA deficit. In particular, Line~B loses detection performance even
+without voxel-cap activation, and a full-input PointRCNN path also harms
+the original baseline. Distribution compatibility extends beyond a single
+hard input cap.
+
+The object-level analyses strengthen the comparison without equating its
+different units. On ModelNet40, PU-GCN's CD advantage holds for more
+than 93\% of test objects in each line, yet it does not produce the
+best classification result. The mismatch is therefore not explained
+only by a few geometric outliers. Conversely, Line~B PU-Net's HD
+advantage is widespread and accompanies its small classification gain,
+but this co-occurrence does not establish HD as the cause of that gain.
+
+The lab object evidence distinguishes a different set of alternatives.
+The same historical inputs can lose Cars and recover a Cyclist in one
+scene; more effective crop points can coexist with a lost box, while
+a recovered PointRCNN object can have fewer effective crop points.
+Thus neither an all-failure narrative nor a simple local-count rule
+fits the retained observations. The loss/recovery totals supply the
+population context for these deliberately selected examples.
+
+These findings are compatible with the local grouping of PointNet++
+and PointRCNN and the voxel-based representation of CenterPoint
+\cite{qi2017pointnetpp,shi2019pointrcnn,yin2021centerpoint}, but the
+visualisations do not directly measure learned feature changes.
+The strongest supported interpretation concerns the complete input
+and task pipeline. The relative contributions of geometry, sampling,
+normalisation, and optimisation would require further controlled
+interventions to separate.
+
+The improvement after detector adaptation is consistent with a mismatch
+between generated inputs and the original detector's learned representation.
+Observation preservation helps separately by retaining the actual sensor
+rows. Their combination gives the best completed KITTI results, especially
+for CenterPoint. The extended schedules then tested whether the original
+three-epoch stopping point was sufficient to explain the remaining loss.
+All four observed-first conditions improved further and met the specified
+Car-validation plateau rule, yet their baseline deficits persisted
+(Section~\ref{sec:adaptation-evidence}). This strengthens the conclusion
+within the tested schedules without excluding another optimisation or
+input design. Because the baseline schedules were not extended to match,
+and the validation set also selected checkpoints, the differences remain
+conditional system comparisons rather than an isolated causal effect
+of upsampling.
+
+This distinction also prevents an inaccurate account of the later PU-GCN
+work. The new contribution was the completed generation, controlled input
+construction, detector adaptation, and full-validation evaluation. It was
+not a newly trained PU-GCN model. Lab PU-EdgeFormer compatibility results
+and flawed old PU-Net inputs likewise remain evidence about particular
+implemented pipelines, rather than intrinsic rankings of their published
+architectures.
+
+The strongest evidence consists of complete paired dataset evaluations,
+native-cardinality controls, and directly measured implementation effects.
+The principal limits are one classifier training seed, test-based ModelNet40
+checkpoint selection, batch-aggregated classifier metrics, provisional
+mesh-reference training controls, unequal detector-training budgets,
+and validation-based detector checkpoint selection. The plateau criterion
+is specific to the chosen Car metric and the executed schedules. Diagnostic subsets, category
+correlations, and selected visual cases refine the interpretation but do
+not increase the number of independent primary experiments.
+
+Within these limits, the practical implication is specific. An upsampling
+pipeline for downstream perception must be assessed after the actual
+input adapter and task model, with its observation-preservation rule,
+reference geometry, and downstream training regime stated explicitly.
+The work does not rule out useful upsampling. It identifies the conditions
+under which the tested geometric gains failed to become task gains and
+the partial recovery achieved by the completed adaptation procedure.

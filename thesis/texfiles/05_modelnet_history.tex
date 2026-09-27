@@ -1,0 +1,45 @@
+\subsection{Earlier Point-Count Controls and Protocol Dependence}
+\label{sec:mn-history}
+
+The completed work extends beyond the final twelve-branch comparison.
+The HPC inventory records eight earlier classifier jobs in addition to
+those branches and the two mesh-reference controls. Table~\ref{tab:mn-history}
+retains their actual model input sizes; a 512-point file resampled to
+1,024 rows is distinct from a native 512-point input.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{L{0.46\linewidth}rrr}\toprule
+Earlier representation & Input points & Best OA & Final OA\\\midrule
+Original baseline & 1,024 & 91.95 & ---\\
+Sparse 50\%, native input & 512 & 91.26 & 91.14\\
+Sparse 50\%, loader resampled & 1,024 & 91.17 & ---\\
+Sparse 50\%, EAR $\times2$ & 1,024 & 90.82 & ---\\
+Sparse 50\%, EAR $\times4$ & 2,048 & 90.61 & 89.76\\
+Sparse 50\%, PDANS $\times4$ & 2,048 & 91.47 & 90.99\\
+Original, EAR $\times4$ & 4,096 & 91.48 & 90.85\\
+Original, PDANS $\times4$ & 4,096 & 91.62 & 90.87\\\bottomrule
+\end{tabular}
+\caption{Eight completed earlier HPC PointNet++ jobs. OA is the recorded
+batch aggregate in percent. Dashes indicate final-epoch values absent
+from this inventory, not failed evaluations. Earlier/final repetitions
+of the original, EAR 4,096 and PDANS 4,096 branches have identical
+79/79 weight tensors at seed 42 and are not independent training seeds.}\label{tab:mn-history}
+\end{table}
+
+PDANS illustrates why the earlier results cannot be silently merged with
+the final sparse-input matrix. At 512 visible points, its 2,048-point
+output achieved 91.47\% Best OA against a native baseline of 91.26\%,
+a descriptive gain of 0.21~pp. At 256 visible points, its 1,024-point
+output achieved 90.34\% against 90.85\%, a loss of 0.51~pp. The ratio
+remained four, but both the visible support and downstream input size
+changed. This is a protocol-dependent sign change, not a controlled
+estimate of sparsity alone or proof of a statistically reliable gain.
+
+The 1,024-row controls further separate nominal input size from acquired
+information. The genuine original representation reached 91.95\%,
+the loader-resampled 512-point representation 91.17\%, and EAR's
+512-to-1,024 output 90.82\%. The 0.35~pp advantage of loader resampling
+over this EAR-style output is limited to these trained runs. It does
+not imply that duplicating points universally improves classification.
+Together with the native-input and mesh-reference controls, these jobs
+explain the transition to a fixed fourfold, two-line final protocol.

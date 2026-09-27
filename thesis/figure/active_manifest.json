@@ -1,0 +1,1255 @@
+[
+  {
+    "name": "random_point_cloud",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "archetype": "schematic-led composite",
+    "claim": "A point cloud is an unordered set of 3D coordinates, independent of an object category.",
+    "source": "Explicitly synthetic uniform samples in the unit cube; seed 20260914.",
+    "observations": 192,
+    "shown": 192,
+    "excluded": 0,
+    "highlighted_row": 20,
+    "statistics": "Not applicable: conceptual example, no experimental inference.",
+    "alignment": "Not applicable: single 3D axes.",
+    "source_tex": "texfiles/02_fundamentals.tex",
+    "short_caption": "An unordered point cloud",
+    "label": "fig:random-point-cloud",
+    "height_inches": 4.6,
+    "files": {
+      "pdf": {
+        "file": "figure/random_point_cloud.pdf",
+        "bytes": 12074,
+        "sha256": "899b3bffc28289185528af903f58b479972cbcf2569ba56369fe8298e833786a"
+      },
+      "svg": {
+        "file": "figure/random_point_cloud.svg",
+        "bytes": 31379,
+        "sha256": "5c3fd13e990ad3cf6a547c6da27fdd48c46d9cb6fc32c717108fcfaf4804196d"
+      },
+      "png": {
+        "file": "figure/random_point_cloud.png",
+        "bytes": 141123,
+        "sha256": "411d75352edcc36ce33f4b13d296e5ba2b2d2a4e37abe2c13f57416a98580b9a"
+      }
+    }
+  },
+  {
+    "name": "pointnet_principle",
+    "claim": "Hierarchical grouping explains density-dependent reception",
+    "source": "Schematic adapted from PointNet++ mechanism; no experiment-specific parameters",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.0,
+    "source_tex": "texfiles/02_fundamentals.tex",
+    "label": "fig:pointnet-principle",
+    "short_caption": "PointNet++ principle",
+    "files": {
+      "pdf": {
+        "file": "figure/pointnet_principle.pdf",
+        "bytes": 11471,
+        "sha256": "6de5d7c628f1282b96fc4d07b0ec23b5f872d562d675202248f39c4c6bba1793"
+      },
+      "svg": {
+        "file": "figure/pointnet_principle.svg",
+        "bytes": 6244,
+        "sha256": "1b063c8b83bef8e3a76c28c6ce224c8b18662581a8b4bd8fbbe680dc0b0b7e03"
+      },
+      "png": {
+        "file": "figure/pointnet_principle.png",
+        "bytes": 75999,
+        "sha256": "7df8690616fa6a23e1fd08edf380dbbc3da83cfb0e855bc6cb0a908d7f70899e"
+      }
+    }
+  },
+  {
+    "name": "detector_principles",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "archetype": "schematic-led composite",
+    "claim": "PointRCNN and voxel-based CenterPoint form object candidates from different intermediate representations.",
+    "source": "Shi et al., CVPR 2019, section 3; Yin et al., CVPR 2021, section 3.",
+    "statistics": "Not applicable: architecture schematic; no measured quantities.",
+    "fidelity": "Simplified representations, no layer widths or experimental budgets.",
+    "source_tex": "texfiles/02_fundamentals.tex",
+    "short_caption": "Point-based and centre-based detection",
+    "label": "fig:detector-principles",
+    "height_inches": 4.6,
+    "files": {
+      "pdf": {
+        "file": "figure/detector_principles.pdf",
+        "bytes": 21615,
+        "sha256": "2a9c7d13e6e6875be6a283a0b2712a96d435c4c0df2bcb79b6dd15409ed09c32"
+      },
+      "svg": {
+        "file": "figure/detector_principles.svg",
+        "bytes": 12962,
+        "sha256": "c91a00bd25443c52d786ea669e18012bae225caa13166829f669453052571fd2"
+      },
+      "png": {
+        "file": "figure/detector_principles.png",
+        "bytes": 151737,
+        "sha256": "24e5493ff23ed4ca0194e225cf524f1f10fbe017287c64413ac5b594b005dbfc"
+      }
+    }
+  },
+  {
+    "name": "pugcn_principle",
+    "claim": "PU-GCN expands local graph features into coordinates",
+    "source": "Schematic based on Qian et al. 2021",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.0,
+    "source_tex": "texfiles/02_fundamentals.tex",
+    "label": "fig:pugcn-principle",
+    "short_caption": "PU-GCN principle",
+    "files": {
+      "pdf": {
+        "file": "figure/pugcn_principle.pdf",
+        "bytes": 14902,
+        "sha256": "d0cd185e321724c327fa925f42eb48fed76104fd56ed5e02d97ad0f8f794406d"
+      },
+      "svg": {
+        "file": "figure/pugcn_principle.svg",
+        "bytes": 6220,
+        "sha256": "7952e06e18bff1df7932f4c5a4d02e67973b59cc12df1e8cc444755fa1b34572"
+      },
+      "png": {
+        "file": "figure/pugcn_principle.png",
+        "bytes": 71336,
+        "sha256": "b134b7d59ed5d39cf6ff5d63b2a74345752f1834acf9bdb3b3ebeabf170c56dd"
+      }
+    }
+  },
+  {
+    "name": "patch_pipeline",
+    "claim": "Local adaptation must preserve coordinate and support meaning",
+    "source": "lab final protocol",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.3,
+    "source_tex": "texfiles/04_experimental_setup.tex",
+    "label": "fig:patch-pipeline",
+    "short_caption": "Local patch processing",
+    "files": {
+      "pdf": {
+        "file": "figure/patch_pipeline.pdf",
+        "bytes": 17046,
+        "sha256": "cd526a0a79fa8736e5b5f6fdba1d052b977d260811ef217b66b601c517bf0e83"
+      },
+      "svg": {
+        "file": "figure/patch_pipeline.svg",
+        "bytes": 6373,
+        "sha256": "6bbd16eead0e54c35c8ab2ddf41e0a52d4b5ed0f656bb8d918c9c328e25c7050"
+      },
+      "png": {
+        "file": "figure/patch_pipeline.png",
+        "bytes": 84412,
+        "sha256": "d12c5b0c144735a6046b00e9a4528bd206fbf2c336e3788c5b4c3ed2155612c0"
+      }
+    }
+  },
+  {
+    "name": "input_budget",
+    "claim": "File cardinality differs from model input capacity",
+    "source": "lab final protocol; alternative detector branches",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.8,
+    "source_tex": "texfiles/04_experimental_setup.tex",
+    "label": "fig:input-budget",
+    "short_caption": "Effective detector input",
+    "files": {
+      "pdf": {
+        "file": "figure/input_budget.pdf",
+        "bytes": 17217,
+        "sha256": "5fc95b2b86e9ff216b00e44ffdd45f404ec2f0b70bbf42ce778af9fc85e34ee0"
+      },
+      "svg": {
+        "file": "figure/input_budget.svg",
+        "bytes": 6214,
+        "sha256": "ac03ade86cd75d68b0ec0211c6bb87377fd09a52078aa087e885520fa36713e3"
+      },
+      "png": {
+        "file": "figure/input_budget.png",
+        "bytes": 98834,
+        "sha256": "73f644491b39051b608026a33e2512d10385abaa315a8162fbc276e4f7f1f776"
+      }
+    }
+  },
+  {
+    "name": "adaptation_design",
+    "claim": "Later training updates detectors, not the upsampler",
+    "source": "lab final protocol; alternative detector branches",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.8,
+    "source_tex": "texfiles/04_experimental_setup.tex",
+    "label": "fig:adaptation-design",
+    "short_caption": "Detector adaptation",
+    "files": {
+      "pdf": {
+        "file": "figure/adaptation_design.pdf",
+        "bytes": 17049,
+        "sha256": "f43bbc149dd6a2d54fc0f8a84e3d148d5c96b5c7c20d670081dfa5a35c670360"
+      },
+      "svg": {
+        "file": "figure/adaptation_design.svg",
+        "bytes": 6310,
+        "sha256": "c9698f8679b1044c777fc060df01cc2be074aa638a71d99696b60f224bc91435"
+      },
+      "png": {
+        "file": "figure/adaptation_design.png",
+        "bytes": 107249,
+        "sha256": "def3b9d5b1384dce5ef28249f7e2675dee50be58587c00e0b774e7b8d5772fff"
+      }
+    }
+  },
+  {
+    "name": "mn_training",
+    "claim": "Single-seed training trajectories contextualize best-epoch selection",
+    "source": "HPC training_curves.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.8,
+    "source_tex": "texfiles/05_modelnet_results.tex",
+    "label": "fig:mn-training",
+    "short_caption": "Classification during training",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_training.pdf",
+        "bytes": 27627,
+        "sha256": "506fa03a2936f9494842de1963b5af5626aabb4f10aca2cecb87643f86db8d61"
+      },
+      "svg": {
+        "file": "figure/mn_training.svg",
+        "bytes": 76175,
+        "sha256": "7495c1de112016f122c16c7a14968ae2bff2decc9e86c3bcdb00c21dac041227"
+      },
+      "png": {
+        "file": "figure/mn_training.png",
+        "bytes": 267788,
+        "sha256": "c32545f2dcb70c8f37749557a1e9cbb2b50e76aa88b2e818f190941a64013fbf"
+      }
+    }
+  },
+  {
+    "name": "mn_late_training",
+    "claim": "The later training record separates checkpoint variation from method ordering",
+    "source": "evidence\\modelnet40_hpc\\data\\training_curves.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.8,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_results.tex",
+    "label": "fig:mn-late",
+    "short_caption": "Later classification trajectories",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_late_training.pdf",
+        "bytes": 20608,
+        "sha256": "c3a8eb67e2c664e93bb0265a1fe4c170e4b005e2b504bc68ba93549e2478271c"
+      },
+      "svg": {
+        "file": "figure/mn_late_training.svg",
+        "bytes": 48670,
+        "sha256": "c13ce0d6e93639bbcb1239883b1ee29d83e92ba35a4ce367711ce277270aa16d"
+      },
+      "png": {
+        "file": "figure/mn_late_training.png",
+        "bytes": 1119204,
+        "sha256": "a89b380ebd50bc2d42fdc6c327dac62a90c9217ec2d096aebb76435ce468cf6b"
+      }
+    }
+  },
+  {
+    "name": "mn_controls",
+    "claim": "Genuine-density controls remain qualified by four reused training shapes",
+    "source": "evidence\\modelnet40_hpc\\data\\training_stability_summary.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 3.2,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_results.tex",
+    "label": "fig:mn-controls",
+    "short_caption": "Genuine density controls",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_controls.pdf",
+        "bytes": 13283,
+        "sha256": "00617f4c91c99c5deb48458e1a0a9620d94ddfea518cb575a9f5c53c188018d2"
+      },
+      "svg": {
+        "file": "figure/mn_controls.svg",
+        "bytes": 10415,
+        "sha256": "4e3eaa250cb4069f7b0a972271b8334620b6694c29d6ddd58c2700e5cb824438"
+      },
+      "png": {
+        "file": "figure/mn_controls.png",
+        "bytes": 158614,
+        "sha256": "34bee4344628f4f45851bc5aa1dfbc5a1416359b56057b6a71a45bd3cf4d3148"
+      }
+    }
+  },
+  {
+    "name": "mn_sa1",
+    "claim": "Local input budgets limit reception of dense points",
+    "source": "HPC sa1_reception_results.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.8,
+    "source_tex": "texfiles/05_modelnet_results.tex",
+    "label": "fig:mn-sa1",
+    "short_caption": "PointNet++ neighbourhood reception",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_sa1.pdf",
+        "bytes": 15007,
+        "sha256": "b2983389f50d439f350bd73b715c352941fa32238701e77ec5da18824f4e0d51"
+      },
+      "svg": {
+        "file": "figure/mn_sa1.svg",
+        "bytes": 17295,
+        "sha256": "6111cf8241f663430e3f5cf9c79e086c3d89b1192e40d16085db0df0b19696a6"
+      },
+      "png": {
+        "file": "figure/mn_sa1.png",
+        "bytes": 170409,
+        "sha256": "b6ecc340629edeea86d1cc18fd5af6924bf5e51b1f29ef3e1e667b5a565240eb"
+      }
+    }
+  },
+  {
+    "name": "mn_geometry",
+    "claim": "PU-GCN leads CD but PU-Net leads Line B HD",
+    "source": "HPC geometry_equal_n_distribution_summary.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.6,
+    "source_tex": "texfiles/05_modelnet_results.tex",
+    "label": "fig:mn-geometry",
+    "short_caption": "Geometric fidelity at equal cardinality",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_geometry.pdf",
+        "bytes": 13265,
+        "sha256": "74103a04033de78bfc3a99d5e0d845942b11649a2939909be782887afe507cd7"
+      },
+      "svg": {
+        "file": "figure/mn_geometry.svg",
+        "bytes": 29453,
+        "sha256": "ed992a08af30551079464d6e26188880d8201af1558eb4f141e299852354f3f6"
+      },
+      "png": {
+        "file": "figure/mn_geometry.png",
+        "bytes": 92077,
+        "sha256": "b8fb908e42bb9247812b5dfb2ab1aa8d139922e95bbb164aace102238e3f29e2"
+      }
+    }
+  },
+  {
+    "name": "mn_categories_A_1",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_categories.tex",
+    "label": "fig:mn-cat-A-1",
+    "short_caption": "Line A category changes, part 1",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_categories_A_1.pdf",
+        "bytes": 21210,
+        "sha256": "053bf76a53f08f54b3cd352d7782d7b4406cb337f9d2fc2299e448f170de2fa2"
+      },
+      "svg": {
+        "file": "figure/mn_categories_A_1.svg",
+        "bytes": 13939,
+        "sha256": "a41fa696450b638e034a5349a4a8ba59a9fecc7488f0fccf6c47ef3e1e2d4510"
+      },
+      "png": {
+        "file": "figure/mn_categories_A_1.png",
+        "bytes": 265901,
+        "sha256": "5706dfca4e45927b49c7cbdece281cb1844f4fc67e10166ec6eab7a2e5ec0830"
+      }
+    }
+  },
+  {
+    "name": "mn_categories_A_2",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_categories.tex",
+    "label": "fig:mn-cat-A-2",
+    "short_caption": "Line A category changes, part 2",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_categories_A_2.pdf",
+        "bytes": 17269,
+        "sha256": "f7cbf8f3c1df845c62a37b3a47065a82054c70d136cc056c42312ba533b26599"
+      },
+      "svg": {
+        "file": "figure/mn_categories_A_2.svg",
+        "bytes": 13962,
+        "sha256": "dd8dbef03065ff2bce100c19d611e3aac9f7400045ce89b9cdc8134faf14293c"
+      },
+      "png": {
+        "file": "figure/mn_categories_A_2.png",
+        "bytes": 265660,
+        "sha256": "328cf0be16c863b4806c9a475ffcea4086f2aba404b04dc834fbdf7d87000093"
+      }
+    }
+  },
+  {
+    "name": "mn_categories_B_1",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_categories.tex",
+    "label": "fig:mn-cat-B-1",
+    "short_caption": "Line B category changes, part 1",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_categories_B_1.pdf",
+        "bytes": 21208,
+        "sha256": "c5ee0d4dd62d06da8e136cf7abfe123fe3cddc83e968fdabf60f14ea0edc1d13"
+      },
+      "svg": {
+        "file": "figure/mn_categories_B_1.svg",
+        "bytes": 13951,
+        "sha256": "c5771a1deb1ab01540ce4def63b349bbe5e033f690ec71037e82432c7df1ea30"
+      },
+      "png": {
+        "file": "figure/mn_categories_B_1.png",
+        "bytes": 265746,
+        "sha256": "0d1e608b63f4cbabc3650f68fc5a6df1ce60b92ab1cc5e7ec3a569ea47ea25e3"
+      }
+    }
+  },
+  {
+    "name": "mn_categories_B_2",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_categories.tex",
+    "label": "fig:mn-cat-B-2",
+    "short_caption": "Line B category changes, part 2",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_categories_B_2.pdf",
+        "bytes": 17265,
+        "sha256": "9c807d20b8e4d89a876f94c5e3dbeba5df7a78057e9f26c63db2aee529e6410c"
+      },
+      "svg": {
+        "file": "figure/mn_categories_B_2.svg",
+        "bytes": 14006,
+        "sha256": "3267958fada6f5054682cd401620d3528e626a77fc04e88f8b4c6e3052f20a5c"
+      },
+      "png": {
+        "file": "figure/mn_categories_B_2.png",
+        "bytes": 265634,
+        "sha256": "b90def9dd24e4b71a5d56b581199a9b38239c3d3533f0341de3e37338dcb5741"
+      }
+    }
+  },
+  {
+    "name": "mn_object_winners",
+    "claim": "Geometry rankings persist at the object level but depend on the metric",
+    "source": "evidence\\modelnet40_hpc\\data\\geometry_objectwise_winner_share.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.4,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_paired_geometry.tex",
+    "label": "fig:mn-winners",
+    "short_caption": "Object-wise geometry winners",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_object_winners.pdf",
+        "bytes": 15102,
+        "sha256": "9352c38a9ecc3a55910a3963707401d0c64ddb92a26cf2d04f8dad459420da7e"
+      },
+      "svg": {
+        "file": "figure/mn_object_winners.svg",
+        "bytes": 16661,
+        "sha256": "062cb050c3a37cf3a83bf7a29434463ca84995d29eac5eecc6f5f692a311ceaa"
+      },
+      "png": {
+        "file": "figure/mn_object_winners.png",
+        "bytes": 241979,
+        "sha256": "6e1ba52864de61b4aa7ed47d8ba457c110b390af7b3f65c9d69540af09011f8e"
+      }
+    }
+  },
+  {
+    "name": "mn_atlas_A_airplane",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/airplane_0627; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.65,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_visual_analysis.tex",
+    "label": "fig:mn_atlas_A_airplane",
+    "short_caption": "Airplane multi-method comparison, Line A",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_atlas_A_airplane.pdf",
+        "bytes": 550595,
+        "sha256": "3f83d047de55d9a99ed9d9ef97904f3ba698bb1988767761fdacd9cc67b5bce0"
+      },
+      "svg": {
+        "file": "figure/mn_atlas_A_airplane.svg",
+        "bytes": 813060,
+        "sha256": "6c70cb8d66ef8d4337b20294e7958b0f131a0394ba4636b670f01f76248b20b6"
+      },
+      "png": {
+        "file": "figure/mn_atlas_A_airplane.png",
+        "bytes": 876281,
+        "sha256": "22a1996b5dea87a1d315fad35c0c39a503eb2f8bae746abf8b64a44c47fa9dd1"
+      }
+    },
+    "shape_id": "airplane_0627",
+    "line": "A",
+    "all_points_shown": true,
+    "points": {
+      "Input": 1024,
+      "Reference": 4096,
+      "EAR": 4096,
+      "PDANS": 4096,
+      "PU-Net": 4096,
+      "PU-GCN": 4096,
+      "PU-EF": 4096
+    },
+    "source_sha256": {
+      "Input": "b177c8d3222bcd07572856e0e1a7920c521b4dcf4ffa81cce09ed38cef3647b8",
+      "Reference": "27bb3039640f9f6bee256441798f23a3118327c1f4a88cbc92055c314b1016e9",
+      "EAR": "c8e31ccd2f587f2b40952173fa6d82dd305407a3f1377f6aa25b9de46b6a2e1a",
+      "PDANS": "311c100534c81a3ec560f68bfadbf52c1b5a7e5db53e247a7a8aa4b9170d3918",
+      "PU-Net": "4d0076f22908b6555642eba0afdb222e5e78d973f8b7db2bd77d9f76701a9edf",
+      "PU-GCN": "1badea4a78cae5bd7f320851db443fe8096a829915b7332e1ccd8b853ced56b0",
+      "PU-EF": "3e741443d6f950b4c93a12c0d71d2826bb10e644b5fa06486bf8b2321d20c5f7"
+    },
+    "reference_colour_range": [
+      0,
+      0.09911956378098312
+    ],
+    "method_metrics_verified": [
+      {
+        "method": "EAR",
+        "cd": 0.03714548260539795,
+        "hd": 0.10293108330187531,
+        "colour_max": 0.05065451350845041
+      },
+      {
+        "method": "PDANS",
+        "cd": 0.032478189415435905,
+        "hd": 0.10235882077220128,
+        "colour_max": 0.04673645869121822
+      },
+      {
+        "method": "PU-Net",
+        "cd": 0.04230717664372183,
+        "hd": 0.11861747823304718,
+        "colour_max": 0.07628799409006076
+      },
+      {
+        "method": "PU-GCN",
+        "cd": 0.029791244022999874,
+        "hd": 0.09911956378098312,
+        "colour_max": 0.09911956378098312
+      },
+      {
+        "method": "PU-EdgeFormer",
+        "cd": 0.03285108854147486,
+        "hd": 0.09976244382042886,
+        "colour_max": 0.05201867927310396
+      }
+    ],
+    "selection": "Two of eight previously retained examples, one per line; agreement vs trade-off of CD and HD; not classification successes or failures.",
+    "plotting_script": "scripts/make_teacher_revision_figures.py"
+  },
+  {
+    "name": "mn_atlas_B_chair",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/chair_0890; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.65,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_modelnet_visual_analysis.tex",
+    "label": "fig:mn_atlas_B_chair",
+    "short_caption": "Chair multi-method comparison, Line B",
+    "files": {
+      "pdf": {
+        "file": "figure/mn_atlas_B_chair.pdf",
+        "bytes": 527160,
+        "sha256": "90b8c69d3cd74b73130bea6cca4d825f3fa5345d932f15eba2124e2f195b1465"
+      },
+      "svg": {
+        "file": "figure/mn_atlas_B_chair.svg",
+        "bytes": 889925,
+        "sha256": "110f2d8374c5934ac42e0d93bf6aca2713e25a55bbd9caf3c23984ee0cb00b18"
+      },
+      "png": {
+        "file": "figure/mn_atlas_B_chair.png",
+        "bytes": 983318,
+        "sha256": "162adff609425c3b30f0a412c9845c1e6db8ad8b39ca30ad15615e47e3419faf"
+      }
+    },
+    "shape_id": "chair_0890",
+    "line": "B",
+    "all_points_shown": true,
+    "points": {
+      "Input": 256,
+      "Reference": 1024,
+      "EAR": 1024,
+      "PDANS": 1024,
+      "PU-Net": 1024,
+      "PU-GCN": 1024,
+      "PU-EF": 1024
+    },
+    "source_sha256": {
+      "Input": "f95b5064c35a60a05019a4935b9e86d613930df746bc2ce3273979f2dae56c8b",
+      "Reference": "355dec57e0cbf0b28e1e7bd39b2ce5276eac909555eef03997aeb595f4a3f623",
+      "EAR": "d44afbc057adf11c36673c0d27ace9b314f6b8470a6faffa4640ad4ca1b40f61",
+      "PDANS": "c8342dff7ac35e6ac39f339eadb6f41bf1ea1bfa712daaef2455eee3d989afe6",
+      "PU-Net": "cb0a2d117179cfeb8f933f1f0142a8ef5d6bab1aaa2cfad776f635622d6f579b",
+      "PU-GCN": "7df444965356ad768b73a1df3ea4be567e9b51674d99c90e192f7ec0013496c1",
+      "PU-EF": "0bce171c4373cdba65fb0febbb71265535c373ecd78216cdc8580f40440536b5"
+    },
+    "reference_colour_range": [
+      0,
+      0.14885648907708768
+    ],
+    "method_metrics_verified": [
+      {
+        "method": "EAR",
+        "cd": 0.04926388175477857,
+        "hd": 0.24979382230297728,
+        "colour_max": 0.14885648907708768
+      },
+      {
+        "method": "PDANS",
+        "cd": 0.03572488164470037,
+        "hd": 0.2566983030031146,
+        "colour_max": 0.058613819610019116
+      },
+      {
+        "method": "PU-Net",
+        "cd": 0.043298101684663325,
+        "hd": 0.0695620535252025,
+        "colour_max": 0.0695620535252025
+      },
+      {
+        "method": "PU-GCN",
+        "cd": 0.03281057131707939,
+        "hd": 0.18622363165455819,
+        "colour_max": 0.07003679486966892
+      },
+      {
+        "method": "PU-EdgeFormer",
+        "cd": 0.03681762277199893,
+        "hd": 0.20922059876941468,
+        "colour_max": 0.08230132035362314
+      }
+    ],
+    "selection": "Two of eight previously retained examples, one per line; agreement vs trade-off of CD and HD; not classification successes or failures.",
+    "plotting_script": "scripts/make_teacher_revision_figures.py"
+  },
+  {
+    "name": "k_classes",
+    "claim": "Final adaptation leaves a deficit in all three Moderate class results",
+    "source": "lab all_classes_ap_r40.csv; 3769 frames per arm",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.6,
+    "source_tex": "texfiles/05_kitti_results.tex",
+    "label": "fig:k-classes",
+    "short_caption": "Class-specific adaptation outcome",
+    "files": {
+      "pdf": {
+        "file": "figure/k_classes.pdf",
+        "bytes": 18419,
+        "sha256": "d0f170aa20577d2800ee0c3a86a6c0c0745fc954cc4c184e25846bfe21ec0c39"
+      },
+      "svg": {
+        "file": "figure/k_classes.svg",
+        "bytes": 16462,
+        "sha256": "b55803104f383246b96f87150f5c80d4928bd35f61cd643d0e11e1191c16b2dd"
+      },
+      "png": {
+        "file": "figure/k_classes.png",
+        "bytes": 87132,
+        "sha256": "d4927d560c98cbdba448afdbf3efb519ecaebdfcbb67a8d7de5730ea951cf03f"
+      }
+    }
+  },
+  {
+    "name": "k_legacy",
+    "claim": "Earlier integration has class-specific exceptions and known implementation faults",
+    "source": "lab centerpoint_legacy_ap_r40.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.6,
+    "source_tex": "texfiles/05_kitti_results.tex",
+    "label": "fig:k-legacy",
+    "short_caption": "Earlier CenterPoint multi-method comparison",
+    "files": {
+      "pdf": {
+        "file": "figure/k_legacy.pdf",
+        "bytes": 15672,
+        "sha256": "7fad369b8187f1d83fae0dc05c973f4ff71c127d51567c3b5262e88f030dae90"
+      },
+      "svg": {
+        "file": "figure/k_legacy.svg",
+        "bytes": 20640,
+        "sha256": "fb34bb12df96340ee149af5d62c708bc3e538a640f4cfc803db0f70981e4cda9"
+      },
+      "png": {
+        "file": "figure/k_legacy.png",
+        "bytes": 122538,
+        "sha256": "90e6cb761d7f579d75f3cc24d5c8bb122f469210e912d589d10dab9f42f1468b"
+      }
+    }
+  },
+  {
+    "name": "k_patch_response",
+    "claim": "First local PDANS patches produced opposite detector responses on the same 256 frames",
+    "source": [
+      "evidence/kitti_lab/primary_20260913/PDANS_DETECTOR_DISAGREEMENT_ROOT_CAUSE.md"
+    ],
+    "width_inches": 6.077757022277571,
+    "height_inches": 3.55,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_results.tex",
+    "files": {
+      "pdf": {
+        "file": "figure/k_patch_response.pdf",
+        "bytes": 12744,
+        "sha256": "c91934c3ece430c819d875b56aa70b988b8cd93b244b950ce9c4a6bd840dbd20"
+      },
+      "svg": {
+        "file": "figure/k_patch_response.svg",
+        "bytes": 10627,
+        "sha256": "eae3d668c460d639441f14e896b4ce9bf224c6020491a2ecbbc4e52610676abf"
+      },
+      "png": {
+        "file": "figure/k_patch_response.png",
+        "bytes": 172440,
+        "sha256": "05be88f283c084e4ecf95def126541c3c3d56fc7ec83d73b087d1da750ba8407"
+      }
+    }
+  },
+  {
+    "name": "k_normalization",
+    "claim": "Normalisation and locality both affect the flawed PU-Net integration",
+    "source": "lab diagnostic record; 256 frames; historical evaluator scope",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.6,
+    "source_tex": "texfiles/05_kitti_results.tex",
+    "label": "fig:k-norm",
+    "short_caption": "Normalisation and patch ablation",
+    "files": {
+      "pdf": {
+        "file": "figure/k_normalization.pdf",
+        "bytes": 13284,
+        "sha256": "b57ebe3e971cbbcad7999a2a743b9bb8ed36a173d3cd403a6b6087a1b1f66096"
+      },
+      "svg": {
+        "file": "figure/k_normalization.svg",
+        "bytes": 11217,
+        "sha256": "dabd186180d8bfe22989051e12e4c7ebd1c258629ecbb7e9a099c817850b4e7d"
+      },
+      "png": {
+        "file": "figure/k_normalization.png",
+        "bytes": 72470,
+        "sha256": "658bfb9c117c3c6d3d442e2957d1f3314bf2b232fc0090f78a62acf0ac6394bc"
+      }
+    }
+  },
+  {
+    "name": "k_voxels",
+    "claim": "Dense outputs frequently exceed the voxel cap in the 32-frame audit",
+    "source": "lab voxel_audit32.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.8,
+    "source_tex": "texfiles/05_kitti_results.tex",
+    "label": "fig:k-voxels",
+    "short_caption": "Voxel-budget audit",
+    "files": {
+      "pdf": {
+        "file": "figure/k_voxels.pdf",
+        "bytes": 13786,
+        "sha256": "7010254632009088b2fdacf776270ce9268c769c27f7b3555afdae37214af279"
+      },
+      "svg": {
+        "file": "figure/k_voxels.svg",
+        "bytes": 8840,
+        "sha256": "b1a19fa41a810780ad62eb7733b53e88486ceda2a17e8d4b1102dad08023ce05"
+      },
+      "png": {
+        "file": "figure/k_voxels.png",
+        "bytes": 81121,
+        "sha256": "8d510e0509e0803d76a04f70321635402c36904f0866d27945aa6e1237d03c2d"
+      }
+    }
+  },
+  {
+    "name": "k_convergence_gains",
+    "claim": "Extended adaptation improves frozen-input AP but remains below original and line-specific references.",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.0,
+    "font_pdf_pt": 11.955168119551681,
+    "source": "evidence/kitti_lab/convergence_20260917/comparison_from_author_records.csv",
+    "uncertainty": "No interval: single validation-selected run per schedule, not independent repeated trials.",
+    "baseline": "Original N official for both lines; line-specific reference is original official for A and sparse 3-epoch adapted for B.",
+    "data_integrity": "All four conditions included; subtraction only; no inferred epochs.",
+    "plotting_script": "scripts/make_convergence_figures.py",
+    "source_tex": "texfiles/05_kitti_extended_adaptation.tex",
+    "files": {
+      "pdf": {
+        "file": "figure/k_convergence_gains.pdf",
+        "bytes": 19959,
+        "sha256": "a08562c52ab5e07a210e330acf34155ecac6c58a83d71fa66ac126128c13fb18"
+      },
+      "svg": {
+        "file": "figure/k_convergence_gains.svg",
+        "bytes": 20576,
+        "sha256": "0ff9804be85b91f7abd8566e652e534ba68bb1fb5d35f78e4b5dd3a890e4628b"
+      },
+      "png": {
+        "file": "figure/k_convergence_gains.png",
+        "bytes": 151896,
+        "sha256": "25eb79db9fb3c542e8185cbd4fbd0a8b8713a5bcdc233e85b6d7247dcf232ab3"
+      }
+    }
+  },
+  {
+    "source": "evidence/kitti_lab/convergence_20260917/pointrcnn_B_reported_tail.csv",
+    "selection": "All six terminal epochs explicitly tabulated in author record; preceding 18 epochs unavailable locally and not inferred.",
+    "claim": "No terminal score exceeded the selected epoch-19 checkpoint.",
+    "frames_per_epoch": 3769,
+    "metric": "Car 3D Moderate AP_R40",
+    "font_pdf_pt": 11.955168119551681,
+    "width_inches": 6.077757022277571,
+    "name": "k_convergence_terminal",
+    "plotting_script": "scripts/make_convergence_figures.py",
+    "source_tex": "texfiles/05_kitti_extended_adaptation.tex",
+    "files": {
+      "pdf": {
+        "file": "figure/k_convergence_terminal.pdf",
+        "bytes": 12831,
+        "sha256": "850ba2b2ffc2a52cc00fa1f6d04cffcfaa8b26bae1b9b1c4eb402920aa73ee46"
+      },
+      "svg": {
+        "file": "figure/k_convergence_terminal.svg",
+        "bytes": 9433,
+        "sha256": "e0d45004152fc5a6ae7e6ad25890af2de7af2322d4773e3d70199fd582e8454a"
+      },
+      "png": {
+        "file": "figure/k_convergence_terminal.png",
+        "bytes": 69391,
+        "sha256": "4ee37ca62676ee7d4179deee4aae0d691db95c802677eeaf83152a87dad45a6d"
+      }
+    }
+  },
+  {
+    "name": "k_e2_e3",
+    "claim": "Larger observed-first input recovers some dense-input AP but does not restore paired baselines",
+    "source": [
+      "evidence/kitti_lab/primary_20260913/e1_e2_live_ap_summary.csv",
+      "evidence/kitti_lab/primary_20260913/e3_real_first_32768_live_ap_summary.csv"
+    ],
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.8,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_protocol_history.tex",
+    "files": {
+      "pdf": {
+        "file": "figure/k_e2_e3.pdf",
+        "bytes": 15017,
+        "sha256": "af7496e33c36d48f7fd208f8ec510ebe2e2e8a3ffbd8332846ea60c988e29750"
+      },
+      "svg": {
+        "file": "figure/k_e2_e3.svg",
+        "bytes": 20312,
+        "sha256": "3d2c67493902448c758a9a1e9ffad9504dec56e1663996fe87cfa75b22b6999f"
+      },
+      "png": {
+        "file": "figure/k_e2_e3.png",
+        "bytes": 259148,
+        "sha256": "8408cba0410685382d00d774217c3521837a3b87a4011c38fcbea11564ad1d63"
+      }
+    }
+  },
+  {
+    "name": "k_subset_scale",
+    "claim": "AP contrast variability decreases with frame-subset size and differs by contrast",
+    "source": [
+      "evidence/kitti_lab/primary_20260913/subset_size_power_probe.json",
+      "evidence/kitti_lab/primary_20260913/subset_size_power_probe.py"
+    ],
+    "width_inches": 6.077757022277571,
+    "height_inches": 4.35,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_sampling_scale.tex",
+    "files": {
+      "pdf": {
+        "file": "figure/k_subset_scale.pdf",
+        "bytes": 17265,
+        "sha256": "3e2afd32b214f5acde9a2c4a6a1dfa4c7a43efe889b49589d5bbef85b2827426"
+      },
+      "svg": {
+        "file": "figure/k_subset_scale.svg",
+        "bytes": 13975,
+        "sha256": "b1fdce830dbf03386f78e6ee568cbe3c709e9b125982d3ea8f7ab5bb0abda165"
+      },
+      "png": {
+        "file": "figure/k_subset_scale.png",
+        "bytes": 289116,
+        "sha256": "4eb03fcd9b3045581803ee6848bf4c174145effceb5b17ab6fa624c25fb2acb8"
+      }
+    }
+  },
+  {
+    "name": "k_transitions_pointrcnn",
+    "claim": "Losses outnumber recoveries in the retained historical matching audit",
+    "source": "evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_full_val.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_object_analysis.tex",
+    "label": "fig:k-transition-pr",
+    "short_caption": "PointRCNN lost and recovered objects",
+    "files": {
+      "pdf": {
+        "file": "figure/k_transitions_pointrcnn.pdf",
+        "bytes": 13828,
+        "sha256": "64e1427d1533abaeb4861dcfbadd3183eb9e36b3bebcb8a4c8dcf53f297844f6"
+      },
+      "svg": {
+        "file": "figure/k_transitions_pointrcnn.svg",
+        "bytes": 18881,
+        "sha256": "0d9c70fe6e2289e1fca91ff967dd620c12243686cf9c3404aa816105400d46d2"
+      },
+      "png": {
+        "file": "figure/k_transitions_pointrcnn.png",
+        "bytes": 225778,
+        "sha256": "4fd7e3d4e189e3ed88cc211c267a78069c0c8f9635a3d249f5479252c5dd8f2f"
+      }
+    }
+  },
+  {
+    "name": "k_transitions_centerpoint",
+    "claim": "Losses outnumber recoveries in the retained historical matching audit",
+    "source": "evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_full_val.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_object_analysis.tex",
+    "label": "fig:k-transition-cp",
+    "short_caption": "CenterPoint lost and recovered objects",
+    "files": {
+      "pdf": {
+        "file": "figure/k_transitions_centerpoint.pdf",
+        "bytes": 13826,
+        "sha256": "bad818d9f66269b11c45e904666fb8827cb686b8b549281a4bfec64e2f1a62ed"
+      },
+      "svg": {
+        "file": "figure/k_transitions_centerpoint.svg",
+        "bytes": 18879,
+        "sha256": "f12410cdf112363b6706acc189a62cb65f1e65d1bdfdab6ae4372b8c0eef52f8"
+      },
+      "png": {
+        "file": "figure/k_transitions_centerpoint.png",
+        "bytes": 225158,
+        "sha256": "5cec2db7103b8b0ecbb16fb329fd93ea7b29514c854230281b9ddab12c2b4132"
+      }
+    }
+  },
+  {
+    "name": "k_distance_pointrcnn",
+    "claim": "Distance stratification localises the historical loss of matched Cars",
+    "source": "evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_by_distance.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_object_analysis.tex",
+    "label": "fig:k-distance-pr",
+    "short_caption": "PointRCNN loss by object range",
+    "files": {
+      "pdf": {
+        "file": "figure/k_distance_pointrcnn.pdf",
+        "bytes": 15371,
+        "sha256": "21222f9d566ce600493ea89855297b89a69f8d8b0cbd38868ecd5c341549e959"
+      },
+      "svg": {
+        "file": "figure/k_distance_pointrcnn.svg",
+        "bytes": 21340,
+        "sha256": "7abee8c778c1dea8bb05f9e5376264ed71f3c769257aa6474c8f5e6fa250b3d6"
+      },
+      "png": {
+        "file": "figure/k_distance_pointrcnn.png",
+        "bytes": 402123,
+        "sha256": "f30122ef8eda52f485ebbb60c3fc0e801c079d1bef537beed238c7662f7067a6"
+      }
+    }
+  },
+  {
+    "name": "k_distance_centerpoint",
+    "claim": "Distance stratification localises the historical loss of matched Cars",
+    "source": "evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_by_distance.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_object_analysis.tex",
+    "label": "fig:k-distance-cp",
+    "short_caption": "CenterPoint loss by object range",
+    "files": {
+      "pdf": {
+        "file": "figure/k_distance_centerpoint.pdf",
+        "bytes": 15142,
+        "sha256": "d8a31a770218e12b54116bf12786271244ee7ff5be7fa09764fe76c2160dd5e0"
+      },
+      "svg": {
+        "file": "figure/k_distance_centerpoint.svg",
+        "bytes": 21344,
+        "sha256": "c8176de670ba21b6f5dfde518ac177c8347541431525ed6856cc1c2d916f566a"
+      },
+      "png": {
+        "file": "figure/k_distance_centerpoint.png",
+        "bytes": 406525,
+        "sha256": "9d7c0c68e05ff1ece0d19d26a09a1e003c339216e9d7f3c4f881afa972fd551b"
+      }
+    }
+  },
+  {
+    "name": "k_scene_A",
+    "claim": "Full historical multi-method clouds reveal added density at a common metric scale",
+    "source": "lab frame 000590; crop x=[0,60], y=[-18,18], all heights; no random display sampling",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.1,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-scene-A",
+    "short_caption": "Line A multi-method scene comparison",
+    "files": {
+      "pdf": {
+        "file": "figure/k_scene_A.pdf",
+        "bytes": 1194572,
+        "sha256": "7656ac597cfab7da88bea240873ec39896ff893a39d47dc813358c56eff362c1"
+      },
+      "svg": {
+        "file": "figure/k_scene_A.svg",
+        "bytes": 1744067,
+        "sha256": "4459e9f39c6c6189e7c923cb93d314ff51178aaed13399ac52f6ae878c7cab12"
+      },
+      "png": {
+        "file": "figure/k_scene_A.png",
+        "bytes": 1872791,
+        "sha256": "594a4d9b4fbc97e9425d6cac043518d62dfe975339ad043dee96303825079cfb"
+      }
+    }
+  },
+  {
+    "name": "k_scene_B",
+    "claim": "Full historical multi-method clouds reveal added density at a common metric scale",
+    "source": "lab frame 000590; crop x=[0,60], y=[-18,18], all heights; no random display sampling",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.1,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-scene-B",
+    "short_caption": "Line B multi-method scene comparison",
+    "files": {
+      "pdf": {
+        "file": "figure/k_scene_B.pdf",
+        "bytes": 1000688,
+        "sha256": "d91faa071a19f75422db8fb0005f0d8719151f95d1d1c4c79b36a26f240dac5b"
+      },
+      "svg": {
+        "file": "figure/k_scene_B.svg",
+        "bytes": 1468194,
+        "sha256": "e8e9bdd6cb2158a79bdcff72661883d733726ebf8d474f6b34b63eced97c15c6"
+      },
+      "png": {
+        "file": "figure/k_scene_B.png",
+        "bytes": 1621059,
+        "sha256": "bac58473c7602f4b561a69dc71d58f120a171ffed9c1c4db6e7d7e6226e73b9a"
+      }
+    }
+  },
+  {
+    "name": "k_local_A",
+    "claim": "Common object crops distinguish retained measurements from generated neighbourhoods",
+    "source": "lab frame 005625, audit GT index 10, Car; local box + [0.6,0.6,0.4] m padding; all points",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.9,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-local-A",
+    "short_caption": "Line A local multi-method surfaces",
+    "files": {
+      "pdf": {
+        "file": "figure/k_local_A.pdf",
+        "bytes": 210775,
+        "sha256": "50de72667757e6f294c1cb0262417152ee1a5b7a6b70fe73a55944d7f881b85d"
+      },
+      "svg": {
+        "file": "figure/k_local_A.svg",
+        "bytes": 411266,
+        "sha256": "f3819d7ee601997ef63981a4cf372f0eeab9d30d64894e25fe76918496cb306c"
+      },
+      "png": {
+        "file": "figure/k_local_A.png",
+        "bytes": 838781,
+        "sha256": "e556fe0be01fb2af948b667c3bcd138b573a579251d360eb4095f65efbb93321"
+      }
+    }
+  },
+  {
+    "name": "k_local_B",
+    "claim": "Common object crops distinguish retained measurements from generated neighbourhoods",
+    "source": "lab frame 005625, audit GT index 10, Car; local box + [0.6,0.6,0.4] m padding; all points",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.9,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-local-B",
+    "short_caption": "Line B local multi-method surfaces",
+    "files": {
+      "pdf": {
+        "file": "figure/k_local_B.pdf",
+        "bytes": 112837,
+        "sha256": "cdb5d4922ca507d0f97503110297596d0896bee49ed30843fa0f332fb4b2ac76"
+      },
+      "svg": {
+        "file": "figure/k_local_B.svg",
+        "bytes": 207729,
+        "sha256": "0a1f3f3e161e2bc26ac924589f5424c22cd700328fc4e1605c241ca348373304"
+      },
+      "png": {
+        "file": "figure/k_local_B.png",
+        "bytes": 647901,
+        "sha256": "114ba019457fe723c01768267961287d121686d6439584ba2871b94333fb2a70"
+      }
+    }
+  },
+  {
+    "name": "k_case_pr_lost",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 000590/A/PDANS/pointrcnn; event=lost_after_upsampling; GT audit index=2",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-case-pr-lost",
+    "short_caption": "PointRCNN Car loss case",
+    "files": {
+      "pdf": {
+        "file": "figure/k_case_pr_lost.pdf",
+        "bytes": 153210,
+        "sha256": "897619b926f60437d871e629b602b9e14aa7c9aeec9ed733e2f6be167a60b564"
+      },
+      "svg": {
+        "file": "figure/k_case_pr_lost.svg",
+        "bytes": 273324,
+        "sha256": "72089d47ed2ca7759e488cc9cf0fd2444926e1e4f33bb72f4acfa0bdb821e168"
+      },
+      "png": {
+        "file": "figure/k_case_pr_lost.png",
+        "bytes": 589708,
+        "sha256": "9d9498426dcbe635de30c68208a3dba311e1f8bf14f9d7ad8f67f0e7bf187599"
+      }
+    }
+  },
+  {
+    "name": "k_case_pr_recovered",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 005625/B/PDANS/pointrcnn; event=recovered_after_upsampling; GT audit index=7",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-case-pr-recovered",
+    "short_caption": "PointRCNN Car recovery case",
+    "files": {
+      "pdf": {
+        "file": "figure/k_case_pr_recovered.pdf",
+        "bytes": 73136,
+        "sha256": "160d807dd301f8577078b45110e4df87978ff46ec06bc1b106674fced6073e04"
+      },
+      "svg": {
+        "file": "figure/k_case_pr_recovered.svg",
+        "bytes": 130394,
+        "sha256": "9199c9926b2c04cebc7426d4d5f6c5277e95b060823976029e532999862e7884"
+      },
+      "png": {
+        "file": "figure/k_case_pr_recovered.png",
+        "bytes": 461131,
+        "sha256": "d4cc1eb414f13dc68c6428d63b844fcdad6499335c3cb9ad8d3c37e9633f6f1c"
+      }
+    }
+  },
+  {
+    "name": "k_case_cp_lost",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 005625/B/PU-GCN/centerpoint; event=lost_after_upsampling; GT audit index=10",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-case-cp-lost",
+    "short_caption": "CenterPoint Car loss case",
+    "files": {
+      "pdf": {
+        "file": "figure/k_case_cp_lost.pdf",
+        "bytes": 83812,
+        "sha256": "f5c9411e9bace66b8eff4fe63059ba18b2dd29ab6562b4e866c41fab63190edc"
+      },
+      "svg": {
+        "file": "figure/k_case_cp_lost.svg",
+        "bytes": 155381,
+        "sha256": "254790b1fb021fbdff5960baa2270459c7ced5b0910c7ca48847460ae597c913"
+      },
+      "png": {
+        "file": "figure/k_case_cp_lost.png",
+        "bytes": 478474,
+        "sha256": "5e7a6c867cf730fddf135d62b854448c57fe57afb1b16cb100af209d6cd77755"
+      }
+    }
+  },
+  {
+    "name": "k_case_cp_recovered",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 005625/B/PU-GCN/centerpoint; event=recovered_after_upsampling; GT audit index=4",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681,
+    "source_tex": "texfiles/05_kitti_visual_analysis.tex",
+    "label": "fig:k-case-cp-recovered",
+    "short_caption": "CenterPoint Cyclist recovery case",
+    "files": {
+      "pdf": {
+        "file": "figure/k_case_cp_recovered.pdf",
+        "bytes": 45302,
+        "sha256": "5ed2b247bdccee06e5f63f2d0c0d3a053a22ba5e5a6ca739da81ef06d60847fc"
+      },
+      "svg": {
+        "file": "figure/k_case_cp_recovered.svg",
+        "bytes": 95274,
+        "sha256": "f0e8f2ef2aca487a0c2c381f5ced849d14c76c73034f4f5890d496a5e9399f1a"
+      },
+      "png": {
+        "file": "figure/k_case_cp_recovered.png",
+        "bytes": 335809,
+        "sha256": "f70d7d4e2c8dd5bc7b2b7755012ec2339b522c99be5ef5660533646e003a0a55"
+      }
+    }
+  }
+]

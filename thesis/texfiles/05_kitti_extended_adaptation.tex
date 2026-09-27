@@ -1,0 +1,109 @@
+\phantomsection\label{sec:kitti-extended}
+The extended observed-first experiments improved all four selected
+validation scores beyond their three-epoch counterparts, but none
+reached its line-specific reference
+(Table~\ref{tab:k-extended-comparison}). The comparison separates
+detector adaptation on an unchanged upsampled input from comparison
+with the original observation. Thus the frozen observed-first rows
+measure the starting point for adaptation, whereas the original-$N$
+and sparse-$M$ rows are distinct input controls. The original-$N$ row
+also serves as the complete-observation reference for Line~B.
+
+Frozen denotes official detector weights. Extended denotes the
+validation-selected best checkpoint from the schedules in
+Table~\ref{tab:k-extended-stages}, with the PU-GCN checkpoint unchanged.
+Baseline training budgets were not extended.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lL{0.43\linewidth}rr}\toprule
+Line & Input / detector weights & PointRCNN & CenterPoint\\\midrule
+\tableinput{tables/kitti_extended_comparison.tex}
+\bottomrule\end{tabular}
+\caption{Detector-adaptation comparison: Car Moderate 3D AP$_{R40}$ on
+3,769 validation frames. Bold marks extended-schedule results,
+not the highest scores across input controls.}
+\label{tab:k-extended-comparison}\end{table}
+
+Relative to the same observed-first input with frozen detector weights,
+the extended PointRCNN results gained 7.32 AP points in Line~A and
+21.52 in Line~B. The corresponding CenterPoint gains were 12.76 and
+18.81 points. The additional gains over the earlier three-epoch
+adaptation were smaller: 0.58 and 1.83 for PointRCNN, and 1.26 and
+1.24 for CenterPoint. Figure~\ref{fig:k-convergence-gains} separates
+these recovery gains from the remaining baseline deficits, so a large
+improvement from a degraded starting point is not mistaken for an
+advantage over the original input.
+
+\thesisfigure{k_convergence_gains}{Recovery and remaining deficits after extended adaptation}
+{Car Moderate 3D AP$_{R40}$ differences on 3,769 validation frames.
+(a) Extended-best minus frozen observed-first and minus three-epoch
+observed-first results. (b) Extended-best minus the original-$N$ frozen
+baseline and minus the line-specific reference. The latter is the same
+original baseline in Line~A and the three-epoch adapted sparse-$M$
+baseline in Line~B; the two markers therefore coincide in Line~A.
+Each point comes from one completed schedule and its recorded comparison,
+not an average across independent seeds.}{fig:k-convergence-gains}
+
+For Line~A, the remaining original-baseline deficits were 10.36 AP points
+for PointRCNN and 3.31 for CenterPoint. In Line~B, the extended results
+remained 11.28 and 5.15 points below the adapted sparse controls.
+They were also below the \emph{unadapted} sparse controls, by 8.53 and
+1.70 points, respectively. Compared with the complete original
+observation, the Line~B deficits were larger still, at 24.90 and
+16.38 points. The recovery therefore does not depend on choosing only
+one unfavourable starting comparator.
+
+The stage summaries in Table~\ref{tab:k-extended-stages} establish the
+scope of the plateau assessment. PointRCNN selected RPN epoch~14 in
+both lines; the associated RCNN selections were epoch~2 in Line~A and
+epoch~19 in the 24-epoch Line~B schedule. The four final PointRCNN
+trajectories contain 78 epoch evaluations in total. CenterPoint selected
+epoch~12 in each of its two 12-epoch schedules, adding 24 evaluations.
+These 102 checkpoint evaluations are repeated measurements of the
+completed training trajectories, not 102 independent training runs.
+PointRCNN RPN-stage AP belongs to its stage-specific detection
+evaluation and is not an additional final RCNN result.
+
+\begin{table}[!t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lllrrrr}\toprule
+Detector & Line & Stage & \shortstack{Total\\epochs} &
+\shortstack{Best\\epoch} & \shortstack{Best\\AP} &
+\shortstack{Final\\count}\\\midrule
+\tableinput{tables/kitti_extended_stages.tex}
+\bottomrule\end{tabular}
+\caption{Completed schedules and selected checkpoints. Final count denotes
+consecutive terminal epochs without improvement exceeding the running
+reference by 0.2 AP points (Section~\ref{sec:fc-4-11}).}
+\label{tab:k-extended-stages}\end{table}
+
+All six terminal counts in Table~\ref{tab:k-extended-stages} meet the
+threshold of three. A numerical maximum at the last epoch does not
+contradict this threshold-based plateau rule. CenterPoint Line~A improved from the last
+threshold-reference score of 75.7998 at epoch~8 to 75.9661 at epoch~12;
+Line~B improved from 62.8977 at epoch~9 to 62.9007 at epoch~12.
+These increases of 0.1663 and 0.0030 AP points did not reset the counter.
+For PointRCNN Line~B, Figure~\ref{fig:k-convergence-terminal} shows
+the six recorded terminal RCNN evaluations. The selected epoch~19
+scored 57.0485, whereas epoch~24 scored 55.5902 and all five intervening
+or final evaluations remained below the selected value. The last
+checkpoint was therefore not the selected checkpoint.
+
+\thesisfigure{k_convergence_terminal}{Terminal validation after the selected PointRCNN checkpoint}
+{PointRCNN Line~B Car Moderate 3D AP$_{R40}$ for epochs~19--24
+of the completed 24-epoch RCNN schedule, with RPN epoch~14 fixed.
+Blue marks the selected RCNN epoch; grey marks subsequent epochs.
+The panel shows the complete terminal six-epoch window tabulated in
+the experiment record, rather than the full training trajectory.
+Every point evaluates all 3,769 validation frames; the connecting
+segments join adjacent recorded epochs and do not estimate missing
+earlier values.}{fig:k-convergence-terminal}
+
+This extension supplies the validation-progress evidence missing from
+the initial three-epoch study. It narrows the explanation for the
+remaining deficit: stopping after three epochs alone does not account
+for all of the loss under the tested schedules. It does not establish
+a global optimum, exclude improvement with another optimiser or input
+design, or remove the unequal-budget and validation-selection limits.
+The earlier all-class tables retain their original three-epoch
+checkpoints; their Pedestrian and Cyclist values are not reassigned
+to these Car-selected models.

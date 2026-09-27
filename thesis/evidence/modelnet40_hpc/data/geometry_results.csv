@@ -1,0 +1,15 @@
+bucket_points,line,method,origin,cd_l2_unsquared,hd_l2,nuc,best_oa_percent,reference
+256,B,Mesh-ref 256,genuine mesh sampling,0.0000,0.0000,2.1265,90.88,self
+256,B,Downsampled x4,decimated from Original 1024,0.1333,0.2049,2.0933,90.85,Mesh-ref 256
+1024,B,Original 1024,genuine mesh sampling,0.0000,0.0000,1.0836,91.95,self
+1024,B,PU-Net,256 to 1024,0.0646,0.1083,1.0801,91.27,Original 1024
+1024,B,PDANS,256 to 1024,0.0627,0.1905,1.0528,90.34,Original 1024
+1024,B,PU-GCN,256 to 1024,0.0558,0.1514,1.5240,90.06,Original 1024
+1024,B,PU-EdgeFormer,256 to 1024,0.0619,0.1776,1.1225,89.32,Original 1024
+1024,B,EAR,256 to 1024,0.0767,0.1932,0.9653,88.81,Original 1024
+4096,A,Mesh-ref 4096,genuine mesh sampling,0.0000,0.0000,0.6419,92.00,self
+4096,A,PU-GCN,1024 to 4096,0.0423,0.0932,0.5204,91.63,Mesh-ref 4096
+4096,A,PDANS,1024 to 4096,0.0468,0.1135,0.6612,91.62,Mesh-ref 4096
+4096,A,EAR,1024 to 4096,0.0547,0.1154,0.8156,91.48,Mesh-ref 4096
+4096,A,PU-Net,1024 to 4096,0.0497,0.1112,0.6052,90.95,Mesh-ref 4096
+4096,A,PU-EdgeFormer,1024 to 4096,0.0467,0.1109,0.6754,90.54,Mesh-ref 4096

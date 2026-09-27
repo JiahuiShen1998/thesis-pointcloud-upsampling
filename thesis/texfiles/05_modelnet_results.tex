@@ -1,0 +1,229 @@
+\section{ModelNet40: Classification and Geometric Fidelity}
+\label{sec:modelnet-results}
+
+OA and mAcc below are the recorded batch-aggregated statistics defined
+in Equation~\eqref{eq:reported-classification}. All result values are
+preserved from the HPC runs. This distinction matters when interpreting
+small differences or comparing against externally reported accuracies.
+
+\subsection{Densifying the Original Observation}
+\label{sec:linea-results}
+
+None of the five Line~A upsampled representations exceeded the original
+1,024-point baseline. Table~\ref{tab:mn-a} reports the selected-checkpoint
+overall accuracy (Best OA), epoch-200 accuracy (Final OA), and mean class
+accuracy at the selected checkpoint. PU-GCN was closest in Best OA,
+at 91.63\% compared with 91.95\%, while PDANS was nearly identical
+at 91.62\%. The largest deficit was 1.41 percentage points (pp) for
+PU-EdgeFormer. Each representation had its own classifier trained from random
+initialisation, so these losses occurred even when the downstream model was
+trained on the generated representation. Each row represents one
+seed-42 classifier training run over 200 epochs.
+
+\begin{table}[t]\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}\toprule
+Representation & Points & Best OA & Final OA & mAcc & $\Delta$ OA \\
+\midrule\tableinput{tables/modelnet_classification_A.tex}\bottomrule
+\end{tabular}
+\caption{ModelNet40 Line~A classification, with accuracies in percent.
+$\Delta$ OA is the Best-OA change from Original~1024 in percentage points.}\label{tab:mn-a}
+\end{table}
+
+The same qualitative conclusion held at the fixed final epoch. The original
+representation reached 91.31\%, compared with 91.00\% for PU-GCN and
+90.87\% for PDANS. Thus the negative Line~A outcome was not produced only
+by reporting the maximum of a noisy trajectory. The differences remain descriptive because
+the test set was also used for checkpoint selection and training was not
+repeated across independent random seeds.
+
+Mean class accuracy and overall accuracy did not always move together.
+PDANS and EAR had slightly higher reported mAcc than the original baseline
+despite lower OA. Reported OA averages batch accuracies, whereas reported
+mAcc averages the class-specific batch ratios across categories. Their
+weights therefore differ, and a gain in one aggregate need not produce
+a gain in the other. Without retained object predictions, a sample-weighted
+recalculation or attribution to particular misclassified objects is not
+possible. The category scores supplied with the runs are
+analysed in Section~\ref{sec:mn-categories}. They are not converted into
+integer correct-prediction counts because per-object predictions were not
+retained.
+
+\subsection{Recovery after Fourfold Sparsification}
+\label{sec:lineb-results}
+
+Only PU-Net exceeded the native 256-point Line~B baseline in Best OA:
+91.27\% versus 90.85\%, a gain of 0.42~pp
+(Table~\ref{tab:mn-b}). It remained 0.68~pp below Original~1024.
+Restoring the original point count therefore recovered only part of the
+classification gap. The other methods performed below the sparse baseline,
+with deficits from 0.51~pp for PDANS to 2.04~pp for EAR.
+
+\begin{table}[t]\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}\toprule
+Representation & Points & Best OA & Final OA & mAcc & $\Delta$ OA \\
+\midrule\tableinput{tables/modelnet_classification_B.tex}\bottomrule
+\end{tabular}
+\caption{ModelNet40 Line~B classification after $1,024\rightarrow256$
+sparsification and $256\rightarrow1,024$ upsampling. The immediate baseline
+retains its native 256 points. Definitions match Table~\ref{tab:mn-a}.}
+\label{tab:mn-b}\end{table}
+
+At epoch~200, PU-Net retained a smaller advantage of 0.19~pp over the
+sparse baseline, 90.65\% versus 90.46\%. The recorded means over epochs
+181--200 were 90.85\% and 90.32\%, respectively. This late-training
+record supports a persistent descriptive advantage rather than an isolated
+best checkpoint. Epochs from one optimisation trajectory are correlated,
+however, and their variation cannot substitute for training-seed uncertainty.
+
+Figure~\ref{fig:mn-training} shows the complete test-accuracy trajectories.
+The later epochs show the sustained separation of EAR and PU-EdgeFormer
+below the sparse baseline. The best-to-final gap reached 0.88~pp for
+Line~B PDANS and 0.79~pp for EAR. Reporting only Best OA would obscure
+that sensitivity. Under this training procedure, PU-Net provided the most
+useful recovery representation among the tested methods; the evidence does
+not establish a statistically significant or architecture-independent gain.
+
+\thesisfigure{mn_training}{Classification during training}{Test OA at every
+recorded epoch for the canonical branches. No smoothing or averaging across
+runs is applied. The curves describe one seed per representation.}{fig:mn-training}
+
+\thesisfigure{mn_late_training}{Later classification trajectories}{Unsmoothed
+test OA from epochs 100--200. This complements the complete trajectories
+by resolving the small late-training separations. Each curve is one
+training run; no seed confidence interval is implied.}{fig:mn-late}
+Figure~\ref{fig:mn-late} resolves the later training behaviour that is
+compressed in a full-epoch plot. In Line~A, the final train--test gap
+was 6.51~pp for Original and 8.23--9.38~pp for the upsampled inputs.
+In Line~B it was 2.52~pp for Sparse and 7.24--9.58~pp after upsampling.
+Higher training accuracy therefore coexisted with weaker test accuracy
+for most generated representations. This observation is consistent with
+greater fitting to the training representation, but does not isolate
+overfitting from representation quality or optimisation effects.
+
+\FloatBarrier
+\input{texfiles/05_modelnet_categories}
+
+\subsection{Genuine-Sampling Controls and Point Reception}
+\label{sec:controls}
+
+Increasing genuine surface samples also had a limited return above 1,024
+points. Mesh-ref~256 reached 90.88\% Best OA, close to the decimated
+baseline's 90.85\%. Mesh-ref~4096 reached 92.00\%, only 0.05~pp
+above Original~1024. At epoch~200 it was below Original~1024,
+91.18\% versus 91.31\% (Figure~\ref{fig:mn-controls}). These controls
+suggest diminishing benefit from additional surface samples for the configured
+PointNet++ SSG classifier, rather than a general upper bound on density.
+
+Four training shapes in the mesh-reference builds were reused instead of
+regenerated under the final stable-seed rule. No test object was affected,
+so the equal-cardinality test geometry remains usable. The two trained
+mesh-reference controls are nevertheless provisional: their small OA
+differences should not support a strong causal claim without rebuilding
+those training shapes and repeating the control training.
+
+\thesisfigure{mn_controls}{Genuine density controls}{Selected and final OA for
+genuine mesh samples and the native sparse baseline. Four reused training
+shapes limit the mesh-reference training comparison; the test geometry
+contains no such exception.}{fig:mn-controls}
+
+The fixed-radius grouping and finite neighbourhoods of PointNet++ \cite{qi2017pointnetpp} motivate a possible explanation for the limited return. In the retained reception probe, the genuine and
+decimated 256-point inputs required repeated indices in 59.2\% of
+neighbourhood slots. Original~1024 discarded 31.9\% of points found
+within its queried neighbourhoods, while Mesh-ref~4096 discarded 78.7\%.
+These are local grouping statistics with a fixed neighbourhood budget,
+not percentages of globally unique points removed from the cloud.
+
+Figure~\ref{fig:mn-sa1} reports repetition and discard rates. A fourfold
+increase in file cardinality did not produce a fourfold increase in distinct
+local evidence passed to the next layer. This is consistent with saturation
+under fixed grouping radii and capacities. Reception is not a uniquely
+identified cause of the accuracy differences: shape deformation, feature
+extraction, and optimisation can also contribute.
+
+\thesisfigure{mn_sa1}{PointNet++ neighbourhood reception}{Recorded first-layer
+discard and repeated-slot rates for the retained representations. Rates are
+local grouping statistics, not complementary fractions of an entire cloud.
+The architecture is specified in Section~\ref{sec:classifier-setup}.}{fig:mn-sa1}
+
+The earlier 512-point controls further show that the input protocol matters.
+PDANS reached 91.47\% Best OA from 512 visible points against a native
+baseline of 91.26\%, whereas the final 256-point comparison lost
+0.51~pp. Both visible support and downstream input size changed;
+this is not an isolated estimate of sparsity. The complete earlier
+runs remain in the archived HPC results rather than being pooled
+with the final two-line comparison.
+
+\subsection{Equal-Cardinality Geometry}
+\label{sec:equaln-geometry}
+\label{sec:geometry-audit}
+
+PU-GCN achieved the lowest mean unsquared Chamfer distance in both lines.
+The comparison used 2,468 paired test objects, a 4,096-point independent
+mesh reference in Line~A, and Original~1024 in Line~B.
+Tables~\ref{tab:geom-a} and~\ref{tab:geom-b} give the means and archived
+object-bootstrap intervals from 4,000 resamples of the 2,468 objects,
+using the resampling principle of Efron \cite{efron1979bootstrap}. These intervals describe variation across test
+objects, not training seeds or checkpoints.
+
+\begin{table}[t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}\toprule
+Method & CD & CD 95\% interval & HD & $|\Delta\mathrm{NUC}|$ & P2F$^{*}$ \\
+\midrule\tableinput{tables/modelnet_geometry_A.tex}\bottomrule
+\end{tabular}
+\caption{Line~A geometry against the independent 4,096-point reference.
+CD and HD are unsquared distances in normalised coordinates.
+$^{*}$P2F uses independently normalised clouds and meshes.}\label{tab:geom-a}
+\end{table}
+
+\begin{table}[t]\centering\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}\toprule
+Method & CD & CD 95\% interval & HD & $|\Delta\mathrm{NUC}|$ & P2F$^{*}$ \\
+\midrule\tableinput{tables/modelnet_geometry_B.tex}\bottomrule
+\end{tabular}
+\caption{Line~B geometry against Original~1024. Definitions match
+Table~\ref{tab:geom-a}. The sparse 256-point baseline has a separate
+256-point mesh reference and is not ranked in this table.
+The P2F column retains the separate cloud-to-mesh convention.}\label{tab:geom-b}
+\end{table}
+
+The Chamfer advantage did not imply the best result under every metric.
+PU-GCN also had the lowest mean Line~A HD, but PU-Net had the lowest
+Line~B HD: 0.1083 compared with 0.1514 for PU-GCN.
+Figure~\ref{fig:mn-geometry} shows the change in ordering. Chamfer distance
+averages nearest-neighbour residuals, whereas HD records the largest gap
+or outlier for each object. The rankings indicate a trade-off between average residuals and extreme
+local residuals under the retained normalised-reference protocol. Equal
+point counts control cardinality, but the independently normalised mesh
+reference can still contribute translation and scale differences
+(Section~\ref{sec:fc-4-10-1}). These results are not presented as a
+common-transform surface-error ranking.
+
+\thesisfigure{mn_geometry}{Geometric fidelity at equal cardinality}{Mean CD
+and HD across 2,468 test objects. Error bars are archived 95\%
+object-bootstrap intervals. The reference differs between the two lines
+as specified in Tables~\ref{tab:geom-a} and~\ref{tab:geom-b}.}{fig:mn-geometry}
+
+Uniformity also requires a reference. A low NUC indicates less variation in
+local counts, but an object surface need not have the lowest achievable
+NUC. The analysis therefore averages each object's absolute deviation from
+its reference NUC; this differs from the absolute difference between dataset
+means. Query centres were not fully shared by shape ID across methods,
+so NUC differences include query-placement variation and remain secondary
+to the principal distance and task results.
+
+The P2F columns in Tables~\ref{tab:geom-a} and~\ref{tab:geom-b}
+retain the completed secondary surface audit. Clouds and meshes were
+independently centred and scaled, so even the original mesh-sampled
+input had mean P2F 0.08662; the sparse control had 0.08675.
+PU-Net had the lowest Line~A mean P2F (0.08413), and PDANS the lowest
+Line~B value (0.08365). This ordering differs from CD and HD, but the
+coordinate convention prevents interpreting it as an absolute
+common-frame surface ranking. Co-location in the tables does not
+make the reference protocols interchangeable.
+
+\input{texfiles/05_modelnet_paired_geometry}
+
+\FloatBarrier
+\input{texfiles/05_modelnet_visual_analysis}

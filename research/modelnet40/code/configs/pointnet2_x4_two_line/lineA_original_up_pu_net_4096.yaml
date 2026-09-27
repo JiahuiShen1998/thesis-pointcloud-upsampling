@@ -1,0 +1,20 @@
+# Auto-generated branch config for lineA_original_up_pu_net
+experiment_name: lineA_original_up_pu_net
+line: A
+branch: lineA_original_up_pu_net
+method: PU-Net
+data_root: pointnet2_inputs/lineA_original_up/pu_net
+expected_point_count: 4096
+num_point: 4096
+allow_resample: false
+model: pointnet2_cls_ssg
+num_category: 40
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  seed: 42
+  num_workers: 4
+output_dir: pointnet2_results/x4_two_line_final/lineA_original_up/pu_net

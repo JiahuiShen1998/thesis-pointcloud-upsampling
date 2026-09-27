@@ -1,0 +1,2 @@
+method,raw_train,raw_test,raw_total,strict_train,strict_test,strict_total,expected_total,expected_point_count,bad_shape_count,nan_count,inf_count,missing_samples,extra_samples,status,raw_root,strict_root
+pu_net,9843,2468,12311,9843,2468,12311,12311,1024,0,0,0,0,0,PASS,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/raw/pu_net,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/pu_net

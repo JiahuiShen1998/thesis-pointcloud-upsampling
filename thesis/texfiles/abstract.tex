@@ -1,0 +1,33 @@
+\chapter*{Abstract}\addcontentsline{toc}{chapter}{Abstract}
+Point-cloud upsampling increases the number of spatial samples, but its
+benefit for downstream perception cannot be inferred from geometric
+distance alone. This thesis evaluates densification of an original input
+and recovery after fourfold sparsification on two complementary tasks.
+The ModelNet40 study compares EAR, PDANS, PU-Net, PU-GCN, and PU-EdgeFormer
+using separately trained PointNet++ classifiers and equal-cardinality
+geometric references. The KITTI study evaluates point-based PointRCNN
+and voxel-based CenterPoint, with a 20-arm PU-GCN input and three-epoch
+detector-adaptation matrix, followed by extended observed-first training.
+Each main evaluation covers 3,769 validation frames.
+
+Using the recorded batch-aggregated accuracy, no tested method improves
+ModelNet40 Line~A best overall accuracy over
+the original 1,024-point representation at 91.95\%. After sparsification,
+PU-Net raises best accuracy from 90.85\% to 91.27\%, while PU-GCN achieves
+the lowest mean Chamfer distance in both lines. On KITTI, direct insertion
+degrades frozen detection. Preserving measured points and adapting the
+detectors recover performance but leave deficits relative to the
+corresponding baselines. Extended adaptation further improves all four
+detector--line conditions and meets the specified Car-validation plateau
+criterion, but still leaves deficits of 3.31--11.28 AP points relative
+to the line-specific references. PU-GCN itself retains its released
+pretrained weights throughout this later study.
+
+Patch-normalisation, point-reception, and voxel-occupancy diagnostics show
+why stored density differs from effective task input. The findings are
+bounded by single-seed classifier training, test-based best-checkpoint
+selection, unequal detector-training budgets, and detector checkpoint
+selection on the reported validation set. The combined evidence establishes a
+limited object-level recovery benefit and partial scene-level recovery,
+while showing that geometric fidelity alone is insufficient to establish
+downstream utility.

@@ -1,0 +1,234 @@
+[
+  {
+    "name": "mn_atlas_A_airplane",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/airplane_0627; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_atlas_A_car",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/car_0241; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_atlas_B_chair",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/chair_0890; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_atlas_B_guitar",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/guitar_0156; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_atlas_B_lamp",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/lamp_0125; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_atlas_A_sofa",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/sofa_0687; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_atlas_B_table",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/table_0475; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_atlas_A_toilet",
+    "claim": "Stored multi-method geometry and reference-distance localization",
+    "source": "HPC pointcloud_parallel/toilet_0365; all array points; errors are output-to-reference nearest distances",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.3,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_categories_A_1",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_categories_A_2",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_categories_B_1",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_categories_B_2",
+    "claim": "Category gains and losses coexist; all 40 categories retained",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\classification_per_class_delta.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.4,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_object_winners",
+    "claim": "Geometry rankings persist at the object level but depend on the metric",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\geometry_objectwise_winner_share.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.4,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_paired_geometry",
+    "claim": "Paired CD and HD differences reveal the metric-dependent trade-off",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\geometry_equal_n_per_sample.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_category_association",
+    "claim": "All 30 archived associations show the uncertainty of category-level alignment",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\category_geometry_classification_alignment.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.1,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_late_training",
+    "claim": "The later training record separates checkpoint variation from method ordering",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\training_curves.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.8,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "mn_controls",
+    "claim": "Genuine-density controls remain qualified by four reused training shapes",
+    "source": "D:\\Thesis\\thesis\\evidence\\modelnet40_hpc\\data\\training_stability_summary.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 3.2,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_transitions_pointrcnn",
+    "claim": "Losses outnumber recoveries in the retained historical matching audit",
+    "source": "D:\\Thesis\\thesis\\evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_full_val.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_transitions_centerpoint",
+    "claim": "Losses outnumber recoveries in the retained historical matching audit",
+    "source": "D:\\Thesis\\thesis\\evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_full_val.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_distance_pointrcnn",
+    "claim": "Distance stratification localises the historical loss of matched Cars",
+    "source": "D:\\Thesis\\thesis\\evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_by_distance.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_distance_centerpoint",
+    "claim": "Distance stratification localises the historical loss of matched Cars",
+    "source": "D:\\Thesis\\thesis\\evidence\\kitti_lab\\visual_audit\\reports\\dual_detector_three_frame_root_cause_20260730\\analysis\\transition_summary_by_distance.csv",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.5,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_scene_A",
+    "claim": "Full historical multi-method clouds reveal added density at a common metric scale",
+    "source": "lab frame 000590; crop x=[0,60], y=[-18,18], all heights; no random display sampling",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.1,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_scene_B",
+    "claim": "Full historical multi-method clouds reveal added density at a common metric scale",
+    "source": "lab frame 000590; crop x=[0,60], y=[-18,18], all heights; no random display sampling",
+    "width_inches": 6.077757022277571,
+    "height_inches": 6.1,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_local_A",
+    "claim": "Common object crops distinguish retained measurements from generated neighbourhoods",
+    "source": "lab frame 005625, audit GT index 10, Car; local box + [0.6,0.6,0.4] m padding; all points",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.9,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_local_B",
+    "claim": "Common object crops distinguish retained measurements from generated neighbourhoods",
+    "source": "lab frame 005625, audit GT index 10, Car; local box + [0.6,0.6,0.4] m padding; all points",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.9,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_case_pr_lost",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 000590/A/PDANS/pointrcnn; event=lost_after_upsampling; GT audit index=2",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_case_pr_recovered",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 005625/B/PDANS/pointrcnn; event=recovered_after_upsampling; GT audit index=7",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_case_cp_lost",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 005625/B/PU-GCN/centerpoint; event=lost_after_upsampling; GT audit index=10",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681
+  },
+  {
+    "name": "k_case_cp_recovered",
+    "claim": "A retained qualifying match is lost or recovered for the same labelled object",
+    "source": "lab case manifest 005625/B/PU-GCN/centerpoint; event=recovered_after_upsampling; GT audit index=4",
+    "width_inches": 6.077757022277571,
+    "height_inches": 5.0,
+    "font_pdf_pt": 11.955168119551681
+  }
+]

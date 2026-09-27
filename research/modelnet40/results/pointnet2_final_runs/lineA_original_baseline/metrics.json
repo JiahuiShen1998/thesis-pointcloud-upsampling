@@ -1,0 +1,13 @@
+{
+  "variant": "lineA_original_baseline",
+  "overall_accuracy": 0.9194983818770229,
+  "class_accuracy": 0.8800054519252889,
+  "best_epoch": 85,
+  "checkpoint_path": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_results/x4_two_line_final/lineA_original_baseline/checkpoints/best_model.pth",
+  "final_test_overall_accuracy": 0.9131067961165049,
+  "final_test_class_accuracy": 0.8719783355231726,
+  "final_epoch": 200,
+  "data_root": "/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/pointnet2_inputs/lineA_original_baseline",
+  "num_point": 1024,
+  "allow_resample": false
+}

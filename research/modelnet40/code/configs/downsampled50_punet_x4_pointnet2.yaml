@@ -1,0 +1,35 @@
+# Line B main upsampling: Downsampled50 + PU-Net ×4 → PointNet++
+# Native 2048 points from 512→2048 upsampling; no loader resample.
+
+experiment_name: downsampled50_punet_x4_pointnet2
+line: B
+branch: upsampling
+upsampling_method: PU-Net
+upsampling_factor: 4
+
+data_root: datasets/modelnet40_downsampled50_up/punet_x4
+native_points: 2048
+num_point: 2048
+allow_resample: false
+
+model: pointnet2_cls_ssg
+num_category: 40
+use_normals: false
+
+training:
+  epoch: 200
+  batch_size: 24
+  learning_rate: 0.001
+  decay_rate: 0.0001
+  optimizer: Adam
+  scheduler_step: 20
+  scheduler_gamma: 0.7
+  seed: 42
+  num_workers: 4
+
+output_dir: outputs/downsampled50_punet_x4_pointnet2
+log_dir: logs/downsampled50_punet_x4_pointnet2
+reports_dir: reports/downsampled50_punet_x4_pointnet2
+
+# Comparison reference (main Line B baseline):
+#   downsampled50_native512_pointnet2: native 512, best acc = 91.26%

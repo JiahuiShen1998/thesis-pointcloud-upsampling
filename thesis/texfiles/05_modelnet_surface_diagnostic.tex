@@ -1,0 +1,17 @@
+\subsection{Secondary Dense-Reference Surface Diagnostic}
+\label{sec:geometry-audit}
+The archived dense-reference experiment additionally measured point-to-face
+distance after independently centring and normalising each cloud and mesh.
+Its nonzero original-input baseline reflects that coordinate convention.
+These values do not estimate absolute distance to the original surface
+in a common frame. Table~\ref{tab:p2f-audit} retains every recorded mean
+P2F row, including the original and sparse controls.
+
+A low value in this table therefore answers a different question from
+equal-cardinality CD and HD. Recentring and rescaling can contribute to
+the residual even when points were sampled from the underlying mesh.
+The P2F table is preserved as a completed diagnostic, while the
+equal-cardinality distances remain the main geometric comparison.
+Full per-object values and paired dense-reference summaries remain in
+the accompanying evidence package.
+\input{tables/p2f_audit}

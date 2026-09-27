@@ -1,0 +1,112 @@
+\FloatBarrier
+\subsection{Whole-Scene Multi-Method Comparisons}
+\label{sec:kitti-scene-visual}
+
+\thesisfigure{k_scene_A}{Line A multi-method scene comparison}{
+Lab frame 000590, historical Line~A E1 inputs. Gray points are retained
+observed rows and blue points are generated rows. The shared crop is
+0--60~m forward and $-18$--18~m lateral, all heights, with no display
+subsampling. PU-Net* is the old faulty adapter; PU-EF is the lab
+compatibility path.}{fig:k-scene-A}
+
+\thesisfigure{k_scene_B}{Line B multi-method scene comparison}{
+The same scene under historical Line~B construction. Measured points
+now come from the sparse baseline. All four stored method outputs are
+included under the same crop and colour convention as
+Figure~\ref{fig:k-scene-A}.}{fig:k-scene-B}
+
+Figures~\ref{fig:k-scene-A} and~\ref{fig:k-scene-B} re-render the local
+lab visualisation arrays for frame 000590, including PDANS, PU-GCN,
+PU-EdgeFormer, and PU-Net in both lines. The display window is fixed to
+0--60~m forward and $-18$--18~m lateral, with no height filter.
+All points inside this window are drawn. Measured rows are identified
+by exact float32-row membership in the corresponding observed input,
+rather than by assigning a method a presumed preservation property.
+
+The separate colours reveal a distinction hidden by an all-blue dense
+cloud: these historical E1 inputs retain observations at the stored-cloud
+stage, but much of the displayed density comes from generated rows.
+In Line~B, the measured component is the sparse input, so recovery
+to the original file size does not restore the original measurements.
+The figure's point counts refer to the display window, not to detector
+input cardinality or the number of points inside labelled objects.
+
+\FloatBarrier
+\subsection{Local Surfaces and Measurement Preservation}
+\label{sec:kitti-local-visual}
+
+\thesisfigure{k_local_A}{Line A local multi-method surfaces}{
+Common object-aligned crop for frame 005625, Car audit index 10.
+All four outputs retain 316 measured rows in this window; generated
+rows are shown separately. The dashed GT box and view are identical
+across methods. Historical pipeline labels match Figure~\ref{fig:k-scene-A}.}{fig:k-local-A}
+
+\thesisfigure{k_local_B}{Line B local multi-method surfaces}{
+The same labelled Car after sparsification. All points within the
+declared crop are shown; counts distinguish the 85 measured rows from
+generated rows. Increased crop density alone does not establish
+restored surface accuracy or improved detection.}{fig:k-local-B}
+
+The whole-scene view cannot resolve the distribution around one object.
+Figures~\ref{fig:k-local-A} and~\ref{fig:k-local-B} therefore use the
+same Car in frame 005625 (audit GT index 10) and the same object-aligned
+coordinates for every method. The crop extends 0.6~m beyond the box in
+length and width and 0.4~m in height. These margins retain context
+around the measured surface; crop counts are not restricted to the
+interior of the ground-truth box.
+
+The original crop contained 316 observed rows, compared with 85 after
+sparsification. In Line~A, PDANS added 1,184 generated rows within this
+window and PU-GCN added 953. In Line~B, the respective counts were
+284 and 259. The visible point concentration and the incomplete
+measurement support can therefore be assessed separately.
+The dashed box specifies the labelled object's extent; it is not a
+surface reconstruction target. Points outside it can be legitimate
+background because the crop deliberately includes a margin.
+
+\FloatBarrier
+\subsection{Matched Detection Failures and Positive Counterexamples}
+\label{sec:kitti-matched-cases}
+
+\thesisfigure{k_case_pr_lost}{PointRCNN Car loss case}{Historical lab frame 000590, Line~A, PDANS, audit object index 2. The oblique view and BEV show the same effective-input crop. Predictions are read from the retained manifest; only qualifying matches are drawn. The class threshold is 0.70 3D IoU.}{fig:k-case-pr-lost}
+
+The four examples below were already identified in the lab event audit.
+They are selected diagnostic cases, not a random estimate of event
+frequencies. Each compares the same labelled object before and after
+upsampling using detector-effective input. Dashed boxes are ground
+truth; solid boxes are saved qualifying predictions. Unqualified
+predictions are not drawn, so an FN label means no qualifying match,
+not necessarily an absence of proposals.
+
+The PointRCNN Line~A PDANS example lost a Car that initially had a well-aligned prediction. The common local view permits inspection of altered neighbourhood support without confusing this with the global increase in stored point count.
+Figure~\ref{fig:k-case-pr-lost} records 3D IoU 0.777 before upsampling and no qualifying match afterwards. The displayed effective-input crop contains 846 baseline points and 785 upsampled points.
+
+\FloatBarrier
+
+A different PointRCNN example provides a positive counterexample in Line~B. The recovered Car crosses the matching threshold despite fewer effective input points in this local crop. Local cardinality alone therefore cannot explain the sign of a detection transition.
+Figure~\ref{fig:k-case-pr-recovered} records no qualifying match before upsampling and 3D IoU 0.705 afterwards. The displayed effective-input crop contains 312 baseline points and 271 upsampled points.
+
+\thesisfigure{k_case_pr_recovered}{PointRCNN Car recovery case}{Historical lab frame 005625, Line~B, PDANS, audit object index 7. The oblique view and BEV show the same effective-input crop. Predictions are read from the retained manifest; only qualifying matches are drawn. The class threshold is 0.70 3D IoU.}{fig:k-case-pr-recovered}
+\FloatBarrier
+
+The CenterPoint Line~B PU-GCN Car is a complementary negative case: more retained crop points coexist with loss of a previously qualifying prediction. This bounds the claim that preserving measurements or adding local density is sufficient for detection.
+Figure~\ref{fig:k-case-cp-lost} records 3D IoU 0.871 before upsampling and no qualifying match afterwards. The displayed effective-input crop contains 100 baseline points and 394 upsampled points.
+
+\thesisfigure{k_case_cp_lost}{CenterPoint Car loss case}{Historical lab frame 005625, Line~B, PU-GCN, audit object index 10. The oblique view and BEV show the same effective-input crop. Predictions are read from the retained manifest; only qualifying matches are drawn. The class threshold is 0.70 3D IoU.}{fig:k-case-cp-lost}
+\FloatBarrier
+
+The CenterPoint Cyclist in the same Line~B PU-GCN frame provides a positive case under the class-specific 0.50 IoU threshold. It shows that recoveries can occur in the same representation and scene as Car losses; the full-validation event counts establish which direction dominates.
+Figure~\ref{fig:k-case-cp-recovered} records no qualifying match before upsampling and 3D IoU 0.655 afterwards. The displayed effective-input crop contains 19 baseline points and 110 upsampled points.
+
+\thesisfigure{k_case_cp_recovered}{CenterPoint Cyclist recovery case}{Historical lab frame 005625, Line~B, PU-GCN, audit object index 4. The oblique view and BEV show the same effective-input crop. Predictions are read from the retained manifest; only qualifying matches are drawn. The class threshold is 0.50 3D IoU.}{fig:k-case-cp-recovered}
+\FloatBarrier
+
+These cases discriminate several explanations that an AP table cannot.
+A global fourfold expansion need not increase the number of points
+entering a particular PointRCNN crop, and a larger CenterPoint crop
+can still lose its matched box. Conversely, a positive transition does
+not require more local effective points. The examples support analysing
+where generated points enter the representation and how predictions
+change, while leaving the causal contribution of geometry, sampling,
+and learned features unresolved. The full-validation final matrix
+remains the evidence for detector adaptation.

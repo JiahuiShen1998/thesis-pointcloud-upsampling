@@ -1,0 +1,11 @@
+group,source_path,expected_samples,actual_samples,expected_point_count,min_points,max_points,nan_count,inf_count,status,note
+original_baseline_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original,12311,12311,1024,1024,1024,0,0,ok,
+downsampled_x4_baseline_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_downsampled_x4,12311,12311,256,256,256,0,0,ok,
+downsampled_x4_up_ear_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/ear,12311,12311,1024,1024,1024,0,0,ok,
+original_up_ear_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/ear,12311,12311,4096,4096,4096,0,0,ok,
+downsampled_x4_up_pu_net_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/pu_net,12311,12311,1024,1024,1024,0,0,ok,
+original_up_pu_net_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/pu_net,12311,12311,4096,4096,4096,0,0,ok,
+downsampled_x4_up_pu_gcn_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/pu_gcn,12311,12311,1024,1024,1024,0,0,ok,
+original_up_pu_gcn_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/pu_gcn,12311,12311,4096,4096,4096,0,0,ok,
+downsampled_x4_up_pdans_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineB_downsampled_x4_up/strict_N/pdans,12311,12311,1024,1024,1024,0,0,ok,
+original_up_pdans_vs_gt,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/lineA_original_up/strict_4N/pdans,12311,12311,4096,4096,4096,0,0,ok,

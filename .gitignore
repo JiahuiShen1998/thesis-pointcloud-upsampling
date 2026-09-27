@@ -1,0 +1,24 @@
+# Generated LaTeX products and caches
+**/build/
+**/audit/
+*.aux
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+# Preserve archived experiment logs
+!research/**/*.log
+# A rebuild produces this PDF; the canonical archived PDF is /thesis.pdf
+/thesis/thesis.pdf
+__pycache__/
+*.py[cod]
+.venv/
+.python-deps/
+.DS_Store
+Thumbs.db
+~$*

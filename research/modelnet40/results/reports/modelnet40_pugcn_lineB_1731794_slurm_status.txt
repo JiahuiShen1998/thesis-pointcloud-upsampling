@@ -1,0 +1,17 @@
+Diagnosis time: 2026-07-06 (PU-GCN Line B job 1731794)
+
+===== squeue =====
+CLUSTER: tinygpu
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+        1731794_15      work mn40_B_pugcn_256to1024 iwnt189h  R   21:39:01      1 tg084
+        1731794_14      work mn40_B_pugcn_256to1024 iwnt189h  R   21:39:01      1 tg084
+        1731794_13      work mn40_B_pugcn_256to1024 iwnt189h  R   21:39:01      1 tg084
+
+===== sacct summary =====
+Array tasks 0-12:  COMPLETED (Elapsed ~2h31m - 2h41m, ExitCode 0:0)
+Array task  13:    RUNNING (Elapsed 21:39:01, ExitCode 0:0)
+Array task  14:    RUNNING (Elapsed 21:39:01, ExitCode 0:0)
+Array task  15:    RUNNING (Elapsed 21:39:01, ExitCode 0:0)
+
+No TIMEOUT, FAILED, CANCELLED, or OUT_OF_MEMORY observed in sacct.
+All three remaining tasks on node tg084.

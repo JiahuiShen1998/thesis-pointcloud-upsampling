@@ -1,0 +1,210 @@
+[
+  {
+    "name": "mn_accuracy",
+    "claim": "No Line A gain; only PU-Net recovers Line B accuracy",
+    "source": "HPC classification_results.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.5
+  },
+  {
+    "name": "mn_training",
+    "claim": "Single-seed training trajectories contextualize best-epoch selection",
+    "source": "HPC training_curves.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.8
+  },
+  {
+    "name": "mn_controls",
+    "claim": "Genuine density gives a small selected-checkpoint difference above 1024",
+    "source": "HPC WORK_RECORD.md; four reused training shapes limit controls",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.1
+  },
+  {
+    "name": "mn_sa1",
+    "claim": "Local input budgets limit reception of dense points",
+    "source": "HPC sa1_reception_results.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.8
+  },
+  {
+    "name": "mn_geometry",
+    "claim": "PU-GCN leads CD but PU-Net leads Line B HD",
+    "source": "HPC geometry_equal_n_distribution_summary.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.6
+  },
+  {
+    "name": "mn_directional",
+    "claim": "CD combines coverage and deviation",
+    "source": "HPC geometry_directional_multiscale_summary.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.0
+  },
+  {
+    "name": "mn_reference",
+    "claim": "Changing the reference changes the apparent ranking",
+    "source": "HPC geometry_reference_sensitivity.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.5
+  },
+  {
+    "name": "mn_cloud_a",
+    "claim": "Identical views compare measured, reference, and generated geometry",
+    "source": "HPC pointcloud_parallel/airplane_0627; all array rows rendered",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 6.2
+  },
+  {
+    "name": "mn_cloud_b",
+    "claim": "Identical views compare measured, reference, and generated geometry",
+    "source": "HPC pointcloud_parallel/chair_0890; all array rows rendered",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 6.2
+  },
+  {
+    "name": "k_pointrcnn",
+    "claim": "Adaptation recovers performance without exceeding the reference",
+    "source": "lab full_val_ap_r40.csv; 3769 frames per arm",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 6.0
+  },
+  {
+    "name": "k_centerpoint",
+    "claim": "Adaptation recovers performance without exceeding the reference",
+    "source": "lab full_val_ap_r40.csv; 3769 frames per arm",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 6.0
+  },
+  {
+    "name": "k_classes",
+    "claim": "Final adaptation leaves a deficit in all three Moderate class results",
+    "source": "lab all_classes_ap_r40.csv; 3769 frames per arm",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.6
+  },
+  {
+    "name": "k_legacy",
+    "claim": "Earlier integration has class-specific exceptions and known implementation faults",
+    "source": "lab centerpoint_legacy_ap_r40.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.6
+  },
+  {
+    "name": "k_normalization",
+    "claim": "Normalisation and locality both affect the flawed PU-Net integration",
+    "source": "lab diagnostic record; 256 frames; historical evaluator scope",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.6
+  },
+  {
+    "name": "k_voxels",
+    "claim": "Dense outputs frequently exceed the voxel cap in the 32-frame audit",
+    "source": "lab voxel_audit32.csv",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.8
+  },
+  {
+    "crop": "Original",
+    "before": 116996,
+    "after": 56315,
+    "rule": "0 <= x <= 60; -20 <= y <= 20; all heights; all in-window rows"
+  },
+  {
+    "crop": "Sparse",
+    "before": 29249,
+    "after": 13996,
+    "rule": "0 <= x <= 60; -20 <= y <= 20; all heights; all in-window rows"
+  },
+  {
+    "crop": "Earlier direct A",
+    "before": 467984,
+    "after": 222217,
+    "rule": "0 <= x <= 60; -20 <= y <= 20; all heights; all in-window rows"
+  },
+  {
+    "crop": "Earlier direct B",
+    "before": 116996,
+    "after": 57643,
+    "rule": "0 <= x <= 60; -20 <= y <= 20; all heights; all in-window rows"
+  },
+  {
+    "name": "k_clouds",
+    "claim": "A shared view separates native measurements from generated cardinality",
+    "source": "lab 006833 arrays matching the supplied core figure manifest",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 5.3
+  },
+  {
+    "name": "k_sparsity",
+    "claim": "Equal-size spatial windows can have very different observed support",
+    "source": "lab original_006833.bin; windows centered at (8,-1) and (42,-1), half widths (3,2), z in [-2.5,1.5]; counts are region examples, not isolated vehicles",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.4
+  },
+  {
+    "name": "pointnet_principle",
+    "claim": "Hierarchical grouping explains density-dependent reception",
+    "source": "Schematic adapted from PointNet++ mechanism; no experiment-specific parameters",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.0
+  },
+  {
+    "name": "pugcn_principle",
+    "claim": "PU-GCN expands local graph features into coordinates",
+    "source": "Schematic based on Qian et al. 2021",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.0
+  },
+  {
+    "name": "patch_pipeline",
+    "claim": "Local adaptation must preserve coordinate and support meaning",
+    "source": "lab final protocol",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 4.3
+  },
+  {
+    "name": "input_budget",
+    "claim": "File cardinality differs from model input capacity",
+    "source": "lab final protocol; alternative detector branches",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.8
+  },
+  {
+    "name": "adaptation_design",
+    "claim": "Later training updates detectors, not the upsampler",
+    "source": "lab final protocol; alternative detector branches",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.8
+  },
+  {
+    "name": "overview",
+    "claim": "Two independently executed domains test density at different levels",
+    "source": "lab final protocol; alternative detector branches",
+    "width_inches": 6.077757022277571,
+    "font_pdf_pt": 11.955168119551681,
+    "height_inches": 3.8
+  }
+]

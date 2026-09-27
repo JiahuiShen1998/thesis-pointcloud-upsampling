@@ -1,0 +1,15 @@
+file,source,purpose
+lineA_airplane_0627_original.npy,datasets/modelnet40_original/test/airplane/airplane_0627.npy,reproduce error-coloured point-cloud figure
+lineA_airplane_0627_meshref4096.npy,datasets/modelnet40_mesh_ref_4096/test/airplane/airplane_0627.npy,reproduce error-coloured point-cloud figure
+lineB_chair_0890_original.npy,datasets/modelnet40_original/test/chair/chair_0890.npy,reproduce error-coloured point-cloud figure
+lineB_chair_0890_downsampled256.npy,datasets/modelnet40_downsampled_x4/test/chair/chair_0890.npy,reproduce error-coloured point-cloud figure
+lineA_airplane_0627_ear.npy,datasets/lineA_original_up/strict_4N/ear/test/airplane/airplane_0627.npy,reproduce error-coloured point-cloud figure
+lineB_chair_0890_ear.npy,datasets/lineB_downsampled_x4_up/strict_N/ear/test/chair/chair_0890.npy,reproduce error-coloured point-cloud figure
+lineA_airplane_0627_pdans.npy,datasets/lineA_original_up/strict_4N/pdans/test/airplane/airplane_0627.npy,reproduce error-coloured point-cloud figure
+lineB_chair_0890_pdans.npy,datasets/lineB_downsampled_x4_up/strict_N/pdans/test/chair/chair_0890.npy,reproduce error-coloured point-cloud figure
+lineA_airplane_0627_punet.npy,datasets/lineA_original_up/strict_4N/pu_net/test/airplane/airplane_0627.npy,reproduce error-coloured point-cloud figure
+lineB_chair_0890_punet.npy,datasets/lineB_downsampled_x4_up/strict_N/pu_net/test/chair/chair_0890.npy,reproduce error-coloured point-cloud figure
+lineA_airplane_0627_pugcn.npy,datasets/lineA_original_up/strict_4N/pu_gcn/test/airplane/airplane_0627.npy,reproduce error-coloured point-cloud figure
+lineB_chair_0890_pugcn.npy,datasets/lineB_downsampled_x4_up/strict_N/pu_gcn/test/chair/chair_0890.npy,reproduce error-coloured point-cloud figure
+lineA_airplane_0627_puedgeformer.npy,datasets/modelnet40_original_x4_up/pu_edgeformer_labparams_20260716/test/airplane/airplane_0627.npy,reproduce error-coloured point-cloud figure
+lineB_chair_0890_puedgeformer.npy,datasets/modelnet40_downsampled_x4_up/pu_edgeformer_labparams_20260716/test/chair/chair_0890.npy,reproduce error-coloured point-cloud figure

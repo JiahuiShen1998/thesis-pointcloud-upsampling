@@ -1,0 +1,621 @@
+{
+  "status": "PASS",
+  "detector_frames": 256,
+  "geometry_frames": 20,
+  "detector_transition_summary": [
+    {
+      "detector": "CenterPoint",
+      "class": "Car",
+      "gt_objects": 961,
+      "maintained": 565,
+      "localization_degraded": 6,
+      "confidence_degraded": 19,
+      "lost": 31,
+      "recovered": 158,
+      "missed_both": 182,
+      "old_matched_gt": 621,
+      "new_matched_gt": 748,
+      "net_matched_gt": 127,
+      "old_false_positive_boxes": 6683,
+      "new_false_positive_boxes": 4102,
+      "old_boxes": 7304,
+      "old_score_ge_0.1": 7304,
+      "old_score_ge_0.3": 1363,
+      "old_score_ge_0.5": 789,
+      "old_score_ge_0.7": 551,
+      "new_boxes": 4850,
+      "new_score_ge_0.1": 4850,
+      "new_score_ge_0.3": 1224,
+      "new_score_ge_0.5": 882,
+      "new_score_ge_0.7": 710
+    },
+    {
+      "detector": "CenterPoint",
+      "class": "Cyclist",
+      "gt_objects": 59,
+      "maintained": 33,
+      "localization_degraded": 1,
+      "confidence_degraded": 3,
+      "lost": 1,
+      "recovered": 9,
+      "missed_both": 12,
+      "old_matched_gt": 38,
+      "new_matched_gt": 46,
+      "net_matched_gt": 8,
+      "old_false_positive_boxes": 856,
+      "new_false_positive_boxes": 540,
+      "old_boxes": 894,
+      "old_score_ge_0.1": 894,
+      "old_score_ge_0.3": 81,
+      "old_score_ge_0.5": 48,
+      "old_score_ge_0.7": 28,
+      "new_boxes": 586,
+      "new_score_ge_0.1": 586,
+      "new_score_ge_0.3": 81,
+      "new_score_ge_0.5": 49,
+      "new_score_ge_0.7": 38
+    },
+    {
+      "detector": "CenterPoint",
+      "class": "Pedestrian",
+      "gt_objects": 120,
+      "maintained": 51,
+      "localization_degraded": 0,
+      "confidence_degraded": 4,
+      "lost": 10,
+      "recovered": 10,
+      "missed_both": 45,
+      "old_matched_gt": 65,
+      "new_matched_gt": 65,
+      "net_matched_gt": 0,
+      "old_false_positive_boxes": 1521,
+      "new_false_positive_boxes": 1878,
+      "old_boxes": 1586,
+      "old_score_ge_0.1": 1586,
+      "old_score_ge_0.3": 180,
+      "old_score_ge_0.5": 101,
+      "old_score_ge_0.7": 66,
+      "new_boxes": 1943,
+      "new_score_ge_0.1": 1943,
+      "new_score_ge_0.3": 237,
+      "new_score_ge_0.5": 130,
+      "new_score_ge_0.7": 79
+    },
+    {
+      "detector": "PointRCNN",
+      "class": "Car",
+      "gt_objects": 961,
+      "maintained": 66,
+      "localization_degraded": 26,
+      "confidence_degraded": 263,
+      "lost": 184,
+      "recovered": 47,
+      "missed_both": 375,
+      "old_matched_gt": 539,
+      "new_matched_gt": 402,
+      "net_matched_gt": -137,
+      "old_false_positive_boxes": 895,
+      "new_false_positive_boxes": 694,
+      "old_boxes": 1434,
+      "old_score_ge_0.1": 1156,
+      "old_score_ge_0.3": 1108,
+      "old_score_ge_0.5": 1070,
+      "old_score_ge_0.7": 1027,
+      "new_boxes": 1096,
+      "new_score_ge_0.1": 813,
+      "new_score_ge_0.3": 771,
+      "new_score_ge_0.5": 735,
+      "new_score_ge_0.7": 701
+    }
+  ],
+  "geometry_summary": {
+    "scene": [
+      {
+        "condition": "new_centerpoint_input",
+        "frames": 20,
+        "in_range_fraction_frame_median": 0.4541870726609751,
+        "occupied_voxels_frame_median": 58352.0,
+        "points_per_voxel_mean_frame_median": 3.8235577764336663,
+        "points_per_voxel_p90_frame_median": 4.0,
+        "points_per_voxel_p99_frame_median": 9.0,
+        "top10pct_voxel_point_fraction_frame_median": 0.6252125177656134,
+        "unique_1mm_fraction_frame_median": 0.615862619391571,
+        "far_gt40m_fraction_frame_median": 0.04809324130053115
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "frames": 20,
+        "in_range_fraction_frame_median": 0.995361328125,
+        "occupied_voxels_frame_median": 2124.5,
+        "points_per_voxel_mean_frame_median": 7.408533775062166,
+        "points_per_voxel_p90_frame_median": 1.0,
+        "points_per_voxel_p99_frame_median": 150.48500000000013,
+        "top10pct_voxel_point_fraction_frame_median": 0.8785209454932139,
+        "unique_1mm_fraction_frame_median": 0.5770417081708601,
+        "far_gt40m_fraction_frame_median": 0.5257534759258484
+      },
+      {
+        "condition": "new_strict4n",
+        "frames": 20,
+        "in_range_fraction_frame_median": 0.44072260794498574,
+        "occupied_voxels_frame_median": 44608.5,
+        "points_per_voxel_mean_frame_median": 4.791988456781741,
+        "points_per_voxel_p90_frame_median": 3.0,
+        "points_per_voxel_p99_frame_median": 8.0,
+        "top10pct_voxel_point_fraction_frame_median": 0.7329759712403127,
+        "unique_1mm_fraction_frame_median": 0.45269249043773685,
+        "far_gt40m_fraction_frame_median": 0.057820253763532864
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "frames": 20,
+        "in_range_fraction_frame_median": 0.5024627629008745,
+        "occupied_voxels_frame_median": 97932.0,
+        "points_per_voxel_mean_frame_median": 2.4228480410512554,
+        "points_per_voxel_p90_frame_median": 5.0,
+        "points_per_voxel_p99_frame_median": 14.0,
+        "top10pct_voxel_point_fraction_frame_median": 0.40831131430232903,
+        "unique_1mm_fraction_frame_median": 0.9995923079739883,
+        "far_gt40m_fraction_frame_median": 0.02981813698702658
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "frames": 20,
+        "in_range_fraction_frame_median": 0.971588134765625,
+        "occupied_voxels_frame_median": 11584.5,
+        "points_per_voxel_mean_frame_median": 1.3134322281998583,
+        "points_per_voxel_p90_frame_median": 1.5,
+        "points_per_voxel_p99_frame_median": 3.0,
+        "top10pct_voxel_point_fraction_frame_median": 0.2722583956501332,
+        "unique_1mm_fraction_frame_median": 0.999033552760229,
+        "far_gt40m_fraction_frame_median": 0.4264357417096094
+      },
+      {
+        "condition": "old_strict4n",
+        "frames": 20,
+        "in_range_fraction_frame_median": 0.5023501808676103,
+        "occupied_voxels_frame_median": 97158.5,
+        "points_per_voxel_mean_frame_median": 2.4387622027107874,
+        "points_per_voxel_p90_frame_median": 5.0,
+        "points_per_voxel_p99_frame_median": 14.0,
+        "top10pct_voxel_point_fraction_frame_median": 0.4099790015980974,
+        "unique_1mm_fraction_frame_median": 0.9994682627657483,
+        "far_gt40m_fraction_frame_median": 0.032371813406069136
+      }
+    ],
+    "objects": [
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Car",
+        "difficulty": "Easy",
+        "objects": 11,
+        "inside_points_sum": 30779,
+        "inside_over_observed_median": 5.567287784679089,
+        "inside_over_observed_p10": 2.4809966216216215
+      },
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Car",
+        "difficulty": "Hard",
+        "objects": 12,
+        "inside_points_sum": 11877,
+        "inside_over_observed_median": 2.7176034348165494,
+        "inside_over_observed_p10": 1.2788163576327154
+      },
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Car",
+        "difficulty": "Moderate",
+        "objects": 22,
+        "inside_points_sum": 22519,
+        "inside_over_observed_median": 1.5502152080344334,
+        "inside_over_observed_p10": 1.269758064516129
+      },
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Cyclist",
+        "difficulty": "Easy",
+        "objects": 1,
+        "inside_points_sum": 886,
+        "inside_over_observed_median": 14.290322580645162,
+        "inside_over_observed_p10": 14.290322580645162
+      },
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Cyclist",
+        "difficulty": "Moderate",
+        "objects": 1,
+        "inside_points_sum": 164,
+        "inside_over_observed_median": 1.7263157894736842,
+        "inside_over_observed_p10": 1.7263157894736842
+      },
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Pedestrian",
+        "difficulty": "Easy",
+        "objects": 6,
+        "inside_points_sum": 6159,
+        "inside_over_observed_median": 2.574270257106078,
+        "inside_over_observed_p10": 1.6283050847457627
+      },
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Pedestrian",
+        "difficulty": "Hard",
+        "objects": 2,
+        "inside_points_sum": 236,
+        "inside_over_observed_median": 2.4391447368421053,
+        "inside_over_observed_p10": 1.9404605263157895
+      },
+      {
+        "condition": "new_centerpoint_input",
+        "class": "Pedestrian",
+        "difficulty": "Moderate",
+        "objects": 7,
+        "inside_points_sum": 794,
+        "inside_over_observed_median": 1.6486486486486487,
+        "inside_over_observed_p10": 1.460954712362301
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Car",
+        "difficulty": "Easy",
+        "objects": 11,
+        "inside_points_sum": 3375,
+        "inside_over_observed_median": 0.44416562107904645,
+        "inside_over_observed_p10": 0.2592905405405405
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Car",
+        "difficulty": "Hard",
+        "objects": 12,
+        "inside_points_sum": 1232,
+        "inside_over_observed_median": 0.2605386416861827,
+        "inside_over_observed_p10": 0.01020408163265307
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Car",
+        "difficulty": "Moderate",
+        "objects": 22,
+        "inside_points_sum": 2638,
+        "inside_over_observed_median": 0.2311111111111111,
+        "inside_over_observed_p10": 0.021386392811296534
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Cyclist",
+        "difficulty": "Easy",
+        "objects": 1,
+        "inside_points_sum": 114,
+        "inside_over_observed_median": 1.8387096774193548,
+        "inside_over_observed_p10": 1.8387096774193548
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Cyclist",
+        "difficulty": "Moderate",
+        "objects": 1,
+        "inside_points_sum": 5,
+        "inside_over_observed_median": 0.05263157894736842,
+        "inside_over_observed_p10": 0.05263157894736842
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Pedestrian",
+        "difficulty": "Easy",
+        "objects": 6,
+        "inside_points_sum": 531,
+        "inside_over_observed_median": 0.10725220053578263,
+        "inside_over_observed_p10": 0.0830225988700565
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Pedestrian",
+        "difficulty": "Hard",
+        "objects": 2,
+        "inside_points_sum": 15,
+        "inside_over_observed_median": 0.15296052631578946,
+        "inside_over_observed_p10": 0.12532894736842104
+      },
+      {
+        "condition": "new_pointrcnn_sample",
+        "class": "Pedestrian",
+        "difficulty": "Moderate",
+        "objects": 7,
+        "inside_points_sum": 98,
+        "inside_over_observed_median": 0.16883116883116883,
+        "inside_over_observed_p10": 0.05650534255185418
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Car",
+        "difficulty": "Easy",
+        "objects": 11,
+        "inside_points_sum": 31143,
+        "inside_over_observed_median": 6.105590062111801,
+        "inside_over_observed_p10": 1.9809966216216217
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Car",
+        "difficulty": "Hard",
+        "objects": 12,
+        "inside_points_sum": 13156,
+        "inside_over_observed_median": 2.3124512099921937,
+        "inside_over_observed_p10": 0.4538989077978156
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Car",
+        "difficulty": "Moderate",
+        "objects": 22,
+        "inside_points_sum": 23028,
+        "inside_over_observed_median": 0.8297213622291022,
+        "inside_over_observed_p10": 0.44175
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Cyclist",
+        "difficulty": "Easy",
+        "objects": 1,
+        "inside_points_sum": 1102,
+        "inside_over_observed_median": 17.774193548387096,
+        "inside_over_observed_p10": 17.774193548387096
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Cyclist",
+        "difficulty": "Moderate",
+        "objects": 1,
+        "inside_points_sum": 97,
+        "inside_over_observed_median": 1.0210526315789474,
+        "inside_over_observed_p10": 1.0210526315789474
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Pedestrian",
+        "difficulty": "Easy",
+        "objects": 6,
+        "inside_points_sum": 6401,
+        "inside_over_observed_median": 2.093518421876631,
+        "inside_over_observed_p10": 0.9227966101694915
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Pedestrian",
+        "difficulty": "Hard",
+        "objects": 2,
+        "inside_points_sum": 170,
+        "inside_over_observed_median": 1.9144736842105263,
+        "inside_over_observed_p10": 1.2460526315789475
+      },
+      {
+        "condition": "new_strict4n",
+        "class": "Pedestrian",
+        "difficulty": "Moderate",
+        "objects": 7,
+        "inside_points_sum": 516,
+        "inside_over_observed_median": 0.8421052631578947,
+        "inside_over_observed_p10": 0.6773098680075424
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Car",
+        "difficulty": "Easy",
+        "objects": 11,
+        "inside_points_sum": 31553,
+        "inside_over_observed_median": 4.171846435100549,
+        "inside_over_observed_p10": 3.830188679245283
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Car",
+        "difficulty": "Hard",
+        "objects": 12,
+        "inside_points_sum": 7540,
+        "inside_over_observed_median": 4.015227110736733,
+        "inside_over_observed_p10": 2.730255175734232
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Car",
+        "difficulty": "Moderate",
+        "objects": 22,
+        "inside_points_sum": 22543,
+        "inside_over_observed_median": 4.29482334244239,
+        "inside_over_observed_p10": 3.1545882352941175
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Cyclist",
+        "difficulty": "Easy",
+        "objects": 1,
+        "inside_points_sum": 219,
+        "inside_over_observed_median": 3.532258064516129,
+        "inside_over_observed_p10": 3.532258064516129
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Cyclist",
+        "difficulty": "Moderate",
+        "objects": 1,
+        "inside_points_sum": 224,
+        "inside_over_observed_median": 2.357894736842105,
+        "inside_over_observed_p10": 2.357894736842105
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Pedestrian",
+        "difficulty": "Easy",
+        "objects": 6,
+        "inside_points_sum": 5702,
+        "inside_over_observed_median": 4.323735088440971,
+        "inside_over_observed_p10": 3.990049751243781
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Pedestrian",
+        "difficulty": "Hard",
+        "objects": 2,
+        "inside_points_sum": 474,
+        "inside_over_observed_median": 4.5024671052631575,
+        "inside_over_observed_p10": 4.279440789473684
+      },
+      {
+        "condition": "old_centerpoint_input",
+        "class": "Pedestrian",
+        "difficulty": "Moderate",
+        "objects": 7,
+        "inside_points_sum": 1866,
+        "inside_over_observed_median": 4.576576576576577,
+        "inside_over_observed_p10": 4.115675675675676
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Car",
+        "difficulty": "Easy",
+        "objects": 11,
+        "inside_points_sum": 4697,
+        "inside_over_observed_median": 0.5683814303638645,
+        "inside_over_observed_p10": 0.45454545454545453
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Car",
+        "difficulty": "Hard",
+        "objects": 12,
+        "inside_points_sum": 701,
+        "inside_over_observed_median": 0.3610928242264648,
+        "inside_over_observed_p10": 0.20059701492537316
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Car",
+        "difficulty": "Moderate",
+        "objects": 22,
+        "inside_points_sum": 4134,
+        "inside_over_observed_median": 0.8043753161355589,
+        "inside_over_observed_p10": 0.2928263988522238
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Cyclist",
+        "difficulty": "Easy",
+        "objects": 1,
+        "inside_points_sum": 18,
+        "inside_over_observed_median": 0.2903225806451613,
+        "inside_over_observed_p10": 0.2903225806451613
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Cyclist",
+        "difficulty": "Moderate",
+        "objects": 1,
+        "inside_points_sum": 21,
+        "inside_over_observed_median": 0.22105263157894736,
+        "inside_over_observed_p10": 0.22105263157894736
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Pedestrian",
+        "difficulty": "Easy",
+        "objects": 6,
+        "inside_points_sum": 697,
+        "inside_over_observed_median": 0.8626404494382023,
+        "inside_over_observed_p10": 0.2464426121142539
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Pedestrian",
+        "difficulty": "Hard",
+        "objects": 2,
+        "inside_points_sum": 85,
+        "inside_over_observed_median": 0.7491776315789473,
+        "inside_over_observed_p10": 0.6748355263157895
+      },
+      {
+        "condition": "old_pointrcnn_sample",
+        "class": "Pedestrian",
+        "difficulty": "Moderate",
+        "objects": 7,
+        "inside_points_sum": 471,
+        "inside_over_observed_median": 1.027027027027027,
+        "inside_over_observed_p10": 0.7357897916037451
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Car",
+        "difficulty": "Easy",
+        "objects": 11,
+        "inside_points_sum": 32074,
+        "inside_over_observed_median": 4.23902027027027,
+        "inside_over_observed_p10": 3.7670454545454546
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Car",
+        "difficulty": "Hard",
+        "objects": 12,
+        "inside_points_sum": 7338,
+        "inside_over_observed_median": 3.852750599364997,
+        "inside_over_observed_p10": 2.3509003370245547
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Car",
+        "difficulty": "Moderate",
+        "objects": 22,
+        "inside_points_sum": 22988,
+        "inside_over_observed_median": 4.304174477074593,
+        "inside_over_observed_p10": 2.9322089552238806
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Cyclist",
+        "difficulty": "Easy",
+        "objects": 1,
+        "inside_points_sum": 217,
+        "inside_over_observed_median": 3.5,
+        "inside_over_observed_p10": 3.5
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Cyclist",
+        "difficulty": "Moderate",
+        "objects": 1,
+        "inside_points_sum": 188,
+        "inside_over_observed_median": 1.9789473684210526,
+        "inside_over_observed_p10": 1.9789473684210526
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Pedestrian",
+        "difficulty": "Easy",
+        "objects": 6,
+        "inside_points_sum": 5773,
+        "inside_over_observed_median": 4.496741573033708,
+        "inside_over_observed_p10": 3.963164944508228
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Pedestrian",
+        "difficulty": "Hard",
+        "objects": 2,
+        "inside_points_sum": 470,
+        "inside_over_observed_median": 4.430921052631579,
+        "inside_over_observed_p10": 4.275657894736842
+      },
+      {
+        "condition": "old_strict4n",
+        "class": "Pedestrian",
+        "difficulty": "Moderate",
+        "objects": 7,
+        "inside_points_sum": 1946,
+        "inside_over_observed_median": 4.805194805194805,
+        "inside_over_observed_p10": 4.496216216216216
+      }
+    ]
+  }
+}

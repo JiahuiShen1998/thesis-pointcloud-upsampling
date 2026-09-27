@@ -1,0 +1,14 @@
+By split:
+train: 2301
+
+Top missing split/class:
+train/vase: 475
+train/table: 392
+train/toilet: 344
+train/tv_stand: 267
+train/sofa: 256
+train/tent: 163
+train/stairs: 124
+train/xbox: 103
+train/stool: 90
+train/wardrobe: 87

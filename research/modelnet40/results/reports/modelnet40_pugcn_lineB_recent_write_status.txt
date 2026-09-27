@@ -1,0 +1,8 @@
+===== recently modified strict files =====
+last 30 min: 0
+last 60 min: 0
+last 120 min: 0
+===== recently modified raw files =====
+last 30 min: 0
+last 60 min: 0
+last 120 min: 0

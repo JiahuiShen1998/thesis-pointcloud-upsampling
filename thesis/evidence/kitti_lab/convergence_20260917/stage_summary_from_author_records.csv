@@ -1,0 +1,7 @@
+detector,line,stage,epochs,best_epoch,best_ap,trailing_epochs,source
+PointRCNN,A,RPN,18,14,70.9712,4,author work record section 4.2
+PointRCNN,A,RCNN,18,2,71.5920,17,author work record section 4.2
+PointRCNN,B,RPN,18,14,52.7646,4,author work record section 4.2
+PointRCNN,B,RCNN,24,19,57.0485,5,author work record section 4.2
+CenterPoint,A,Detector,12,12,75.9661,4,author work record section 4.3
+CenterPoint,B,Detector,12,12,62.9007,3,author work record section 4.3

@@ -1,0 +1,242 @@
+\chapter{Idea and Concept}
+\label{chap:concept}
+
+Chapter~\ref{chap:introduction} formulated the central question: whether a denser point cloud provides more useful evidence to a downstream perception model. Chapter~\ref{chap:fundamentals} defined the geometric and task metrics used to examine this question. The present chapter converts those observations into a controlled experimental design. The design uses two data domains and three downstream networks, but applies the same logical separation between the input visible to the upsampling method, the generated point set, the point set supplied to the downstream model, and the final task metric.
+
+\section{Overall Concept}
+\label{sec:fc-3-1}
+\label{subsec:metrics_limitations}
+
+The metric definitions explain why a good geometric score is not itself a
+guarantee of better perception. CD averages nearest-neighbour discrepancies;
+PointNet++ pools learned features within sampled neighbourhoods;
+PointRCNN generates proposals from foreground points; and a voxel-based
+CenterPoint aggregates points into spatial cells
+\cite{qian2021pugcn,shi2019pointrcnn,yin2021centerpoint,qi2017pointnetpp}.
+These operations do not optimise or measure the same quantity.
+
+Several consequences follow from the definitions. Repeating coordinates
+can increase stored point count without extending spatial coverage. A
+small number of misplaced points can have little effect on an average
+geometric distance while changing a sampled neighbourhood or an occupied
+voxel. Conversely, an improved surface approximation may leave the
+predicted class unchanged when the classifier already assigns the correct
+class the largest score. These are possible mechanisms derived from the
+metrics and architectures, not universal empirical outcomes.
+
+Reference quality also limits interpretation. A complete mesh supports
+point-to-surface evaluation, whereas a single sensor scan supplies only
+observed returns~\cite{geiger2013kitti,qian2021pugcn}. Distance to that scan
+measures consistency with its samples; it cannot certify the unobserved
+surface. Geometry, measurement consistency and semantic task performance
+must therefore be kept distinct.
+
+For the classification branch, PointNet++ is selected because its set
+abstraction layers explicitly sample centroids and aggregate local
+neighbourhoods~\cite{qi2017pointnetpp}. Upsampling can change both the
+selected centroids and the points grouped around them. It can supply
+additional surface support, but near-duplicates need not extend coverage
+and displaced points can alter local geometry. This architectural
+sensitivity motivates the classifier choice; whether it improves or
+degrades classification is determined by the experiments.
+
+The experimental object is the combination of an upsampling method and
+its integration protocol. Let $\mathcal X_s^{(b,l)}$ be the visible input
+for sample $s$, branch $b\in\{M,K\}$ (ModelNet40 or KITTI), and line
+$l\in\{A,B\}$. For method $m$, let $U_m$ be its fixed inference operator;
+the method-native candidate set is
+
+\begin{equation}
+\mathcal{C}_{s,m}^{(b,l)}=U_m(\mathcal{X}_{s}^{(b,l)}).
+\label{eq:fc-3-1}
+\end{equation}
+
+The symbol \ensuremath{\mathcal{C}} is used deliberately: before the common output protocol is applied, the method output is treated as a candidate point set. Method-native output cardinality, patch overlap, and representation-specific reconstruction are therefore not automatically equated with the final point cloud evaluated by the downstream task.
+
+
+The two task branches address complementary settings. ModelNet40 provides
+mesh-sampled objects with known categories; KITTI provides partial scene
+observations containing foreground objects and background
+\cite{wu2015modelnet,geiger2013kitti}. This pairing makes it possible to
+examine geometric and classification behaviour within the object branch
+before considering transfer to scene-level detection. Agreement between
+the branches would support the finding across the tested settings.
+Disagreement must be interpreted with their different data preparation
+and downstream training regimes in view; it does not identify the data
+domain as the sole cause.
+
+\section{Research Hypotheses}
+\label{sec:research-hypotheses}
+
+The following hypotheses organise the completed comparisons. They state
+relationships to examine rather than conclusions assumed before
+evaluation. Their numerical evaluation is presented in
+Chapter~\ref{chap:results}.
+
+
+H1 - Geometric improvement does not imply task improvement. A reduction in CD, HD, P2F, or a related geometric discrepancy is not expected to guarantee an increase in classification accuracy or 3D detection AP.
+
+\begin{samepage}
+The implication
+\begin{equation}
+\Delta d_{\mathrm{geom}}<0\quad\Longrightarrow\quad\Delta\mu_{\mathrm{task}}>0\;?
+\label{eq:fc-3-2}
+\end{equation}
+\end{samepage}
+
+is therefore treated as an empirical question rather than an assumption. Here $d_{\mathrm{geom}}$ denotes a geometric error, $\mu_{\mathrm{task}}$ a task metric such as OA or AP$_{R40}$, and $\Delta$ the method value minus its comparison baseline.
+
+H2 - Densification and recovery are distinct tasks. Adding points to an already available observation and trying to recover information from an artificially sparsified observation are not equivalent questions. A method may be neutral or harmful in the former case but useful in the latter, or vice versa. The two cases are therefore evaluated in separate comparison lines.
+
+H3 - Point count is not equivalent to independent spatial evidence. Satisfying an exact fourfold cardinality requirement only proves that more coordinates are present. It does not prove that those coordinates occupy new, valid surface regions or improve the representation consumed by the downstream model. Duplicate or near-duplicate points can satisfy the count without increasing spatial coverage.
+
+H4 - The downstream architecture mediates the effect of upsampling. PointNet++, PointRCNN, and CenterPoint process point clouds through different sampling and aggregation mechanisms \cite{qi2017pointnetpp,shi2019pointrcnn,yin2021centerpoint}. This motivates the hypothesis that a change helping one architecture may not help another. Cross-model consistency is therefore treated as stronger evidence than an isolated gain in a single architecture.
+
+H5 - Integration and input budgets can dominate the observed effect. Patch locality, normalisation, coordinate restoration, point subsampling, and voxelisation may change the effective dose of generated points. If an upsampled point cloud performs poorly, the experiment must distinguish a failure of the generated geometry from a failure induced by the wrapper or the downstream input adapter.
+
+\section{Evaluation Pipeline}
+\label{sec:fc-3-2}
+
+The comparison separates four stages: the information visible to the
+upsampler, its generated candidates, the validated output, and the
+representation consumed by the task model. Geometry is measured on the
+saved output against a declared reference; task performance is measured
+after the downstream adapter. Linking these stages by sample identity
+allows a geometric change and a task change to be compared without
+assuming that every generated point reaches the model.
+
+The two branches address different uses of upsampling. ModelNet40 asks
+whether a generated representation supports classification learning;
+each representation therefore has its own classifier. The initial KITTI
+comparison asks whether an existing detector benefits when upsampling is
+inserted before inference, so detector weights remain fixed. A separate
+adaptation comparison asks whether training the detector on PU-GCN inputs
+reduces the resulting mismatch. It changes the downstream detector while
+keeping the upsampler fixed. These training regimes must remain separate
+when the findings are combined.
+
+Candidate generation is separated from evaluation. Reference surfaces,
+class labels and ground-truth boxes provide assessment targets, not
+additional observations for the upsampler. Chapter~\ref{chap:setup}
+specifies the transformations, point counts, checkpoints and training
+settings that implement this design.
+
+\section{Experimental Comparison}
+\label{sec:fc-3-3}
+
+The two comparison lines distinguish adding points to an available
+observation from attempting to recover information after controlled
+sparsification. They share the same methods within each branch, but
+their baselines answer different questions. Table~\ref{tab:lines} in
+Chapter~\ref{chap:setup} specifies their executed point counts.
+
+\subsection{Line A - Densification of the Original Observation}
+\label{sec:fc-3-3-1}
+
+Line~A asks whether generated points provide useful marginal information
+when the original observation is already available. Its baseline is the
+native original input, without an extra resampling operation. The
+comparison therefore concerns the practical consequence of adding the
+upsampling stage, rather than a comparison between two artificially
+equalised versions of the baseline.
+
+A negative Line~A result cannot be attributed to deliberately removing
+observations beforehand. It means that the tested generator, integration
+and downstream model did not obtain a net task benefit from densifying
+the available input. It does not imply that every individual object or
+category deteriorates.
+
+\subsection{Line B - Recovery after Controlled Sparsification}
+\label{sec:fc-3-3-2}
+
+Line~B removes a fixed proportion of observations before upsampling.
+Every method receives the same prepared sparse input. Its immediate
+baseline is that sparse representation, so a gain measures recovery
+relative to the information actually available to the generator. The
+original representation remains a separate pre-sparsification reference.
+
+This reduction is a controlled stress condition, not a simulation of
+a particular lower-channel LiDAR sensor. Restoring the number of points
+does not restore the missing measurements themselves. The comparison
+therefore asks how much useful task information a method recovers,
+rather than assuming that an equal output count establishes recovery.
+
+\section{Fairness Protocol}
+\label{sec:fc-3-4}
+\label{sec:fc-3-4-1}
+\label{sec:fc-3-4-2}
+\label{sec:fc-3-4-3}
+\label{sec:upsampling-inference-fairness}
+\label{sec:fc-3-4-4}
+\label{sec:fc-3-6}
+
+Fairness requires the same visible observations, a declared output
+cardinality and a consistent evaluation within each comparison.
+Upsampling methods share the target expansion ratio; native baselines
+retain their original sizes. Geometry comparisons separately control
+the evaluated and reference counts. This distinguishes equal conditions
+among generated representations from an artificial enlargement of the
+baseline.
+
+A common interface does not imply identical internal processing.
+PU-Net expands learned point features, PU-GCN uses graph features and
+NodeShuffle, PU-EdgeFormer uses edge-transformer features, PDANS uses
+diffusion-based generation, and the EAR-style baseline uses geometric
+resampling
+\cite{yu2018punet,qian2021pugcn,kim2023puedgeformer,zhang2025pdans,huang2013ear}.
+Their implementation-specific preprocessing must therefore be recorded
+alongside the common comparison rules. A modified inference path supports
+a conclusion about that integrated pipeline, rather than automatically
+about an unmodified published method.
+
+The effective input depends on the downstream architecture. PointRCNN
+samples points, CenterPoint aggregates them into voxels, and PointNet++
+groups local neighbourhoods
+\cite{shi2019pointrcnn,yin2021centerpoint,qi2017pointnetpp}. Let
+$\mathcal Y_{s,m}$ denote the validated output for sample $s$ and
+upsampler $m$. The representation consumed by downstream model $d$ is
+\begin{equation}
+\widetilde{\mathcal Y}^{(d)}_{s,m}=A_d(\mathcal Y_{s,m}),
+\label{eq:fc-3-8}
+\end{equation}
+where $A_d$ is its input adapter. Equal saved cardinality need not imply
+equal distinct support after this operation. Adapter settings and
+diagnostic changes are consequently reported as part of the experimental
+protocol, rather than inferred from file size.
+
+Evidence is interpreted at its actual scope. Complete dataset comparisons
+establish the main task outcomes; detector adaptation tests a separate
+training intervention; targeted diagnostics examine specific integration
+factors. Subset results do not replace full-validation results, and an
+adapted input must be compared with the corresponding adapted control
+where one exists. Chapter~\ref{chap:setup} records which controls were
+completed and which sources of uncertainty remain.
+
+\section{Cross-Domain Interpretation}
+\label{sec:fc-3-5}
+\label{sec:fc-3-7}
+
+Object surfaces and LiDAR scenes differ in visibility, coverage and
+sampling. Scene occlusion and range-dependent support
+\cite{geiger2013kitti} make the transfer of object-oriented upsamplers
+an additional experimental question
+\cite{yu2018punet,qian2021pugcn,kim2023puedgeformer,zhang2025pdans}.
+Patch locality, restoration of metric coordinates and preservation of
+measured attributes can mediate that transfer. Their implementations
+belong to Chapter~\ref{chap:setup}; the conceptual requirement is to
+distinguish these interface effects from the generated geometry itself.
+
+Three comparisons connect the branches. Within each branch, Line~A and
+Line~B distinguish densification from recovery. Within ModelNet40,
+geometric ordering is compared with classification ordering. Across
+branches, the direction of the task response is compared while retaining
+the different training regimes and observation types. Overall accuracy
+and detection AP are not combined into a universal score.
+
+Downstream reception and voxel occupancy provide intermediate
+measurements that may explain a task response. They do not by themselves
+identify a unique cause, and selected visual cases do not estimate how
+frequently an outcome occurs. The design thus separates available
+information, generated geometry, output assembly and downstream use.
+The next chapter specifies how those distinctions were implemented in
+the completed experiments.

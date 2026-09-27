@@ -1,0 +1,6 @@
+branch,method,final_job_id,expected_point_count,actual_point_count,final_state,exit_code,status,note
+lineB_downsampled_x4_baseline_256,baseline,1733159,256,256,COMPLETED,0:0,PASS,"initial smoke round; not re-run"
+lineB_ear_1024,EAR,1733171,1024,1024,COMPLETED,0:0,PASS,"retry round 2 after metadata v2 fix"
+lineB_pdans_1024,PDANS,1733172,1024,1024,COMPLETED,0:0,PASS,"retry round 2"
+lineB_punet_1024,PU-Net,1733173,1024,1024,COMPLETED,0:0,PASS,"retry round 2"
+lineB_pugcn_1024,PU-GCN,1733174,1024,1024,COMPLETED,0:0,PASS,"retry round 2"

@@ -1,0 +1,1377 @@
+method,line,split,class_name,label,shape_id,source_variant,input_path,input_points,target_points,method_raw_points,final_output_path,final_points,actual_ratio,status,error_message
+pugcn,A,train,airplane,0,airplane_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/airplane/airplane_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/airplane/airplane_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,bathtub,1,bathtub_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/bathtub/bathtub_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/bathtub/bathtub_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,bed,2,bed_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/bed/bed_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/bed/bed_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,bench,3,bench_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/bench/bench_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/bench/bench_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,bookshelf,4,bookshelf_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/bookshelf/bookshelf_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/bookshelf/bookshelf_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,bottle,5,bottle_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/bottle/bottle_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/bottle/bottle_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,bowl,6,bowl_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/bowl/bowl_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/bowl/bowl_0001.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,train,car,7,car_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/car/car_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/car/car_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,chair,8,chair_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/chair/chair_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/chair/chair_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,cone,9,cone_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/cone/cone_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/cone/cone_0001.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,train,cup,10,cup_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/cup/cup_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/cup/cup_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,curtain,11,curtain_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/curtain/curtain_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/curtain/curtain_0001.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,train,desk,12,desk_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/desk/desk_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/desk/desk_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,door,13,door_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/door/door_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/door/door_0001.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,train,dresser,14,dresser_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/dresser/dresser_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/dresser/dresser_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,flower_pot,15,flower_pot_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/flower_pot/flower_pot_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/flower_pot/flower_pot_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,glass_box,16,glass_box_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/glass_box/glass_box_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/glass_box/glass_box_0001.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,train,guitar,17,guitar_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/guitar/guitar_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/guitar/guitar_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,train,keyboard,18,keyboard_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/keyboard/keyboard_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/keyboard/keyboard_0001.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,train,lamp,19,lamp_0001,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/train/lamp/lamp_0001.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/train/lamp/lamp_0001.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,airplane,0,airplane_0627,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/airplane/airplane_0627.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/airplane/airplane_0627.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,test,bathtub,1,bathtub_0107,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/bathtub/bathtub_0107.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/bathtub/bathtub_0107.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,bed,2,bed_0516,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/bed/bed_0516.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/bed/bed_0516.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,bench,3,bench_0174,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/bench/bench_0174.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/bench/bench_0174.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,test,bookshelf,4,bookshelf_0573,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/bookshelf/bookshelf_0573.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/bookshelf/bookshelf_0573.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,bottle,5,bottle_0336,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/bottle/bottle_0336.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/bottle/bottle_0336.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,bowl,6,bowl_0065,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/bowl/bowl_0065.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/bowl/bowl_0065.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,car,7,car_0198,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/car/car_0198.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/car/car_0198.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,test,chair,8,chair_0890,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/chair/chair_0890.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/chair/chair_0890.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,cone,9,cone_0168,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/cone/cone_0168.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/cone/cone_0168.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,cup,10,cup_0080,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/cup/cup_0080.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/cup/cup_0080.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,test,curtain,11,curtain_0139,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/curtain/curtain_0139.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/curtain/curtain_0139.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,desk,12,desk_0201,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/desk/desk_0201.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/desk/desk_0201.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,door,13,door_0110,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/door/door_0110.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/door/door_0110.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,test,dresser,14,dresser_0201,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/dresser/dresser_0201.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/dresser/dresser_0201.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,flower_pot,15,flower_pot_0150,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/flower_pot/flower_pot_0150.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/flower_pot/flower_pot_0150.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,glass_box,16,glass_box_0172,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/glass_box/glass_box_0172.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/glass_box/glass_box_0172.npy,,,failed,"Cannot call rmtree on a symbolic link
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 69, in upsample_xyz
+    shutil.rmtree(result_dir)
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 504, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/shutil.py"", line 502, in rmtree
+    raise OSError(""Cannot call rmtree on a symbolic link"")
+OSError: Cannot call rmtree on a symbolic link
+"
+pugcn,A,test,guitar,17,guitar_0156,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/guitar/guitar_0156.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/guitar/guitar_0156.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,keyboard,18,keyboard_0146,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/keyboard/keyboard_0146.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/keyboard/keyboard_0146.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
+pugcn,A,test,lamp,19,lamp_0125,original,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/smoke_inputs/original/test/lamp/lamp_0125.npy,1024,4096,,/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/datasets/modelnet40_original_up/pugcn_x4_smoke_rerun/test/lamp/lamp_0125.npy,,,failed,"PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+Traceback (most recent call last):
+  File ""scripts/run_upsampling_x4_smoke.py"", line 72, in process_sample
+    raw_xyz = upsampler.upsample_xyz(points, sample_name=sample_name)
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_pointnet2_upsampling/scripts/pugcn_modelnet40_utils.py"", line 115, in upsample_xyz
+    f""PU-GCN inference failed (rc={proc.returncode}):\n""
+RuntimeError: PU-GCN inference failed (rc=1):
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File ""main.py"", line 2, in <module>
+    from Upsampling.model import Model
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/model.py"", line 9, in <module>
+    from Upsampling.discriminator import Discriminator
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Upsampling/discriminator.py"", line 8, in <module>
+    from Common import ops
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/Common/ops.py"", line 4, in <module>
+    from tf_ops.grouping.tf_grouping import knn_point_2
+  File ""/home/woody/iwnt/iwnt189h/thesis_pointcloud/modelnet40_experiments/external_lab_migrated/PU-GCN/tf_ops/grouping/tf_grouping.py"", line 11, in <module>
+    os.path.join(BASE_DIR, 'tf_grouping_so.so'))
+  File ""/home/hpc/iwnt/iwnt189h/.conda/envs/tf15_upsampling/lib/python3.7/site-packages/tensorflow_core/python/framework/load_library.py"", line 61, in load_op_library
+    lib_handle = py_tf.TF_LoadLibrary(library_filename)
+tensorflow.python.framework.errors_impl.NotFoundError: libcudart.so.10.0: cannot open shared object file: No such file or directory
+
+"
