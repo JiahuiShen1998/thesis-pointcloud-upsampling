@@ -23,7 +23,7 @@
 
 1. 完成综合 ModelNet40 和 KITTI 的最终答辩 PPT，加入 PPTX/源文件、PDF 与所需素材，并在本文件更新状态。
 2. 原样保留本包 thesis.pdf；如果实际已交给学校的文件是另外一个版本，请把那份确切 PDF 另存并标明版本，不能仅凭“已提交”认定字节相同。
-3. GitHub 私有仓库已上传；学校 GitLab 已选定 PreprocessingPC 的 codex/thesis-archive 分支，实际传输和校验结果见 UPLOAD_STATUS_CN.md。最终交付前确认接收者可访问且 LFS 文件能完整取回。
+3. GitHub 与学校 GitLab 均已上传。GitLab 完整入口为 PreprocessingPC 的 codex/thesis-archive 分支，重新克隆后的全部清单文件和 LFS 校验已通过，具体提交见 UPLOAD_STATUS_CN.md。最终交付时确认接收者可访问该分支。
 4. 选择确实有空的星期一，另行回复老师。邮件没有指定 Git 平台、仓库网址或上传截止日期。
 
 全量原始数据、KITTI 权重与逐帧预测未包含；邮件没有明确要求这些。如果教研室另有“完整原始研究数据归档”规定，需要从原服务器补入受控存储，不能把现有精简结果包说成全量服务器备份。

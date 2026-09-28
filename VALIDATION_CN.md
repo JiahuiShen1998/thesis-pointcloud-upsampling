@@ -8,6 +8,6 @@
 - 原 lab ZIP CRC 通过；SHA-256 与先前提供值一致；780 个文件条目与本机解压内容逐项匹配。
 - 14 个 ModelNet 最终/控制分支均有有效 metrics.json、含 Epoch 200/200 的训练日志和 best_model.pth。
 - 5 份 PPTX 均通过 ZIP 完整性检查；一份旧稿第 17 页存在 6 个旧 HPC 本地超链接，已在 presentation/README.txt 说明。此检查不等于最终答辩内容审核。
-- 核对阶段未执行完整 GPU 实验复现，未发送邮件，未执行远程提交或上传；后续上传状态见 UPLOAD_STATUS_CN.md。
+- 内容审计阶段未执行完整 GPU 实验复现，未发送邮件；之后已完成 GitHub 与学校 GitLab 上传。远端归档的 SHA-256 与 Git LFS 校验通过，具体提交与验证时点见 UPLOAD_STATUS_CN.md。
 
-详细运行记录位于同级的 ../upload_audit_20260927/。本包各文件的最终哈希以 SHA256SUMS 为准。
+详细本地运行记录保留在原工作区 Git/upload_audit_20260927/，不随论文仓库分发。已上传的验证摘要见 UPLOAD_STATUS_CN.md；当前归档文件的哈希以 SHA256SUMS 为准。
