@@ -12,9 +12,9 @@ This repository brings together the complete current thesis LaTeX project and PD
 - [Browse the thesis source](thesis/) — main entry: [thesis.tex](thesis/thesis.tex).
 - [Research archive overview](research/README.txt) — how the two experimental parts fit together.
 - [Presentation status](presentation/README.txt) — existing material and the remaining final deck.
-- [Delivery checklist / 交付清单](DELIVERY_CHECKLIST_CN.md), [upload status / 上传状态](UPLOAD_STATUS_CN.md), and [download/update guide / 下载与更新指南](UPLOAD_GUIDE_CN.md).
+- [Delivery checklist](DELIVERY_CHECKLIST.md), [upload status](UPLOAD_STATUS.md), and [download and update guide](UPLOAD_GUIDE.md).
 
-The school GitLab archive is on **`codex/thesis-archive`** in [PreprocessingPC](https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc/-/tree/codex/thesis-archive). The project's existing branches are retained. The author's private [GitHub copy](https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling) uses **`main`**.
+The school GitLab archive is on **`thesis-archive`** in [PreprocessingPC](https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc/-/tree/thesis-archive). The project's existing branches are retained. The author's private [GitHub copy](https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling) uses **`main`**.
 
 ## Research scope
 
@@ -52,12 +52,12 @@ Geometric quality and downstream performance are separate outcomes. Use the orig
 ├── tools/check_archive.py            SHA-256 verification utility
 ├── SHA256SUMS                       Current archive file checksums
 ├── SOURCE_PROVENANCE.json            Original copy/recovery provenance
-├── DELIVERY_CHECKLIST_CN.md          Supervisor requirement checklist
-├── UPLOAD_STATUS_CN.md               Upload and verification record
-└── UPLOAD_GUIDE_CN.md                Download and future update instructions
+├── DELIVERY_CHECKLIST.md          Supervisor requirement checklist
+├── UPLOAD_STATUS.md               Upload and verification record
+└── UPLOAD_GUIDE.md                Download and future update instructions
 ```
 
-Earlier project-planning files are retained for history. See [docs/LEGACY_NOTES_README.md](docs/LEGACY_NOTES_README.md); they do not override the final experimental protocols or define a universal runtime environment.
+See [English edition and provenance](docs/ENGLISH_EDITION.md) for the language update and filename mapping. Earlier project-planning files are retained for history. See [docs/LEGACY_NOTES_README.md](docs/LEGACY_NOTES_README.md); they do not override the final experimental protocols or define a universal runtime environment.
 
 ## Download the complete archive
 
@@ -65,7 +65,7 @@ Requirements: access to the private GitLab project, Git, Git LFS, and Python 3 f
 
 ```sh
 git lfs version
-git clone --single-branch --branch codex/thesis-archive git@gitlab.lms.tf.fau.de:marina.ritthaler/preprocessingpc.git thesis-archive
+git clone --single-branch --branch thesis-archive git@gitlab.lms.tf.fau.de:marina.ritthaler/preprocessingpc.git thesis-archive
 cd thesis-archive
 git lfs install --local
 git lfs pull
@@ -113,7 +113,7 @@ Interpretation limits: final classifier runs use seed 42; best checkpoints were 
 
 Start with [research/kitti/README.txt](research/kitti/README.txt), then inspect:
 
-- [Final experiment brief, 2026-09-17](research/kitti/results/EXPERIMENT_BRIEF_20260917_ZH.md).
+- [Final experiment brief, 2026-09-17](research/kitti/results/EXPERIMENT_BRIEF_20260917_EN.md).
 - [Full-validation results](research/kitti/results/latest_full_validation/) and [extended-training convergence evidence](research/kitti/results/convergence/).
 - [Source code](research/kitti/source/) and [dependency notes](research/kitti/environment/).
 - [Data and large-file scope](research/kitti/DATA_AND_LARGE_FILES.md).
@@ -133,7 +133,7 @@ Original third-party licence files and notices are retained. This private handov
 ## Remaining handover work
 
 1. Add the actual final defence deck, PDF export and required assets under `presentation/final/`. The current five PPTX files are supporting progress/candidate decks.
-2. Update the presentation and delivery status, refresh checksums, commit and upload the added material using [the update guide](UPLOAD_GUIDE_CN.md).
+2. Update the presentation and delivery status, refresh checksums, commit and upload the added material using [the update guide](UPLOAD_GUIDE.md).
 3. Confirm the intended recipients can access the chosen private repository, and separately communicate actual available defence dates.
 
 The exact PDF previously sent to the university was not independently retrieved during this audit; the archived PDF is the current verified local version.

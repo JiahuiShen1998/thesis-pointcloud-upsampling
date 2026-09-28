@@ -31,7 +31,7 @@ flow=[];i=0
 while i<len(lines):
  line=lines[i].strip()
  if not line:i+=1;continue
- if line == '## 修改文件':
+ if line == '##  Modify File ':
   flow.append(par(line[3:],'h'))
   i+=1
   entries=[]
@@ -68,10 +68,10 @@ while i<len(lines):
 def footer(canvas,doc):
  canvas.saveState();canvas.setFont('Chinese',9)
  canvas.setFillColor(colors.HexColor('#65717a'))
- canvas.drawString(40,25,'论文修订对照 · 2026-09-17')
+ canvas.drawString(40,25,' Revised comparison of papers  · 2026-09-17')
  canvas.drawRightString(A4[0]-40,25,str(doc.page))
  canvas.restoreState()
 dest=R/'thesis_changes.pdf'
-doc=SimpleDocTemplate(str(dest),pagesize=A4,leftMargin=40,rightMargin=40,topMargin=38,bottomMargin=42,title='论文逐项修改清单',author='Jiahui Shen')
+doc=SimpleDocTemplate(str(dest),pagesize=A4,leftMargin=40,rightMargin=40,topMargin=38,bottomMargin=42,title=' Thesis amends the list item by item ',author='Jiahui Shen')
 doc.build(flow,onFirstPage=footer,onLaterPages=footer)
 print('CREATED',dest)

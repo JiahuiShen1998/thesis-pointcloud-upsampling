@@ -72,7 +72,7 @@ record=(K/'WORK_RECORD.md').read_text(encoding='utf-8-sig')
 part=record.split('### 5.2 ')[1].split('### 5.3 ')[0]
 legacy=[]
 for line in part.splitlines():
-    if not line.startswith('| ') or line.startswith('| 输入') or line.startswith('|---'): continue
+    if not line.startswith('| ') or line.startswith('|  Enter ') or line.startswith('|---'): continue
     v=[x.strip() for x in line.strip('|').split('|')]
     legacy.append(dict(input=v[0],car=float(v[1]),pedestrian=float(v[2]),cyclist=float(v[3]),scope='legacy frozen full-val',frames=3769))
 assert len(legacy)==10

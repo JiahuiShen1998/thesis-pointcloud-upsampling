@@ -147,4 +147,4 @@ After Step 4 completes and Step 6 is submitted (or queued):
 4. DataLoader dry-run on both Line A and Line B smoke outputs
 5. If PDANS fails on env/format, document failure and switch to PU-Net fallback plan
 
-Suggested prompt: **「执行 Step 7 PDANS smoke test」**
+Suggested prompt: **"Enforce Step 7 PDANS smoke test"**

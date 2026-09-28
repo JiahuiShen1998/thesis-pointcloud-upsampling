@@ -687,98 +687,98 @@ def point_report(
                     f"{row['pdans_delta_vs_control']:+.2f}",
                 ]
             )
-    return f"""# PointRCNN 独立分析：Easy / Moderate / Hard、正对照与根因
+    return f"""# PointRCNN  Independent analysis: Easy / Moderate / Hard,  It’s against the root cause.
 
-## 1. 分析边界
+## 1.  Analysis boundary
 
-本报告只分析 PointRCNN，不与 CenterPoint 共图、共表或共享类别结论。当前冻结 PointRCNN 配置只训练和评估 `Car`，因此这里不存在 Pedestrian/Cyclist 缺图问题。
+ The present report analyses only  PointRCNN,  Not with  CenterPoint  Common chart, common table or shared category conclusion. Current frozen  PointRCNN  Configure training and evaluation only  `Car`,  That’s why it doesn’t exist.  Pedestrian/Cyclist  Question of missing maps.
 
-- 正式双线结果：KITTI val 全部 3,769 帧，canonical E2 16,384 点。
-- 正对照比例实验：固定 256 帧 Car 子集，嵌套槽位替换；它用于解释机制，不能冒充全验证集结论。
-- 指标：BBox、BEV、3D AP_R40，分别报告 Easy、Moderate、Hard。
-- 用户所说的 `diff/difficult` 在本报告中对应KITTI官方命名 `Hard`。
+-  Official double-line results: KITTI val  All  3,769  frame, canonical E2 16,384  Point.
+-  Optimization experiment: fixed  256  frame  Car  Subset, nested slot replacement; used to interpret mechanisms, cannot impersonates full validation set conclusion.
+-  Indicators: BBox, BEV, 3D AP_R40,  Separate reports  Easy, Moderate, Hard.
+-  According to the user  `diff/difficult`  Corresponding to the present report KITTI Official name  `Hard`.
 
-## 2. 正式结果：Car
+## 2.  Official results: Car
 
-### Line A：Original baseline → Original + x4 upsampling
+### Line A: Original baseline → Original + x4 upsampling
 
 {formal_all_metric_tables(ap_rows, "pointrcnn", "Car", "A")}
 
-图：
+ Figure:
 
 - `figures/car_line_a_absolute_ap.png`
 - `figures/car_line_a_delta_ap.png`
 
-难度结论：
+ Difficulty conclusion:
 
-1. PDANS 的 3D 下降为 Easy `-7.66`、Moderate `-15.03`、Hard `-15.55`。中/高难度目标比 Easy 多损失约 7–8 AP，说明远距离、遮挡和截断目标对错误新增邻域更敏感。
-2. PU-GCN 与 PU-EdgeFormer在 Moderate/Hard 的下降显著大于 Easy；生成点首先破坏的不是明显近车，而是原本只有少量边界点的困难车辆。
-3. PU-Net三种难度均失效；Easy下降更大不是“Easy更脆弱”，而是当前坐标归一化接入缺陷造成的全局几何错位，AP已接近下限。
+1. PDANS  It’s...  3D  Down to  Easy `-7.66`, Moderate `-15.03`, Hard `-15.55`.  Medium / Difficult target ratio  Easy  Multiple losses approximately  7–8 AP,  Description that the remote, shielding and cut-off target is more sensitive to the error by adding neighbourhood.
+2. PU-GCN  with  PU-EdgeFormer Yes.  Moderate/Hard  The decline is significantly greater than that.  Easy;  generated points was not the first to destroy a clearly near vehicle, but rather a difficult vehicle that had only point a small number of boundary.
+3. PU-Net (a) All three difficulties are no longer valid; Easy It’s not going down much bigger.” Easy It’s the global geometric error caused by access deficiencies at the current coordinates normalization. AP Approaching floor limit.
 
-### Line B：Downsampled-x4 baseline → Downsampled + x4 upsampling
+### Line B: Downsampled-x4 baseline → Downsampled + x4 upsampling
 
 {formal_all_metric_tables(ap_rows, "pointrcnn", "Car", "B")}
 
-图：
+ Figure:
 
 - `figures/car_line_b_absolute_ap.png`
 - `figures/car_line_b_delta_ap.png`
 
-Line B中，PDANS即使是Easy也下降 `-20.16`，Moderate/Hard分别下降 `-21.67/-22.21`；PU-GCN和EdgeFormer下降更大。这说明网络没有重建被删掉的真实扫描证据，而是用生成点替换了PointRCNN固定16,384点预算中的一部分可靠观测。
+Line B I don’t know. PDANS Even... Easy It’s coming down.  `-20.16`, Moderate/Hard Falling separately.  `-21.67/-22.21`; PU-GCN and EdgeFormer This means that the network no is reconstructing deleted real scanning evidence, instead replacing it with generated points PointRCNN fixed 16,384 Part of the point budget for reliable observations.
 
-## 3. 为什么以前会出现合理上升
+## 3.  Why was there a reasonable increase in the past?
 
-此前的正结果是：
+ The positive results were:
 
 `Original / PDANS / 2.5% generated slots / Car / 3D Moderate`
 
-它从 `82.66` 提高到 `85.10`，即 `+2.43`。但三种难度和四类指标必须完整展开：
+ It’s from  `82.66`  Increase to  `85.10`,  That’s...  `+2.43`.  However, three types of difficulty and four types of indicators must be fully developed:
 
 {markdown_table(
     ["Metric", "Difficulty", "Baseline", "Observed control (Δ)", "PDANS g2.5 (Δ)", "PDANS − control"],
     positive_rows,
 )}
 
-关键判断：
+ Key findings:
 
-1. 真正明显上升的主要是 **3D Moderate**。3D Easy只增加 `+0.35`，3D Hard反而下降 `-1.30`；BBox Moderate下降 `-1.81`，BEV Moderate只增加 `+0.17`。因此它不是“整体检测性能提高”，而是一个难度/指标特定的局部最优点。
-2. 同槽位真实点对照的3D Moderate已经从 `82.66`升至`84.42`，贡献`+1.75`；PDANS超过匹配对照仅`+0.68`。大部分提升来自固定点预算下的采样覆盖变化，不能全部归因于生成模型。
-3. 2.5%只对应约410个生成槽位，约97.5%的PointRCNN输入仍为真实观测。少量高质量PDANS点可能补到个别被采样遗漏的车体表面，同时不足以大范围改变邻域统计。
-4. 当比例提高到5%–10%，正增益立即消失；粗比例10%–50%的所有方法总体单调下降。这形成“低剂量局部补证据、高剂量污染邻域”的剂量—反应证据。
-5. 该结果来自256帧筛选集，尚不能取代3,769帧正式结果。论文中应称为 `positive mechanism screen` 或 `positive-control candidate`。
+1.  It’s the main thing that really went up.  **3D Moderate**. 3D Easy Increase only  `+0.35`, 3D Hard It’s going down.  `-1.30`; BBox Moderate Decline  `-1.81`, BEV Moderate Increase only  `+0.17`.  So it’s not ”whole test performance is improved” but it’s difficult. / The most advantageous part of a given indicator.
+2.  Compared to the real point of the slot. 3D Moderate Already from  `82.66` Raise to `84.42`,  Contribution `+1.75`; PDANS Overmatch only `+0.68`.  The majority of the upgrades came from sampling under the fixed-point budget, and cannot was all attributed to the generation model.
+3. 2.5% As promised only 410 Generate a slot, about 97.5% It’s... PointRCNN Input is still a real observation. a small number of high quality PDANS Point may be added to individual car surfaces left out by sampling, but not sufficient to change neighbourhood statistics on a wide scale.
+4.  That’s what I’m talking about. 5%–10%,  Positive gains disappear immediately; crude ratio 10%–50% All methods are reduced in a single way. This results in a dose of low-dose local evidence, high-dose contamination neighbourhood. — Response evidence.
+5.  The results are from 256 frame Filter Collection, replace cannot 3,769 frame official results.  `positive mechanism screen`  or  `positive-control candidate`.
 
-对应图：
+ Corresponding figures:
 
 - `figures/car_pdans_g025_positive_attribution.png`
 - `figures/car_fine_ratio_easy.png`
 - `figures/car_fine_ratio_moderate.png`
 - `figures/car_fine_ratio_hard.png`
 
-## 4. PointRCNN特有的根因链
+## 4. PointRCNN It’s a unique root chain.
 
-PointRCNN直接在点上进行前景分割、局部特征聚合和proposal生成。固定输入点数意味着新增生成点不会免费加入：它们会改变被保留真实点、球邻域成员、局部密度和proposal回归证据。
+PointRCNN Directly at point foreground split, local characterization fusion and proposal Generating. fixed Enter point count means that the new generated points will not be added free of charge: they change the reserved real point, the ball neighbourhood members, the local density and proposal Return evidence.
 
-全验证集框迁移进一步证明这不是AP解析问题：
+ The full validation set frame migration is further proof that this is not the case AP The problem of resolution:
 
-- Line A Car lost/baseline-TP：PDANS `23.1%`、PU-GCN `32.7%`、EdgeFormer `47.9%`、PU-Net `80.9%`。
-- Line B：`35.4% / 55.4% / 67.0% / 76.5%`。
-- 丢失率随0–20m、20–40m、40m+距离整体上升；具体见 `figures/car_line_*_loss_by_distance.png`。
-- sampler-safe fallback只影响3–12/3769帧，比例低于0.4%，排除其作为主因。
+- Line A Car lost/baseline-TP: PDANS `23.1%`, PU-GCN `32.7%`, EdgeFormer `47.9%`, PU-Net `80.9%`.
+- Line B: `35.4% / 55.4% / 67.0% / 76.5%`.
+-  The rate of loss follows. 0–20m, 20–40m, 40m+ Total distance rises; see in particular  `figures/car_line_*_loss_by_distance.png`.
+- sampler-safe fallback Impact only 3–12/3769 frame, ratio below 0.4%,  It is excluded as the primary cause.
 
-所以因果链是：
+ So the causal chain is:
 
-`生成点几何误差或冗余 → 固定点预算内真实点/生成点构成变化 → 局部邻域与前景得分变化 → proposal置信度/定位退化 → Moderate/Hard丢框率上升 → AP下降`
+` generated points geometric Error or redundancy  →  fixed Point Budget Point Real Point / generated points Composition Change  →  Local neighbourhood and foreground points  → proposal Confidence / Positioning degradation  → Moderate/Hard Drop frame rate up.  → AP Decline `
 
-## 5. 针对PointRCNN的改进优先级
+## 5.  Targeted PointRCNN Priority for improvement
 
-1. 把2.5%作为安全起点，并在完整3,769帧上复验PDANS与匹配真实点对照；不应直接使用严格x4高生成比例。
-2. 保留真实点优先；生成点只填充空槽位或低覆盖目标邻域，禁止随机替换可靠真实点。
-3. 为生成点提供置信度，按局部表面一致性、range-image邻接和法向残差过滤。
-4. 用目标距离/原始点数自适应比例：近距离完整车辆接近0%，稀疏远车允许少量补点。
-5. 修复共同patch局部性和PU-Net归一化后再比较模型能力。
-6. 若必须使用较高生成比例，应以相同混合分布微调PointRCNN，而不是只改变测试输入。
+1.  Put it. 2.5% As a safe starting point and complete 3,769 frame Upcheck PDANS contrast to match the real point; not directly use strict x4 High rate of generation.
+2.  Preserve the real point; generated points fills only empty slots or has low-covered target neighbourhood and prohibits random replacement of reliable real point.
+3.  Provides confidence for generated points by local surface consistency, range-image Neighborhood and filtration of disabilities.
+4.  Use the target distance. / Original point count Self-adaptation ratio: close and complete vehicle approach 0%,  Rare-drive vehicles allow a small number of patches.
+5.  Rehabilitation of common patch Locality and PU-Net normalization to compare model capabilities.
+6.  If a higher rate of generation must be used, fine-tune the same mixed distribution PointRCNN,  instead of just changing the test input.
 
-## 6. 可复核数据
+## 6.  Data subject to review
 
 - `tables/formal_ap_all_difficulties.csv`
 - `tables/transitions_full_validation.csv`
@@ -797,15 +797,15 @@ def center_report(
     base = behavior["downsampled_x4_baseline"]
     pdans = behavior["downsampled_x4_pdans"]
     pugcn = behavior["downsampled_x4_pu_gcn"]
-    return f"""# CenterPoint 独立分析：逐类别 Easy / Moderate / Hard 与正向例外
+    return f"""# CenterPoint  Independent analysis: by category  Easy / Moderate / Hard  With positive exception
 
-## 1. 分析边界
+## 1.  Analysis boundary
 
-本报告只分析CenterPoint。Car、Pedestrian、Cyclist分别成节、分别成图，不把不同类别放在同一幅性能图中。每个类别均覆盖BBox、BEV、3D以及Easy、Moderate、Hard。
+ The present report analyses only CenterPoint. Car, Pedestrian, Cyclist Splits into sections and diagrams, and does not place different categories in the same performance map. Each category is covered BBox, BEV, 3D and Easy, Moderate, Hard.
 
-正式结果全部来自KITTI val 3,769帧。CenterPoint使用0.05×0.05×0.1m体素、每体素最多5点、测试最多40,000体素，并将稀疏3D特征压缩到BEV后预测中心与框参数。
+ The official results are all from KITTI val 3,769 frame. CenterPoint Use 0.05×0.05×0.1m voxel, maximum per voxel 5 Point. Most tested. 40,000 voxel and will be diluted 3D Characteristic Compression To BEV project the centre and frame parameters.
 
-用户所说的 `diff/difficult` 在本报告中对应KITTI官方命名 `Hard`。
+ According to the user  `diff/difficult`  Corresponding to the present report KITTI Official name  `Hard`.
 
 ## 2. Car
 
@@ -817,14 +817,14 @@ def center_report(
 
 {formal_all_metric_tables(ap_rows, "centerpoint", "Car", "B")}
 
-Car在两条线、三种难度、四种方法上全部下降。Line B的3D Moderate下降为PDANS `-17.85`、PU-GCN `-25.53`、EdgeFormer `-39.85`、PU-Net `-52.88`。Car使用0.7 IoU，中心、尺寸、朝向或边界的轻微偏差都会转成AP损失；额外伪体素对完整三维外壳回归尤其不利。
+Car It’s down in two lines, three difficulties, four methods. Line B It’s... 3D Moderate Down to PDANS `-17.85`, PU-GCN `-25.53`, EdgeFormer `-39.85`, PU-Net `-52.88`. Car Use 0.7 IoU,  The centre, size, direction or a slight deviation from boundary will be converted. AP Loss; extra-false voxel is particularly detrimental to the full three-dimensional shell return.
 
-Car图仅包含Car：
+Car Figure only includes Car:
 
-- `figures/car_line_a_absolute_ap.png`与`car_line_a_delta_ap.png`
-- `figures/car_line_b_absolute_ap.png`与`car_line_b_delta_ap.png`
-- `figures/car_line_a_transitions.png`与`car_line_b_transitions.png`
-- `figures/car_line_a_loss_by_distance.png`与`car_line_b_loss_by_distance.png`
+- `figures/car_line_a_absolute_ap.png` with `car_line_a_delta_ap.png`
+- `figures/car_line_b_absolute_ap.png` with `car_line_b_delta_ap.png`
+- `figures/car_line_a_transitions.png` with `car_line_b_transitions.png`
+- `figures/car_line_a_loss_by_distance.png` with `car_line_b_loss_by_distance.png`
 
 ## 3. Pedestrian
 
@@ -832,23 +832,23 @@ Car图仅包含Car：
 
 {formal_all_metric_tables(ap_rows, "centerpoint", "Pedestrian", "A")}
 
-Line A三种难度全部下降：原始扫描的参考体素召回已是100%，新增点主要改变小目标中心附近的体素均值和BEV热图，而没有真实缺失证据可恢复。
+Line A All three difficulties are down: the reference to the original scan voxel 100%,  Add a new point to change the voxel average and BEV Hot map, while no is really missing evidence for recovery.
 
 ### Line B
 
 {formal_all_metric_tables(ap_rows, "centerpoint", "Pedestrian", "B")}
 
-PDANS是一个跨难度、跨空间指标一致的正向例外：
+PDANS This is a positive exception for cross-difficult, cross-space indicators:
 
-- BBox Easy/Moderate/Hard：`+0.19 / +0.35 / +0.43`
-- BEV：`+3.19 / +2.22 / +2.27`
-- 3D：`+4.23 / +3.61 / +3.08`
+- BBox Easy/Moderate/Hard: `+0.19 / +0.35 / +0.43`
+- BEV: `+3.19 / +2.22 / +2.27`
+- 3D: `+4.23 / +3.61 / +3.08`
 
-这比PointRCNN的单一Moderate正点更可信，因为三个难度和BEV/3D方向一致。行为证据是：Pedestrian总预测数从 `{int(float(base["pedestrian_prediction_count"]))}` 降到 `{int(float(pdans["pedestrian_prediction_count"]))}`，但score≥0.5的预测从 `{int(float(base["pedestrian_score_ge_0p5_count"]))}` 增到 `{int(float(pdans["pedestrian_score_ge_0p5_count"]))}`。这说明PDANS减少了大量低分候选，同时增强了一部分真正小目标的高分体素支持。
+ It’s like... PointRCNN Single Moderate Good points are more credible because of three difficulties and BEV/3D In the same direction. The evidence of the act is: Pedestrian Total projection from  `{int(float(base["pedestrian_prediction_count"]))}`  Down to  `{int(float(pdans["pedestrian_prediction_count"]))}`,  But... score≥0.5 The projections are from  `{int(float(base["pedestrian_score_ge_0p5_count"]))}`  Increase to  `{int(float(pdans["pedestrian_score_ge_0p5_count"]))}`.  That means... PDANS A large number of low-scoring candidates were reduced, while some of the real small targets were reinforced by high-scoring voxel support.
 
-PU-GCN的Pedestrian 3D Easy/Moderate只有`+0.55/+0.36`，Hard为`-0.09`，而BBox和BEV均下降，因此不能当作稳定提升。
+PU-GCN It’s... Pedestrian 3D Easy/Moderate Just... `+0.55/+0.36`, Hard Yes. `-0.09`,  And... BBox and BEV Both dropped, so cannot was used as a steady rise.
 
-Pedestrian图仅包含Pedestrian，正向证据见：
+Pedestrian Figure only includes Pedestrian,  In the light of the evidence:
 
 - `figures/pedestrian_line_b_positive_mechanism.png`
 
@@ -862,48 +862,48 @@ Pedestrian图仅包含Pedestrian，正向证据见：
 
 {formal_all_metric_tables(ap_rows, "centerpoint", "Cyclist", "B")}
 
-Line B存在两个可解释的正向结果：
+Line B There are two defensible positive outcomes:
 
-1. PDANS 3D Easy/Moderate/Hard为`+2.32/+0.06/+0.40`；全验证集单阈值迁移中recovered `102`、lost `100`，净`+2`，score≥0.5预测从 `{int(float(base["cyclist_score_ge_0p5_count"]))}` 墀至 `{int(float(pdans["cyclist_score_ge_0p5_count"]))}`。
-2. PU-GCN 3D Easy/Moderate/Hard为`+5.17/+1.39/+1.70`；recovered `94`、lost `81`，净`+13`，score≥0.5预测增至 `{int(float(pugcn["cyclist_score_ge_0p5_count"]))}`。BBox和BEV三种难度也同步提高，因此这是当前最完整的小目标恢复证据。
+1. PDANS 3D Easy/Moderate/Hard Yes. `+2.32/+0.06/+0.40`;  full validation set Single threshold moving recovered `102`, lost `100`,  Net `+2`, score≥0.5 Projection from  `{int(float(base["cyclist_score_ge_0p5_count"]))}`  It’s on the way.  `{int(float(pdans["cyclist_score_ge_0p5_count"]))}`.
+2. PU-GCN 3D Easy/Moderate/Hard Yes. `+5.17/+1.39/+1.70`; recovered `94`, lost `81`,  Net `+13`, score≥0.5 Projected increase to  `{int(float(pugcn["cyclist_score_ge_0p5_count"]))}`. BBox and BEV The three difficulties are also synchronized, so this is the most complete recovery evidence available.
 
-Cyclist使用0.5 IoU，且下采样后基线3D Moderate只有15.46。少量正确生成体素可以让原本只有极少点的骑行者形成连续中心响应；其容错范围也大于Car的0.7 IoU。
+Cyclist Use 0.5 IoU,  and downsampling post-baseline 3D Moderate Just... 15.46.  a small number of correctly generates voxel, which can provide a continuous and central response to a small number of riders; it also has a wider range of errors. Car It’s... 0.7 IoU.
 
-Cyclist图仅包含Cyclist，正向证据见：
+Cyclist Figure only includes Cyclist,  In the light of the evidence:
 
 - `figures/cyclist_line_b_positive_mechanism.png`
 
-## 5. 为什么小目标能涨、Car仍然跌
+## 5.  Why are the targets rising? Car Still falling.
 
-Line B没有任何方法触发40k体素上限，因此正负结果都不是由cap截断解释的。几何审计显示：
+Line B no Any method to trigger 40k voxel cap, so no positive or negative result is due cap The geometric audit revealed that:
 
-- 下采样基线参考0.2m体素召回为45.8%。
-- PDANS/PU-GCN分别提高到59.0%/57.3%，但最终额外体素仍达到45.5%/57.7%。
-- 对Pedestrian/Cyclist，少数正确新增体素可能跨过“形成可检测中心”的最低证据门槛。
-- 对Car，需要更完整且位置准确的外壳、尺寸和朝向证据；错误体素的累计损害大于召回收益。
-- EdgeFormer和PU-Net的额外体素更多、参考精度更低，所以三类都退化。
+-  downsampling Baseline Reference 0.2m voxel RETURNED AS 45.8%.
+- PDANS/PU-GCN Raised to 59.0%/57.3%,  But eventually, the extra voxel is still there. 45.5%/57.7%.
+-  Yeah. Pedestrian/Cyclist,  A small number of correct additions to voxel may cross the minimum evidentiary threshold for “forming a detectable centre”.
+-  Yeah. Car,  More complete and well-positioned casings, sizes and directional evidence are needed; the cumulative damage of the error voxel is greater than the recovery of the proceeds.
+- EdgeFormer and PU-Net The additional voxel is larger and the reference accuracy is lower, so the three categories are degraded.
 
-因此不能写成“上采样对小目标都有效”。准确表述应是：
+ Thus cannot is written as ”upsampling is valid for small targets”. The exact expression should be:
 
-> 在Downsampled Line B中，PDANS对Pedestrian、PU-GCN/PDANS对Cyclist表现出类别特定恢复；这种收益依赖低基线密度、0.5 IoU阈值和少量正确新增体素，并不迁移到Car或Line A。
+>  Yes. Downsampled Line B I don’t know. PDANS Yeah. Pedestrian, PU-GCN/PDANS Yeah. Cyclist Show specific categories of recovery; this benefit relies on low baseline density, 0.5 IoU threshold and a small number of correctly add voxel and do not migrate to Car or Line A.
 
-## 6. Easy / Moderate / Hard的解释
+## 6. Easy / Moderate / Hard Explanation
 
-1. Easy小目标通常更近、遮挡更少，所以正确新增体素更容易形成稳定中心；Cyclist/PU-GCN的Easy增益最大（`+5.17`）。
-2. Moderate包含更多部分遮挡和中距离目标。PDANS/Pedestrian仍保持`+3.61`，说明其新增体素质量足以改善一部分稀疏中心响应。
-3. Hard目标更远、更遮挡；有效恢复与伪体素污染同时增强。PDANS/Pedestrian仍为`+3.08`，但PU-GCN/Pedestrian已经接近零，显示方法质量决定收益是否能跨难度保持。
-4. 所有Car的Hard仍明显下降，说明当前点生成精度不足以满足0.7 IoU三维框回归。
+1. Easy Small targets are usually closer and less shielded, so the correct addition of voxel makes it easier to form a stabilization centre; Cyclist/PU-GCN It’s... Easy Maximum gain() `+5.17`).
+2. Moderate Include more parts of the shield and medium distance target. PDANS/Pedestrian Still holding `+3.61`,  It shows that its new voxel quality is sufficient to improve some of the silt centres’ responses.
+3. Hard (b) Effective recovery is reinforced with pseudo voxel contamination. PDANS/Pedestrian Still `+3.08`,  But... PU-GCN/Pedestrian It is close to zero, showing that the quality of the methodology determines whether the benefits can be sustained across the board.
+4.  All Car It’s... Hard Still significant decline, indicating that the current point generation accuracy is not sufficient 0.7 IoU 3D frame returns.
 
-## 7. 针对CenterPoint的改进优先级
+## 7.  Targeted CenterPoint Priority for improvement
 
-1. 不在Line A完整扫描上无条件x4；优先只处理低占用体素和小目标候选区域。
-2. 以Pedestrian/PDANS、Cyclist/PU-GCN作为正样本，学习“哪些生成体素被保留”，而不是只按方法统一保留。
-3. 用0.2m参考一致性、局部平面残差和range-image邻接筛掉桥接/漂移点。
-4. 体素级融合时保留真实点均值，生成点作为带权残差特征，避免直接移动MeanVFE中心。
-5. 按类别和距离选择生成预算：Car更严格，小目标在Line B允许较高但受控的局部比例。
-6. 修复patch局部性和PU-Net坐标变换后再做同协议复验。
+1.  No, I’m not. Line A Full scan is unconditional. x4;  Priority is given only to low-occupied voxel and small target candidate areas.
+2.  Here. Pedestrian/PDANS, Cyclist/PU-GCN As a positive sample, learn “what generates voxel is retained” rather than keeping it in a uniform way only.
+3.  Use it. 0.2m Reference Consistency, Local Level Discrepancies and range-image The next door sifts off the bridge. / Wandering point.
+4.  voxel preserves the real point average for integration, generated points as a transit disability feature and avoids direct movement MeanVFE Centre.
+5.  Selection of budget generation by category and distance: Car Tighter. Small target in. Line B Allows a higher but controlled partial ratio.
+6.  Rehabilitation patch Locality and PU-Net The coordinates are changed before the same protocol check.
 
-## 8. 可复核数据
+## 8.  Data subject to review
 
 - `tables/formal_ap_all_difficulties.csv`
 - `tables/transitions_full_validation.csv`
@@ -917,34 +917,34 @@ Line B没有任何方法触发40k体素上限，因此正负结果都不是由ca
 def write_readme() -> None:
     text = """# Detector-separated Easy/Moderate/Hard analysis
 
-本目录是对上一版双检测器证据包的结构化重排。两个检测器不再出现在同一张性能图或同一份根因报告中。
+ This catalogue is a structural reorganization of the previous version of the double detector evidence package. Two detectors no longer appear in the same performance map or in the same root cause report.
 
-其中 `diff/difficult` 按KITTI官方指标命名统一写作 `Hard`。
+ of which  `diff/difficult`  Press KITTI Common writing for official indicator naming  `Hard`.
 
-改进实验设计：
+ Improvement of experimental design:
 
-- `DETECTOR_AWARE_CONTROLLED_UPSAMPLING_PROPOSAL_ZH.md`
+- `DETECTOR_AWARE_CONTROLLED_UPSAMPLING_PROPOSAL_EN.md`
 
 ## PointRCNN
 
-- `pointrcnn/POINT_RCNN_SEPARATE_ANALYSIS_ZH.md`
-- 仅Car，因为冻结模型配置就是Car-only。
-- 正式3,769帧结果和此前256帧PDANS 2.5%正对照同时分析。
-- Easy、Moderate、Hard以及BBox、BEV、3D分别保留。
+- `pointrcnn/POINT_RCNN_SEPARATE_ANALYSIS_EN.md`
+-  only Car,  Because frozen, the model configuration is... Car-only.
+-  Official 3,769 frame Results and Before 256 frame PDANS 2.5% It’s being analysed at the same time.
+- Easy, Moderate, Hard and BBox, BEV, 3D Separately.
 
 ## CenterPoint
 
-- `centerpoint/CENTERPOINT_SEPARATE_ANALYSIS_ZH.md`
-- Car、Pedestrian、Cyclist分别成图成节。
-- 特别分析Line B中PDANS/Pedestrian与PDANS、PU-GCN/Cyclist的正向例外。
+- `centerpoint/CENTERPOINT_SEPARATE_ANALYSIS_EN.md`
+- Car, Pedestrian, Cyclist is divided into sections.
+-  Special analysis Line B Medium PDANS/Pedestrian with PDANS, PU-GCN/Cyclist The positive exception.
 
-## 原三帧框级可视化
+##  Original 3 frame frame visualization
 
-完整点云、框、BEV和目标裁剪仍位于：
+ Full point cloud, frame, BEV And the target cropping is still:
 
 `../dual_detector_three_frame_root_cause_20260730/frames/`
 
-本目录没有复制或修改旧实验结果，只新增分离后的统计、图表和报告。
+ This Catalogue no reproduces or modifies the results of old experiments, adding only statistics, charts and reports after separation.
 """
     (OUTPUT / "README.md").write_text(text, encoding="utf-8")
 
@@ -1016,7 +1016,7 @@ def main() -> int:
             difficulty,
             point_dir / f"figures/car_fine_ratio_{difficulty}.png",
         )
-    (point_dir / "POINT_RCNN_SEPARATE_ANALYSIS_ZH.md").write_text(
+    (point_dir / "POINT_RCNN_SEPARATE_ANALYSIS_EN.md").write_text(
         point_report(ap_rows, attribution), encoding="utf-8"
     )
 
@@ -1085,7 +1085,7 @@ def main() -> int:
             center_dir
             / f"figures/{class_name.lower()}_line_b_positive_mechanism.png",
         )
-    (center_dir / "CENTERPOINT_SEPARATE_ANALYSIS_ZH.md").write_text(
+    (center_dir / "CENTERPOINT_SEPARATE_ANALYSIS_EN.md").write_text(
         center_report(ap_rows, transition_rows, behavior_rows), encoding="utf-8"
     )
 

@@ -716,16 +716,16 @@ def main() -> int:
         return text
 
     bev_3d_report = [
-        "# PointRCNN完整BEV/3D AP R40对比",
+        "# PointRCNN Full BEV/3D AP R40 Contrast ",
         "",
-        "所有数值均来自相同256帧Car筛选集；E/M/H分别表示Easy/Moderate/Hard。",
-        "同一实验线、协议和比例下，四种方法的最优值使用粗体和★标注。",
+        " All values are from the same 256 frame Car (b) Screening collections; E/M/H Separately Easy/Moderate/Hard. ",
+        " The best of the four methods in the same test line, protocol and scale is bold and ★ Mark. ",
         "",
     ]
     sections = (
         ("Baseline", "baseline"),
-        ("细比例方法", "fine_nested_e2_replacement"),
-        ("粗比例方法", "coarse_independent_sampling"),
+        (" Fine scale method ", "fine_nested_e2_replacement"),
+        (" Crude Scale Method ", "coarse_independent_sampling"),
     )
     for title, protocol in sections:
         bev_3d_report.extend([f"## {title}", ""])
@@ -746,7 +746,7 @@ def main() -> int:
                 [
                     f"### {LINE_LABELS[line]}",
                     "",
-                    "| 方法 | 比例 | BEV-E | BEV-M | BEV-H | 3D-E | 3D-M | 3D-H |",
+                    "|  Methodology  |  Percentage  | BEV-E | BEV-M | BEV-H | 3D-E | 3D-M | 3D-H |",
                     "|---|---:|---:|---:|---:|---:|---:|---:|",
                 ]
             )
@@ -769,13 +769,13 @@ def main() -> int:
     control_rows = [
         row for row in all_metric_rows if row["row_kind"] == "observed_fill_control"
     ]
-    bev_3d_report.extend(["## 真实点匹配对照", ""])
+    bev_3d_report.extend(["##  Real Point Match ", ""])
     for line in LINES:
         bev_3d_report.extend(
             [
                 f"### {LINE_LABELS[line]}",
                 "",
-                "| 比例 | BEV-E | BEV-M | BEV-H | 3D-E | 3D-M | 3D-H |",
+                "|  Percentage  | BEV-E | BEV-M | BEV-H | 3D-E | 3D-M | 3D-H |",
                 "|---:|---:|---:|---:|---:|---:|---:|",
             ]
         )
@@ -873,26 +873,26 @@ def main() -> int:
     fine_ratios = sorted(next(iter(fine.values())))
     coarse_ratios = sorted(next(iter(coarse.values())))
     report: list[str] = [
-        "# PointRCNN上采样生成点比例：完整比较与原因分析",
+        "# PointRCNN upsampling generated points ratio: complete comparison and analysis of causes ",
         "",
-        "## 实验完成状态",
+        "##  Experimental completion status ",
         "",
-        "- 细比例嵌套实验：4种方法 × 2条线 × 4个比例 = 32/32 PASS。",
-        "- 真实观测点匹配对照：2条线 × 4个比例 = 8/8 PASS。",
-        "- 粗比例实验：4种方法 × 2条线 × 6个比例 = 48/48 PASS。",
-        "- 两个实验使用完全相同的256帧Car筛选集和同一PointRCNN检测器。",
-        "- 指标均为Car 3D AP R40 Moderate（%）。",
+        "-  Slightly proportionally embedded experiments: 4 Method  × 2 Line  × 4 Percentage  = 32/32 PASS. ",
+        "-  Real point match: 2 Line  × 4 Percentage  = 8/8 PASS. ",
+        "-  Crude scale experiment: 4 Method  × 2 Line  × 6 Percentage  = 48/48 PASS. ",
+        "-  The two experiments are identical. 256 frame Car Filter set and same PointRCNN detector. ",
+        "-  All indicators Car 3D AP R40 Moderate (%). ",
         "",
-        "## 细比例结果：嵌套、方法无关的E2槽位替换",
+        "##  Sub-scale results: nested, method irrelevant E2 Slot replacement ",
         "",
     ]
 
     for line in LINES:
         report.extend(
             [
-                f"### {LINE_LABELS[line]}线",
+                f"### {LINE_LABELS[line]} Line ",
                 "",
-                "| 方法 | g0 baseline | g2.5 | g5 | g7.5 | g10 | 最佳生成点设置 | Δ baseline |",
+                "|  Methodology  | g0 baseline | g2.5 | g5 | g7.5 | g10 |  Best generated points Settings  | Δ baseline |",
                 "|---|---:|---:|---:|---:|---:|---|---:|",
             ]
         )
@@ -908,9 +908,9 @@ def main() -> int:
 
     report.extend(
         [
-            "## 同比例真实点替换对照",
+            "##  Compare with the ratio of real point replacement ",
             "",
-            "| 实验线 | c2.5 | c5 | c7.5 | c10 |",
+            "|  Experiment Lines  | c2.5 | c5 | c7.5 | c10 |",
             "|---|---:|---:|---:|---:|",
         ]
     )
@@ -920,16 +920,16 @@ def main() -> int:
     report.extend(
         [
             "",
-            "生成点相对匹配真实点对照的差值（方法AP − control AP）：",
+            " generated points Relatively matches the difference between the real points (methods) AP − control AP): ",
             "",
         ]
     )
     for line in LINES:
         report.extend(
             [
-                f"### {LINE_LABELS[line]}线",
+                f"### {LINE_LABELS[line]} Line ",
                 "",
-                "| 方法 | g2.5 | g5 | g7.5 | g10 |",
+                "|  Methodology  | g2.5 | g5 | g7.5 | g10 |",
                 "|---|---:|---:|---:|---:|",
             ]
         )
@@ -943,16 +943,16 @@ def main() -> int:
 
     report.extend(
         [
-            "## 粗比例结果：独立比例采样",
+            "##  Crude result: Independent ratio sampling ",
             "",
         ]
     )
     for line in LINES:
         report.extend(
             [
-                f"### {LINE_LABELS[line]}线",
+                f"### {LINE_LABELS[line]} Line ",
                 "",
-                "| 方法 | g0 baseline | g10 | g15 | g25 | g35 | g40 | g50 | g10→g50下降 |",
+                "|  Methodology  | g0 baseline | g10 | g15 | g25 | g35 | g40 | g50 | g10→g50 Decline  |",
                 "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
             ]
         )
@@ -967,12 +967,12 @@ def main() -> int:
 
     report.extend(
         [
-            "## 两种协议不能无条件拼成一条精确曲线",
+            "##  Two protocol cannot Unconditionally encoded as a precise curve ",
             "",
-            "细比例实验从固定的E2 baseline 16,384点母集出发，所有方法替换相同槽位，且比例间嵌套；"
-            "粗比例实验对每个方法和比例独立抽取真实点与生成点。两者帧集相同，但采样协议不同。",
+            " The fine scale experiment from fixed E2 baseline 16,384 Point parent set to move, all methods to replace the same slot, with a proportional nest; "
+            " The crude scale experiment singles out the real point for each method and scale as generated points. The two are the same as frame, but not sampling protocol. ",
             "",
-            "| 实验线/方法 | 细协议g10 | 粗协议g10 | 粗−细 |",
+            "|  Experiment Lines / Methodology  |  Fine protocol g10 |  Crude protocol g10 |  Crude − Fine  |",
             "|---|---:|---:|---:|",
         ]
     )
@@ -990,51 +990,51 @@ def main() -> int:
     report.extend(
         [
             "",
-            "## 核心结论",
+            "##  Core conclusions ",
             "",
-            f"1. **唯一明确超过baseline的候选是Original/PDANS g2.5。** "
-            f"其AP为{fmt(original_pdans)}，相对Original baseline "
-            f"{fmt(baseline['original'])}提高{signed(original_pdans - baseline['original'])}。",
-            f"2. **这{signed(original_pdans - baseline['original'])}不能全部归功于生成点。** "
-            f"同槽位使用真实点的c2.5对照已经达到{fmt(original_pdans_control)}；"
-            f"PDANS相对匹配对照只高{signed(original_pdans - original_pdans_control)}。"
-            "因此主要增益中包含检测器采样/覆盖变化，生成几何的净贡献较小，必须用完整验证集确认。",
-            "3. **Original/PU-GCN g2.5仅与baseline持平。** 其相对匹配真实点对照仍明显更低，"
-            "不能视为稳定提升。",
-            "4. **Downsampled线没有任何方法或比例超过baseline。** 即使只引入2.5%生成点，"
-            "四种方法也全部下降；说明当前方法不能恢复下采样丢失的目标证据。",
-            "5. **比例越高，退化总体越强。** 从10%增加到50%时，所有方法和两条线均大幅下降；"
-            "PDANS最耐受、PU-GCN其次、PU-EdgeFormer更差、当前PU-Net接入最差。",
-            "6. **原因不是单一的detector问题。** 真实点对照本身会改变AP，证明PointRCNN固定点数采样"
-            "对输入构成敏感；但绝大多数方法又低于同样比例的真实点对照，证明生成点几何/分布质量"
-            "也在造成额外损失。",
-            "7. **当前PU-Net结果还包含已确认的接入缺陷。** wrapper缺少预训练要求的patch中心化、"
-            "尺度归一化和输出逆变换，因此不能把当前曲线当作PU-Net模型能力上限。",
+            f"1. ** The only thing that’s clear is more than baseline The candidate is... Original/PDANS g2.5. ** "
+            f" Other AP Yes. {fmt(original_pdans)},  Relative Original baseline "
+            f"{fmt(baseline['original'])} Increase {signed(original_pdans - baseline['original'])}. ",
+            f"2. ** Here. {signed(original_pdans - baseline['original'])} cannot is all due to generated points. ** "
+            f" Use of real points in the same slot c2.5 The match has been reached. {fmt(original_pdans_control)}; "
+            f"PDANS Relative match is only high {signed(original_pdans - original_pdans_control)}. "
+            " So the main gain includes detector sampling / The net contribution of geometric, which covers the change, is small and must be confirmed with the complete validation set. ",
+            "3. **Original/PU-GCN g2.5 only with baseline Hold still. **  The contrast between the relative match and the true point is still significantly lower. "
+            " cannot is considered to be stable uplift. ",
+            "4. **Downsampled Line no Any method or proportion exceeding baseline. **  Even if it’s only introduced. 2.5% generated points, "
+            " The four methods have also been reduced in their entirety; this is evidence of the loss of cannot recovery downsampling in the current methodology. ",
+            "5. ** The higher the proportion, the greater the overall degradation. **  From 10% Increase to 50% At that time, all methods and both lines were significantly reduced; "
+            "PDANS The most patient, PU-GCN Second, PU-EdgeFormer Worse, Current PU-Net The worst access. ",
+            "6. ** The reason is not the same. detector Problem. **  Realism changes itself. AP,  Proof. PointRCNN fixed point count sampling "
+            " Sensitivity to input formation; however, most methods are also below against the true point of the same proportion, which proves generated points geometric / Distribution Quality "
+            " Additional losses are also being caused. ",
+            "7. ** Current PU-Net The results also include identified access deficiencies. ** wrapper Lack of pre-training requirements patch Centralization, "
+            " scale normalization and output reverses, so cannot treats the current curve as PU-Net Model capacity cap. ",
             "",
-            "## 建议的下一步",
+            "##  Suggested next steps ",
             "",
-            "1. 先在完整KITTI验证集上运行Original/PDANS g2.5及匹配c2.5对照；"
-            "只有PDANS显著超过两者，才能确认真正检测增益。",
-            "2. 不建议把35%～50%配置送入完整验证集；256帧趋势已经显示其系统性退化。",
-            "3. 修复PU-Net归一化/逆变换并使用局部FPS+kNN patch后，重新生成点云再评测。",
-            "4. 对所有方法采用保留真实点优先、生成点置信度筛选、目标邻域定向补点，"
-            "避免随机生成点替换稀缺真实测量。",
-            "5. 若希望较高生成点比例也有效，需要用相同混合比例对PointRCNN进行训练或微调；"
-            "当前检测器只适应真实KITTI点分布。",
+            "1.  Let’s get it done first. KITTI Run on validation set Original/PDANS g2.5 Matches c2.5 Comparison; "
+            " Just... PDANS A significant increase over both can be identified for real testing gains. ",
+            "2.  I don’t recommend it 35%～50% Configure delivery to complete validation set; 256 The frame trend has shown its systemic degradation. ",
+            "3.  Rehabilitation PU-Net normalization / Reverse transformation and use local FPS+kNN patch After that, re-evaluate generated points clouds. ",
+            "4.  Using all methods to maintain the true point priority, generated points confidence screening, target neighbourhood orientation patches, "
+            " Avoid random generated points to replace scarce real measurements. ",
+            "5.  If you want a higher generated points ratio, you need to match it with the same mix ratio. PointRCNN Training or fine-tuning; "
+            " The current detector only adapts to reality KITTI Point distribution. ",
             "",
-            "## 输出文件",
+            "##  Output File ",
             "",
-            "- `combined_ratio_results.csv`：所有协议、比例、方法和相对差值。",
-            "- `combined_all_difficulty_metrics.csv`：BBox/BEV/3D/AOS × Easy/Moderate/Hard完整AP。",
-            "- `all_methods_all_ratios_all_metrics_comparison.csv`：统一宽表，含全部AP、"
-            "相对Original baseline、实验线baseline及细比例匹配control的差值。",
-            "- `all_methods_all_ratios_all_metrics_comparison.xlsx`：分Original/Downsampled"
-            "两个工作表，二者均以Original baseline为统一参照。",
-            "- `original_line_vs_original_baseline.csv`与"
-            "`downsampled_line_vs_original_baseline.csv`：两条线的独立宽表。",
-            "- `complete_bev_3d_comparison.md`：便于阅读的全部BEV/3D三级难度表。",
-            "- `ratio_ap_comparison.png/.pdf`：四面板比例—AP曲线。",
-            "- `combined_analysis_report.md`：本报告。",
+            "- `combined_ratio_results.csv`:  All protocol, scale, method and relative margin. ",
+            "- `combined_all_difficulty_metrics.csv`: BBox/BEV/3D/AOS × Easy/Moderate/Hard Full AP. ",
+            "- `all_methods_all_ratios_all_metrics_comparison.csv`:  Unified width, including all AP, "
+            " Relative Original baseline,  Experiment Lines baseline Matches the fine scale control the margin. ",
+            "- `all_methods_all_ratios_all_metrics_comparison.xlsx`:  min Original/Downsampled"
+            " Two sheets, both of them. Original baseline As a single reference. ",
+            "- `original_line_vs_original_baseline.csv` with "
+            "`downsampled_line_vs_original_baseline.csv`:  A separate width of the two lines. ",
+            "- `complete_bev_3d_comparison.md`:  All that’s easy to read BEV/3D Level three difficulty table. ",
+            "- `ratio_ap_comparison.png/.pdf`:  Four Panel Ratio —AP curve. ",
+            "- `combined_analysis_report.md`:  This report. ",
             "",
         ]
     )

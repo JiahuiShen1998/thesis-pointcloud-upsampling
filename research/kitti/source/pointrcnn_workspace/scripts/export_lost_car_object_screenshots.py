@@ -528,31 +528,31 @@ def write_csv(path: Path, rows: list[dict]) -> None:
 
 
 def write_readme(output: Path, frame: str, rows: list[dict], pair_rows: list[dict]) -> None:
-    text = f"""# 上采样后漏检 Car 截图分类包
+    text = f"""#  upsampling After missed detection  Car  Screenshot classification package
 
-本目录使用统一 exact-x4 正式实验的冻结结果。固定帧为 `{frame}`，因为该帧同时覆盖 4 个方法 × 2 条实验线 × 2 个 detector，并且每个组合都有至少两个严格的 Car `detected -> missed` 目标。
+ This directory uses uniform  exact-x4  frozen results of the formal experiments. The fixed frames are  `{frame}`,  Because frame also covers  4  A methodology.  × 2  An experimental line  × 2  individual  detector,  And each combination has at least two strict ones.  Car `detected -> missed`  Objective.
 
-## 目录
+##  Contents
 
-- `line_A/<method>/<detector>/`：original baseline 与 original+x4。
-- `line_B/<method>/<detector>/`：downsampled baseline 与 downsampled+x4；每张图左栏仍使用 original scan 展示车形。
-- 每个组合包含两张 object 图和一张 `00_two_objects.png` 汇总图。
-- `selection_index.csv`：32 个目标的判定、点数、IoU、路径。
-- `pair_sheet_index.csv`：16 张双-object 汇总图的路径。
+- `line_A/<method>/<detector>/`: original baseline  with  original+x4.
+- `line_B/<method>/<detector>/`: downsampled baseline  with  downsampled+x4;  The left column of each chart is still used  original scan  Show the car.
+-  Each combination consists of two  object  Figure and one.  `00_two_objects.png`  Summary chart.
+- `selection_index.csv`: 32  Targeting, point count, IoU,  Path.
+- `pair_sheet_index.csv`: 16  Two. -object  Summarizes the path of the map.
 
-## 图例与判定
+##  Legends and decisions
 
-- 黄虚线：KITTI Car GT 3D 框。
-- 绿实线：上采样前与 GT 匹配的最终检测框。
-- 橙点线：上采样后如存在空间上接近但未达到阈值的最终框。
-- Car 的严格检测阈值为 oriented 3D IoU >= 0.70；`missed` 表示上采样后没有同类最终框达到该阈值。
-- 上排为 object-aligned 3D，下排为 object-aligned BEV；所有框完整显示。
+-  Yellow dot line: KITTI Car GT 3D  box.
+-  Green line: upsampling Formerly  GT  Matches the final test box.
+-  Orange Point Line: If upsampling is followed by a space close to but does not reach the final frame of threshold.
+- Car  threshold is  oriented 3D IoU >= 0.70; `missed`  Indicates that no after upsampling has reached the threshold final frame.
+-  Top As  object-aligned 3D,  Downline As  object-aligned BEV;  All boxes are shown in full.
 
-共导出 {len(rows)} 个 object 截图和 {len(pair_rows)} 张组合汇总图。
+ Co-Export  {len(rows)}  individual  object  Screenshots and  {len(pair_rows)}  A summary of the combination.
 
-## 数据边界
+##  Data boundary
 
-截图只读取已有完整 validation 推理结果，不重新运行上采样或 detector。PointRCNN 图使用实际 E2 16,384 点输入；CenterPoint 图重放其 FOV/range、每 voxel 前 5 点和 40k voxel 上限后的有效点。PU-Net 图反映当前冻结输出，但该输出已有缺失 normalization/inverse-transform wrapper 的已知有效性问题，论文中应保留此警告。
+ Only read complete screenshots  validation  Logo result, do not rerun upsampling or  detector. PointRCNN  Actual Figure  E2 16,384  Point input; CenterPoint  Replay the figure  FOV/range,  Every  voxel  Front  5  Point and  40k voxel  Post-ceiling effective point. PU-Net  The figure reflects the current frozen output, but the output is missing  normalization/inverse-transform wrapper  The issue of known validity should be retained in the paper.
 """
     (output / "README.md").write_text(text, encoding="utf-8")
 

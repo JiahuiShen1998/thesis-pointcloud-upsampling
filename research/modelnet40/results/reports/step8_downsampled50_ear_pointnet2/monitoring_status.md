@@ -1,18 +1,18 @@
-# Step 8 — 训练监控状态报告
+# Step 8 — Training Monitor Status Report
 
-- 检查时间: 2026-06-22
-- 实验名: `downsampled50_ear_pointnet2`
+- Check time: 2026-06-22
+- Experiment name: `downsampled50_ear_pointnet2`
 - Job ID: **1711437**
 - Job name: `p2_ear_b`
-- 集群: tinygpu
+- Cluster: tinygpu
 
-## 1. Job 状态
+## 1. Job State
 
 ```
 squeue.tinygpu -u $USER
 ```
 
-| 字段 | 值 |
+| Fields | Value |
 | --- | --- |
 | JOBID | 1711437 |
 | PARTITION | work |
@@ -21,76 +21,76 @@ squeue.tinygpu -u $USER
 | TIME | 0:00 |
 | REASON | Priority |
 
-`sacct` 确认: State = **PENDING**，尚未开始（Start = Unknown）。
+`sacct` Confirm: State = **PENDING**, not yet started (Start = Unknown).
 
-**处理:** 未取消 job，继续等待调度。
+**Processing:** No job cancelled and continues to await scheduling.
 
-## 2. 日志检查
+## 2. Log Check
 
-Slurm 日志目录 `logs/step8_downsampled50_ear_pointnet2/` 当前为空：
+Slurm Log Directory `logs/step8_downsampled50_ear_pointnet2/` Current is empty:
 
-- `train_1711437.log` — **尚未生成**（job 未启动）
-- `train_1711437.err` — **尚未生成**
-- `train.log`（Python 训练日志）— **尚未生成**
+- `train_1711437.log` — **Not Generated**(job not started)
+- `train_1711437.err` — **Not Generated**
+- `train.log`(Python Training Log) **Not Generated**
 
-输出目录 `outputs/step8_downsampled50_ear_pointnet2/` 当前为空。
+Output Directory `outputs/step8_downsampled50_ear_pointnet2/` Current is empty.
 
-## 3. 训练启动后需确认的日志项
+## 3.  Log entries to be confirmed after training starts
 
-Job 进入 **R (Running)** 后，执行：
+Job Enter **R (Running)** After which, implement:
 
 ```bash
 tail -n 120 logs/step8_downsampled50_ear_pointnet2/train_1711437.log
 ```
 
-预期应出现：
+It is expected that:
 
-| 检查项 | 预期值 |
+| Checkpoint | Expected value |
 | --- | --- |
-| 数据集路径 | `datasets/modelnet40_downsampled50_ear`（软链接） |
-| train 样本数 | 9843 |
-| test 样本数 | 2468 |
-| batch shape | `(B, 1024, 3)` 或模型输入 `(B, 3, 1024)` |
+| Data set path | `datasets/modelnet40_downsampled50_ear`(soft link) |
+| train Samples | 9843 |
+| test Samples | 2468 |
+| batch shape | `(B, 1024, 3)` or model input `(B, 3, 1024)` |
 | num_classes | 40 |
-| Epoch 1 | 开始训练 |
-| loss / accuracy | 正常数值输出 |
+| Epoch 1 | Start training. |
+| loss / accuracy | Normal Value Output |
 
-## 4. 实验说明（待写入 final_report）
+## 4. Experimental Note (to be written in final_report)
 
-本实验为 **Downsampled50 + EAR** 的 downstream PointNet++ 分类实验。
+This experiment is **Downsampled50 + EAR** The downstream PointNet++ classification experiment.
 
-- **不强制**与 Downsampled50 baseline 保持相同点数。
-- Downsampled50 baseline: **512 points**（原生）
-- Downsampled50 + EAR: **1024 points**（EAR 上采样后）
-- 评估目标: EAR 上采样流程对 PointNet++ 分类端的实际提升效果
+- **Do Not Force**Same point count as Downsampled50 baseline.
+- Downsampled50 baseline: **512 points**(Previous)
+- Downsampled50 + EAR: **1024 points**(EAR upsampling )
+- Evaluation target: The actual enhancement of EAR upsampling process to PointNet++ classification end
 
-## 5. 对比参考（已完成 baseline）
+## 5. Comparative Reference (baseline completed)
 
-| 实验 | 点数 | best test acc | best epoch |
+| Experiment | point count | best test acc | best epoch |
 | --- | ---: | ---: | ---: |
 | downsampled50_baseline | 512→1024 (loader resample) | 91.17% | 155 |
-| downsampled50_ear_pointnet2 | 1024 (native) | **待训练完成** | — |
+| downsampled50_ear_pointnet2 | 1024 (native) | **Pending completion of training** | — |
 
-## 6. 后续操作
+## 6. Follow-up
 
-训练完成后自动生成：
+Upon completion of training, automatically generate:
 
 - `reports/step8_downsampled50_ear_pointnet2/final_report.md`
 - `reports/step8_downsampled50_ear_pointnet2/result_summary.csv`
 
-若训练报错（不重启 job）：
+If training fails (not restart job):
 
 - `reports/step8_downsampled50_ear_pointnet2/error_report.md`
 
-## 7. 监控命令
+## 7. Surveillance Command
 
 ```bash
-# 队列状态
+#  Queue Status
 squeue.tinygpu -u $USER
 
-# job 开始后实时日志
+# job  Real-time post-start log
 tail -f logs/step8_downsampled50_ear_pointnet2/train_1711437.log
 
-# Python 训练日志
+# Python  Training Log
 tail -f logs/step8_downsampled50_ear_pointnet2/train.log
 ```

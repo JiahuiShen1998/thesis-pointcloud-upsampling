@@ -1,20 +1,20 @@
-# 完整论文源码
+# Complete manuscript source
 
-源自 `D:\Thesis\thesis` 的当前正式工程，包含全部章节、模板包、BibTeX 数据库和样式、任务书、现有图片、可编辑图源、表格、图表生成脚本及其本地 evidence。
+This is the current complete manuscript project copied from `D:\Thesis\thesis`. It includes all chapters, local template packages, BibTeX data and style, the signed thesis task, figures and editable figure sources, tables, generation scripts and local supporting evidence.
 
-- `thesis.tex`：唯一主入口；`texfiles/` 包括第 1–6 章及前后置部分。
-- `figure/`：正文图片，以及 PNG/SVG/PDF 编辑与展示版本。
-- `bibfiles/references.bib`、`bibfiles/IEEEtran_thesis.bst`：文献库与本地样式。
-- `topic/description.pdf`：签字任务书。
-- `scripts/`、`evidence/`：论文图表生成与来源记录；历史脚本的外部 skill、字体或原工作区路径不等于编译现有论文所必需的依赖。
-- `../thesis.pdf`：本次原样保留的本机当前正式 PDF。
+- `thesis.tex`: main entry; `texfiles/` contains chapters 1–6 and front/back matter.
+- `figure/`: manuscript figures and their PNG/SVG/PDF editing or display versions.
+- `bibfiles/references.bib` and `bibfiles/IEEEtran_thesis.bst`: bibliography database and local style.
+- `topic/description.pdf`: signed thesis task.
+- `scripts/` and `evidence/`: figure/table generation and provenance. External helpers, fonts or original machine paths required by historical regeneration scripts are separate from the dependencies needed to compile the existing manuscript.
+- `../thesis.pdf`: the preserved current local manuscript PDF.
 
-在安装 TeX Live（原工程使用 2025）或兼容发行版的机器上，于本目录执行：
+With TeX Live (2025 was used in the source environment) or a compatible distribution installed, run from this directory:
 
 ```sh
 latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/current thesis.tex
 ```
 
-生成文件在 `build/current/thesis.pdf`。直接编译现有插图不需要 Python 绘图库、原研究数据集或 Codex skill。`python scripts/build_current_pdf.py` 也保留供沿用原工作流，会生成本副本下的 `audit/` 和 `thesis.pdf`；原样归档 PDF 保存在上一级。
+The output is `build/current/thesis.pdf`. Compiling with the supplied figures does not require Python plotting libraries, original research datasets or external figure-generation helpers. The historical `python scripts/build_current_pdf.py` workflow is also retained; it generates audit/ and thesis.pdf in this copy. The preserved handover PDF is one directory above.
 
-未复制本地 Python 依赖安装目录、编译缓存、历史 audit 备份、审阅裁剪 PDF、过时 figures 目录及 `bibfiles/papers` 下 30 篇外部论文 PDF。这些不属于当前论文的 88 个本地编译输入；文献 .bib 和 .bst 已保留。原资料仍在原工作目录。
+Local Python dependency installations, build caches, historical audit backups, review-crop PDFs, obsolete figure directories and thirty external paper PDFs from bibfiles/papers were not copied. They are outside the current manuscript's 88 local compilation inputs. The bibliography and local style are included; original material remains in the source workspace.

@@ -526,17 +526,17 @@ def build_pptx(cls: dict[str, Any], geo: dict, figs: dict[str, Path]) -> int:
 
     # 11 Why retrain — Chinese bilingual for supervisor Q&A
     s = add()
-    add_section_banner(s, "C · Retrain Protocol", "Why Retrain? / 为何重新训练分类器")
+    add_section_banner(s, "C · Retrain Protocol", "Why Retrain? /  Why retrain classifier? ")
     add_bullets(
         s,
         [
-            "网络：PointNet++ SSG（pointnet2_cls_ssg），仅 XYZ，40 类",
-            "Retrain = 在每个点云变体上从零训练分类器（matched num_point），不是对 Original-1024 权重做 finetune",
-            "也不是在此阶段训练上采样网络——上采样器只负责生成点云",
-            "目的：在公平、标准 backbone 下，隔离点云表示（密度/分布）对分类的影响",
-            "匹配点数避免输入尺寸错配；从零训练避免把另一密度上学到的特征带到当前变体",
-            "训练：200 epochs，Adam 0.001，seed=42；按 test instance accuracy 存 best_model（无 val 集，需诚实说明）",
-            "当前协议：同结构同超参、每变体独立 checkpoint；更严协议=冻结单一分类器评估所有云（未做）",
+            " Network: PointNet++ SSG (pointnet2_cls_ssg),  only  XYZ, 40  Category ",
+            "Retrain =  Train the classifier from scratch on each point-cloud variant ( matched num_point),  It’s not true.  Original-1024  Weighted  finetune",
+            " And not at this stage, the upsampling network. —— upsampler is only responsible for generated points clouds ",
+            " Purpose: In equity, standards  backbone  under these conditions, isolate the point-cloud representation (density / Impact on classification ",
+            " Match point count to avoid input size mismatch; avoid sending another density feature to the current variant from zero training ",
+            " Training: 200 epochs, Adam 0.001, seed=42;  Press  test instance accuracy  Save  best_model ( None  val  Synopsis, need to be honest) ",
+            " Current protocol: Independent of the same structure and supersync, per variant  checkpoint;  Tighter protocol = frozen Single classifier Assessment of all clouds (not done) ",
         ],
         top=1.05,
         size=14,
@@ -1036,13 +1036,13 @@ def build_pdf(cls: dict[str, Any], geo: dict, figs: dict[str, Path], n_slides: i
         ]
     )
     story.append(Spacer(1, 0.15 * inch))
-    story.append(Paragraph("为何重新训练分类器 (中文)", h))
+    story.append(Paragraph(" Why retrain classifier?  ( Chinese )", h))
     bullets(
         [
-            "在每个点云变体上从零训练 PointNet++ SSG（匹配 num_point），不是 finetune Original-1024",
-            "也不是训练上采样网络——上采样器只生成点云",
-            "目的：在标准 backbone 下隔离点云表示对分类的影响",
-            "无验证集；按 test instance accuracy 存 best_model（需诚实说明）",
+            " Training from zero on every point cloud variant  PointNet++ SSG ( Match  num_point),  It’s not.  finetune Original-1024",
+            " And it’s not training upsampling. —— upsampler Only generated points clouds ",
+            " Purpose: In standards  backbone  point cloud for impact on classification ",
+            " No validation set; press  test instance accuracy  Save  best_model ( (To be honest) ",
         ]
     )
     story.append(PageBreak())

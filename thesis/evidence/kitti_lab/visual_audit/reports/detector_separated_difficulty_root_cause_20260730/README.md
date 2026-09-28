@@ -1,30 +1,30 @@
 # Detector-separated Easy/Moderate/Hard analysis
 
-本目录是对上一版双检测器证据包的结构化重排。两个检测器不再出现在同一张性能图或同一份根因报告中。
+This catalogue is a structural reordering of the previous version of the double detector evidence package.Two detectors no longer appear in the same performance map or in the same root report.
 
-其中 `diff/difficult` 按KITTI官方指标命名统一写作 `Hard`。
+of which `diff/difficult` Unified writing by name of KITTI official indicator `Hard`.
 
-改进实验设计：
+Improvement of experimental design:
 
-- `DETECTOR_AWARE_CONTROLLED_UPSAMPLING_PROPOSAL_ZH.md`
+- `DETECTOR_AWARE_CONTROLLED_UPSAMPLING_PROPOSAL_EN.md`
 
 ## PointRCNN
 
-- `pointrcnn/POINT_RCNN_SEPARATE_ANALYSIS_ZH.md`
-- 仅Car，因为冻结模型配置就是Car-only。
-- 正式3,769帧结果和此前256帧PDANS 2.5%正对照同时分析。
-- Easy、Moderate、Hard以及BBox、BEV、3D分别保留。
+- `pointrcnn/POINT_RCNN_SEPARATE_ANALYSIS_EN.md`
+- only Car because frozen model configuration is Car-only.
+- Official 3,769 frame results and previous 256 frame PDANS 2.5% are being analysed at the same time.
+- Easy, Moderate, Hard and BBox, BEV and 3D are retained.
 
 ## CenterPoint
 
-- `centerpoint/CENTERPOINT_SEPARATE_ANALYSIS_ZH.md`
-- Car、Pedestrian、Cyclist分别成图成节。
-- 特别分析Line B中PDANS/Pedestrian与PDANS、PU-GCN/Cyclist的正向例外。
+- `centerpoint/CENTERPOINT_SEPARATE_ANALYSIS_EN.md`
+- Car, Pedestrian and Cyclist are graphs.
+- Special analysis of the positive exceptions for PDANS/Pedestrian and PDANS and PU-GCN/Cyclist in Line B.
 
-## 原三帧框级可视化
+##  Original 3 frame frame visualization
 
-完整点云、框、BEV和目标裁剪仍位于：
+The complete point cloud, frame, BEV and the target cropping are still in:
 
 `../dual_detector_three_frame_root_cause_20260730/frames/`
 
-本目录没有复制或修改旧实验结果，只新增分离后的统计、图表和报告。
+This Catalogue no reproduces or modifies the results of old experiments, adding only statistics, charts and reports after separation.

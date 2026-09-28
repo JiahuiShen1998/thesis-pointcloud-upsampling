@@ -3,11 +3,12 @@ Contract: localise output-to-reference residuals for all five methods.
 Python structural adaptation of the existing orthographic point-cloud renderer.
 No new inference, no display subsampling, no per-object classification claims.
 """
+import os
 from pathlib import Path
 import sys,json,csv,hashlib
 R=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(R/'.python-deps'))
-sys.path.insert(0,str(Path.home()/'.codex/skills/nature-figure/scripts'))
+sys.path.insert(0,str(Path(os.environ.get('FIGURE_HELPERS_DIR', Path(__file__).resolve().parent/'external_helpers'))))
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')

@@ -3,9 +3,9 @@
 - Generated at: 2026-07-07 19:50:00 UTC
 - Scope: formal Line B full training (5 branches, 200 epochs, seed=42)
 
-## 1. Line B 实验目的
+## 1. Line B experimental purpose
 
-比较 **Downsampled ×4 baseline（256 pts）** 与 **Downsampled ×4 + Upsampling（1024 pts）** 四种方法（EAR、PDANS、PU-Net、PU-GCN）在 PointNet++ 分类任务上的表现。
+Comparison **Downsampled ×4 baseline (256 pts)** with **Downsampled ×4 + Upsampling (1024 pts)** The performance of four methods (EAR, PDANS, PU-Net, PU-GCN) in the PointNet++ classification mission.
 
 ## 2. Baseline
 
@@ -14,7 +14,7 @@
 - Best class accuracy: **87.37%**
 - Final epoch (200) test overall: **90.46%**
 
-## 3. Upsampling methods（1024 pts）
+## 3. Upsampling methods (1024 pts)
 
 | method | best overall | Δ vs baseline | best class | Δ vs baseline |
 | --- | ---: | ---: | ---: | ---: |
@@ -23,13 +23,13 @@
 | PU-Net | **91.27%** | **+0.42 pp** | **87.86%** | **+0.49 pp** |
 | PU-GCN | 90.06% | −0.79 pp | 86.41% | −0.96 pp |
 
-## 4. 分类结果观察
+## 4. classification Results Watch
 
-- **PU-Net** 是唯一在 best overall / best class 上均略高于 downsampled baseline 的方法（+0.42 pp / +0.49 pp）。
-- **EAR** 分类表现最低，低于 baseline 约 2 个百分点。
-- **PDANS** 和 **PU-GCN** 介于 EAR 与 PU-Net 之间，均未超过 baseline 的 best overall。
+- **PU-Net** The only method (+ 0.42 pp / +0.49 pp) for which best overall / best class is used is to provide an average of above downsampled baseline.
+- **EAR** classification has the lowest performance, below baseline about 2 percentage points.
+- **PDANS** and **PU-GCN** Between EAR and PU-Net, there are no more best overall than baseline.
 
-## 5. 几何指标对照
+## 5. geometric metrics Contrast
 
 | method | CD (Δ vs Original) | HD | NUC | best overall cls |
 | --- | --- | --- | --- | --- |
@@ -39,15 +39,15 @@
 | + PU-Net | 0.057 (+0.008) | 0.138 | 1.058 | **91.27%** |
 | + PU-GCN | 0.055 (+0.005) | 0.165 | 1.486 | 90.06% |
 
-- PU-GCN 和 PU-Net 在 **CD** 上最接近 Original baseline（几何重建较好）。
-- **PU-GCN** 的 **NUC** 明显高于其他方法（1.49 vs ~1.06），点分布均匀性较差。
-- **PU-Net** 在 HD 和 NUC 上相对更平衡。
-- 几何 CD 更优的方法（PU-GCN、PU-Net）并不都对应更高的分类精度：PU-GCN CD 最低但分类低于 PU-Net。
-- EAR 几何指标中等，但分类表现最差——几何与分类一致性在此 branch 上不明显。
+- PU-GCN and PU-Net are in **CD** It is the closest Original baseline (geometric is better to rebuild).
+- **PU-GCN** It's... **NUC** Obviously above other methods (1.49 vs ~ 1.06) are less evenly distributed.
+- **PU-Net** It's more balanced on HD and NUC.
+- The geometric CD method (PU-GCN, PU-Net) does not always correspond to a higher classification accuracy: PU-GCN CD is the lowest but classification below PU-Net.
+- EAR geometric metrics is medium, but classification is the worst performer - geometric and classification are not clear on branch.
 
-## 6. 谨慎结论
+## 6. Careful conclusion
 
-- 当前 Line B 数据表明：**256→1024 upsampling 并非对所有方法都提升分类性能**；仅 PU-Net 带来小幅提升。
-- 几何质量（CD/HD/P2F/NUC）与 downstream classification 之间**不存在简单单调关系**。
-- 不宜仅凭 CD 单一指标推断分类优劣；需结合 HD、P2F、NUC 与实测分类结果综合判断。
-- 本报告仅记录 Line B 观察，不做跨 Line 或最终 thesis 结论。
+- Current Line B data:**256  /  1024 upsampling does not promote classification performance in all methods**; only PU-Net brings a small increase.
+- Between geometric quality (CD/HD/P2F/NUC) and downstream classification**There is no simple monotonous relationship**.
+- It is not appropriate for only to extrapolate classification from a single indicator of CD;The findings of HD, P2F, NUC and classification need to be combined.
+- This report, only, records Line B observations, does not cross Line or eventually thesis conclusions.

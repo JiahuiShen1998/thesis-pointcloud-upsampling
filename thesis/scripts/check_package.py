@@ -1,4 +1,5 @@
 """Evidence-derived secondary table and deterministic package/figure checks."""
+import os
 from pathlib import Path
 import csv,json,re,sys,subprocess,os
 R=Path(__file__).resolve().parents[1]
@@ -38,7 +39,7 @@ for p in (R/'bibfiles/papers').glob('*.pdf'):
     d=fitz.open(p);pages[p.stem]=dict(pages=len(d),first_page=d[0].get_text(),metadata=d.metadata)
 (Q/'reference_title_pages.json').write_text(json.dumps(pages,ensure_ascii=False,indent=2),encoding='utf-8')
 
-skill=Path.home()/'.codex/skills/nature-figure/scripts'
+skill=Path(os.environ.get('FIGURE_HELPERS_DIR', Path(__file__).resolve().parent/'external_helpers'))
 env=os.environ.copy();env['PYTHONUTF8']='1';env['PYTHONPATH']=str(R/'.python-deps')+os.pathsep+env.get('PYTHONPATH','')
 summary=[]
 for p in sorted((R/'figures/final').glob('*.pdf')):

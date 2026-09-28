@@ -1,11 +1,12 @@
 """Validate active source, final figures and archived-case provenance."""
+import os
 from pathlib import Path
 import sys,os,re,json,csv,subprocess,hashlib,collections
 R=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(R/'.python-deps'))
 import pymupdf
 Q=R/'audit/manuscript_revision_20260913/qa';Q.mkdir(parents=True,exist_ok=True)
-skill=Path.home()/'.codex/skills/nature-figure/scripts'
+skill=Path(os.environ.get('FIGURE_HELPERS_DIR', Path(__file__).resolve().parent/'external_helpers'))
 env=os.environ.copy();env['PYTHONUTF8']='1';env['PYTHONPATH']=str(R/'.python-deps')+os.pathsep+env.get('PYTHONPATH','')
 seen=set();missing=[]
 def walk(p):

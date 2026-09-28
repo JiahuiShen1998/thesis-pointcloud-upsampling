@@ -1,31 +1,31 @@
-# 第五章与第六章：KITTI 结果、讨论、结论与展望
+# Historical Draft of Chapters 5 and 6: KITTI Results, Discussion, and Outlook
 
-> **文稿边界与引用规则。** 本稿续接现有论文第 1–4 章，专门整理 KITTI 部分的第 5、6 章。学术文献编号沿用 `thesis.pdf` 的 [1]–[35]，不重排；本稿没有为了增加篇幅而新增无法核验的论文。实验配置、CSV、审计报告与可视化产物以 [L14]–[L20] 单列为“本地实验依据”，它们是结果可追踪证据，不冒充公开文献。不同规模的实验严格区分：3769 帧为全验证集主结果，256 帧为固定适配/目标级审计集，64 帧和 32 帧仅用于机制分析。除特别注明外，检测 AP 均为 KITTI `AP_R40`，Car 的 3D IoU 阈值为 0.70。PU-Net 当前 KITTI 包装器存在已确认的尺度归一化错误，因此带星号的结果只能诊断当前流水线，不能用于评价 PU-Net 架构本身。
+> **Scope and citation rules.** This historical draft continues Chapters 1–4 and covers the KITTI material for Chapters 5 and 6. Literature references retain the numbering [1]–[35] from `thesis.pdf`; no unverifiable papers are added. Experimental configurations, CSV files, audit reports, and visualizations [L14]–[L20] are traceable local evidence, not published literature. Results on the full validation set of 3769 frames support the main conclusions. The fixed 256-frame set supports adaptation and object-level audits; the 64-frame and 32-frame subsets support mechanism analysis only. Unless specified otherwise, detection AP is KITTI `AP_R40`, with a 3D IoU threshold of 0.70 for Car. The current KITTI wrapper for PU-Net has a confirmed scale-normalization error; starred results diagnose that pipeline and do not evaluate the PU-Net architecture itself.
 
-## 结果阅读所需符号
+## Notation
 
-| 符号 | 含义 |
+| Symbol | Meaning |
 |---|---|
-| \(s\) | KITTI 帧标识 |
-| \(l\in\{A,B\}\) | 输入线；A 为完整扫描直接增密，B 为四分之一稀疏扫描再恢复 |
-| \(m\) | 上采样方法，主要包括 PDANS、PU-GCN、PU-EdgeFormer 和 PU-Net* |
-| \(d\) | 下游检测器，\(d\in\{\mathrm{PointRCNN},\mathrm{CenterPoint}\}\) |
-| \(\mathcal X_s^{(l)}\) | 帧 \(s\) 在输入线 \(l\) 下可见的观测点集 |
-| \(\mathcal G_{s,m}^{(l)}\) | 方法 \(m\) 产生并通过统一筛选的生成点 |
-| \(\mathcal Y_{s,m}^{(l)}\) | 最终 exact-\(4N\) 点集，主协议为 \(N\) 个观测点加 \(3N\) 个生成点 |
-| \(T_{d,m}^{(l)}\) | 检测器 \(d\) 在方法 \(m\)、输入线 \(l\) 下的任务指标 |
-| \(\Delta T_{d,m}^{(l)}\) | 相对同一输入线真实基线的百分点变化 |
-| \(\tau\) | 几何邻近阈值；体素分析使用 0.20 m，车辆近表面分析使用 0.25 m |
+| \(s\) | KITTI frame identifier |
+| \(l\in\{A,B\}\) | Input line: A densifies a complete scan; B recovers a scan after fourfold sparsification |
+| \(m\) | Upsampling method: primarily PDANS, PU-GCN, PU-EdgeFormer, or PU-Net* |
+| \(d\) | Downstream detector, \(d\in\{\mathrm{PointRCNN},\mathrm{CenterPoint}\}\) |
+| \(\mathcal X_s^{(l)}\) | Observed point set for frame \(s\) under input line \(l\) |
+| \(\mathcal G_{s,m}^{(l)}\) | Generated points produced by method \(m\) and retained by the common filter |
+| \(\mathcal Y_{s,m}^{(l)}\) | Final exact-\(4N\) set: \(N\) observations plus \(3N\) generated points in the main protocol |
+| \(T_{d,m}^{(l)}\) | Task metric for detector \(d\), method \(m\), and input line \(l\) |
+| \(\Delta T_{d,m}^{(l)}\) | Percentage-point change relative to the real baseline on the same input line |
+| \(\tau\) | Geometric proximity threshold: 0.20 m for voxel analysis and 0.25 m for near-surface vehicle analysis |
 
 # 5. Results and Evaluation
 
-本章回答的核心问题不是“输出文件是否包含四倍点”，而是四倍点是否形成了检测器可以利用的正确几何证据。结果按照“评价定义—全量任务结果—受控消融—点云案例—机制解释”的顺序组织。该顺序尤其重要：单幅点云图能够解释一个案例，却不能替代全数据集 AP；单个 AP 数字能够描述最终性能，却不能独立定位性能变化发生在哪个环节。
+This chapter asks whether fourfold output density provides correct geometric evidence for the detector. It proceeds from evaluation definitions to full task results, controlled ablations, point-cloud cases, and mechanism analysis. A single case can explain a failure but cannot replace full-dataset AP; an AP value describes performance but cannot by itself locate the stage at which performance changed.
 
 ## 5.1 Overview of Experiments
 
-### 5.1.1 评价对象、两条输入线与证据层级
+### 5.1.1 Evaluation object, two input lines and level of evidence
 
-Line A 与 Line B 检验两个不同命题。对原始 KITTI 扫描 \(\mathcal X_s^{\mathrm{orig}}\)，Line A 直接生成四倍点：
+Line A and Line B test different propositions. Given an original KITTI scan \(\mathcal X_s^{\mathrm{orig}}\), Line A directly produces four times as many points:
 
 \[
 \mathcal X_s^{(A)}=\mathcal X_s^{\mathrm{orig}},\qquad
@@ -35,9 +35,9 @@ Line A 与 Line B 检验两个不同命题。对原始 KITTI 扫描 \(\mathcal X
 \tag{5.1}
 \]
 
-Line A 不存在“恢复被删除观测”的空间；如果其 AP 上升，只能解释为生成点提供了超过原始扫描的新任务证据。若 AP 下降，则说明新增点改变了点采样、局部邻域或体素占据，使有效信号被稀释。
+Line A does not recover deliberately removed observations. An AP gain would indicate that generated points provide useful evidence beyond the original scan. An AP decline suggests that altered sampling, local neighborhoods, or voxel occupancy can dilute the useful signal.
 
-Line B 先通过固定下采样算子 \(D_4\) 构造四分之一稀疏输入，再恢复到原始点数规模：
+Line B applies fixed downsampling \(D_4\) to retain one quarter of the input, then recovers the original point-count scale:
 
 \[
 \mathcal X_s^{(B)}=D_4(\mathcal X_s^{\mathrm{orig}}),\qquad
@@ -52,21 +52,21 @@ Line B 先通过固定下采样算子 \(D_4\) 构造四分之一稀疏输入，�
 \tag{5.3}
 \]
 
-因此，Line B 的正确比较对象是同一稀疏输入的 detector baseline，而不是 Line A 原始扫描。它回答的是“上采样能否追回稀疏化造成的任务损失”。Line A 与 Line B 的 AP 不能取平均后当作单一总分。
+Line B must be compared with the detector baseline on the same sparse input. It tests whether upsampling recovers task performance lost through sparsification. Averaging Line A and Line B AP into a single score is not appropriate.
 
-本章使用五层证据。R1 与 R2 是用于主结论的全验证集评价；R3 观察检测器适配能否缓解域偏移；R4 与 R5 解释机制，不能代替正式 AP。
+Five layers of evidence are used in this chapter.R1 and R2 are full validation set evaluations for the main findings;R3 Observes whether detector adaptation is capable of mitigating area deviations;R4 and R5 Explanatory Mechanism, cannot instead of the official AP.
 
-| 层级 | 数据规模 | 比较对象 | 主要用途 | 结论强度 |
+| Level | Data size | Compare Objects | Main uses | Conclusion Strength |
 |---|---:|---|---|---|
-| R1 | 3769 帧 | PointRCNN；4 方法；Line A/B；E1/E2 | 全量 Car AP 与输入预算敏感性 | 主结果 |
-| R2 | 3769 帧 | CenterPoint；4 方法；Line A/B；exact-\(4N\) | 全量三类别 AP 与体素检测对照 | 主结果 |
-| R3 | 256 固定评价帧；3712 训练帧 | PU-GCN；PointRCNN/CenterPoint；适配前后 | 检查检测器再训练是否解决分布偏移 | 强补充证据 |
-| R4 | 64 个含车帧 | patch 跨度、生成体素精度、距离分层 | 定位输入几何问题 | 机制证据 |
-| R5 | 256 帧、527 个 Moderate Car GT；另有 32 帧体素审计 | 目标 IoU、TP/FN 转换、体素上限 | 解释恢复和失败个例 | 诊断证据 |
+| R1 | 3769 frame | PointRCNN; 4 method;Line A/B; E1/E2 | Full Car AP and input budget sensitivity | Main result |
+| R2 | 3769  frame  | CenterPoint; 4  Methodology; Line A/B; exact-\(4N\) |  Full 3 categories  AP  Contrast with voxel  |  Main result  |
+| R3 | 256 fixed Evaluation frame;3712 Training frame | PU-GCN; PointRCNN/CenterPoint; Before and after. | Check if detector retrains to resolve distribution deviations | Supplementary evidence |
+| R4 | 64 Cars frame | patch Range, Generate voxel Precision, Distance Layer | Position input geometric problem | Mechanistic evidence |
+| R5 | 256 frame, 527 Moderate Car GT;There are also 32 frame voxel audits | Target IoU, TP/FN conversion, voxel cap | Explain recovery and one example of failure | Diagnostic evidence |
 
-### 5.1.2 AP、IoU 与差值的完整定义
+### 5.1.2 AP, IoU and full definition of the margin
 
-给定预测框 \(B_p\) 与真实框 \(B_g\)，三维交并比为
+ given projection box  \(B_p\)  With Real Box  \(B_g\),  Three-dimensional.
 
 \[
 \operatorname{IoU}_{3D}(B_p,B_g)
@@ -77,7 +77,7 @@ Line B 先通过固定下采样算子 \(D_4\) 构造四分之一稀疏输入，�
 \tag{5.4}
 \]
 
-对置信度阈值 \(q\)，精确率与召回率分别为
+ Trustability threshold  \(q\),  The accuracy rate is recall.
 
 \[
 P(q)=\frac{TP(q)}{TP(q)+FP(q)},\qquad
@@ -85,7 +85,7 @@ R(q)=\frac{TP(q)}{TP(q)+FN(q)}.
 \tag{5.5}
 \]
 
-采用 KITTI R40 评价时，先计算插值精确率
+When using KITTI R40 evaluation, calculate the interpolated precision
 
 \[
 P_{\mathrm{interp}}(r)
@@ -93,7 +93,7 @@ P_{\mathrm{interp}}(r)
 \tag{5.6}
 \]
 
-再在固定的 40 个召回位置上取平均：
+And take an average of 40 recall locations for fixed:
 
 \[
 AP_{R40}=\frac1{40}\sum_{k=1}^{40}
@@ -101,9 +101,9 @@ P_{\mathrm{interp}}\!\left(\frac{k}{40}\right).
 \tag{5.7}
 \]
 
-这种定义承接 KITTI/VOC 的精确率—召回率评价传统 [1,2,34,35]。本章同时报告 3D AP 与 BEV AP：3D AP 要求水平位置、高度、尺寸与朝向共同正确；BEV AP 只在鸟瞰平面评价旋转框。若 BEV 和 3D 同时下降，问题一般不只是高度回归；若二者差距明显扩大，则需额外检查 \(z\) 轴与高度估计。
+ That's a definition.  KITTI/VOC  Accuracy — recall Evaluation tradition  [1,2,34,35].  This chapter is reported simultaneously  3D AP  with  BEV AP: 3D AP  Requires horizontal location, height, size and common direction; BEV AP  Only the rotation box is evaluated on bird view.  BEV  and  3D  At the same time, the problem is generally not just a high level of return; if the gap widens significantly, additional checks are required  \(z\)  Axes and height estimates.
 
-所有“改善”均以同线基线为零点：
+All “improvements” are based on a single line baseline of zero:
 
 \[
 \Delta AP_{d,m,c,h}^{(l)}
@@ -111,7 +111,7 @@ P_{\mathrm{interp}}\!\left(\frac{k}{40}\right).
 \tag{5.8}
 \]
 
-其中 \(c\) 为类别，\(h\in\{\mathrm{Easy},\mathrm{Moderate},\mathrm{Hard}\}\)。正值表示超过基线，负值表示退化。对于 Line B，还定义相对原始—稀疏性能缺口的恢复率：
+ of which  \(c\)  is a category, \(h\in\{\mathrm{Easy},\mathrm{Moderate},\mathrm{Hard}\}\).  Positive values indicate that the baseline is exceeded and negative values indicate degradation.  Line B,  Defines relative original — recovery rate for rare performance gaps:
 
 \[
 R_{d,m,c,h}^{(B)}
@@ -120,64 +120,64 @@ R_{d,m,c,h}^{(B)}
 \tag{5.9}
 \]
 
-\(R=1\) 表示完全追回稀疏化损失，\(R=0\) 表示与稀疏基线相同，\(R<0\) 表示上采样后反而低于稀疏基线。恢复率只在分母为正且两项使用同一检测器与评价实现时解释。
+\(R=1\)  This means that there is a complete recovery of the sizable losses. \(R=0\)  It's the same as sparse baseline. \(R<0\)  This indicates that upsampling was later interpreted as below  sparse baseline. The recovery rate is only explained when the denominator is positive and both uses the same detector and the evaluation is achieved.
 
-### 5.1.3 完整性检查与结论纪律
+### 5.1.3 Integrity check and conclusion discipline
 
-PointRCNN 全验证集 E1/E2 的每个实验均产生 3769 个预测文件；CenterPoint exact-\(4N\) 的 10 组主输入全部通过帧数、有限坐标、点数和 evaluator 完整性检查 [L14,L15]。这排除了“少跑了部分帧”作为 AP 下降的解释，但没有自动证明适配器正确。为避免由工程缺陷过度外推，本章遵守以下规则：
+PointRCNN  full validation set  E1/E2  And every experiment that comes out of it.  3769  A projection document; CenterPoint exact-\(4N\)  It's...  10  All group main input through frame, limited coordinates, point count and  evaluator  Integrity check  [L14,L15].  This excludes "the missing frame" as  AP  decline, but does not automatically establish that the adapter is correct. To avoid overgeneralizing from implementation defects, this chapter follows these rules:
 
-1. 只在相同数据划分、IoU 阈值、评价器和基线口径内计算差值。
-2. 3769 帧结果用于总体结论；256 帧结果用于适配与对象诊断，不写成全验证集结论。
-3. 64 帧 patch/几何结果说明机制是否存在，不用于估计全数据集效应量。
-4. 32 帧体素审计只回答“是否触发上限以及输入顺序是否可能有影响”。
-5. PU-Net* 的数值保留用于证明当前包装链可能严重失败，但不与其他正确适配的方法作架构优劣结论。
+1. The margin is calculated only in the same data disaggregation, IoU threshold, evaluator and baseline calibre.
+2. 3769 frame results are used for the overall conclusions;The results of 256 frame are used to adapt to the diagnosis of the subject and are not written in full validation set's conclusions.
+3. 64 frame patch/ geometric results indicate whether the mechanism exists and is not used to estimate the full data set effect.
+4. 32 frame voxel The audit responded only “if the cap is triggered and if the order of entry is likely to have an impact”.
+5. The PU-Net* value is retained to demonstrate that the current packaging chain may be seriously failing, but does not draw structured conclusions that are appropriate for other methods.
 
 ## 5.2 ModelNet40 Classification Results
 
-本节标题为保持原论文目录连续性而保留，但本稿不重复撰写 ModelNet40 数值结果。原因是本次任务要求整理 KITTI 部分，而且当前可核验的完整证据链集中于 LiDAR 检测。第五章跨域讨论只引用第 3、4 章已经定义的 ModelNet40 对照逻辑，不补造缺失的分类准确率。最终合并论文时，应将已有的 ModelNet40 5.2 正文置于此处，并保持 [1]–[35] 的参考文献编号不变。
+This section is entitled " Maintenance of continuity of the original paper catalogue " , but does not repeat the ModelNet40 numeric results.The reason is that the mission requires the KITTI section to be organized and that the current complete and verifiable chain of evidence is focused on LiDAR tests. Chapter 5 Cross-domain discussion only quotes  3, 4  Chapter defined  ModelNet40  By logic, do not make up the missing classification accuracy rate. When the paper is eventually merged, the existing ModelNet40 5.2 text should be placed here and maintained [1]–[35] The reference number unchanged.
 
-这个边界本身影响结论措辞：本章能够证明当前“物体级上采样器—KITTI 场景适配器—检测器”组合的行为，却不能仅凭 KITTI 负结果判断某一网络在规范化 CAD 表面上的能力，也不能反向用 ModelNet40 分类改善替代真实 LiDAR 检测证据。
+ This boundary per se influences the wording of the conclusion: this chapter can prove that the current object class upsampler —KITTI  scene adapter — detector's behavior is based on cannot only  KITTI  Negative results judge that a network is regulating  CAD  On the surface, also cannot reverses  ModelNet40  classification Improve replacement reality  LiDAR  Test the evidence.
 
 ## 5.3 KITTI PointRCNN Detection Results
 
-PointRCNN 直接从点云产生三维 proposals [11]，因此对点的采样预算、局部分组和伪点比例较敏感。本节先报告全验证集四方法结果，再给出检测器适配、观测保留和对象级诊断。不同实验的绝对 AP 受权重和输入适配差异影响，跨表读取时应比较各自的同线差值，不直接比较不同行的裸数值。
+PointRCNN  3D directly from point cloud  proposals [11]As a result, the point-based sampling budget, local grouping and pseudo-point ratios are more sensitive.This section first reports on the results of full validation set and then gives detector adaptation, observational reservations and object-level diagnosis.The absolute AP of the different experiments is authorized to weigh and input the difference in the effect of the difference, which should be read across the tables by comparing the respective line differentials and not by directly comparing the nudity values of the different rows.
 
-### 5.3.1 全验证集 E1：保留观测的 exact-\(4N\) 结果
+### 5.3.1  full validation set  E1:  Keeps the observations.  exact-\(4N\)  Result
 
-E1 的输出结构为 \(N\) 个观测点与 \(3N\) 个生成点。所有输入真实点逐点保留，因而 E1 专门检验“保留真实点是否足以避免性能退化”。表 5.1 给出 3769 帧 Car 3D AP\(_{R40}\)。
+E1  The output structure is:  \(N\)  Observatories and  \(3N\)  A generated points. All input points are kept point by point, therefore  E1  Specially to test whether “retention of the true point is sufficient to avoid degradation of performance”.  5.1  Give  3769  frame  Car 3D AP\(_{R40}\).
 
-**表 5.1　PointRCNN 全验证集 E1 Car 3D AP\(_{R40}\)（%）**
+** Table  5.1　PointRCNN  full validation set  E1 Car 3D AP\(_{R40}\) (%)**
 
-| 输入线 | 方法 | Easy | Moderate | Hard | 相对同线 baseline 的 Moderate 差值 |
+| Input Line | Methodology | Easy | Moderate | Hard | Moderate margin relative to the same line baseline |
 |---|---|---:|---:|---:|---:|
-| A | Original baseline（E2 参考） | 92.273 | 82.255 | 77.945 | 0.000 |
+| A | Original baseline (E2 reference) | 92.273 | 82.255 | 77.945 | 0.000 |
 | A | PDANS | 83.014 | **64.515** | 59.668 | -17.741 |
 | A | PU-GCN | 78.766 | 56.961 | 52.193 | -25.294 |
 | A | PU-EdgeFormer | 64.258 | 42.981 | 38.259 | -39.274 |
 | A | PU-Net* | 14.414 | 9.717 | 9.010 | -72.538 |
-| B | 1/4 sparse baseline（E2 参考） | 85.177 | 65.746 | 61.382 | 0.000 |
+| B | 1/4 sparse baseline (E2 reference) | 85.177 | 65.746 | 61.382 | 0.000 |
 | B | PDANS | 65.062 | **45.126** | 39.240 | -20.620 |
 | B | PU-GCN | 45.378 | 29.687 | 25.290 | -36.059 |
 | B | PU-EdgeFormer | 34.010 | 20.721 | 17.747 | -45.025 |
 | B | PU-Net* | 12.522 | 8.878 | 8.067 | -56.868 |
 
-四个直接可见的结论如下。
+Four immediate and visible conclusions are set out below.
 
-第一，Line A 的所有方法都低于原始扫描 baseline。原始扫描已经包含评价时可用的真实观测，生成点没有“恢复”对象；最好的 PDANS 仍下降 17.741 个 Moderate AP。这否定了“只要点更密，点式检测器就会单调变好”的假设。
+First, all Line A methods are below original scan baseline.The original scan already contains real observations available at the time of the evaluation, generated points no "recovery " ;The best PDANS still drops 17.741 Moderate AP.This negates the assumption that "just a little bit more, and a little detector will be done in one way or another."
 
-第二，Line B 中最好的 PDANS 也比稀疏 baseline 低 20.620 AP；按式（5.9）计算，其恢复率为负值。这说明输出回到约原始点数，不等价于恢复原始扫描的信息。点数守恒只约束 \(|\mathcal Y|\)，没有约束 \(\mathcal G\) 是否落在缺失的真实表面。
+ Second of all, Line B  The best of them.  PDANS  It's a little thinner than that.  baseline  Low  20.620 AP;  Type(s) 5.9) Calculates that its recovery rate is negative. This means that the output returns to approximately the original point count, which is not equal to the original scan information for recovery. point count is only bound by constant  \(|\mathcal Y|\),  no binding  \(\mathcal G\)  Whether it falls on the missing real surface.
 
-第三，两条线的方法排序完全一致：PDANS > PU-GCN > PU-EdgeFormer > PU-Net*。该排序稍后会与生成体素真实精度逐一对应。它比“某一方法掉了多少 AP”更有机制意义，因为两种起点和同一检测器下都出现相同秩序。
+Thirdly, the two lines are in exactly the same order: PDANS > PU-GCN > PU-EdgeFormer > PU-Net*. This sorting will later correspond to the actual precision of generating voxel.It is more institutional than “how many APs have been lost by a certain method”, because both starting points and the same detector are in the same order.
 
-第四，Hard 目标与 Moderate 目标都显著下降，并非只在少量 Easy 案例出现波动。与此同时，PU-Net* 的极低 AP 受到确定的适配器错误影响：米制 patch 使用 `bradius=1.0` 直接送入按归一化物体训练的网络，没有执行相同中心化/尺度归一化及逆变换 [L17]。因此该行证明的是包装协议可以摧毁检测结果，不是 PU-Net [4] 的架构性能上限。
+Fourth, both Hard and Moderate have significantly declined, not only in a small number of Easy cases.At the same time, the very low PU-Net* AP was affected by the identified adapter error: rice patch `bradius=1.0` Directly sent to a network using normalization object training, no for the same centralization/ scale normalization and reverse transformation [L17]. So it proves that the package protocol can destroy the test results, not PU-Net. [4] . The structure performance cap.
 
-### 5.3.2 E2 固定 16384 点：排除“PointRCNN 只是不接受更多点”
+### 5.3.2 E2 fixed 16384 Point: Excludes "PointRCNN just not accept more points"
 
-E2 对所有条件执行统一视场过滤、0.1 m 体素代表点和分层距离采样，最终保存恰好 16384 点。若 E1 的主要问题只是 PointRCNN 固定点预算，那么 E2 应系统性恢复 AP。表 5.2 显示这一预期并未出现。
+E2 executes a unified field of view filter for all conditions, 0.1 m voxel points and layers of distance sampling, and ultimately saves 16384 points.If E1's main problem is only PointRCNN fixed point budget, E2 should be systematic recovery AP.Table 5.2 shows that this expectation did not occur.
 
-**表 5.2　PointRCNN E1 与 E2 的 Moderate 3D AP\(_{R40}\) 对照（%）**
+** Table  5.2　PointRCNN E1  with  E2  It's...  Moderate 3D AP\(_{R40}\)  Contrast %)**
 
-| 输入线 | 方法 | E1：\(N+3N\) | E2：统一 16384 | E2−E1 |
+|  Input Line  |  Methodology  | E1: \(N+3N\) | E2:  Harmonization  16384 | E2−E1 |
 |---|---|---:|---:|---:|
 | A | PDANS | 64.515 | 67.223 | +2.709 |
 | A | PU-GCN | 56.961 | 58.276 | +1.314 |
@@ -188,15 +188,15 @@ E2 对所有条件执行统一视场过滤、0.1 m 体素代表点和分层距�
 | B | PU-EdgeFormer | 20.721 | 20.569 | -0.151 |
 | B | PU-Net* | 8.878 | 8.781 | -0.097 |
 
-Line A 的三个可用适配方法仅恢复 1.3–2.7 AP，远小于它们相对 baseline 的 17.7–39.3 AP 缺口；Line B 则全部没有改善。更直接的反证来自独立体素数：E2 原始 baseline 的 0.1 m 独立体素中位数为 11116，Moderate AP 为 82.255；Line B PU-GCN 有 13660 个独立体素，AP 却只有 28.680；PU-EdgeFormer 有 14321 个独立体素，AP 为 20.569。更多的独立位置没有转化为更高 AP，表明决定性变量是位置是否正确，而非点或体素是否足够多。
+(a) Line A, which has three suitable methods, only recovery 1.3–2.7 AP, which is much smaller than their 17.7–39.3 AP gap relative to baseline;Line B is all no improvements. Directer counterevidence from stand-alone voxel: E2  Original  baseline  It's...  0.1 m  Independent voxel median  11116, Moderate AP  Yes.  82.255; Line B PU-GCN has 13660 independent voxel, AP, but only 28.680;PU-EdgeFormer has 14321 independent voxel, AP is 20.569.More standalone locations no to higher AP, indicating whether the decisive variable is the correct location, not whether the dot or voxel is sufficient.
 
-### 5.3.3 全数据适配的 PU-GCN：域偏移可以缓解，但不能消除
+### 5.3.3 PU-GCN: Field offset can be mitigated, but cannot eliminated
 
-为检验冻结检测器是否把训练域差异放大，进一步使用 3712 个训练帧对检测器进行完整输入域适配，并在固定的 256 帧上评价。表 5.3 同时给出 generated-only 与 observed-first。这里的“generated-only”表示用上采样输出直接构造检测输入；“observed-first”在输出顺序中优先保留真实观测，使后续有限预算操作先消费观测点。
+ To test whether frozen detector is expanding the training field differences and using them further  3712  Trained frame to fully fit detector and in fixed  256  frame on evaluation. Table 5.3 gives both generated-only and observed-first.The "generated-only" here is the direct tectonic detection input using upsampling output;observed-first gives priority to the retention of real observations in the output order, so that the follow-up limited budget operation consumes first observations.
 
-**表 5.3　PointRCNN 全训练适配后固定 256 帧 Car 结果（%）**
+** Table  5.3　PointRCNN  After full training, fixed  256  frame  Car  Outcome (%) %)**
 
-| Line | 输入 | Easy 3D | Moderate 3D | Hard 3D | Moderate BEV | 相对 baseline 的 Moderate 3D 差值 |
+| Line | Enter | Easy 3D | Moderate 3D | Hard 3D | Moderate BEV | Moderate 3D margin relative to baseline |
 |---|---|---:|---:|---:|---:|---:|
 | A | baseline | 89.701 | 79.191 | 77.882 | 87.513 | 0.000 |
 | A | PU-GCN generated-only | 83.774 | 67.235 | 59.934 | 76.924 | -11.957 |
@@ -205,51 +205,51 @@ Line A 的三个可用适配方法仅恢复 1.3–2.7 AP，远小于它们相对
 | B | PU-GCN generated-only | 67.484 | 47.020 | 41.123 | 57.755 | -20.228 |
 | B | PU-GCN observed-first | 76.757 | **56.244** | 50.067 | 66.614 | -11.004 |
 
-![图 5.1　PointRCNN 上 PU-GCN 的 baseline、generated-only 与 observed-first AP。](figures/fig5_01_pointrcnn_pugcn_ap.pdf)
+![Figure 5.1 PointRCNN PU-GCN baseline, generated-only and observed-first AP.](figures/fig5_01_pointrcnn_pugcn_ap.pdf)
 
-Line B 中 observed-first 相对 generated-only 恢复 9.224 个 Moderate 3D AP，说明真实点确实会在有限输入预算下与生成点竞争；Line A 只恢复 0.556 AP，说明观测顺序不是 Line A 损失的主要来源。更重要的是，两个 observed-first 结果仍分别比 baseline 低 11.400 和 11.004 AP。因此，“保留并优先使用真实点”是必要的工程约束，但不是几何可靠性的充分条件。
+observed-first of Line B vs. generated-only recovery 9.224 Moderate 3D AP, indicating that real points do compete with generated points under a limited input budget;Line A is only recovery 0.556 AP, indicating that the order of observations is not the main source of Line A losses. More importantly, two.  observed-first  The results are still comparable.  baseline  Low  11.400  and  11.004 AP. Therefore, “reserve and give priority to the point of truth” is a necessary engineering constraint, but not a sufficient condition for geometric's reliability.
 
-该结果也避免了另一个误读：适配训练确实可以学会一部分输入分布变化，却没有把负差值变为零。因而剩余差距不能全部归咎于检测器从未见过增密输入；至少还有一部分损失来自生成几何、patch 构造或无法由有限训练数据吸收的统计偏移。
+The result also avoids another misreading: fit training does teach some input distribution changes, but no turns the negative margin to zero.As a result, the remaining gap cannot is attributable entirely to detector, which has never seen any additional input;At least some of the losses resulted from statistical deviations that generated geometric, patch or could not be absorbed by limited training data.
 
-### 5.3.4 64 帧再训练筛查：收益与基线退化同时存在
+### 5.3.4 64 frame re-training screening: benefits coexist with baseline degradation
 
-较早的 64 帧微调实验提供了方向性对照 [L20]。在相同 256 帧上，PU-GCN 的 Line A Moderate AP 从 60.266 增至 64.441（+4.175），Line B 从 32.920 增至 37.515（+4.595）；PDANS 的 Line B 从 43.007 增至 47.433（+4.426）。然而，同样的微调使 Line A baseline 下降 1.148 AP、Line B baseline 下降 3.705 AP；所有上采样条件仍低于各自微调后的 baseline。
+The earlier 64 frame fine-tuning experiment provided a directional contrast. [L20].  In the same  256  frame on, PU-GCN  It's...  Line A Moderate AP  From  60.266  Increase to  64.441 (+4.175), Line B  From  32.920  Increase to  37.515 (+4.595); PDANS  It's...  Line B  From  43.007  Increase to  47.433 (+4.426). However, the same fine-tuning has reduced Line A baseline by 1.148 AP and Line B baseline by 3.705 AP;All upsampling conditions are still below fine-tuned baseline.
 
-因此这组结果不能写成“再训练解决了问题”。它只能支持两个较窄的判断：其一，检测器对生成点分布具有可学习的适应空间；其二，小样本微调本身会引入方差和基线退化，必须通过全训练集适配、独立验证集和同条件 baseline 控制。正因为 64 帧结果存在这两个方向，最终结论以 3712 帧适配实验为准。
+So this set of results, cannot, is written as "Retraining solves the problem."It can only support two narrower judgments: first, detector has a learning space for generated points distribution;Second, the fine-tuning of the small sample itself would introduce differentials and baseline degradation, which would have to be controlled through the full training set fit, independent validation set and the same condition baseline.Because of the 64 frame results in both directions, the final conclusion was based on 3712 frame.
 
-### 5.3.5 对象级 IoU 与距离分层
+### 5.3.5 Object Level IoU and Distance Layer
 
-在固定 256 帧中，共筛得 527 个符合 Moderate 条件的 Car GT；距离分层为 0–20 m：170 个，20–40 m：272 个，40 m 以上：85 个。对象诊断使用同类别、旋转 3D IoU 的贪心匹配，阈值为 0.70。它用于解释 TP/FN 迁移，不替代按置信度积分的官方 AP。
+ At fixed  256  frame, sifted  527  Matches  Moderate  Conditional  Car GT; The distance is 0–20 m: 170, 20–40 m: 272, 40 m and more: 85.The object's diagnosis matches the greed of the same category, rotation 3D IoU, threshold being 0.70.It is used to explain the TP/FN migration and does not replace the official AP with credit.
 
-PointRCNN Line B baseline、generated-only 与 observed-first 分别匹配 386、258 和 320 个目标，对应诊断召回 73.24%、48.96% 和 60.72%。generated-only 相对 baseline 新增 134 个 `TP→FN`；observed-first 又将其中 80 个 `FN→TP`，但仍有 78 个 baseline TP 在 observed-first 下变成 FN。这个流向说明 observed-first 的总体改善并不是所有目标的小幅提升，而是恢复一部分目标的同时仍破坏另一部分目标。
+PointRCNN Line B baseline, generated-only and observed-first match 386,258 and 320, respectively, with the corresponding diagnosis calling back 73.24%, 48.96% and 60.72%.generated-only relative baseline Add 134 `TP→FN`; observed-first, of which 80 `FN→TP`However, there are still 78 baseline TP which becomes FN under observed-first.This trend suggests that the overall improvement of observed-first is not a small increase in all targets, but that some recovery targets still undermine others.
 
-距离进一步解释差距来源。Line B baseline 在 0–20、20–40、40+ m 的对象召回分别为 97.65%、71.32% 和 30.59%；observed-first PU-GCN 分别为 96.47%、53.31% 和 12.94%。近距目标几乎保持，而中距下降 18.01 个百分点，远距下降 17.65 个百分点。生成点的风险因此不是均匀分布的：观测越稀疏、遮挡越强，局部 patch 越难保持单一表面，新增点越可能改变原本接近阈值的框。
+Distance further explains the source of the gap.Line B baseline was summoned to 0–20, 20–40, 40+ m, 97.65%, 71.32% and 30.59%, respectively;observed-first PU-GCN is 96.47%, 53.31% and 12.94% respectively.The close target was almost maintained, while the median distance was reduced by 18.01 percentage points and the distance by 17.65 percentage points.The generated points risk is therefore not evenly distributed: the less the observation is, the stronger the cover, the harder it is for local patch to maintain a single surface, and the more likely the new point is to change the frame that was close to threshold.
 
-### 5.3.6 点云场景与局部恢复案例
+### 5.3.6 point cloud scene and local recovery case
 
-图 5.9 展示同一 KITTI 帧 000104 的四种点云：原始扫描 121994 点、四倍下采样 30498 点、Line B PDANS exact-\(4N\) 121992 点和 Line B PU-GCN observed-first 121992 点。图中只叠加 GT 框，不叠加方法预测，目的是观察点分布而不是用挑选的预测框代替总体评价。
+ Figure  5.9  Show the same.  KITTI  frame  000104  Four point clouds: Original scan  121994  Point, four times downsampling  30498  Dot. Line B PDANS exact-\(4N\) 121992  Point and  Line B PU-GCN observed-first 121992  Point. Only superimpose in the chart  GT  Box, without superstitioning the method projection, intended to provide a distribution of observation points rather than replacing the overall evaluation with a selected projection box.
 
-全景图说明两个问题。首先，exact-\(4N\) 的行数检查在视觉上确实把整体密度恢复到接近原始输入；其次，远距离和物体边界处的空间支持并没有因此自动恢复。大面积道路背景能够吸收大量点，使“全帧看起来更密”，而车辆目标内部或轮廓附近仍可能缺失正确表面。
+ The whole picture shows two questions. First of all, exact-\(4N\)  The line check does visualize the whole density  recovery to near the original input; and secondly, remote and object  boundary space support and no automatically recovery. Large-area road background can absorb a large number of points, making “the whole frame look more dense”, while the vehicle may still lack the correct surface inside or near its target.
 
-图 5.10 给出一个恢复案例。帧 000440 的 Car GT 1 距 LiDAR 31.2 m。Line B baseline 在 GT 内有 26 个点，得到 TP、IoU 0.867；generated-only 虽在 GT 内增加到 73 个点，却没有产生有效匹配（FN，最佳 IoU 0）；observed-first 有 81 个框内点并恢复 TP，IoU 0.806。
+Figure 5.10 gives a recovery case.frame 000440's Car GT 1 from LiDAR 31.2 m.Line B baseline has 26 points in GT, receiving TP, IoU 0.867;generated-only has increased to 73 points within GT, but no produces an effective match (FN, best IoU 0);observed-first has 81 frame points and recovery TP, IoU 0.806.
 
-这个案例支持“观测保留能够救回部分目标”，但同时给出严格边界：81 个点对应的 IoU 仍低于 26 个真实稀疏点的 baseline IoU。增加点数帮助框重新跨过 0.70 阈值，却没有恢复到基线定位精度。它与表 5.3 中“AP 恢复但仍低于 baseline”的总体结果一致。
+ This case supports “observation reservations can save some of the targets”, but gives a strict boundary: 81  It's a point-to-point.  IoU  Still below  26  It's a real thinner one.  baseline IoU. Add point count to the 0.70 threshold and no recovery to the baseline positioning accuracy.It is consistent with the overall results of AP recovery in table 5.3, but still below baseline.
 
-图 5.11 是互补的失败案例。帧 004846 的 Car GT 2 距 LiDAR 38.2 m，baseline 仅 20 个框内点却得到 IoU 0.880；generated-only 和 observed-first 分别有 28 与 43 个框内点，但都为 FN。
+Figure 5.11 is a complementary case of failure. frame  004846  It's...  Car GT 2  Distance  LiDAR 38.2 m, baseline  only  20  I got a little bit of it in the box.  IoU 0.880; generated-only and observed-first have 28 and 43, respectively, but both are FN.
 
-因此，框内点计数 \(n_{\mathrm{in}}\) 不能单独作为上采样质量指标。检测器依赖点在可见表面、边缘与局部邻域中的组织方式。更恰当的解释变量应至少包含点到参考表面的距离、额外体素、目标边界外壳比例和观测/生成来源，而不是把“GT 框里有更多点”直接等价为“目标信息更多”。
+ So, count in the box.  \(n_{\mathrm{in}}\)  cannot is a single upsampling quality indicator. detector relies on the organization of visible surfaces, edges and local neighbourhood. A more appropriate explanation variable should include at least point to reference surfaces, additional voxel, target boundary shell ratio and observations / Generate the source, not the " GT  There are more points in the box, the direct equivalent is "more information about the target".
 
 ## 5.4 KITTI CenterPoint Detection Results
 
-CenterPoint [12] 与 PointRCNN 的输入响应不同。它先把点按固定网格体素化，再在鸟瞰特征图上预测目标中心；同一体素中的重复点可能被聚合，而少量跨越体素边界的伪点会创建新的 BEV 激活。使用第二个检测器的目的不是寻找一个对结果更“有利”的评价器，而是检验同一上采样几何是否在点式和体素式表示下呈现一致方向。
+CenterPoint [12] Different from PointRCNN's input response.It starts by placing the dot on fixed grid voxel and then predicts the target centre on the profile;The repeat points in the same voxel may be aggregated, while the a small number of pseudo-point crossing voxel boundary will create a new BEV activation.The purpose of the second detector is not to find an evaluator that is more “contributive” to the outcome, but to test whether the same upsampling geometric is in the same direction as the voxel expression.
 
-### 5.4.1 原始与稀疏基线的全验证集复现
+### 5.4.1 Original full validation set with sparse baseline
 
-CenterPoint 主实验使用完整 3769 帧验证集、冻结的官方检测器、原生体素化器和相同 score/NMS 配置。10 个输入组全部通过完整性检查 [L15]。原始扫描与四倍稀疏扫描的基线如表 5.4。
+The CenterPoint main experiment uses the full 3769 frame validation set, frozen official detector, the original voxel chemical and the same score/NMS configuration.All 10 input groups checked for completeness [L15]. The baseline of the original scan and the four-fold thin scan is as table 5.4.
 
-**表 5.4　CenterPoint 全验证集基线 3D AP\(_{R40}\)（%）**
+** Table  5.4　CenterPoint  full validation set baseline  3D AP\(_{R40}\) (%)**
 
-| 输入 | 类别 | Easy | Moderate | Hard | 稀疏化造成的 Moderate 变化 |
+| Enter | Category | Easy | Moderate | Hard | Moderate Changes due to thinning |
 |---|---|---:|---:|---:|---:|
 | Original | Car | 88.391 | 79.277 | 76.737 | — |
 | 1/4 sparse | Car | 81.400 | 64.598 | 59.970 | -14.679 |
@@ -258,15 +258,15 @@ CenterPoint 主实验使用完整 3769 帧验证集、冻结的官方检测器�
 | Original | Cyclist | 79.244 | 64.605 | 60.990 | — |
 | 1/4 sparse | Cyclist | 25.805 | 15.458 | 14.492 | -49.148 |
 
-稀疏化对三类目标的影响显著不同。Car Moderate 下降 14.679 AP，而 Pedestrian 和 Cyclist 分别下降 26.084 与 49.148 AP。小目标拥有更少有效回波，删除同样比例的点会更快地破坏局部形状与中心热图证据。因此，类别平均值会掩盖最重要的现象；后续必须按类别报告。
+The impact of thinning on the three categories of objectives is significantly different.Car Moderate dropped 14.679 AP while Pedestrian and Cyclist decreased 26.084 and 49.148 AP, respectively.Small targets have less effective echoes, and the removal of points at the same scale would destroy local shapes and central heat map evidence more quickly.Thus, the average of the categories hides the most important phenomena;Follow-up must be reported by category.
 
-### 5.4.2 exact-\(4N\) observed-first 的三类别主结果
+### 5.4.2 exact-\(4N\) observed-first  Main results for the three categories
 
-表 5.5 给出 observed-first 主协议的 Moderate 3D AP。括号内为相对该输入线真实 baseline 的差值，Line A 对应 original baseline，Line B 对应 1/4 sparse baseline。
+Table 5.5 gives Moderate 3D AP for observed-first, master protocol.In brackets is the difference between the real baseline of the input line, Line A for original baseline and Line B for 1/4 sparse baseline.
 
-**表 5.5　CenterPoint exact-\(4N\) observed-first：Moderate 3D AP\(_{R40}\)（%）**
+** Table  5.5　CenterPoint exact-\(4N\) observed-first: Moderate 3D AP\(_{R40}\) (%)**
 
-| Line | 方法 | Car | Pedestrian | Cyclist |
+| Line | Methodology | Car | Pedestrian | Cyclist |
 |---|---|---:|---:|---:|
 | A | PDANS | **64.466** (-14.812) | **45.251** (-5.403) | **46.103** (-18.503) |
 | A | PU-GCN | 59.932 (-19.346) | 44.504 (-6.149) | 45.597 (-19.009) |
@@ -277,11 +277,11 @@ CenterPoint 主实验使用完整 3769 帧验证集、冻结的官方检测器�
 | B | PU-EdgeFormer | 24.748 (-39.850) | 15.596 (-8.973) | 7.037 (-8.420) |
 | B | PU-Net* | 11.718 (-52.880) | 11.916 (-12.653) | 5.017 (-10.440) |
 
-![图 5.2　CenterPoint exact-4N observed-first 相对同线 baseline 的 Moderate 3D AP 差值；括号为绝对 AP。](figures/fig5_02_centerpoint_delta_heatmap.pdf)
+![Figure 5.2 CenterPoint exact-4N observed-first Moderate 3D AP margin relative to the line baseline;The brackets are absolute AP.](figures/fig5_02_centerpoint_delta_heatmap.pdf)
 
-Line A 的 12 个“方法×类别”单元全部为负，表明当完整扫描已经存在时，当前四种场景适配均未提供净任务收益。PDANS 对 Pedestrian 的损失最小（-5.403），但仍不是改善。这个结果与 PointRCNN Line A 的方向一致：新增点不仅可能冗余，还会通过新体素、聚合统计和训练分布偏移改变检测特征。
+Line A's 12 units are all negative, indicating that the current four scenarios do not provide net mission income when complete scanning already exists.PDANS has the smallest loss for Pedestrian (-5.403), but it is not an improvement.This result is consistent with the direction of PointRCNN Line A: the new point does not allow only to become redundant, but also changes the characteristics of the detection through the new voxel, polymerization and training distribution bias.
 
-Line B 出现三个小幅正值：PDANS 对 Pedestrian +3.632、对 Cyclist +0.061；PU-GCN 对 Pedestrian +0.392、对 Cyclist +1.388。它们证明“稀疏恢复在部分小类别上并非完全不可能”。然而，这些改善要放回稀疏化缺口中解释。按式（5.9），PDANS 仅恢复 Pedestrian 缺口的
+Line B shows three small positives: PDANS against Pedestrian +3.632 and Cyclist +0.061;PU-GCN for Pedestrian +0.392 and Cyclist +1.388.They prove that “sparse-input recovery is not entirely impossible in some small categories”.These improvements, however, need to be explained in the diluted gap.By type (5.9), PDANS only recovery Pedestrian gap
 
 \[
 R_{\mathrm{PDANS,Ped}}^{(B)}
@@ -290,18 +290,18 @@ R_{\mathrm{PDANS,Ped}}^{(B)}
 \tag{5.10}
 \]
 
-即约 13.9%；对 Cyclist 的恢复率约为 0.12%。PU-GCN 对 Pedestrian 与 Cyclist 的恢复率分别约 1.5% 与 2.8%。与此同时，两种方法的 Car 分别下降 17.847 和 25.528 AP。因而本结果最多支持“类别相关的局部恢复”，不能写成总体检测性能得到恢复。
+About 13.9%;The recovery rate for Cyclist is approximately 0.12%.PU-GCN  Yeah.  Pedestrian  with  Cyclist  The recovery rate is about the same  1.5%  with  2.8%. At the same time, Car has dropped 17.847 and 25.528 AP, respectively.This result therefore supports, at best, "the local recovery, which is relevant to the category, and cannot, which is written as an overall test for recovery.
 
-### 5.4.3 reconstructed E1 与 observed-first：输入顺序的受控消融
+### 5.4.3 reconstructed E1 and observed-first: Controlled ablation
 
-CenterPoint 对每个体素最多保留 5 个点，每帧最多保留 40000 个非空体素。设有效范围为
+CenterPoint reserves a maximum of 5 points per voxel and a maximum of 40000 non-empty voxel per frame.Sets the range to be valid
 
 \[
 \Omega=[0,70.4)\times[-40,40)\times[-3,1),
 \tag{5.11}
 \]
 
-体素大小为 \((v_x,v_y,v_z)=(0.05,0.05,0.10)\) m。任一点 \(\mathbf p_i=(x_i,y_i,z_i)\in\Omega\) 的离散索引为
+ voxel Size  \((v_x,v_y,v_z)=(0.05,0.05,0.10)\) m.  A little bit.  \(\mathbf p_i=(x_i,y_i,z_i)\in\Omega\)  Discrepancies index as
 
 \[
 \mathbf q_i=\left(
@@ -312,7 +312,7 @@ CenterPoint 对每个体素最多保留 5 个点，每帧最多保留 40000 个�
 \tag{5.12}
 \]
 
-当输入产生的非空体素集合 \(\mathcal V_s\) 满足 \(|\mathcal V_s|>K_{\max}=40000\) 时，有限体素预算意味着部分体素不会进入网络；当某一体素点数大于 \(T_{\max}=5\) 时，点的排列也可能改变被保留的子集。observed-first 把观测点置于生成点之前，其作用可以写成优先选择：
+ When input generated non-empty voxel collection  \(\mathcal V_s\)  Satisfied  \(|\mathcal V_s|>K_{\max}=40000\)  , the limited voxel budget means that part of voxel will not enter the network; when a voxel  point count is greater  \(T_{\max}=5\)  , the order of the points may also change the subset that has been retained. observed-first  Prior to generated points, the role of the site can be written as a priority:
 
 \[
 \mathcal S_v^{\mathrm{obs}}
@@ -325,37 +325,37 @@ CenterPoint 对每个体素最多保留 5 个点，每帧最多保留 40000 个�
 \tag{5.13}
 \]
 
-表 5.6 汇总 observed-first 相对配对 control 的三类别 Moderate AP 平均变化。这里比较的是完全相同点集、仅顺序不同的输入，因此比“上采样 vs baseline”更接近顺序机制的因果消融。
+ Table  5.6  Summary  observed-first  Relative Matching  control  Category 3  Moderate AP  Average change. This compares exactly the same set of points, only, and thus is closer to the cause and effect of ablation than "upsampling vs baseline".
 
-**表 5.6　CenterPoint observed-first 相对配对 control 的平均 Moderate AP 变化**
+**Table 5.6 CenterPoint observed-first Average Moderate AP change relative to control**
 
 | Line | PDANS | PU-GCN | PU-EdgeFormer | PU-Net* |
 |---|---:|---:|---:|---:|
 | A | +0.087 | +0.894 | +0.792 | +5.878 |
 | B | +0.007 | +0.010 | +0.002 | -0.001 |
 
-32 帧体素审计中，原始输入 0/32 帧达到 40000 体素上限；Line A 的 PDANS、PU-GCN、PU-EdgeFormer、PU-Net* 分别为 6/32、29/32、29/32、32/32；Line B 四个方法均为 0/32。顺序收益与上限触发具有清晰对应：Line A 有可见改善，Line B 几乎不变。这支持以下限定结论：observed-first 主要修复有限体素预算下的观测覆盖问题；在没有触发体素上限的 Line B，它不能纠正生成点的坐标错误。
+In the 32 frame voxel audit, the original input 0/32 frame reached the 40000 voxel limit;Line A  It's...  PDANS, PU-GCN, PU-EdgeFormer, PU-Net*  Individually.  6/32, 29/32, 29/32, 32/32; Line B's four methods are 0/32.The sequenced gain clearly corresponds to the cap trigger: Line A has a visible improvement, Line B almost unchanged.This supports the restrictive conclusion that observed-first has limited observation coverage under voxel;no triggers voxel upper limit Line B, which cannot corrects generated points coordinate error.
 
-PU-Net* 在 Line A 的 +5.878 AP 不能解释成方法优越。恰恰相反，它的错误几何几乎每帧触发体素上限，顺序干预只是减少最坏输入破坏；其绝对 AP 仍远低于 baseline。
+PU-Net * In Line A + 5.878 AP cannot explains the superiority of the method.On the contrary, its error geometric triggers voxel cap for almost every frame, and the sequence of intervention only reduces the worst input damage;Its absolute AP is still far from below baseline.
 
-### 5.4.4 适配后的 PU-GCN 与检测器依赖
+### 5.4.4 Matched PU-GCN and detector dependent
 
-固定 256 帧、全训练集适配的 CenterPoint 结果见表 5.7。与 PointRCNN 一样，Line A baseline 使用官方权重，Line B baseline 与上采样条件使用完整适配权重 [L14]。
+ fixed  256  frame, all training set  CenterPoint  The results are shown in the table.  5.7. Like PointRCNN, Line A baseline uses the official weight, Line B baseline and upsampling conditions use the full ratio weight [L14].
 
-**表 5.7　CenterPoint 全训练适配后固定 256 帧 Car 结果（%）**
+** Table  5.7　CenterPoint  After full training, fixed  256  frame  Car  Outcome (%) %)**
 
-| Line | 输入 | Easy 3D | Moderate 3D | Hard 3D | Moderate BEV | 相对 baseline 的 Moderate 差值 |
+| Line | Enter | Easy 3D | Moderate 3D | Hard 3D | Moderate BEV | Moderate margin relative to baseline |
 |---|---|---:|---:|---:|---:|---:|
 | A | baseline | 93.635 | 79.837 | 77.357 | 88.962 | 0.000 |
 | A | PU-GCN observed-first | 89.439 | 73.947 | 72.663 | 83.628 | -5.890 |
 | B | baseline | 83.595 | 65.550 | 61.865 | 78.525 | 0.000 |
 | B | PU-GCN observed-first | 80.731 | 60.698 | 56.695 | 73.508 | -4.852 |
 
-相同 256 帧上，PointRCNN 的 Line A/B 差值为 -11.400/-11.004 AP，CenterPoint 为 -5.890/-4.852 AP。
+ Same  256  frame on, PointRCNN  It's...  Line A/B  The margin is  -11.400/-11.004 AP, CenterPoint  Yes.  -5.890/-4.852 AP.
 
-![图 5.3　全训练适配后，observed-first PU-GCN 在两种检测器上的 Car Moderate AP 差值。](figures/fig5_03_detector_dependency.pdf)
+![Figure 5.3 The observed-first PU-GCN is the Car Moderate AP margin on two detector.](figures/fig5_03_detector_dependency.pdf)
 
-定义检测器敏感度差为
+Define detector Sensitivity difference
 
 \[
 \Gamma_m^{(l)}
@@ -364,26 +364,26 @@ PU-Net* 在 Line A 的 +5.878 AP 不能解释成方法优越。恰恰相反，�
 \tag{5.14}
 \]
 
-PU-GCN 在 Line A 与 Line B 的 \(\Gamma\) 分别为 -5.510 和 -6.152 AP，表示 PointRCNN 的退化约比 CenterPoint 多 5.5–6.2 个百分点。方向在两条线一致，支持“体素聚合对部分点级扰动更鲁棒”的解释。但是 CenterPoint 自身仍明显低于 baseline，所以检测器结构只是放大或缓冲因子，不是共同负结果的根因。
+PU-GCN  Yes.  Line A  with  Line B  It's...  \(\Gamma\)  Individually.  -5.510  and  -6.152 AP,  Organisation  PointRCNN  The degradation of the world's oceans and seas  CenterPoint  More  5.5–6.2  Percentage points. The direction is the same as the two lines, but supports the interpretation of "voxel Convergence for Part Point Disturbing."  CenterPoint  It's still visible to itself, below.  baseline,  So the detector structure is just a magnification or buffer factor, not the root cause of the co-negative result.
 
-目标级审计给出相同方向。Line B 的 527 个 Car GT 中，CenterPoint baseline 与 PU-GCN observed-first 的诊断召回为 77.61% 和 74.38%，差 3.23 个百分点；PointRCNN 对应为 73.24% 和 60.72%，差 12.52 个百分点。尤其在 20–40 m，CenterPoint 从 79.78% 降至 74.26%，PointRCNN 从 71.32% 降至 53.31%。这说明中距离生成几何对点式 proposal 的破坏更大，但并不意味着体素检测器对伪点免疫。
+Target-level audits give the same direction.Line B  It's...  527  individual  Car GT  I don't know. CenterPoint baseline  with  PU-GCN observed-first  The diagnosis is called back to...  77.61%  and  74.38%,  Bad.  3.23  (b) Percentage points; PointRCNN should be 73.24% and 60.72%, or 12.52 percentage points. Especially.  20–40 m, CenterPoint  From  79.78%  Down to  74.26%, PointRCNN  From  71.32%  Down to  53.31%. This indicates that geometric is more destructive than proposal, but does not mean voxel detector is immune to false points.
 
 ## 5.5 Discussion of Results
 
 ### 5.5.1 Effect of Upsampling
 
-跨越两种检测器与两条输入线，最稳健的结论是：**当前 strict-\(4N\) 场景适配下，点数增加本身不是任务性能增加的充分条件。** Line A 在 PointRCNN 和 CenterPoint 中均出现系统性负差值；Line B 只有 CenterPoint 的部分小类别出现有限正值，且没有恢复大部分原始—稀疏缺口。
+ Crossing two detector and two input lines, the most robust conclusion is: ** Current  strict-\(4N\)  The point count increase is not in itself a sufficient condition for the increase in mission performance. ** Line A  Yes.  PointRCNN  and  CenterPoint  Systemic negative margins are observed in all cases; Line B  Just...  CenterPoint  Some small categories appear to have limited positive values, and no  recovery is mostly raw — Scary gap.
 
-![图 5.4　生成体素真实精度与 PointRCNN AP 的方法排序关系。](figures/fig5_04_geometry_vs_ap.pdf)
+![Diagram 5.4 Generates voxel Real Precision in relation to PointRCNN AP method sorting.](figures/fig5_04_geometry_vs_ap.pdf)
 
-为形式化区分“密度”和“有效证据”，令生成剂量为
+Distinguishing the distinction between “density” and “effective evidence” for formalisation so that the dosage is
 
 \[
 \delta_N=\frac{|\mathcal Y|-|\mathcal X|}{|\mathcal X|}=3,
 \tag{5.15}
 \]
 
-而任务收益为式（5.8）的 \(\Delta AP\)。所有 strict-\(4N\) 方法具有相同 \(\delta_N\)，但 AP 从 PDANS 到 PU-Net* 跨越数十个百分点。这直接表明 \(\delta_N\) 不能解释方法差异。合理的中介变量是有效几何剂量：
+ And the return on the mission is in the form ( 5.8) It's...  \(\Delta AP\).  All  strict-\(4N\)  The method is the same.  \(\delta_N\),  But...  AP  From  PDANS  Present.  PU-Net*  Over a dozen percentage points. This is a direct indication.  \(\delta_N\)  cannot. Reasonable intermediate variable is a valid geometric dose:
 
 \[
 \delta_{\mathrm{eff}}(\tau)
@@ -394,9 +394,9 @@ PU-GCN 在 Line A 与 Line B 的 \(\Gamma\) 分别为 -5.510 和 -6.152 AP，表
 \tag{5.16}
 \]
 
-其中 \(\mathcal R\) 是同帧完整扫描参考。该量描述生成点有多少落在参考表面邻域内；它不使用于生成或检测，只在离线诊断中计算。
+ of which  \(\mathcal R\)  is the complete-scan reference for the same frame. This quantity measures how many generated points lie near the reference surface. It is calculated only for offline diagnosis and is not used for generation or detection.
 
-对 Line B 而言，恢复能力还要求生成点覆盖被稀疏化删除的参考区域。参考覆盖率定义为
+For Line B, recovery capabilities also require generated points to cover the diluted reference area.Reference coverage defined as
 
 \[
 C_{\tau}(\mathcal Y,\mathcal R)
@@ -407,11 +407,11 @@ C_{\tau}(\mathcal Y,\mathcal R)
 \tag{5.17}
 \]
 
-高 \(\delta_{\mathrm{eff}}\) 不必然产生高 \(C_\tau\)：方法可能反复在已观测表面附近复制点，却不覆盖缺失区域。反之，只提高覆盖也可能同时产生大量伪点。任务有效的上采样需要在贴近表面、覆盖缺失区域和控制错误支持之间取得平衡。
+ High  \(\delta_{\mathrm{eff}}\)  It doesn't have to be high.  \(C_\tau\):  The method may repeat points over and over again in the vicinity of observed surfaces without covering the missing areas. Conversely, increasing coverage alone can also create a large number of false points. The effective upsampling requires a balance between proximity to surfaces, coverage of missing areas and control error support.
 
 ### 5.5.2 Transfer from Object-Level Data to LiDAR Scenes
 
-PU-Net [4]、PU-GCN [5]、PU-EdgeFormer [6] 和 PDANS [7] 的核心设计主要围绕物体级或局部表面点集。KITTI [1,2] 则是米制、全场景、带强度、具有背景与距离衰减的 LiDAR 扫描。二者差异可以写成联合分布偏移：
+PU-Net [4], PU-GCN [5], PU-EdgeFormer [6] and PDANS [7] The core design revolves around object level or local surface point set.KITTI [1,2] It's a LiDAR scan with rice, whole scene, band strength, background and distance decay.The difference can be written as a joint distribution deviation:
 
 \[
 p_{\mathrm{train}}(\mathbf x,\mathcal N,\rho,I,\kappa)
@@ -420,15 +420,15 @@ p_{\mathrm{KITTI}}(\mathbf x,\mathcal N,\rho,I,\kappa),
 \tag{5.18}
 \]
 
-其中 \(\mathbf x\) 是坐标，\(\mathcal N\) 是局部邻域拓扑，\(\rho\) 是采样密度，\(I\) 是反射强度，\(\kappa\) 表示表面曲率/边界。域偏移不是一个可由“统一归一化”完全消除的标量问题，而是尺度、邻域组成、采样机制与属性的共同变化。
+ of which  \(\mathbf x\)  It's the coordinates. \(\mathcal N\)  It's a local neighbourhood pounce. \(\rho\)  It's sampling  density. \(I\)  It's a reflection strength. \(\kappa\)  Appearance curvature / boundary. The local deviation is not a problem of a target that can be completely eliminated by “Universal normalization”, but a common change between scale, neighbourhood and sampling mechanisms and attributes.
 
-本实验最明确的迁移故障来自共同 patch 提取器。它把全帧坐标量化到 32 个粗 bin，按 `(x-bin, y-bin, z, index)` 排序后连续切成 2048 点。连续块不是 kNN，也不是 ball query。对 64 个含车帧，Line A/Line B 的 patch 内 p90 半径中位数分别为 3.16/10.02 m，最大半径中位数为 4.79/19.45 m，XY 对角线中位数为 8.26/30.46 m，XY 对角线 p90 达到 77.12/124.10 m。
+The clearest transport failure of this experiment comes from the common patch extractor.It quantified the full frame coordinates to 32 thick bin, press `(x-bin, y-bin, z, index)` Sorted and slashed to 2048 points.The continuous block is not kNN or ball query. Yeah.  64  A car with frame. Line A/Line B  It's...  patch  Internal  p90  Median Radius  3.16/10.02 m,  Maximum radius median is  4.79/19.45 m, XY  Middle value of diagonal  8.26/30.46 m, XY  Diagonal  p90  Achieved  77.12/124.10 m.
 
-![图 5.5　共同 2048 点 patch 提取器的空间跨度；Line B 的典型 patch 已不再局部。](figures/fig5_05_patch_locality.pdf)
+![Fig. 5.5 Common 2048 Point patch Ripper Space Range;Line B's typical patch is no longer local.](figures/fig5_05_patch_locality.pdf)
 
-一个宽 124 m 的 patch 可能同时包含道路、车辆、建筑和多个不相邻目标。若对整块中心化并缩放到单位球，网络会把本不连续的场景压缩为一个“物体”，再按物体表面先验生成点。Line B 因点更稀，为凑满 2048 点而跨越更大空间，所以它比 Line A 更容易失败。这一机制解释了为什么物体级模型即使在规范化数据上具有良好几何指标，也不能无条件迁移到真实场景。
+A wide 124 m patch may contain both roads, vehicles, buildings and multiple unaccompanied targets.If the whole block is centralized and scaled to a unit ball, the network will compress the non-continuous scene to a "object" and then press object to preface generated points.Line B is more likely to fail than Line A because of the thinning of the dots, which are crossing a larger space to fill 2048 points.This mechanism explains why object-level models cannot be transferred unconditionally to real scenes, even when they achieve good geometric metrics on normalized data.
 
-强度属性形成第二层偏移。当前统一策略把每个生成点的 intensity 从最近输入点复制。设最近输入索引为
+The strength attribute forms the second layer of deviation.The current unified policy is to copy every generated points intensity from the most recent input point.Set Recent Input Index As
 
 \[
 j^*(\mathbf g)=\arg\min_j\|\mathbf g-\mathbf x_j\|_2,
@@ -436,11 +436,11 @@ j^*(\mathbf g)=\arg\min_j\|\mathbf g-\mathbf x_j\|_2,
 \tag{5.19}
 \]
 
-该策略保证各方法一致且不使用标签，却会把同一实测强度复制到多个已经位移的坐标，产生训练分布中较少见的强度平台。由于所有方法采用相同策略，它不是方法排名的直接原因；但它可能造成共同的检测器分布偏移，应在未来以统一局部插值或强度遮蔽消融检验。
+The strategy ensures that the methods are consistent and that label is not used, but that the same measured strength is copied to multiple points that have been moved to create a platform of less intense strength in the training distribution.It is not a direct cause of the method ' s ranking, as all methods use the same strategy;However, it may result in a common detector distribution deviation, which should in the future shield ablation with uniform local plug-in values or strength.
 
 ### 5.5.3 Relationship Between Geometry and Detection
 
-64 帧几何审计以原始完整扫描作为只读参考。生成体素真实精度定义为
+64 frame geometric audit uses original full scan as a read-only reference.Generating voxel
 
 \[
 P_{\mathrm{vox},\tau}
@@ -449,7 +449,7 @@ P_{\mathrm{vox},\tau}
 \tag{5.20}
 \]
 
-E1 额外体素比例定义为
+E1 Additional voxel ratio defined as
 
 \[
 E_{\mathrm{vox},\tau}
@@ -458,9 +458,9 @@ E_{\mathrm{vox},\tau}
 \tag{5.21}
 \]
 
-其中 \(\mathcal V_{\tau}\) 表示以边长 \(\tau=0.20\) m 离散后的占据体素集合。Line A 的 PDANS、PU-GCN、PU-EdgeFormer、PU-Net* 生成体素精度依次为 48.83%、45.48%、36.32%、23.11%，对应 PointRCNN E1 Moderate AP 为 64.51、56.96、42.98、9.72；Line B 精度依次为 50.68%、47.53%、38.10%、34.17%，AP 为 45.13、29.69、20.72、8.88。
+ of which  \(\mathcal V_{\tau}\)  It means it's long.  \(\tau=0.20\) m  Separated from the voxel collection. Line A  It's...  PDANS, PU-GCN, PU-EdgeFormer, PU-Net*  Generate voxel Precision in order  48.83%, 45.48%, 36.32%, 23.11%,  Corresponding  PointRCNN E1 Moderate AP  Yes.  64.51, 56.96, 42.98, 9.72; Line B  Precision in order  50.68%, 47.53%, 38.10%, 34.17%, AP  Yes.  45.13, 29.69, 20.72, 8.88.
 
-四方法在两条线中的 Spearman 秩相关均为 \(\rho_s=1.00\)。无并列秩时，
+ Four methods in two lines.  Spearman  It's all connected.  \(\rho_s=1.00\).  And when there are no parallels,
 
 \[
 \rho_s
@@ -468,112 +468,112 @@ E_{\mathrm{vox},\tau}
 \tag{5.22}
 \]
 
-其中 \(d_m\) 是方法 \(m\) 在几何精度与 AP 排名中的秩差，\(M=4\)。本实验中所有 \(d_m=0\)。这不是大样本显著性检验，也不能证明每 1% 几何精度会导致固定 AP 增量；它说明当前方法间任务排序与几何真实性完全一致，且与 E1/E2 点数控制共同支持“位置质量比名义密度更关键”。
+ of which  \(d_m\)  It's a way.  \(m\)  At geometric Precision and  AP  It's the difference in the ranking. \(M=4\).  All in this experiment  \(d_m=0\).  It's not a big sample of outstandingness, it's does not establish per year.  1%  geometric will result in fixed  AP  increment; it indicates that the current inter-method sequence of tasks is fully consistent with geometric 's authenticity and with  E1/E2  point count controls co-support "location quality is more critical than the nominal density".
 
-Line A 原始 baseline 的真实体素召回本来是 100%。增密后真实召回不可能再提高，却有 45.3%–62.5% 的 E1 占据体素不受原始扫描支持。Line B baseline 的参考体素召回为 48.5%；加入 \(3N\) 生成点后只提高到 57.7%–60.9%，同时出现 41.7%–54.4% 的额外体素。也就是说，新增容量中只有一部分覆盖了被删除的参考位置，大量容量用于重复或伪结构。
+Line A  Original  baseline  It's true, voxel.  100%.  There's no way to raise it when it's over, but there is.  45.3%–62.5%  It's...  E1  Occupancy voxel is not supported by original scans. Line B baseline  voxel  48.5%;  Add  \(3N\)  generated points was raised only to  57.7%–60.9%,  At the same time.  41.7%–54.4%  Additional voxel. In other words, only part of the new capacity covers the deleted reference position, and a large amount of it is used for duplicate or pseudo-structures.
 
-距离分层进一步显示“覆盖增加”与“位置可靠”可以分离。Line B baseline 在 0–20、20–40、40–70.4 m 的车辆参考表面覆盖分别为 92.04%、65.51%、41.89%。PDANS E1 提高到 96.15%、76.10%、56.62%，其生成点近参考表面比例仍为 98.24%、88.52%、80.80%；PU-GCN 的覆盖为 96.91%、77.54%、50.00%，近表面比例降至 95.19%、77.11%、50.00%；PU-Net* 远距覆盖为 50.93%，但近表面比例只有 22.22%。
+The distance stratum further shows that the "overlay increase " can be separated from " position reliability " .The Line B baseline vehicle reference surfaces in 0–20, 20–40 and 40–70.4 m are covered by 92.04%, 65.51% and 41.89%, respectively.PDANS E1  Increase to  96.15%, 76.10%, 56.62%,  Its generated points near reference surface ratio remains  98.24%, 88.52%, 80.80%; PU-GCN covers 96.91%, 77.54%, 50.00%, with a near-surface ratio down to 95.19%, 77.11%, 50.00%;PU-Net * Remotely over 50.93%, but only 22.22% on the near surface.
 
-![图 5.6　Line B 的距离分层：参考表面覆盖与生成点近表面比例。](figures/fig5_06_distance_geometry.pdf)
+![Figure: Distance layer of 5.6 Line B: ratio of reference surface cover to the near surface of generated points.](figures/fig5_06_distance_geometry.pdf)
 
-由此可以得到一个比“远距点少”更精确的解释：远距上采样可能提高某种覆盖计数，同时把大部分生成点放在不受真实扫描支持的位置；这些点对检测器是高置信度几何噪声，而不是缺失观测。未来评价不应只报告 Chamfer Distance 或覆盖率，而应同时报告 precision-like 与 recall-like 几何量。
+This gives a more precise explanation than a “distant point”: the distance upsampling may increase some of the overlay counts, while placing most generated points in a location that is not supported by a real scan;To the detector, these points are high-confidence geometric noise rather than recovered missing observations.Future evaluations should not only report Chamfer Distance or coverage, but also precision-like and recall-like geometric.
 
 ### 5.5.4 Detector Dependency
 
-PointRCNN 与 CenterPoint 都下降，说明根因位于检测器之前；CenterPoint 降幅更小，说明输入表示会调节损失大小。可以把最终任务变化分解为
+PointRCNN and CenterPoint are down, indicating the root causes before detector;CenterPoint has a smaller reduction, indicating that the input indicates that the loss will be adjusted.You can decompose the final mission.
 
 \[
 \Delta T_{d,m}^{(l)}
-=\underbrace{\alpha_d\,\Delta G_m^{(l)}}_{\text{生成几何}}
-+\underbrace{\beta_d\,\Delta A_{d,m}^{(l)}}_{\text{输入适配/预算}}
-+\underbrace{\gamma_d\,\Delta Q_{d,m}^{(l)}}_{\text{检测器分布响应}}
+=\underbrace{\alpha_d\,\Delta G_m^{(l)}}_{\text{generated geometry}}
++\underbrace{\beta_d\,\Delta A_{d,m}^{(l)}}_{\text{input adaptation/budget}}
++\underbrace{\gamma_d\,\Delta Q_{d,m}^{(l)}}_{\text{detector distribution response}}
 +\varepsilon_{d,m}^{(l)},
 \tag{5.23}
 \]
 
-其中 \(\Delta G\) 概括真实表面支持、额外体素与目标边界污染，\(\Delta A\) 概括点数/体素上限和顺序，\(\Delta Q\) 概括权重对新输入分布的适应程度。该式是解释框架，不是从现有样本拟合出的线性因果模型。
+ of which  \(\Delta G\)  This is the first time that the government has been able to provide an overview of real surface support, additional voxel and the target boundary pollution. \(\Delta A\)  General point count / voxel Upper limit and sequence, \(\Delta Q\)  Summarizes the extent to which weights are adapted to the distribution of new inputs. The formula is an explanatory framework and is not a linear cause-and-effect model developed from existing samples.
 
-现有消融给每一项提供了方向证据：E1/E2 只改变 PointRCNN 输入预算，恢复有限，说明 \(\Delta A\) 不是全部；CenterPoint observed-first 在达到 40000 体素上限时改善，在未达到时几乎不变，确认 \(\Delta A\) 的局部作用；全训练适配缩小差距但没有消除，说明 \(\Delta Q\) 可缓解但不能覆盖全部；几何精度与 AP 排名一致，支持 \(\Delta G\) 是共同主导因素。
+ The existing ablation provides each of them with evidence of direction: E1/E2  Change only  PointRCNN  Enter budget, recovery limited, description  \(\Delta A\)  Not all; CenterPoint observed-first  I'm on it.  40000  voxel cap improvement, almost unchanged when not reached, confirmed  \(\Delta A\)  no is eliminated, described  \(\Delta Q\)  mitigateable but cannot overall; geometric precision and  AP  It's the same ranking. Support.  \(\Delta G\)  Common ownership.
 
-因此，不能把结果概括为“PointRCNN 不适合上采样”或“CenterPoint 可以解决上采样”。更准确的结论是：在当前生成几何下，两者都受损；PointRCNN 对点级错误更敏感，CenterPoint 的体素聚合缓冲一部分扰动，但新占据体素和体素预算仍能传播错误。
+Thus, cannot summarizes the results as “PointRCNN is not suitable for upsampling” or “CenterPoint can solve upsampling”.More precisely, the conclusion is that both are damaged by the current generation of geometric;PointRCNN  It's more sensitive to point errors. CenterPoint  The voxel condensed part of the disturbance, but the new voxel and voxel budgets still spread errors.
 
-![图 5.7　输入顺序收益与 40000 体素上限命中率。](figures/fig5_07_observed_first_voxel_budget.pdf)
+![Figure 5.7 Enter order gain and 40000 voxel upper limit hit rate.](figures/fig5_07_observed_first_voxel_budget.pdf)
 
 ### 5.5.5 Object-Level and Qualitative Evidence
 
-任务差值、几何统计和 detector 机制最终需要回到同一批实际目标上核对。图 5.8 给出 527 个 Moderate Car GT 的整体 IoU 分布与距离分层；图 5.9 给出相同协议下的全场景点云；图 5.10 与图 5.11 分别展示一个被 observed-first 恢复的目标和一个点数增加后仍失败的目标。四幅图依次从总体分布、场景密度、正向转换和负向转换提供证据，避免仅展示成功案例。
+The mission margin, geometric statistics and detector mechanisms ultimately need to be checked back on the same actual target.Chart 5.8 gives the total 527 Moderate Car GT IoU distributions and distance layers;Figure 5.9 gives the entire scene under the same protocol point cloud;The figures 5.10 and 5.11 show a target that was added by observed-first recovery and a point count that still failed.Four maps in turn provide evidence of the overall distribution, the scenario density, the positive and negative transformations, and avoid only displaying success stories.
 
-![图 5.8　固定 256 帧对象级 IoU 累积分布与距离分层召回；该图是诊断，不替代官方 AP。](figures/fig5_08_object_iou_distance_audit.pdf)
+![Figure 5.8 fixed 256 frame object IoU cumulative distribution and range recall;The figure is a diagnosis and does not replace the official AP.](figures/fig5_08_object_iou_distance_audit.pdf)
 
-![图 5.9　帧 000104 的全场景鸟瞰点云：原始、稀疏、PDANS 和 PU-GCN observed-first；虚线框为 GT。](figures/fig5_09_pointcloud_scene_bev.pdf)
+![ Figure  5.9　 frame  000104  The whole scene is looking at point cloud: raw, thin, PDANS  and  PU-GCN observed-first; The dotted line frame is GT.](figures/fig5_09_pointcloud_scene_bev.pdf)
 
-![图 5.10　observed-first 恢复案例：真实点与生成点的组合恢复有效框。](figures/fig5_10_pointcloud_recovery_case.pdf)
+![ Figure  5.10　observed-first  recovery Case: A combination of the real point and generated points is the recovery box. ](figures/fig5_10_pointcloud_recovery_case.pdf)
 
-![图 5.11　残余失败案例：框内点数增加，但点的空间分布未形成可用检测证据。](figures/fig5_11_pointcloud_failure_case.pdf)
+![Figure 5.11 Residual Failed: point count has increased in the box, but the spatial distribution of points has not produced available test evidence.](figures/fig5_11_pointcloud_failure_case.pdf)
 
-图 5.10 与图 5.11 的对照是本研究结论边界的直观表达：观测优先能够恢复某些被 generated-only 破坏的目标，但“更多框内点”既不保证产生预测，也不保证定位精度回到 baseline。总体结论仍由全量 AP 与 527 个目标的转换计数决定。
+The contrast between 5.10 and 5.11 is the visual expression of the findings of this study boundary: observed-first is capable of enabling recovery to target certain targets that have been damaged by generated-only, but the "More Boxes" do not guarantee predictions or the return of positioning accuracy to baseline.The overall conclusion is still determined by the conversion of AP and 527 targets.
 
-### 5.5.6 扩展的平行对照、参数与并列证据
+### 5.5.6 Extension Parallel Contrast, Parameters and Parallel Evidence
 
-前述分析已经给出主结论，但若只保留若干 AP 表和两个案例，仍不足以回答“具体做了什么、参数是否一致、性能下降是否有多层证据”的问题。本节因此把同一实验链重新按可核验的平行对照展开。扩展部分不引入新的实验口径，也不改变前述结论；它将已经完成的运行结果转换为以下五类证据：完整难度与评价空间对照、运行完整性与计算量对照、三类别与缺口恢复对照、几何—任务联合对照，以及对象与距离分层对照。
+The foregoing analysis has led to the conclusion that, if only a few AP tables and two cases were retained, it would not be sufficient to answer the question “what exactly was done, whether the parameters were consistent and whether there were multiple layers of evidence for the decline in performance”.This section thus re-introduces the same chain of experiments to a verifiable parallel.The extension does not introduce a new test calibre and does not alter the above-mentioned conclusions;It converts the completed operational results into five types of evidence: complete difficulty versus evaluation space; operational integrity versus calculation; three categories versus gap recovery; geometric — task against target versus distance stratum.
 
-#### 5.5.6.1 固定实验参数与已执行协议
+#### 5.5.6.1 fixed experimental parameters and implemented protocol
 
-表 5.8 汇总本章所有图表共享的关键参数。这里特别区分“生成器参数”“检测器原生预处理”和“只读分析阈值”。例如 0.20 m 体素只用于几何审计，不会回写点云或帮助候选选择；0.25 m 近表面阈值只用于解释车辆生成点是否贴近参考扫描，也没有参与 AP 优化。这样可以避免把使用参考扫描的事后诊断误写成生成时使用了标签或测试集信息。
+Table 5.8 summarizes the key parameters shared by all the charts in this chapter.In particular, a distinction is drawn between " generator parameters " " detector " and " read-only analysis threshold " .For example, 0.20 m voxel is used only for geometric audits and does not write back point cloud or help with candidate selection;0.25 m Near Surface threshold is used only to explain whether a vehicle generated points is close to a reference scan and no is involved in AP optimization.This avoids the misuse of label or test set for ex post-diagnosis using reference scans.
 
-**表 5.8　KITTI 主实验、适配实验与诊断实验的固定参数**
+**Table 5.8 KITTI Main Experiment, Fitness Experiment and Diagnosis fixed Parameters**
 
-| 模块 | 参数 | 固定值 | 作用与边界 |
+| Modules | Parameters | fixed value | Role and boundary |
 |---|---|---|---|
-| 数据划分 | KITTI 训练/验证 | 3712 / 3769 帧 | 3769 帧用于全量主结果；3712 帧只用于 detector adaptation |
-| 输入线 | Line A | 完整原始扫描 | 检验已有完整观测上的边际增密 |
-| 输入线 | Line B | 固定四分之一下采样 \(D_4\) | 检验稀疏化损失能否被恢复 |
-| 当前 patch 适配器 | 每 patch 点数 | 2048 | 四种方法共享；不足时由当前规则补足 |
-| 当前 patch 适配器 | 粗空间 bin 数 | 32 | 按 bin 排序后连续切块；已被审计为非真正局部 |
-| 上采样输出 | 数量协议 | \(N\) observed \(+3N\) generated \(=4N\) | 原始观测逐点保留，生成候选确定性补足 |
-| 点属性 | 生成点 intensity | 最近输入点复制 | 四方法统一；不按方法选择更有利策略 |
-| PointRCNN E1 | 输入预算 | detector-native 的 exact-\(4N\) 文件 | 检验真实点保留后完整四倍输入 |
-| PointRCNN E2 | 输入预算 | 统一 16384 点 | FOV、0.1 m 体素代表点、距离分层采样；只作敏感性分析 |
-| CenterPoint | 有效空间 | \(x\in[0,70.4),y\in[-40,40),z\in[-3,1)\) m | 与冻结 KITTI 配置一致 |
-| CenterPoint | 体素大小 | \((0.05,0.05,0.10)\) m | 原生 voxelizer 参数 |
-| CenterPoint | 体素容量 | 每体素最多 5 点；测试最多 40000 体素 | observed-first 顺序消融的预算机制 |
-| 正式任务指标 | AP | KITTI \(AP_{R40}\) | 分 BBox、BEV、3D 与 Easy/Moderate/Hard 报告 |
-| 几何诊断 | 参考体素/近表面阈值 | 0.20 m / 0.25 m | 只读诊断，不进入生成或 detector 推理 |
-| 对象诊断 | 固定子集 | 256 帧、527 个 Moderate Car GT | 贪心同类 3D IoU 匹配；阈值 0.70 |
-| 距离分层 | 近/中/远 | 0–20 / 20–40 / 40+ m | 分别包含 170 / 272 / 85 个 Car GT |
+| Data disaggregation | KITTI training/certification | 3712 / 3769 frame | 3769 frame is used for full master results;3712 frame only for detector adaptation |
+| Input Line | Line A | Full Original Scan | Check that there's a full view of the marginal increase. |
+|  Input Line  | Line B |  fixed One quarter downsampling  \(D_4\) |  Check if the thinness loss can be caused by recovery  |
+| Current patch adapter | Every patch point count | 2048 | Four approaches are shared;Completing the current rule when insufficient |
+| Current patch adapter | Crude Space bin Number | 32 | Scratch blocks after they are sorted according to bin;Audited as non-real local |
+|  upsampling Output  |  Number protocol  | \(N\) observed \(+3N\) generated \(=4N\) |  Original observations kept point-by-point, generating candidate certainty to complement  |
+| Point Properties | generated points intensity | Recent Entry Point Copying | (a) Harmonization of approaches;Instead of choosing a more advantageous strategy. |
+| PointRCNN E1 |  Enter Budget  | detector-native  It's...  exact-\(4N\)  Documentation  |  Four-fold complete input after checking the true point  |
+| PointRCNN E2 | Enter Budget | Unified 16384 Point | FOV, 0.1 m voxel representative point, distance layer sampling;Only for sensitivity analysis. |
+| CenterPoint |  Effective space  | \(x\in[0,70.4),y\in[-40,40),z\in[-3,1)\) m |  With frozen  KITTI  The configuration is consistent  |
+| CenterPoint |  voxel Size  | \((0.05,0.05,0.10)\) m |  Native  voxelizer  Parameters  |
+| CenterPoint | voxel Capacity | Every voxel maximum 5 points;Test maximum 40000 voxel | observed-first Sequence Budget Mechanism ablation |
+|  Official mandate indicators  | AP | KITTI \(AP_{R40}\) |  min  BBox, BEV, 3D  with  Easy/Moderate/Hard  Report  |
+| geometric Diagnostic | Reference voxel / Near Surface threshold | 0.20 m / 0.25 m | Read diagnostics only, do not enter generation or detector reasoning |
+| Object diagnosis | fixed Subset | 256 frame, 527 Moderate Car GT | Greed is a kind of 3D IoU match;threshold 0.70 |
+| Distance Layer | Near/medium/ Far | 0–20 / 20–40 / 40+ m | Including 170 / 272 / 85 and Car GT |
 
-该参数表对应的是实际执行链，而不是后验建议。图 5.28 在本节末给出从输入线、patch、strict-\(4N\)、检测器到三层审计的完整流程图；所有中间文件均可由 [L14]–[L20] 追溯。
+ The table of parameters corresponds to the actual implementation chain and not to the later recommendations.  5.28  Give the input line at the end of this section, patch, strict-\(4N\),  Full flowchart of detector to the third-level audit; all intermediate files can be accessed by  [L14]–[L20]  Retroactive.
 
-#### 5.5.6.2 PointRCNN：从完整 AP 到运行完整性的平行对照
+#### 5.5.6.2 PointRCNN: A parallel comparison between complete AP and operational integrity
 
-图 5.12 把表 5.1 的全量结果扩展为 Easy、Moderate、Hard 三难度并排柱状图。最重要的视觉证据不是单个柱高，而是两条输入线、三个难度下的方法顺序保持一致。Line A 中 baseline 的 Easy/Moderate/Hard 分别为 92.273/82.255/77.945，最优 PDANS 为 83.014/64.515/59.668；Line B 中 baseline 为 85.177/65.746/61.382，PDANS 为 65.062/45.126/39.240。由此可见，负差值贯穿难度区间，不是由某一个难度定义或少量边界样本造成。
+Figure 5.12 expands the full result of Table 5.1 to Easy, Moderate and Hard, which is a combination of three difficulties.The most important visual evidence is not a single column height, but a consistent sequence of two input lines and three difficult approaches.Easy/Moderate/Hard of baseline in Line A is 92.273/82.255/77.945 and PDANS is 83.014/64.515/59.668;baseline of Line B is 85.177/65.746/61.382 and PDANS is 65.062/45.126/39.240.Thus, the negative margin runs through the difficulty range and is not caused by a difficult definition or a a small number of boundary sample.
 
-![图 5.12　PointRCNN 全验证集 exact-\(4N\) E1：两条输入线、四种方法与三个难度的并行柱状对照。](figures/fig5_12_pointrcnn_fullval_e1_all_methods.pdf)
+![ Figure  5.12　PointRCNN  full validation set  exact-\(4N\) E1:  Two input lines, four methods, and three difficult parallel columns. ](figures/fig5_12_pointrcnn_fullval_e1_all_methods.pdf)
 
-表 5.9 进一步把 Moderate 指标分解到二维图像框、BEV 旋转框和三维框。若问题只发生在高度估计，BBox 与 BEV 应相对稳定而 3D AP 单独下降；实际结果却表现为三种空间同时下降，并且从 BBox 到 BEV 再到 3D 的绝对值逐级降低。这说明错误已经影响候选检出、水平定位与完整三维回归，而非单一 \(z\) 轴误差。
+ Table  5.9  Go further.  Moderate  The indicator is broken down to the 2D image frame, BEV  rotation and 3D boxes. BBox  with  BEV  It should be relatively stable.  3D AP  Declines alone; the actual result is a simultaneous decline in three spaces and from  BBox  Present.  BEV  Again.  3D  . This indicates that the error has affected the three-dimensional return of the candidate, the horizontal positioning and the integrity of the candidate, rather than the single  \(z\)  Axes error.
 
-**表 5.9　PointRCNN 全验证集 Moderate AP\(_{R40}\) 的 BBox/BEV/3D 分解（%）**
+** Table  5.9　PointRCNN  full validation set  Moderate AP\(_{R40}\)  It's...  BBox/BEV/3D  Decompose %)**
 
-| Line | 输入 | BBox | BEV | 3D | 3D 相对同线 baseline |
+| Line | Enter | BBox | BEV | 3D | 3D Relative Consistency baseline |
 |---|---|---:|---:|---:|---:|
-| A | Original baseline（E2） | 94.084 | 88.981 | 82.255 | 0.000 |
+| A | Original baseline (E2) | 94.084 | 88.981 | 82.255 | 0.000 |
 | A | PDANS E1 | 78.983 | 75.092 | 64.515 | -17.741 |
 | A | PU-GCN E1 | 71.034 | 66.238 | 56.961 | -25.294 |
 | A | PU-EdgeFormer E1 | 54.437 | 50.947 | 42.981 | -39.274 |
 | A | PU-Net* E1 | 23.489 | 18.067 | 9.717 | -72.538 |
-| B | 1/4 sparse baseline（E2） | 79.949 | 76.398 | 65.746 | 0.000 |
+| B | 1/4 sparse baseline (E2) | 79.949 | 76.398 | 65.746 | 0.000 |
 | B | PDANS E1 | 60.236 | 54.801 | 45.126 | -20.620 |
 | B | PU-GCN E1 | 39.193 | 36.430 | 29.687 | -36.059 |
 | B | PU-EdgeFormer E1 | 33.102 | 27.840 | 20.721 | -45.025 |
 | B | PU-Net* E1 | 20.774 | 15.904 | 8.878 | -56.868 |
 
-![图 5.13　PointRCNN E1 与统一 16384 点 E2 的 Moderate 3D AP 平行坐标对照；右侧数字为 E2−E1。](figures/fig5_13_pointrcnn_e1_e2_parallel.pdf)
+![Chart 5.13 PointRCNN E1 contrasts with Moderate 3D AP parallel coordinates for the unification of 16384 point E2;The right number is E2−E1.](figures/fig5_13_pointrcnn_e1_e2_parallel.pdf)
 
-图 5.13 将同一个“Line×方法”在 E1 与 E2 下用线段连接。Line A 的 PDANS、PU-GCN、PU-EdgeFormer仅增加 2.709、1.314、1.979 AP；Line B 的四种方法变化全部不大于零。这种配对呈现比两个独立柱状图更直接：如果 16384 点上限是共同主因，连接线应在两条线中普遍向右移动；实际只在 Line A 有小幅右移，Line B 则轻微左移。
+Figure 5.13 connects the same “Line× Method” to the E1 line under E2.Line A  It's...  PDANS, PU-GCN, PU-EdgeFormer only Increase  2.709, 1.314, 1.979 AP; Line B ' s four methodological changes are not greater than zero.This pairing is more direct than the two stand-alone columns: if 16384 point ceiling is the common cause, the connection line should move generally to the right in both lines;In fact, only a small right shift was made in Line A, while Line B slightly moved left.
 
-![图 5.14　PointRCNN Moderate AP 从 BBox、BEV 到 3D 的评价空间剖面。](figures/fig5_14_pointrcnn_metric_profiles.pdf)
+![Figures: 5.14 PointRCNN Moderate AP from BBox, BEV to 3D](figures/fig5_14_pointrcnn_metric_profiles.pdf)
 
-为了证明低 AP 不是由“任务没有跑完”造成，表 5.10 同时列出每组预测文件总数、空预测文件数、检测运行时间和吞吐率。所有条件都有 3769 个预测文件；所谓空预测文件是该帧 evaluator 输入存在但 detector 没有输出有效框，和缺失文件不同。定义空输出率与检测吞吐率为
+In order to prove that the low AP was not caused by the “mission no running out”, table 5.10 also shows the total number of projected documents per group, the number of empty files, the time of detection run and the throughput rate.All conditions have 3769 projection documents;The so-called empty projection file is the frame evaluator input that exists but the detector no output box is different from the missing file.Defines empty output rate and detection throughput
 
 \[
 r_{\mathrm{empty}}
@@ -583,9 +583,9 @@ v_{\mathrm{eval}}
 \tag{5.24}
 \]
 
-**表 5.10　PointRCNN 全验证集运行完整性、空预测与检测吞吐**
+**Table 5.10 PointRCNN full validation set Operational Integrity, Space Forecasting and Testing throughput**
 
-| Line | 条件 | 预测文件 | 空文件 | 空文件率 | 运行时间（s） | 吞吐（帧/s） |
+| Line | Conditions | Projection documents | Empty File | Empty File Rate | Run time (s) | throughput (frame /s) |
 |---|---|---:|---:|---:|---:|---:|
 | A | Baseline E2 | 3769 | 94 | 2.49% | 639.2 | 5.90 |
 | A | PDANS E1 | 3769 | 80 | 2.12% | 1489.0 | 2.53 |
@@ -606,19 +606,19 @@ v_{\mathrm{eval}}
 | B | PU-Net* E1 | 3769 | 767 | 20.35% | 791.1 | 4.76 |
 | B | PU-Net* E2 | 3769 | 800 | 21.23% | 641.5 | 5.88 |
 
-图 5.15 将空预测文件数与 Moderate 3D AP 放在同一坐标系。18 个已完成条件的 Spearman 相关为 \(\rho_s=-0.89\)：空输出越多的条件通常 AP 越低。这个相关不是“空文件导致全部 AP 差值”的因果证明，因为非空帧中的定位误差和误检同样会降低 AP；但它是独立的运行级证据，说明方法退化已经严重到使更多完整帧没有有效框，而不只是每个框的 IoU 略微移动。
+ Figure  5.15  Compare the number of empty projected files with the number of files  Moderate 3D AP  Put it at the same coordinates. 18  A completed condition.  Spearman  Relevant as  \(\rho_s=-0.89\):  The more empty the output, the more often the condition.  AP  Lower. This is not about "empty files lead to all."  AP  The cause and effect of the margin, because the location error in the non-empty frame and false positive will also decrease  AP;  But it's an independent operational level evidence that the process has deteriorated to the point where more complete frame  no is a valid frame, not just a single one.  IoU  A little move.
 
-![图 5.15　PointRCNN 空预测文件数与 Moderate 3D AP 的配对散点；圆/方分别为 E1/E2。](figures/fig5_15_empty_predictions_vs_ap.pdf)
+![Fig. 5.15 PointRCNN Fragmentation point for the number of empty documentation and Moderate 3D AP;Circle/ E1/E2.](figures/fig5_15_empty_predictions_vs_ap.pdf)
 
-图 5.16 报告的是 detector evaluation 的运行时间，不包含上采样网络生成点云的时间，因此不能被误写成端到端速度。E2 的吞吐集中在 5.73–5.88 帧/s，说明统一 16384 点后 detector 计算量接近；E1 在 Line A 只有约 2.53–3.05 帧/s，而 Line B 为 4.67–4.76 帧/s，与二者实际原始点规模差异一致。速度证据再次确认 E1 确实把更大的 exact-\(4N\) 输入送入 detector，而不是在文件层标称四倍、推理时仍读取相同点数。
+ Figure  5.16  Here's the report.  detector evaluation  run time, does not include  upsampling network generated points cloud time, so cannot is miswritten as an end-to-end speed. E2  The throughput focuses on  5.73–5.88  frame /s,  Harmonization of statements  16384  After the dot.  detector  (a) The calculated amount is close; E1  Yes.  Line A  It's only a date.  2.53–3.05  frame /s,  And...  Line B  Yes.  4.67–4.76  frame /s,  This corresponds to the difference in the size of the actual original points.  E1  It does make it bigger.  exact-\(4N\)  Enter Send  detector,  Instead of reading the same point count when the file layer is labelled four times.
 
-![图 5.16　PointRCNN 已记录的 detector evaluation 吞吐；不含上采样生成时间。](figures/fig5_16_pointrcnn_runtime_throughput.pdf)
+![Figure 5.16 PointRCNN recorded detector evaluation throughput;Does not contain upsampling generation time.](figures/fig5_16_pointrcnn_runtime_throughput.pdf)
 
-表 5.11 把 E1 与 E2 的 AP 变化和空预测变化放在同一组配对记录中。Line A 的三个有效适配器在 E2 下仅获得 (1.314\sim2.709) AP 的有限改善，同时 PU-GCN 与 PU-EdgeFormer 的空预测反而分别增加 48 和 61 帧；PU-Net* 的点数统一既降低 AP 又增加 180 个空输出。Line B 四种方法的 AP 均未提高，空输出也没有一致下降。因此，固定输入点数能够显著改变 detector 吞吐，却不能单独修复上采样输入与检测器之间的分布失配。
+Table 5.11 places E1 and E2 in the same pair of records for AP changes and for space projected changes.Line A  The three effective adapters are here.  E2  Next only  (1.314\simThe limited improvement of 2.709) AP and the addition of PU-GCN and PU-EdgeFormer by 48 and 61 frame, respectively;PU-Net* point count Unified reduces AP and adds 180 empty outputs.AP of the four methods Line B did not increase, and the empty output of no declined.Thus, fixed input point count can significantly change detector throughput, but cannot separately repairs the distribution mismatch between upsampling input and detector.
 
-**表 5.11　PointRCNN E1/E2 配对变化：点数统一是否同时改善 AP 与空输出**
+**Table 5.11 PointRCNN E1/E2 Matching Change: point count Harmonized to improve AP and empty output**
 
-| Line | 方法 | E1 AP | E2 AP | E2−E1 AP | E1 空文件 | E2 空文件 | 空文件变化 |
+| Line | Methodology | E1 AP | E2 AP | E2−E1 AP | E1 Empty File | E2 Empty File | Blank File Change |
 |---|---|---:|---:|---:|---:|---:|---:|
 | A | PDANS | 64.515 | 67.223 | +2.709 | 80 | 81 | +1 |
 | A | PU-GCN | 56.961 | 58.276 | +1.314 | 196 | 244 | +48 |
@@ -629,17 +629,17 @@ v_{\mathrm{eval}}
 | B | PU-EdgeFormer | 20.721 | 20.569 | −0.151 | 705 | 704 | −1 |
 | B | PU-Net* | 8.878 | 8.781 | −0.097 | 767 | 800 | +33 |
 
-#### 5.5.6.3 CenterPoint：三类别、三难度与缺口恢复
+#### 5.5.6.3 CenterPoint: Three categories, three difficulties and gaps recovery
 
-图 5.17 首先只比较原始与四倍稀疏 baseline，避免把上采样方法混入传感器稀疏化效应。三种难度均显示 Cyclist 的相对损失最大，其次为 Pedestrian，Car 最小。该模式与小目标回波数量少、局部中心证据更易被删除的预期一致，也说明任何“类别平均 AP”都可能掩盖最需要上采样的类别。
+Figure 5.17 first compares raw with four times thin baseline and avoids mixing upsampling methods into sensor thinning effects.The three difficulties show that Cyclist has the greatest relative loss, followed by Pedestrian and Car, the smallest.This model is consistent with the expectation that small target echoes will be low and that local central evidence will be more easily deleted, and suggests that any “class average AP” may mask the category most in need of upsampling.
 
-![图 5.17　CenterPoint 全验证集原始/稀疏 baseline：三类别、三难度并行柱状图。](figures/fig5_17_centerpoint_baseline_sparsity.pdf)
+![Fig. 5.17 CenterPoint full validation set Original/Simple baseline: Three categories, three difficulty parallel columns.](figures/fig5_17_centerpoint_baseline_sparsity.pdf)
 
-表 5.12–5.14 给出 CenterPoint 的完整三难度数值；“A-”和“B-”分别表示 observed-first 的 Line A、Line B exact-\(4N\) 输入。它们补足表 5.5 只列 Moderate 的不足。
+ Table  5.12–5.14  Give  CenterPoint  ;" A-” and B-” Separately  observed-first  It's...  Line A, Line B exact-\(4N\)  Enter. They complement the table  5.5  Columns Only  Moderate  Inadequate.
 
-**表 5.12　CenterPoint Car 全验证集 3D AP\(_{R40}\)（%）**
+** Table  5.12　CenterPoint Car  full validation set  3D AP\(_{R40}\) (%)**
 
-| 输入 | Easy | Moderate | Hard |
+| Enter | Easy | Moderate | Hard |
 |---|---:|---:|---:|
 | Original baseline | 88.391 | 79.277 | 76.737 |
 | 1/4 sparse baseline | 81.400 | 64.598 | 59.970 |
@@ -652,9 +652,9 @@ v_{\mathrm{eval}}
 | B-PU-EdgeFormer | 39.379 | 24.748 | 21.666 |
 | B-PU-Net* | 17.534 | 11.718 | 10.436 |
 
-**表 5.13　CenterPoint Pedestrian 全验证集 3D AP\(_{R40}\)（%）**
+** Table  5.13　CenterPoint Pedestrian  full validation set  3D AP\(_{R40}\) (%)**
 
-| 输入 | Easy | Moderate | Hard |
+| Enter | Easy | Moderate | Hard |
 |---|---:|---:|---:|
 | Original baseline | 54.037 | 50.653 | 46.252 |
 | 1/4 sparse baseline | 27.196 | 24.569 | 21.673 |
@@ -667,9 +667,9 @@ v_{\mathrm{eval}}
 | B-PU-EdgeFormer | 17.395 | 15.596 | 13.646 |
 | B-PU-Net* | 14.046 | 11.916 | 10.533 |
 
-**表 5.14　CenterPoint Cyclist 全验证集 3D AP\(_{R40}\)（%）**
+** Table  5.14　CenterPoint Cyclist  full validation set  3D AP\(_{R40}\) (%)**
 
-| 输入 | Easy | Moderate | Hard |
+| Enter | Easy | Moderate | Hard |
 |---|---:|---:|---:|
 | Original baseline | 79.244 | 64.605 | 60.990 |
 | 1/4 sparse baseline | 25.805 | 15.458 | 14.492 |
@@ -682,30 +682,30 @@ v_{\mathrm{eval}}
 | B-PU-EdgeFormer | 13.487 | 7.037 | 6.925 |
 | B-PU-Net* | 8.735 | 5.017 | 4.749 |
 
-图 5.18 以配对点图并排展示 Line A 与 Line B，圆点和空心方块分别表示两条实验线，横向连线直接给出同一方法的绝对 AP 间隔。它和图 5.2 的三类别差值条形图必须同时阅读：差值图回答“相对配对 baseline 改变多少”，绝对值图回答“最终达到什么水平”。例如 Line B PU-GCN 的 Cyclist Moderate AP 为 16.846，虽然相对 sparse baseline 增加 1.388，但仍远低于原始扫描的 64.605；若只显示正差值，容易夸大恢复程度。
+Chart 5.18 displays Line A and Line B in rows with a pair of pixmaps. The dots and hollow blocks represent two experimental lines, respectively, and the horizontal line directly gives the absolute AP interval of the same method.It must be read in conjunction with the three categories of the margin bar figure for 5.2: the margin chart answers “how much has been changed relative to baseline”, and the absolute figure answers “what level has finally been reached”.For example, Cyclist Moderate AP of Line B PU-GCN is 16.846, although 1.388 has been added to sparse baseline, it is still far from below, the original scanning 64.605;If only the positive margin is shown, it is easy to exaggerate recovery.
 
-![图 5.18　CenterPoint exact-\(4N\) observed-first 的两条输入线、四种方法与三类别绝对 Moderate AP。](figures/fig5_18_centerpoint_absolute_parallel.pdf)
+![ Figure  5.18　CenterPoint exact-\(4N\) observed-first  2 input lines, 4 methods and 3 categories absolute  Moderate AP. ](figures/fig5_18_centerpoint_absolute_parallel.pdf)
 
-表 5.15 与图 5.19 使用式（5.9）把 Line B 的差值除以原始—稀疏缺口。负百分比表示方法不仅没有追回缺失信息，还进一步低于 sparse baseline；超过 \(-100\%\) 表示新增损失大于原始稀疏化损失本身。PDANS 对 Pedestrian 恢复 13.925%，是当前最明确的正向结果；PDANS/PU-GCN 对 Cyclist 只恢复 0.124%/2.824%，而所有 Car 和两种较差适配方法为负。
+ Table  5.15  and figure  5.19  Usage format(s) 5.9) Put it.  Line B  The margin divided by the original — The negative percentage indicates that the method does not only  no recover the missing information and further below  sparse baseline;  More than  \(-100\%\)  Means that the additional loss is greater than the original thin loss itself. PDANS  Yeah.  Pedestrian  recovery  13.925%,  It is the clearest positive outcome at this time; PDANS/PU-GCN  Yeah.  Cyclist  recovery only  0.124%/2.824%,  And all of it.  Car  And two poor adaptation methods are negative.
 
-**表 5.15　CenterPoint Line B 的 Moderate AP 缺口恢复率（%）**
+**Table 5.15 CenterPoint Line B Moderate AP Gap recovery Rate (%)**
 
-| 方法 | Car | Pedestrian | Cyclist |
+| Methodology | Car | Pedestrian | Cyclist |
 |---|---:|---:|---:|
 | PDANS | -121.575 | **+13.925** | +0.124 |
 | PU-GCN | -173.900 | +1.504 | **+2.824** |
 | PU-EdgeFormer | -271.470 | -34.400 | -17.133 |
 | PU-Net* | -360.233 | -48.510 | -21.243 |
 
-![图 5.19　CenterPoint Line B 的原始—稀疏性能缺口恢复率；100% 表示完全恢复。](figures/fig5_19_centerpoint_gap_recovery.pdf)
+![(a) The original-sorted performance gap recovery for 5.19 CenterPoint Line B;100% indicates full recovery.](figures/fig5_19_centerpoint_gap_recovery.pdf)
 
-#### 5.5.6.4 几何真实性、占据污染与任务指标闭环
+#### 5.5.6.4 geometric Trueness, Segregation of Contamination and Mission Indicators Closed
 
-表 5.16 汇总同一批 64 个含车帧上的六个几何—任务变量。生成体素精度和近表面比例越高越好，额外体素和外壳/框内比越低越好；参考召回反映覆盖，但必须和精度共同解释。Line A 的参考召回恒为 100%，因为原始扫描已完整保留；这时新增点不能增加已观测参考体素，只会改变精度和额外占据。Line B 的参考召回由 sparse baseline 的 48.49% 提高至约 57.74%–60.95%，但同时 41.74%–54.39% 的 E1 占据体素不受参考扫描支持。
+Table 5.16 summarizes the same set of six geometric — mission variables on the same number of 64 with car frame.The higher the accuracy and near surface ratio of voxel, the lower the extra voxel and the lower the frame;Reference recall reflects coverage, but must be interpreted in conjunction with precision.Line A ' s reference is always 100% because the original scan has been fully preserved;The addition of a point cannot to the observed reference voxel will only change precision and additional occupation.Line B  * The present document is being issued without formal editing.  sparse baseline  It's...  48.49%  Raised to Appearance  57.74%–60.95%,  But in the meantime,  41.74%–54.39%  It's...  E1  Occupation voxel is not supported by reference scanning.
 
-**表 5.16　几何真实性、车辆表面分配与 PointRCNN AP 联合证据**
+**Table 5.16 geometric Trueness, allocation of vehicle surfaces and PointRCNN AP**
 
-| Line | 方法 | 生成体素精度 | E1 参考召回 | 额外体素 | 车内近表面点 | 外壳/框内 | Moderate AP |
+| Line | Methodology | Generate voxel precision | E1 Reference Callback | Extra voxel | Close to the surface in the car. | Shell/Box | Moderate AP |
 |---|---|---:|---:|---:|---:|---:|---:|
 | A | PDANS | 48.83% | 100.00% | 45.29% | 97.07% | 0.355 | 64.515 |
 | A | PU-GCN | 45.48% | 100.00% | 48.93% | 94.01% | 0.422 | 56.961 |
@@ -716,21 +716,21 @@ v_{\mathrm{eval}}
 | B | PU-EdgeFormer | 38.10% | 60.78% | 53.01% | 69.09% | 0.812 | 20.721 |
 | B | PU-Net* | 34.17% | 57.74% | 54.39% | 58.06% | 1.125 | 8.878 |
 
-![图 5.20　几何—任务六指标并列点图；圆点/空心方块分别表示 Line A/Line B，数字为原始实测值，箭头给出优选方向。](figures/fig5_20_geometry_evidence_matrix.pdf)
+![Figure 5.20 geometric —The dots/spaced squares are Line A/Line B, the numbers are original and the arrows give the preferred direction.](figures/fig5_20_geometry_evidence_matrix.pdf)
 
-图 5.20 把六个量纲不同的变量拆成独立小图，避免用归一化色块制造不可直接比较的视觉距离。每个小图保留原始刻度和逐点数值，箭头只说明该指标的优选方向。跨方法重复出现的模式是：PDANS/PU-GCN 在真实性和任务指标上更靠前，PU-EdgeFormer/PU-Net* 的额外体素和外壳污染更严重；两条输入线均呈相同方向。该判断由原始测量值支撑，而不是主观视觉评分。
+Figure 5.20 disassembly the six variables of the schematics into stand-alone micrograms, avoiding the use of normalization to make visual distance that cannot be directly compared.Each small chart retains the original tic and point count values, and the arrow indicates only the preferred direction of the indicator.(b) PDANS/PU-GCN is more advanced in terms of authenticity and mission indicators, PU-EdgeFormer/PU-Net* additional voxel and more serious shell contamination;Both input lines follow the same direction.The judgement is supported by the original measure rather than by a subjective visual rating.
 
-图 5.21 把额外体素比例作为横轴、PointRCNN AP 作为纵轴，并用点面积编码车辆近表面比例。两条线都从左上向右下排列：额外占据更少、车辆近表面比例更高的方法具有更高 AP。该图与图 5.4 的“生成体素精度—AP”散点构成 precision/error 两个方向的平行证据。
+5.21 uses the additional voxel ratio as a cross-axis, PointRCNN AP as a vertical axis and a point area code for the near surface ratio of the vehicle.Both lines are arranged from the top left to the bottom right: even fewer extras and a higher rate of AP for vehicles.This figure and 5.4's “Generating voxel precision - AP” constitute parallel evidence in both directions of precision/error.
 
-![图 5.21　额外体素比例与 PointRCNN AP；点面积表示车辆生成点近参考表面的比例。](figures/fig5_21_geometry_tradeoff_scatter.pdf)
+![Figure 5.21 Additional voxel ratio to PointRCNN AP;The area of point represents the proportion of the near reference surface of the vehicle generated points.](figures/fig5_21_geometry_tradeoff_scatter.pdf)
 
-#### 5.5.6.5 检测器适配、对象迁移与距离证据
+#### 5.5.6.5 detector adaptation, object migration and evidence of distance
 
-图 5.22 显示 64 帧微调筛查的配对结果。PU-GCN 与 Line B PDANS 有 4.175–4.595 AP 的正向变化，但 Line A PDANS 轻微下降，两个 baseline 也下降。表 5.17 同时列出微调后相对对应微调 baseline 的剩余缺口，避免把“相对预训练权重改善”误写成“超过 baseline”。
+Figure 5.22 shows the results of 64 frame fine-tuned screening.PU-GCN and Line B PDANS have a positive change in 4.175–4.595 AP, but Line A PDANS has slightly decreased, as have two baseline.Table 5.17 also lists the remaining gaps of the corresponding fine-tuning baseline, avoiding the miswording of “relative pretrained weights” as “more than baseline”.
 
-**表 5.17　PointRCNN 64 帧微调筛查：固定 256 帧 Moderate 3D AP（%）**
+**Table 5.17 PointRCNN 64 frame Micro-screening: fixed 256 frame Moderate 3D AP (%)**
 
-| Line | 输入 | 预训练 | 微调后 | 微调变化 | 微调后相对同线 baseline |
+| Line | Enter | Pre-training | After fine-tuned | fine-tune changes | baseline |
 |---|---|---:|---:|---:|---:|
 | A | baseline | 79.191 | 78.043 | -1.148 | 0.000 |
 | A | PU-GCN | 60.266 | 64.441 | +4.175 | -13.603 |
@@ -739,9 +739,9 @@ v_{\mathrm{eval}}
 | B | PU-GCN | 32.920 | 37.515 | +4.595 | -25.399 |
 | B | PDANS | 43.007 | 47.433 | +4.426 | -15.481 |
 
-![图 5.22　64 帧 detector 微调前后配对结果；右侧数字为微调后−预训练。](figures/fig5_22_finetune_screening_parallel.pdf)
+![Figure 5.22 64 frame detectorThe right number is fine-tuned - pre-training.](figures/fig5_22_finetune_screening_parallel.pdf)
 
-对象级证据进一步回答“AP 差值由哪些目标组成”。定义 paired baseline 到 observed-first 的目标净变化为
+ Object-level evidence goes on to answer." AP  The margin consists of which objectives”. Defines the net change of target from paired baseline to observed-first as
 
 \[
 \Delta N_{\mathrm{TP}}
@@ -750,11 +750,11 @@ v_{\mathrm{eval}}
 \tag{5.25}
 \]
 
-若 \(\Delta N_{\mathrm{TP}}<0\)，表示新恢复目标少于被破坏目标。表 5.18 中四个 detector/line 条件的净变化均为负：PointRCNN A/B 分别为 \(13-72=-59\)、\(12-78=-66\)，CenterPoint A/B 为 \(25-41=-16\)、\(28-45=-17\)。这与两个检测器的 AP 方向一致。
+ If  \(\Delta N_{\mathrm{TP}}<0\),  This means that the new recovery target is less than the destroyed target.  5.18  Four of them.  detector/line  The net change in conditions is negative: PointRCNN A/B  Individually.  \(13-72=-59\), \(12-78=-66\), CenterPoint A/B  Yes.  \(25-41=-16\), \(28-45=-17\).  It's with two detectors.  AP  The direction is the same.
 
-**表 5.18　固定 256 帧、527 个 Moderate Car GT 的对象迁移与 IoU 四分位数**
+**Table 5.18 fixed 256 frame, 527 Moderate Car GT Migration of objects with IoU quartiles**
 
-| Detector | Line | 输入 | TP | 召回 | IoU P25 | IoU P50 | IoU P75 |
+| Detector | Line | Enter | TP | Call back. | IoU P25 | IoU P50 | IoU P75 |
 |---|---|---|---:|---:|---:|---:|---:|
 | PointRCNN | A | baseline | 458 | 86.91% | 0.755 | 0.813 | 0.858 |
 | PointRCNN | A | generated-only | 390 | 74.00% | 0.694 | 0.784 | 0.844 |
@@ -767,50 +767,50 @@ v_{\mathrm{eval}}
 | CenterPoint | B | baseline | 409 | 77.61% | 0.713 | 0.790 | 0.842 |
 | CenterPoint | B | observed-first | 392 | 74.38% | 0.698 | 0.771 | 0.833 |
 
-![图 5.23　四个 detector/line 条件的对象级 TP/FN 迁移计数；CenterPoint 未运行 generated-only 对象审计。](figures/fig5_23_object_transition_counts.pdf)
+![Figure: The 5.23 four detector/line conditions for the object TP/FN migration count;CenterPoint does not run generated-only object audit.](figures/fig5_23_object_transition_counts.pdf)
 
-![图 5.24　对象最佳同类 3D IoU 的 P25–P75 区间与中位数；虚线为 0.70。](figures/fig5_24_object_iou_quartiles.pdf)
+![Figure: 5.24 between P25–P75 and median for the best-like 3D IoU object;The dotted line is 0.70.](figures/fig5_24_object_iou_quartiles.pdf)
 
-图 5.24 说明退化不仅表现为阈值两侧 TP/FN 数量改变，IoU 分布本身也整体左移。PointRCNN Line B generated-only 的 P25 为 0，意味着至少四分之一 eligible GT 没有产生正 IoU 的同类候选；observed-first 将 P25 提升到 0.567、median 提升到 0.749，但仍低于 baseline 的 0.695/0.784。CenterPoint 的移动较小，和其 AP 损失较小相符。
+The 5.24 indicates that only is not degraded as a change in the number of TP/FN on both sides of threshold, and IoU distribution itself is moved to the left as a whole.The P25 of PointRCNN Line B generated-only is 0, which means that at least one quarter of eligible GT no produces the same candidate as IoU;observed-first raised P25 to 0.567, median to 0.749, but still below baseline to 0.695/0.784.CenterPoint is less mobile and corresponds to its AP loss.
 
-图 5.25 在同一张图上平行比较 PointRCNN 与 CenterPoint 的近、中、远对象召回。每个点旁标记 observed-first 相对 paired baseline 的百分点差。Line A 与 Line B 都显示误差随距离增加而放大；CenterPoint 相对更稳健，但远距仍下降。因而 detector 依赖改变了损失幅度，没有反转“远距高风险”的共同方向。
+In parallel, 5.25 compares PointRCNN with CenterPoint's immediate, medium and far-reaching recall.Each point is marked by a difference in the percentage point of observed-first relative to paired baseline.Line A and Line B show that the error is magnified with the increase in distance;CenterPoint is relatively robust, but the distance is still falling.As a result, detector relies on changing the loss margin, no reverses the common direction of “high-risk distance”.
 
-![图 5.25　两种检测器在 Line A/B 的近、中、远 Car 对象召回；标注为 PU-GCN−baseline。](figures/fig5_25_detector_distance_parallel.pdf)
+![ Figure  5.25　 Two types of detector in  Line A/B  Near, Middle, Far  Car  (a) The subject ' s recall; Mark as PU-GCN−baseline.](figures/fig5_25_detector_distance_parallel.pdf)
 
-#### 5.5.6.6 输入点数、跨距离点云与最终证据链
+#### 5.5.6.6 Enter point count, cross-distance point cloud and final evidence chain
 
-表 5.19 使用全量输入审计记录给出每帧点数范围。Line A exact-\(4N\) 的最小/最大值恰为原始输入的四倍；Line B exact-\(4N\) 与原始扫描处于几乎相同点数范围。这是“数量约束已满足”的直接证据，也使负结果更有解释力：Line B 已恢复到约 7.86–12.68 万点/帧，却没有恢复 baseline AP。
+ Table  5.19  Gives every frame  point count range using full input audit records. Line A exact-\(4N\)  Minimum / The maximum value is exactly four times the original input; Line B exact-\(4N\)  has almost the same point-count range as the original scans. This directly confirms that the count constraint is satisfied and makes the negative result more informative: Line B  Already recovery to about  7.86–12.68  A thousand points. / frame, but no  recovery  baseline AP.
 
-**表 5.19　输入点数与完整性审计**
+**Table 5.19 Enter point count and Complete Audit**
 
-| 输入 | 审计帧数 | 每帧最少点数 | 每帧最多点数 | 有限坐标检查 | 状态 |
+| Enter | Audit of frame | Every frame minimum point count | Maximum point count per frame | Limited coordinates check | Status |
 |---|---:|---:|---:|---|---|
-| Original reference | 3769（源目录另含训练帧） | 78596 | 126797 | PASS | PASS |
+| Original reference | 3769 (source directory with training frame) | 78596 | 126797 | PASS | PASS |
 | 1/4 sparse baseline | 3769 | 19649 | 31699 | PASS | PASS |
 | Line A exact-\(4N\) | 3769 | 314384 | 507188 | PASS | PASS |
 | Line B exact-\(4N\) | 3769 | 78596 | 126796 | PASS | PASS |
 
-![图 5.26　输入审计的每帧最小—最大点数范围；Line B 的数量规模已恢复至原始扫描。](figures/fig5_26_input_point_count_ranges.pdf)
+![Figure 5.26 Minimum - Maximum point count range per frame entered into the audit;The size of Line B is already recovery to original scan.](figures/fig5_26_input_point_count_ranges.pdf)
 
-图 5.27 新增近、中、远三个 Car 的九宫格点云对照。近距稳定案例为帧 004686、GT 0、距离 15.0 m：baseline/generated-only/observed-first 均为 TP，IoU 为 0.871/0.818/0.834，说明密集目标即使保持检出，新增点也不必然提高定位。中距恢复案例为帧 004902、GT 2、距离 21.8 m：generated-only 的 IoU 0.646 未过阈值，而 observed-first 恢复至 0.866。远距失败案例为帧 006039、GT 3、距离 41.6 m：baseline 只含 9 个框内点仍达到 IoU 0.868，而 generated-only/observed-first 分别有 11/18 个框内点却均为 FN。
+Figure 5.27 Adds a comparison of the nine-gauge point cloud for the next, medium and far three CarThe close stabilization cases are frame 004686, GT 0, and distance 15.0 m: baseline/generated-only/observed-first are TP and IoU are 0.871/0.818/0.834, indicating that even if the intensive target is detected, the new points will not necessarily improve its positioning.The mid-range recovery cases are frame 004902, GT 2, 21.8 m: generated-only; IoU 0.646 does not exceed threshold, while observed-first recovery to 0.866. The remote failure case is frame  006039, GT 3,  Distance  41.6 m: baseline  Only Encumbers  9  The frame points are still reached  IoU 0.868,  And...  generated-only/observed-first  There's a difference.  11/18  It's all in the box.  FN.
 
-![图 5.27　Line B 近距稳定、中距恢复与远距残余失败的真实点云九宫格；蓝色虚线为 GT。](figures/fig5_27_pointcloud_range_gallery.pdf)
+![Figs. 5.27 Line B Real point cloud Palaces with stable and medium distance recovery and remote residue failure;The blue dotted line is GT.](figures/fig5_27_pointcloud_range_gallery.pdf)
 
-三个案例并非用于估计总体概率，而是验证距离曲线背后的几何形态：近距生成点多但定位不一定更准，中距 observed-first 可以通过保留真实结构救回阈值附近目标，远距则可能因几何支持不足而出现“点更多但没有有效框”。这三种行为与 527 个 GT 的总体分层结果相互对应。
+Three cases were not used to estimate overall probabilities, but to validate the geometric form behind the distance curve: close-range generated points is more than, but not necessarily more precisely located, medium-range observed-first can be recovered from a target near threshold by retaining a real structure, while the distance may be “more points but no effective box” due to insufficient geometric support.These three behaviours correspond to the overall tiered results of 527 GT.
 
-![图 5.28　本章已执行的 KITTI 输入—上采样—检测—审计证据链与固定参数。](figures/fig5_28_experiment_evidence_pipeline.pdf)
+![5.28 The KITTI input - upsampling — Test - Audit of the chain of evidence and fixed Parameters that have been implemented in this chapter.](figures/fig5_28_experiment_evidence_pipeline.pdf)
 
-#### 5.5.6.7 两条实验线与全部方法的同尺度点云对照
+#### 5.5.6.7 Compares two test lines to the whole method scale point cloud
 
-为避免只展示 PU-GCN 或只挑选成功案例，图 5.29–5.33 对 Baseline、PDANS、PU-GCN、PU-EdgeFormer 和 PU-Net* 执行完全平行的点云比较。全场景图固定为帧 000104、相同 KITTI 有效区域与坐标比例；仅为保证印刷可读性，对每个输入按相同的 8% 比例抽样显示。抽样只作用于散点渲染，标题与统计所用点数均来自未抽样的 `.bin` 文件。黑色表示输入中保留的观测点，浅灰色表示生成点，蓝色虚线表示 KITTI 真实框。因而颜色不承担方法排序，方法差异主要由空间分布、局部形态和后续统计量表达。
+To avoid displaying only PU-GCN or selecting only successful cases, figure 5.29–5.33 compares Baseline, PDANS, PU-GCN, PU-EdgeFormer and PU-Net* to implement a fully parallel point cloud.(a) The overall scenario fixed is the same frame 000104 and the same KITTI effective range and coordinate ratio;To ensure print readability, only shows a sample of each input at the same 8% scale.Sampling is used only for dispersing, with the title and point count used in statistics coming from unsampled `.bin` Documentation.Black means the observation point retained in the input, light gray means generated points, and blue dotted lines means KITTI real box.Therefore, colours do not carry the method of sorting, and the differences in methods are mainly expressed in spatial distribution, local patterns and subsequent statistics.
 
-Line A 的 baseline 含 121,994 点，四种方法均为 487,976 点；Line B 的 baseline 含 30,498 点，四种方法均为 121,992 点。图 5.29 与图 5.30 由此给出一个直接控制：每条线内部，各方法总点数严格相同，视觉差异不能归因于某个方法“仅仅输出了更多点”。同时，Line B 输出点数几乎恢复至原始帧，但全量 AP 仍未恢复，这与表 5.19 的 3,769 帧点数审计一致。
+baseline of Line A contains 121,994 points, and the four methods are 487 and 976 points;baseline of Line B contains 30,498 points, all four methods being 121 and 992 points.Figure 5.29 and chart 5.30 give a direct control: within each line, the total of point count is strictly the same, and the visual difference cannot is attributed to a method that “only only produces more points”.At the same time, Line B exports point count almost recovery to the original frame, but the full AP still does not have recovery, which is consistent with the 3 audit of Table 5.19,769 frame point count.
 
-![图 5.29　Line A 帧 000104 的 Baseline 与四种上采样方法全场景 BEV 平行对照；所有面板使用相同范围与 8% 显示抽样。](figures/fig5_29_line_a_all_methods_scene_bev.pdf)
+![The 5.29 Line A frame 000104 parallels the Baseline and the four upsampling methods, BEV;All panels display samples using the same range as 8%.](figures/fig5_29_line_a_all_methods_scene_bev.pdf)
 
-![图 5.30　Line B 帧 000104 的 Baseline 与四种上采样方法全场景 BEV 平行对照；所有方法均为 exact-\(4N\)。](figures/fig5_30_line_b_all_methods_scene_bev.pdf)
+![ Figure  5.30　Line B  frame  000104  It's...  Baseline  Full scene with four upsampling methods  BEV  parallel contrast; all methods are  exact-\(4N\). ](figures/fig5_30_line_b_all_methods_scene_bev.pdf)
 
-全场景图能检验道路范围与远距点带，却会压缩单车局部形状。因此图 5.31–5.32 固定帧 004902、Moderate Car GT 2，并在同一个目标坐标系和同一显示范围内并排展示五种输入。局部计数定义为
+The whole scene will test the range of the road and the distance zone, but will compress the local shape of the bicycle.Thus the diagram 5.31–5.32 fixed frame 004902, Moderate Car GT 2 displays five types of input in parallel with the same target coordinate system and within the same display range.Local counts are defined as
 
 \[
 n_{s,l,m}^{\mathrm{obs}}
@@ -822,11 +822,11 @@ n_{s,l,m}^{\mathrm{gen}}
 \tag{5.26}
 \]
 
-其中 \(\Omega(B_g)\) 是以 GT 朝向对齐并在长宽方向扩展 3 m 的局部窗口。表 5.20 给出各面板未抽样的点数。Line A 中各方法的局部总点数为 2,748–3,192，Line B 为 773–863；这再次说明 exact-\(4N\) 是全帧约束，而不是“每个目标局部恰好四倍”。不同方法把生成预算分配到目标邻域的比例不同，所以局部点数应与几何真实性、IoU 和 AP 联合解读，不能独立作为质量排名。
+ of which  \(\Omega(B_g)\)  Yes.  GT  Heading towards alignment and extending in a long, wide direction.  3 m  table.  5.20  Gives a point count that is not sampled from each panel. Line A  The local sum of point count for the medium method is  2,748–3,192, Line B  Yes.  773–863;  That means again.  exact-\(4N\)  It's a total frame constraint, not "each target is just four times more. Different ways to allocate the budget to the target neighbourhood ratio, so the local point count should be geometric for reality, IoU  and  AP  cannot is ranked as a quality.
 
-**表 5.20　帧 004902、GT 2 的同窗口局部点数（观测/生成/合计）**
+**Table 5.20 frame 004902, GT 2 Local point count (observation/generation/total)**
 
-| 输入 | Line A | Line B |
+| Enter | Line A | Line B |
 |---|---:|---:|
 | Baseline | 810/0/810 | 222/0/222 |
 | PDANS | 655/2093/2748 | 186/587/773 |
@@ -834,11 +834,11 @@ n_{s,l,m}^{\mathrm{gen}}
 | PU-EdgeFormer | 820/2372/3192 | 213/650/863 |
 | PU-Net* | 774/2374/3148 | 221/613/834 |
 
-![图 5.31　Line A 帧 004902、GT 2 的五输入局部 BEV；每个面板标出未抽样的观测点/生成点数。](figures/fig5_31_line_a_all_methods_local_bev.pdf)
+![Fig. 5.31 Line A frame 004902 and GT 2 local BEV;Each panel shows the number of unsampled sites/ generated points.](figures/fig5_31_line_a_all_methods_local_bev.pdf)
 
-![图 5.32　Line B 帧 004902、GT 2 的五输入局部 BEV；坐标范围与图 5.31 完全一致。](figures/fig5_32_line_b_all_methods_local_bev.pdf)
+![Fig. 5.32 Line B frame 004902 and GT 2 local BEV;The range of coordinates is exactly the same as the chart 5.31.](figures/fig5_32_line_b_all_methods_local_bev.pdf)
 
-单帧仍不能代表数据集分布。为此，从固定 256 帧对象审计集按排序位置等间隔选择 32 帧，对每个输入计算 10 m 径向环带的点数，并以跨帧中位数汇总：
+The single frame still cannot represents the distribution of data sets. For this, from fixed  256  frame Object Audit Set selected at intervals, for example, by sorting location  32  frame, calculated for each input  10 m  The point count in the directional circle is summarized by the median number that runs across frame:
 
 \[
 h_{s,l,m,k}=\sum_{\mathbf p_i\in\mathcal Y_{s,m}^{(l)}}
@@ -848,13 +848,13 @@ h_{s,l,m,k}=\sum_{\mathbf p_i\in\mathcal Y_{s,m}^{(l)}}
 \tag{5.27}
 \]
 
-图 5.33 使用对数纵轴，是因为近距与远距点数跨越三个数量级。两条线中，四种方法的曲线都在多数距离环带接近各自 baseline 的四倍，但不同方法在 20–50 m 及更远区域发生可见分离。例如 Line B 的 40–50 m 环带中位数从 baseline 的 214 增至 PDANS 的 956.5、PU-GCN 的 1389.5、PU-EdgeFormer 的 1384.5 和 PU-Net* 的 1302.0。该结果证明生成预算确实到达中远距区域；结合 AP 未恢复，问题更接近“新增点的支持位置和局部几何不正确”，而不是“模型没有生成远处点”。
+Figure 5.33 uses a logarithmic vertical axis because the distance from point count crosses three orders of magnitude.Of the two lines, the curves of the four methods are four times closer to their respective baseline in most distance bands, but different methods are visible in 20–50 m and beyond. For example:  Line B  It's...  40–50 m  Ring median from  baseline  It's...  214  Increase to  PDANS  It's...  956.5, PU-GCN  It's...  1389.5, PU-EdgeFormer  It's...  1384.5  and  PU-Net*  It's...  1302.0. The result proved that the budget generation did reach the medium- and remote-range area;Combined with AP without recovery, the problem is closer to "the support position of the new point and the local geometric is incorrect" rather than "model no produces a remote point".
 
-![图 5.33　固定 32 帧上两条输入线、五种输入的径向点数中位数；纵轴为对数尺度，环带宽度为 10 m。](figures/fig5_33_radial_point_density_all_methods.pdf)
+![Figure: 5.33 fixed 32 frame two input lines and five input paths to point count median;The axis is a logarithm scale and the ring width is 10 m.](figures/fig5_33_radial_point_density_all_methods.pdf)
 
-#### 5.5.6.8 配对 IoU 分布与带置信区间的距离召回
+#### 5.5.6.8 pair IoU distribution and the distance from confidence interval
 
-为了不让均值或少量案例掩盖目标级异质性，对每个 detector、输入线和 GT 计算 observed-first 相对 paired baseline 的最佳同类 3D IoU 差值，并绘制经验累积分布：
+In order not to hide the heterogeneity of the target level in the average or a small number of case, 3D IoU is calculated for each detector, input line and GT as the best equivalent of observed-first relative to paired baseline, and the cumulative distribution of experience is drawn:
 
 \[
 \delta_i^{(d,l)}=I_{i,\mathrm{obs}}^{(d,l)}-I_{i,\mathrm{base}}^{(d,l)},
@@ -864,11 +864,11 @@ h_{s,l,m,k}=\sum_{\mathbf p_i\in\mathcal Y_{s,m}^{(l)}}
 \tag{5.28}
 \]
 
-图 5.34 中四条分布的中位数均位于零左侧。PointRCNN Line A/B 的中位差分别为 -0.0144/-0.0254，改善目标占 38.33%/26.94%，退化目标占 60.53%/63.95%；CenterPoint Line A/B 的中位差为 -0.0058/-0.0084，改善占 45.16%/40.04%，退化占 53.89%/57.50%。这比单一 AP 更清楚地说明 detector dependency：CenterPoint 的目标级扰动较小，但两个检测器都不是“所有目标一起轻微下降”，而是改善与退化同时存在、退化数量占优。
+The median of the four distributions in 5.34 is on the left side of zero.The median difference for PointRCNN Line A/B is 0.0144/-0.0254, with the target for improvement being 38.33%/26.94% and the target for degradation being 60.53%/63.95%;The median difference for CenterPoint Line A/B is - 0.0058/-0.0084, improving 45.16%/40.04% and degradation 53.89%/57.50%.This is a clearer indication than a single AP of detector dependency: CenterPoint ' s target level disturbance is smaller, but neither detector is "a slight decline in all the targets " , but it is better to improve the presence of both degradation and degradation.
 
-![图 5.34　527 个 Moderate Car GT 的 paired 最佳 3D IoU 差值经验累积分布；零线右侧为改善。](figures/fig5_34_paired_iou_delta_ecdf.pdf)
+![Figure: 5.34 527 Moderate Car GT paired Best 3D IoU cumulative distribution;The right side of the zero line is improved.](figures/fig5_34_paired_iou_delta_ecdf.pdf)
 
-距离召回进一步采用二项比例的 95% Wilson 区间。若某距离箱共有 \(n\) 个 GT、其中 \(x\) 个满足 IoU 0.70，则 \(\hat p=x/n\)，区间中心和半宽为
+ Further 2-scaled distance recall  95% Wilson  Area. If there's a distance, there's a box.  \(n\)  individual  GT,  of which  \(x\)  Fulfilled  IoU 0.70,  then  \(\hat p=x/n\),  Centers and semi-wides
 
 \[
 c=\frac{\hat p+z^2/(2n)}{1+z^2/n},\qquad
@@ -878,78 +878,78 @@ w=\frac{z}{1+z^2/n}
 \tag{5.29}
 \]
 
-五个距离箱的样本量依次为 32、138、153、119 和 85。表 5.21 报告图 5.35 中所有点估计，单元格式为 baseline/observed-first。PointRCNN 的差距主要从 30 m 后扩大：Line A 在 30–40 m 从 84.9% 降至 58.8%，40 m 后从 61.2% 降至 32.9%；Line B 对应从 52.9% 降至 33.6%、从 30.6% 降至 12.9%。CenterPoint 同方向下降，但幅度通常更小。图中的区间没有平滑或跨箱共享样本；例如 PointRCNN Line B 在 40–70.4 m 的 observed-first 召回为 12.9%，Wilson 区间为 7.4%–21.7%，仍与 paired baseline 的 30.6% 形成清楚分离。
+The sample quantities of the five distance boxes were 32,138,153,119 and 85.Table 5.21 has some estimates in 5.35, the unit format being baseline/observed-first.PointRCNN  The gap is mainly from  30 m  After that, expand: Line A  Yes.  30–40 m  From  84.9%  Down to  58.8%, 40 m  Later from  61.2%  Down to  32.9%; Line B pairs should be reduced from 52.9% to 33.6% and from 30.6% to 12.9%.CenterPoint has declined in the same direction, but is usually smaller.(a) The inter-temporal no smooth or cross-box shared samples in the figure; For example:  PointRCNN Line B  Yes.  40–70.4 m  It's...  observed-first  Recall as  12.9%, Wilson  The area is  7.4%–21.7%,  Still with  paired baseline  It's...  30.6%  Make a clear separation.
 
-**表 5.21　按距离分箱的 Car 召回（%，baseline/observed-first）**
+**Table 5.21 Recall by Car (%, baseline/observed-first)**
 
 | Detector / Line | 0–10 m | 10–20 m | 20–30 m | 30–40 m | 40–70.4 m |
 |---|---:|---:|---:|---:|---:|
-| 样本量 \(n\) | 32 | 138 | 153 | 119 | 85 |
+|  Sample Volume  \(n\) | 32 | 138 | 153 | 119 | 85 |
 | PointRCNN / A | 100.0/100.0 | 96.4/97.1 | 91.5/88.2 | 84.9/58.8 | 61.2/32.9 |
 | PointRCNN / B | 100.0/100.0 | 97.1/95.7 | 85.6/68.6 | 52.9/33.6 | 30.6/12.9 |
 | CenterPoint / A | 93.8/90.6 | 98.6/97.8 | 90.2/91.5 | 83.2/74.8 | 60.0/52.9 |
 | CenterPoint / B | 93.8/93.8 | 97.1/97.8 | 86.9/85.6 | 70.6/59.7 | 32.9/29.4 |
 
-![图 5.35　PointRCNN 与 CenterPoint 在 Line A/B 的五距离箱召回；误差棒为逐箱 95% Wilson 区间。](figures/fig5_35_recall_distance_wilson.pdf)
+![(b) 5.35 PointRCNN and CenterPoint were recalled at a five-way box at Line A/B;The bar is box-by-box 95% Wilson.](figures/fig5_35_recall_distance_wilson.pdf)
 
-最后，表 5.22 把主要结论与证据位置一一映射。该表的用途是确保每个结论至少有一个全量任务结果和一个互补证据，而不是依赖单张视觉上“看起来合理”的点云图。
+Finally, table 5.22 maps the main findings with the location of the evidence.The purpose of the table is to ensure that each conclusion has at least one full-scale mission result and a complementary evidence, rather than relying on a single visual point cloud.
 
-**表 5.22　核心结论、主证据、补充证据与数据来源索引**
+**Table 5.22 Core Conclusions, Main Evidence, supplementary Index of Evidence and Data Sources**
 
-| 要回答的问题 | 主证据 | 互补证据 | 对应图表 | 数据来源 |
+| Questions to answer | Main evidence | Complementary evidence | Corresponding Chart | Data sources |
 |---|---|---|---|---|
-| strict-\(4N\) 是否真正执行 | 3769 帧点数/有限坐标审计 | E1 detector 吞吐变化 | 表 5.10、5.19；图 5.16、5.26 | [L15,L16] |
-| 点数恢复是否等于性能恢复 | PointRCNN/CenterPoint 全量 AP | Line B 点数范围接近 original | 表 5.1、5.5、5.19；图 5.12、5.18、5.26 | [L15,L16] |
-| 16384 点预算是否为主因 | E1/E2 配对 AP | E2 独立体素与空预测 | 表 5.2、5.10；图 5.13、5.15 | [L16,L17] |
-| 几何真实性是否解释方法排序 | 两线体素精度与 AP 秩一致 | 额外体素、近表面、外壳比例 | 表 5.16；图 5.4、5.20、5.21 | [L17] |
-| observed-first 是否有效 | PointRCNN generated-only/observed-first AP | 对象恢复/损失迁移 | 表 5.3、5.18；图 5.1、5.23、5.24 | [L14,L18] |
-| detector adaptation 是否解决域偏移 | 3712 帧适配、固定 256 帧 AP | 64 帧筛查的正/负变化 | 表 5.3、5.7、5.17；图 5.3、5.22 | [L14,L20] |
-| 每个方法是否都在两条线上完成可比点云检查 | 同帧、同范围、同显示抽样的五输入网格 | 32 帧径向点数中位数 | 表 5.20；图 5.29–5.33 | [L15,L17] |
-| 影响是否随距离变化 | 527 个 GT 五距离箱召回及 Wilson 区间 | 三距离点云案例 | 表 5.21；图 5.8、5.25、5.27、5.35 | [L18] |
-| AP 下降是否由少量离群目标造成 | 527 个 paired IoU 差值 ECDF | TP/FN 迁移和 IoU 四分位 | 图 5.23、5.24、5.34 | [L18] |
-| 是否存在 detector dependency | PointRCNN/CenterPoint 同输入差值 | 体素上限与顺序消融 | 表 5.6、5.7；图 5.3、5.7 | [L14,L15] |
+| strict-\(4N\)  Real implementation  | 3769  frame  point count / Limited coordination audit  | E1 detector  throughput Change  |  Table  5.10, 5.19;  Figure  5.16, 5.26 | [L15,L16] |
+| point count recovery is equal to performance recovery | PointRCNN/CenterPoint Full AP | Line B point count close to original | Tables 5.1, 5.5, 5.19;Figures 5.12, 5.18, 5.26 | [L15,L16] |
+| Whether 16384 points budget is the primary cause | E1/E2 Match AP | E2 Independent voxel and Air Forecast | Table 5.2, 5.10;Figure 5.13, 5.15 | [L16,L17] |
+| geometric | Two-line voxel Aligns the precision of AP | Additional voxel, near surface, shell ratio | Table 5.16;Figures 5.4, 5.20, 5.21 | [L17] |
+| observed-first Valid | PointRCNN generated-only/observed-first AP | Object recovery / Loss Migration | Table 5.3, 5.18;Figures 5.1, 5.23, 5.24 | [L14,L18] |
+| detector adaptation solves field deviations | 3712 frame Fit, fixed 256 frame AP | 64 frame Positive/negative changes in screening | Tables 5.3, 5.7, 5.17;Figure 5.3, 5.22 | [L14,L20] |
+| Whether each method completes a comparable point cloud check on two lines | Same frame, same range, same five input grid as the sample shown | 32 frame Radius to point count median | Table 5.20;Figure 5.29–5.33 | [L15,L17] |
+| Whether impacts change with distance | 527 GT Recall and Wilson | Three Distance point cloud Case | Table 5.21;Figures 5.8, 5.25, 5.27, 5.35 | [L18] |
+| AP Whether the drop was caused by a small number of off-group target | 527 paired IoU margin ECDF | TP/FN Migration and IoU quartile | Figures 5.23, 5.24, 5.34 | [L18] |
+| Existence of detector dependency | PointRCNN/CenterPoint input margin | voxel Upper limit and sequence ablation | Table 5.6, 5.7;Figure 5.3, 5.7 | [L14,L15] |
 
-### 5.5.7 替代解释、限制与证据边界
+### 5.5.7 Alternative explanation, restriction and evidence boundary
 
-**评价脚本错误。** 所有主组具有完整预测文件且使用对应 detector 的固定 evaluator；基线能复现合理 AP，因而“评价器整体失效”不符合证据。但这不排除不同实验年代的权重或预处理差异，所以正文只在各自实验内部计算差值。
+**Evaluate script error.** All main groups have complete projection files and use fixed evaluator for detector;The baseline can reproduce AP, which is reasonable, and therefore the “evaluationr's total failure” does not match the evidence.This does not, however, preclude differences in weights or pre-treatment over different experimental years, so the body text calculates the margin only within its own experiment.
 
-**点数上限。** E2 控制 16384 点后 Line B 没有恢复；CenterPoint 在 Line B 也未触发 40000 体素上限，却仍明显下降。因此有限预算是放大因素，而不是共同根因。
+**point count cap.** E2 controls 16384 after Line B no recovery;CenterPoint also failed to trigger 40000 voxel in Line B, but still fell significantly.The limited budget is therefore a magnifying factor rather than a common root cause.
 
-**没有保留观测。** E1 完整保留 \(N\) 个真实点，仍低于 baseline；observed-first 可恢复部分 AP，仍有双位数缺口。该解释只能覆盖部分损失。
+** no Keeps observation. ** E1  Keep whole  \(N\)  Just be real. Still below.  baseline; observed-first  But recovery  AP,  There is still a double-digit gap. The explanation covers only part of the loss.
 
-**检测器没有适配。** 3712 帧训练适配后两检测器仍低于 baseline。域适配有帮助，但不足以使错误几何变为正确观测。
+**detector no fit.** 3712 frame two detector still below baseline.Domain appliance is helpful, but not enough to make the error geometric a correct observation.
 
-**参考扫描并非真实连续表面。** 原始 KITTI 扫描本身有限且带噪，所以“参考体素外”不一定都是物理错误；它也可能是网络合理补全了传感器未采到的表面。因此本章不把单个额外体素直接标为 false point，而是使用“原始扫描不支持”。然而，当不支持比例达到 40%–60%、车辆外壳污染增加、AP 排名与精度排序一致且两检测器同时下降时，把全部额外点解释为有益补全也不符合联合证据。
+**Reference scanning is not a real continuous surface.** The original KITTI scan itself is limited and noise-intensive, so "Refer to voxel" is not necessarily a physical error;It may also be that the network reasonably completes the surface not captured by the sensor.Therefore, this chapter does not directly label a single additional voxel as false point, but instead uses “original scans are not supported”.However, when the percentage of non-support is 40%–60%, when there is an increase in pollution from the vehicle's shell, when AP is ranked in the same order of precision and when two detector drops at the same time, it is not consistent with the joint evidence to interpret all the additional points as beneficial completion.
 
-**选定案例偏差。** 图 5.10 和图 5.11 是用于解释机制的代表性案例，不用于估计恢复概率。总体效应由 527 个 GT 的转换计数和正式 AP 决定。
+**Selected case deviations.** Figures 5.10 and 5.11 are representative cases of interpretation mechanisms and are not used to estimate recovery probabilities.The overall effect was determined by the conversion count of 527 GT and the official AP.
 
 ## 5.6 Summary of Main Findings
 
-本章的主要发现可以压缩为以下九点，但每一点都绑定到明确证据层级。
+The main findings of this chapter can be condensed to the following nine points, each of which is tied to a clear level of evidence.
 
-1. **严格四倍点数不等于四倍信息。** 3769 帧 PointRCNN 与 CenterPoint 主结果显示，大多数上采样条件低于同线 baseline；Line A 没有任何 CenterPoint 类别改善。
-2. **Line A 与 Line B 必须分开解释。** Line A 测边际增密，Line B 测稀疏损失恢复。Line B 的少量正 AP 只出现在 CenterPoint 的 Pedestrian/Cyclist，且只恢复原始—稀疏缺口的一小部分。
-3. **保留观测点是必要但不充分的。** PointRCNN Line B observed-first 比 generated-only 提高 9.224 AP，但仍比 baseline 低 11.004 AP。
-4. **固定输入预算不是主要根因。** PointRCNN 统一到 16384 点未恢复 Line B；CenterPoint Line B 没有触发体素上限仍下降。
-5. **非局部 patch 是已定位的上游故障。** Line B patch 的 XY 对角线中位数 30.46 m、p90 124.10 m，与物体级局部表面假设不相容。
-6. **几何真实性与任务排序一致。** 两条线内，0.2 m 生成体素真实精度与 PointRCNN AP 的四方法秩相关均为 \(\rho_s=1.00\)。
-7. **检测器决定损失幅度，不改变共同方向。** 全训练适配后 PU-GCN 在 CenterPoint 上下降约 4.9–5.9 AP，在 PointRCNN 上下降约 11.0–11.4 AP。
-8. **更多框内点不保证检测。** 恢复与失败点云案例连同 527 个 GT 的对象审计表明，空间位置、表面支持和来源顺序比裸点数更有解释力。
-9. **全方法平行点云与分布统计排除了展示偏差。** 两条输入线的五输入网格、32 帧径向点数以及 527 个 paired IoU/距离召回表明，生成预算确实到达中远距，但目标级差值中退化占比更高，且 PointRCNN 的 30 m 后损失有明确 Wilson 区间支持。
+1. **Strictly four times point count does not imply four times the information.** The main results of 3769 frame PointRCNN and CenterPoint show that most upsampling conditions below co-line baseline;Line A no Any CenterPoint category improved.
+2. **Line A and Line B must be interpreted separately.** Line A measure marginal increase, Line B detector loss recovery.Line B  a small number of  AP  Just show up.  CenterPoint  It's...  Pedestrian/Cyclist,  And only recovery Original — A small fraction of the thin gap.
+3. **The retention of sites is necessary but insufficient.** PointRCNN Line B observed-first  That's right.  generated-only  Increase  9.224 AP,  But it still compares.  baseline  Low  11.004 AP.
+4. **fixed input budget is not the main cause.** PointRCNN unified to point 16384 without recovery Line B;CenterPoint Line B no Triggered voxel cap is still down.
+5. **The non-local patch is a located upstream failure.** XY medians 30.46 m and p90 124.10 m of Line B patch are incompatible with the object level local surface assumptions.
+6. ** geometric Trueness corresponds to the sequence of tasks. **  In two lines, 0.2 m  Generate voxel Real Precision and  PointRCNN AP  The four methods are relevant.  \(\rho_s=1.00\).
+7. **detector determines the magnitude of the loss and does not change the common direction.** After full training, PU-GCN dropped about 4.9–5.9 AP on CenterPoint and about 11.0–11.4 AP on PointRCNN.
+8. **More box dots do not guarantee detection.** recovery and the failed point cloud case, together with the audit of 527 GT, show that space location, surface support and origin order are more interpretative than nudity point count.
+9. **The whole approach parallels point cloud and distribution statistics exclude display deviations.** The five input grids of the two input lines, 32 frame diameter point count and 527 paired IoU/ recalls indicate that the budget generation did reach medium distance, but that the target margin was degraded higher and that 30 m loss after PointRCNN was clearly supported by Wilson.
 
-这些结果不支持“当前上采样流水线普遍提升 KITTI 三维检测”的强命题；它们支持更细致的结论：在严格、无标签的场景适配下，局部性、几何真实性、观测保护和 detector 表示共同决定增密是否有任务价值，其中当前最主要的限制发生在生成器之前和生成几何本身。
+ These results do not support "the current upsampling current line generally raised"  KITTI  A three-dimensional test's strong proposition. They support the more nuanced conclusion that localism, geometric authenticity, observation protection and detector, with no label fit in, indicate the value of a common decision as to whether enrichment is of mission value, the most important of which now occurs before the generator and the generation of geometric itself.
 
 # 6. Conclusion and Outlook
 
 ## 6.1 Answers to the Research Questions
 
-### 6.1.1 RQ1：点云上采样能否提高 KITTI 三维目标检测？
+### 6.1.1 RQ1:  point-cloud upsampling  KITTI  Three-dimensional target test?
 
-在本研究已经完成并通过完整性检查的协议下，答案是：**不能把上采样视为普遍有效的检测增强；只在特定检测器、类别和稀疏输入条件下观察到有限恢复。**
+Under protocol, which has been completed and has been checked for completeness, the answer is:**cannot sees upsampling as a generally effective test enhancement;Only limited recovery was observed under specific detector, categories and thin input conditions.**
 
-证据来自三个互补层面。第一，3769 帧 PointRCNN E1 中，四种方法在 Line A 和 Line B 的 Car Moderate AP 都低于同线 baseline。第二，3769 帧 CenterPoint 中，Line A 的所有“方法×类别”组合均为负；Line B 的 PDANS/PU-GCN 只在 Pedestrian 或 Cyclist 上取得 +0.061 至 +3.632 AP，而 Car 明显下降。第三，经过 3712 帧输入域适配后，PU-GCN 仍在两个检测器、两条输入线上低于 baseline。
+The evidence comes from three complementary levels. First of all, 3769  frame  PointRCNN E1  of which four methods are in  Line A  and  Line B  It's...  Car Moderate AP  Both below Convergence  baseline. Second, in 3769 frame CenterPoint, all Line A “method x category” combinations are negative;PDANS/PU-GCN of Line B only gets + 0.061 to + 3.632 AP on Pedestrian or Cyclist, while Car is significantly down.Third, PU-GCN is still on two detectors and two input lines below baselines after 3712 frame input fields are adapted.
 
-因此，论文结论必须写成条件命题：
+Therefore, the conclusions of the paper must be written as a conditional proposition:
 
 \[
 \exists(d,c,l,m):\Delta AP_{d,m,c}^{(l)}>0
@@ -958,13 +958,13 @@ w=\frac{z}{1+z^2/n}
 \tag{6.1}
 \]
 
-本实验只证明左侧存在于少量 CenterPoint Line B 小类别组合，不满足右侧的普遍改善。相应地，“上采样恢复了 KITTI 检测”并不是数据支持的总结；“上采样在部分小目标条件下显示有限恢复，但总体受几何适配约束”才是准确表述。
+This experiment only proves that the left side exists in a small number of CenterPoint Line B small grouping, which does not satisfy the general improvement on the right.Correspondingly, upsampling recovery KITTI Testing is not a summary supported by data;“upsampling shows limited recovery under some small target conditions, but is generally bound by geometric”.
 
-### 6.1.2 RQ2：几何质量与检测性能有什么关系？
+### 6.1.2 RQ2: What does geometric quality have to do with testing performance?
 
-在当前四方法比较中，几何真实性与检测排序具有强一致性。Line A 和 Line B 的 0.2 m 生成体素真实精度排序均为 PDANS > PU-GCN > PU-EdgeFormer > PU-Net*，与 PointRCNN Moderate AP 排序完全相同，Spearman \(\rho_s=1.00\)。车辆框内近参考表面比例也呈相同方向，额外体素和外壳污染则呈反向排序。
+ In the current comparison of the four methods, geometric is highly consistent with the sequence of the tests. Line A  and  Line B  It's...  0.2 m  Generate voxel with real precision sorting  PDANS > PU-GCN > PU-EdgeFormer > PU-Net*,  with  PointRCNN Moderate AP  It's the same sort of thing. Spearman \(\rho_s=1.00\).  The near-referenced surface ratio in the vehicle frame is in the same direction, while additional voxel and shell contamination are in reverse order.
 
-然而，该结论应被解释为“必要候选条件”，而不是充分因果定律。几何评价使用原始扫描作为有限参考，无法观测所有真实物理表面；四个方法不足以稳定估计连续效应曲线；同一几何点集进入不同 detector 后还会经过采样、体素化和特征聚合。更严格的结论是：
+However, that conclusion should be interpreted as “necessary candidacy” rather than as an adequate causal rule.geometric The evaluation uses original scans as a limited reference and does not allow for the observation of all real physical surfaces;Four methods are not sufficient to stabilize the estimated continuous effect curve;The same geometric dots enter different detector and then go through sampling, voxel and characterization.The more rigorous conclusion is that:
 
 \[
 \Delta AP
@@ -979,65 +979,65 @@ A_d,
 \tag{6.2}
 \]
 
-其中 \(P_{\mathrm{vox}}\) 是生成体素精度，\(C_\tau\) 是参考覆盖，\(E_{\mathrm{vox}}\) 是额外体素比例，\(\eta_{\mathrm{obs}}\) 是实际保留观测比例，\(A_d\) 与 \(\phi_d\) 分别是检测器适配和权重。现有结果能够确认这些变量共同重要，但不能从四个方法反演出函数 \(F\) 的通用形式。
+ of which  \(P_{\mathrm{vox}}\)  Is generating voxel precision, \(C_\tau\)  It's a reference cover. \(E_{\mathrm{vox}}\)  It's an extra voxel rate. \(\eta_{\mathrm{obs}}\)  It's actually keeping the rate of observation. \(A_d\)  with  \(\phi_d\)  detector adaptation and weights, respectively. The current results confirm that these variables are important in common, but cannot counterplay functions from four methods  \(F\)  It's a common form.
 
-### 6.1.3 RQ3：结果在不同检测器之间是否一致？
+### 6.1.3 RQ3: Is the results consistent among detector?
 
-方向一致、幅度不一致。PU-GCN 全训练适配实验中，PointRCNN 在 Line A/B 分别下降 11.400/11.004 AP，CenterPoint 分别下降 5.890/4.852 AP。两者都没有超过 baseline，因此共同根因不能归结为某一个 detector；CenterPoint 的较小损失说明体素聚合对部分点级扰动更稳定。
+The direction is consistent and the range is inconsistent.PU-GCN  It's a training and adaptation experiment. PointRCNN  Yes.  Line A/B  Falling separately.  11.400/11.004 AP, CenterPoint  Falling separately.  5.890/4.852 AP. In both cases no exceeds baseline, so the common root cause of cannot is attributed to one detector;CenterPoint’s lesser loss is an indication that voxel aggregates are more stable to some point disturbances.
 
-输入顺序消融进一步揭示 detector-specific 机制。PointRCNN Line B 的 observed-first 相对 generated-only 增加 9.224 AP；CenterPoint 的顺序收益主要发生在 Line A 达到 40000 体素上限时，Line B 几乎为零。换言之，PointRCNN 的关键预算是点采样与局部特征，CenterPoint 的关键预算是体素内点数和非空体素数。任何关于“上采样有效性”的论文结论都应注明下游 detector，而不能把一个模型的响应推广为整个检测任务。
+Enter sequence ablation further reveals the detector-specific mechanism.PointRCNN Line B  It's...  observed-first  Relative  generated-only  Increase  9.224 AP; CenterPoint ' s sequenced gains occurred mainly when Line A reached the 40000 voxel ceiling, and Line B was almost zero. In other words, PointRCNN  The key budget is point sampling and local features. CenterPoint  The key budget is point count in voxel and the non-empty voxel. Any conclusions of the paper on “upsampling Effectiveness” should indicate downstream detector, while cannot extended the response of a model to the entire test mission.
 
-### 6.1.4 研究问题的量化证据汇总
+### 6.1.4 Quantitative evidence summary of research issues
 
-表 6.1 不再逐方法重复第五章，而是为三个研究问题建立“主结果—机制证据—结论强度”对应关系。数值前的正负号始终以 paired line baseline 为参照；不同规模的实验不混合求平均。
+Table 6.1 does not repeat chapter V methodologically, but rather establishes a “main result-mechanical evidence-conclusive strength” correspondence for the three research issues.The positive and negative numbers before the values are always referenced by paired line baseline;Experiments of different sizes are not mixed for averages.
 
-**表 6.1　三个研究问题的量化答案与证据强度**
+**Table 6.1 Quantified answers to three research questions and evidence intensity**
 
-| 研究问题 | 全验证集主结果 | 补充/机制证据 | 支持的结论 | 强度 |
+| Research issues | full validation set Main result | supplementary / Mechanism Evidence | Supported conclusions | Strength |
 |---|---|---|---|---|
-| RQ1：上采样是否提高检测 | PointRCNN 最优 PDANS：Line A/B 为 -17.741/-20.620 AP；CenterPoint Line B 只有少量小类别正值 | 点数范围恢复到原始规模，仍未恢复 Car AP | 不支持普遍提升；仅支持条件化、小幅类别恢复 | 强 |
-| RQ2：几何与任务如何关联 | 两条线的生成体素精度排序与 PointRCNN AP 排序完全一致，\(\rho_s=1.00\) | 额外体素 41.74%–62.45%；外壳比例与 AP 反向排序 | 位置真实性比名义点数更能解释当前方法差异 | 中强；方法数仅 4 |
-| RQ3：是否依赖检测器 | 全训练适配后 PU-GCN：PointRCNN -11.400/-11.004 AP，CenterPoint -5.890/-4.852 AP | 对象净 TP 变化 PointRCNN -59/-66，CenterPoint -16/-17 | 两 detector 方向一致，体素式 detector 损失较小 | 强补充 |
+| RQ1: upsampling Increase detection | PointRCNN Best PDANS: Line A/B is - 17.741/-20.620 AP;CenterPoint Line B Only a small number of | point count range recovery to original size, still not recovery Car AP | (b) Not to support general upgrading;only Supports conditionality, small categories recovery | Strong. |
+| RQ2:  How geometric relates to the mission  |  voxel for the generation of two lines  PointRCNN AP  It's all in the same order. \(\rho_s=1.00\) |  Extra voxel  41.74%–62.45%;  Shell ratio to  AP  Inverse Sorting  |  The location is more authentic than the nominal point count, which explains the differences in current methods.  |  medium strength;methods only  4 |
+| RQ3: dependent on detector | After full training, PU-GCN: PointRCNN -11.400/-11.004 AP, CenterPoint -5.890/-4.852 AP | Net object TP Change PointRCNN -59/-66, CenterPoint -16/-17 | Two detector in the same direction, voxel model detector with smaller losses | John supplementary |
 
-图 6.1 用四个彼此独立的量化面板压缩结论。左上是全验证集 PointRCNN 最优方法仍低于 baseline；右上是 CenterPoint PDANS 只有 Line B Pedestrian/Cyclist 局部为正；左下是 3712 帧适配后的残余 detector gap；右下是 527 个 GT 上 observed-first 相对 baseline 的对象净 TP 变化。四个面板分别来自全量 AP、类别差值、域适配和对象匹配，因而不是同一份数字的重复绘制。
+Figure 6.1 compresses the conclusions with four separate quantitative panels.Top left is full validation set PointRCNN and the best method is still below baseline;The top right is CenterPoint PDANS, only Line B Pedestrian/Cyclist is partially positive;Bottom left is 3712 frame after adaptation detector gap; Down right.  527  individual  GT  Let's go.  observed-first  Relative  baseline  Net object  TP  Change. The four panels are derived from the full AP, the class margin, the locale fit and the match of the object, and are drawn over and over again from the same number.
 
-![图 6.1　第五章主要结论的定量仪表板：全量 AP、类别差值、适配残差与对象净 TP。](figures/fig6_01_quantitative_conclusion_dashboard.pdf)
+![Figure 6.1 Quantification panel for the main conclusions of chapter V: full AP, category margin, appropriate disability differential and net object TP.](figures/fig6_01_quantitative_conclusion_dashboard.pdf)
 
-这个汇总允许区分“确定结论”和“待验证解释”。可以确定的是：当前 strict-\(4N\) 链没有取得普遍 AP 改善；有限点/体素预算和 detector 域偏移都只解释部分损失；几何真实性与任务排序一致。仍待验证的是：修复 patch 与 PU-Net* 规范化后，各方法的绝对 AP 会恢复多少，以及使用真实低线束传感器是否产生相同幅度。
+ This aggregation allows for a distinction between “conclusion determination” and “pending validation interpretation”. It can be ascertained that:  strict-\(4N\)  Chain no universal  AP  improvements;limited / voxel Budget  detector  The field deviations explain only part of the loss; geometric is true to the order of the task. Still pending validation is: repaired  patch  with  PU-Net*  After standardization, the absolutes of each method  AP  How much recovery and whether the same range is generated by the use of real low-line sensors.
 
 ## 6.2 Main Contributions of the KITTI Study
 
-本研究的贡献不在于宣称某个方法取得新的 KITTI 最优 AP，而在于建立并实证了一套能够解释负结果的任务导向评价框架。
+The contribution of the study is not to claim that one method has acquired a new KITTI, the best AP, but to establish and empirically establish a task-oriented evaluation framework that can explain negative results.
 
-**第一，建立两条互不混淆的评价线。** Line A 检查完整扫描上的边际增密，Line B 检查稀疏化后的性能恢复。该设计避免把“稀疏 baseline 很低后略有回升”与“超过原始扫描”混为一谈。
+**First, there are two assessment lines that are not confused.** Line A Checks the marginal increase on the full scan, Line B Checks the performance of recovery after the thinning.The design avoids mixing the words “a slight recovery after a low baseline” with the words “above the original scan”.
 
-**第二，执行 strict-\(4N\) 与观测可追踪。** 主输出被定义为 \(N\) 个真实观测加 \(3N\) 个生成点，原始观测不被网络回归点冒充。输入数量、观测来源和生成来源可以沿 evaluator 全链追踪。
+** Second, implementation  strict-\(4N\)  It is traceable with observations. **  Main output defined  \(N\)  A real observation.  \(3N\)  generated points, the original observations are not impersonated by the retrogression point of the network. The number of inputs, the source of observations and the source of generation can follow  evaluator  Full-chain tracking.
 
-**第三，使用点式与体素式检测器交叉验证。** PointRCNN [11] 和 CenterPoint [12] 共享同一上采样输入，却具有不同前端表示。两者共同下降把问题定位到检测器之前；差值幅度又揭示下游输入预算的调节作用。
+**Third, cross-check with voxel type detector.** PointRCNN [11] and CenterPoint [12] Shares the same upsampling input with different front-ends.The two dropped together before detector;The margin range also reveals the reconciliation of downstream input budgets.
 
-**第四，把任务指标与几何机制连接。** 全量 AP 与 patch 跨度、生成体素精度、参考覆盖、额外体素、距离分层以及对象 TP/FN 转换共同分析，使“AP 下降”从黑盒现象变成可定位的因果候选链。
+**Fourth, the task indicators are linked to the geometric mechanism.** The total AP and patch ranges, the generation of voxel precision, reference cover, additional voxel, distance layers and the object TP/FN converted from a "AP" to a positionable causal candidate chain.
 
-**第五，保留失败证据而不删除异常方法。** PU-Net* 结果因已确认的尺度包装错误而被标记为流水线诊断，不用于架构排名。这个处理既保留工程事实，也避免不公平学术结论。
+**Fifthly, the evidence of failure should be retained without removing the unusual method.** PU-Net* * The result was marked as a pipeline diagnostic due to a confirmed scale packaging error and is not used for structural ranking.This treatment preserves the facts of the project and avoids unfair academic conclusions.
 
 ## 6.3 Limitations
 
-### 6.3.1 数据与稀疏化模型
+### 6.3.1 Data and Sorbing Model
 
-Line B 的四分之一下采样是确定性压力测试，不等同于真实低线束 LiDAR。真实传感器变化还涉及垂直角分辨率、扫描相位、运动畸变、反射材料与遮挡次序。当前结果能够说明“在本下采样算子下能否恢复”，不能直接预测从 64 线到 16 线等硬件替换的实际收益。
+A quarter of Line B downsampling is a definitive pressure test, which is not equivalent to a real lowline beam LiDAR.Real sensor changes also involve vertical agular resolution, scanned phase, motion malformation, reflecting material and shielding order.The current results provide an indication of whether recovery can be obtained under this downsampling algorithm, and cannot directly predicts the actual benefits of hardware replacement from 64 to 16.
 
-原始 KITTI 扫描被用作几何参考，但它不是连续、无噪声的地面真值表面。网络在两个观测点之间合理插值时，也可能落入未被原始扫描占据的体素。因此，额外体素比例应与 AP、对象边界和多阈值距离共同解释，不能单独作为错误率。
+The original KITTI scan has been used as a geometric reference, but it is not a continuous, noiseless surface of real ground value.The network may also fall into voxel, which is not occupied by original scans, when a reasonable value is inserted between the two sites. Therefore, the extra voxel ratio should  AP,  The object boundary and many threshold are explained together, cannot as a single error rate.
 
-### 6.3.2 方法权重与适配器
+### 6.3.2 Method Weight & Fitr
 
-各上采样方法的公开权重、训练数据与输入预处理不完全相同。统一 exact-\(4N\) 能控制输出数量，不能使网络先验完全一致。共同 patch 提取器的非局部性是当前最明确的工程限制；修复后数值可能变化。
+ The public weights, training data and input preprocessing of upsampling methods are not identical.  exact-\(4N\)  Controls the number of outputs, cannot makes the network a priori consistent.  patch  The non-locality of the extractor is currently the most explicit project limitation; the value may change after the repair.
 
-PU-Net* 包装器缺少与训练一致的中心化、尺度归一化和逆变换。因此它的当前 AP 只能用于故障诊断。最终答辩稿若保留该方法，必须在修复后完整重跑 3769 帧两 detector 主协议；否则应从方法能力对比表中移出，仅放入实现限制。
+PU-Net * Packagings lack centralization consistent with training, scale normalization and reverse transformation.So its current AP can only be used for failure diagnosis.If this method is retained in the final defence, it must be reruned in its entirety by 3769 frame, two detector master protocol;Otherwise, it should be removed from the MCP table, only into the limit of implementation.
 
-### 6.3.3 检测器适配与统计不确定性
+### 6.3.3 detector adaptation and Statistical Uncertainty
 
-全数据适配目前集中于 PU-GCN；四方法的完整 detector-adaptation 矩阵尚未全部建立。因此，不能断言其他方法在充分适配后仍保持完全相同的 AP 差值。64 帧微调只能提供筛查证据。
+Full data adaptation is currently concentrated on PU-GCN;The complete detector-adaptation matrix of the four methods has not yet been fully established.Thus, cannot asserted that the other methods remained exactly the same AP margin after full adaptation.64 frame fine-tuning can only provide evidence of screening.
 
-正式 KITTI evaluator 提供数据集级 AP，但当前报告没有对全部条件执行多随机种子训练或帧级 bootstrap 置信区间。固定权重推理本身是确定的，训练适配仍可能受初始化和 mini-batch 次序影响。对未来的适配实验，应以帧为重采样单位计算配对 bootstrap：
+Official KITTI evaluator provides data set level AP, but the current report no implements more random seed training or frame level bootstrap confidence interval for all conditions.The fixed weighting reasoning itself is established, and training suitability may still be affected by initialization and mini-batch.For future adaptation experiments, pairs shall be calculated in frame in resampling units bootstrap:
 
 \[
 \Delta AP^{*(b)}
@@ -1046,21 +1046,21 @@ PU-Net* 包装器缺少与训练一致的中心化、尺度归一化和逆变换
 \tag{6.3}
 \]
 
-并用 \(B\) 次重采样的 2.5% 与 97.5% 分位数形成 95% 区间。这里必须对同一重采样帧同时计算方法与 baseline，以保留配对结构。
+ & Use  \(B\)  The next resampling  2.5%  with  97.5%  bits formed  95%  . This must be the same resampling  frame calculation method and  baseline,  to preserve a pair structure.
 
-### 6.3.4 对象诊断与归因边界
+### 6.3.4 Object Diagnosis and Attribution boundary
 
-527 个 Moderate Car GT 的对象审计采用贪心同类匹配，只用于解释 IoU 与 TP/FN 转换；它没有按预测置信度积分，也没有完全复制官方 ignore 区域与难度处理，不能替代 AP。选出的恢复/失败案例是可视化证据，不是总体频率估计。
+The audit of 527 Moderate Car GT uses the same matching of greed and is used only to explain the IoU conversion to TP/FN;It no is a predictive confidence score, and no fully replicates the official ignore area and difficulty processing, cannot instead of AP.The selected recovery / failure is visual evidence, not an overall frequency estimate.
 
-几何精度与 AP 的 \(\rho_s=1.00\) 建立在四个方法上。其排序一致性很强，但样本数太小，不适合宣称普适的统计关系。更大规模研究应加入不同倍率、不同 patch 尺度、不同候选筛选器和多个训练种子，以形成足够的条件点。
+ geometric Precision and  AP  It's...  \(\rho_s=1.00\)  Based on four methods. The rankings are very consistent, but the number of samples is too small to claim a general statistical relationship.  patch  scale, different candidate filters and several training seeds to create sufficient conditionality points.
 
 ## 6.4 Recommended Corrected Experimental Pipeline
 
-现有结果已经指出下一轮实验最有价值的修正顺序。该顺序不是为了追求更高数字而改变协议，而是为了逐项移除已识别的混杂因素。
+The current results have indicated the order of the most valuable corrections for the next round of experiments.This sequence is not intended to change protocol in the search for higher numbers, but rather to remove the identified mix.
 
-### 6.4.1 真正局部的无标签 patch 提取
+### 6.4.1 Real local no label patch extraction
 
-用 FPS seed 加 kNN 或 ball query 替换粗 bin 连续切块。对种子 \(\mathbf c_j\)，kNN patch 定义为
+ Use it.  FPS seed  Add  kNN  or  ball query  Replace rough  bin  Slice in consecutive blocks. To torrents  \(\mathbf c_j\), kNN patch  Defined
 
 \[
 \mathcal P_j^{\mathrm{kNN}}
@@ -1069,7 +1069,7 @@ PU-Net* 包装器缺少与训练一致的中心化、尺度归一化和逆变换
 \tag{6.4}
 \]
 
-ball-query patch 为
+ball-query patch is
 
 \[
 \mathcal P_j^{\mathrm{ball}}
@@ -1077,11 +1077,11 @@ ball-query patch 为
 \tag{6.5}
 \]
 
-半径 \(r_j\) 可以依局部点间距调整，但规则必须只依赖输入点，不得访问 GT 框、类别或 evaluator。若点数不足，应使用确定性重复/邻近填充并记录 padding 比例；不能扩大到几十米只为凑满 2048 点。
+ Radius  \(r_j\)  You can adjust to local point spacing, but the rules must only depend on the input point, must not access  GT  Box, category or  evaluator.  Use certainty repetition if point count is insufficient / Close Fill & Record  padding  ratio; cannot extended to a few dozen metres to fill  2048  Point.
 
-### 6.4.2 与训练一致的规范化和逆变换
+### 6.4.2 Normalization and reverse transformation consistent with training
 
-每个 patch 保存中心 \(\boldsymbol\mu_j\) 与尺度 \(a_j>0\)：
+ Every one  patch  Preservation Centre  \(\boldsymbol\mu_j\)  With scale  \(a_j>0\):
 
 \[
 \widetilde{\mathbf x}_i
@@ -1092,11 +1092,11 @@ ball-query patch 为
 \tag{6.6}
 \]
 
-网络输入与输出必须分别执行正变换和逆变换，并对每个 patch 记录 \(\boldsymbol\mu_j,a_j\)。PU-Net* 只有在此环节与原训练代码逐项一致后，才可重新进入主方法表。
+ Network input and output must execute the change and reverse change, respectively, for each  patch  Records  \(\boldsymbol\mu_j,a_j\). PU-Net*  Only when this link is consistent with the original training code, can the main method sheet be re-entered.
 
-### 6.4.3 观测保留、候选合并与 exact-\(4N\)
+### 6.4.3  Observe retention, candidate consolidation and  exact-\(4N\)
 
-重叠 patch 会产生多于 \(3N\) 个候选。统一、无标签的选择器应求解
+ Overlap  patch  There'll be more than that.  \(3N\)  Candidates. Unanimous, no label Chooser should solve
 
 \[
 \mathcal G^*
@@ -1110,67 +1110,67 @@ ball-query patch 为
 \tag{6.7}
 \]
 
-其中 coverage、duplicate 与 outlier 均从输入几何计算，不使用测试 GT。最终按
+Of these, coverage, duplicate and outlier are calculated from input geometric instead of testing GT.Finally press
 
 \[
 \mathcal Y=[\mathcal X;\mathcal G^*],\qquad|\mathcal Y|=4N
 \tag{6.8}
 \]
 
-组装，并保存观测/生成来源掩码。对 PointRCNN，进一步记录真正进入 16384 点采样的两类比例；对 CenterPoint，记录范围过滤后体素数、达到 5 点上限的体素比例和 40000 体素上限命中情况。
+To assemble and maintain the observation/generation source mask.(a) For PointRCNN, further recording of the two categories of actual access to 16384 point sampling;For CenterPoint, the maximum number of voxel after the filtration of the records, the voxel ratio to the maximum point of 5 and 40000 voxel hit.
 
-### 6.4.4 分阶段验收条件
+### 6.4.4 Phased acceptance conditions
 
-在重新运行两个 detector 的 3769 帧全量评价前，建议先通过以下预注册式门槛：
+It is recommended that the following pre-registration threshold be adopted before re-exercising the full 3769 frame of two detector:
 
-| 阶段 | 验收量 | 建议要求 |
+| Phase | Acceptance and acceptance | Recommendation requirements |
 |---|---|---|
-| patch | p90 半径、XY 对角线、跨组件比例 | Line B 中位跨度不再达到多目标/全场景尺度 |
-| 坐标 | finite、范围、逆变换误差 | 无 NaN/Inf；米制范围合理；往返误差接近数值精度 |
-| strict 输出 | 点数、观测哈希、来源掩码 | 每帧恰好 \(4N\)；\(N\) 个观测逐点保留 |
-| 几何 | \(P_{\mathrm{vox}}\)、\(C_\tau\)、\(E_{\mathrm{vox}}\) | 精度上升且额外体素下降，不能只提高覆盖 |
-| 目标 | 近/中/远车辆近表面比例 | 不随距离出现不可接受的系统性崩溃 |
-| detector | 预测文件、空预测、AP 与配对差值 | 全 3769 帧通过；同线 baseline 同时运行 |
+| patch | p90 radius, XY diagonal, cross-component ratio | Line B Medium Range no longer reaches multiple targets/wide scene scale |
+| Coordinates | finite, Range, Reverse Error | No NaN/Inf;The rice scale is reasonable;Return error close to value accuracy |
+| strict  Output  |  point count, observation Hash, source mask  |  Every frame happens  \(4N\); \(N\)  One observation-by-point retention  |
+|  geometric  | \(P_{\mathrm{vox}}\), \(C_\tau\), \(E_{\mathrm{vox}}\) |  Accuracy increases and additional voxel drops, cannot increases the coverage only  |
+| Objective | Near/medium/far vehicle near surface ratio | Unaccepted systemic collapse without distance |
+| detector | Forecast file, air forecast, AP and logarithm | All 3769 frame pass;Consisting baseline running simultaneously |
 
-“建议要求”中的定量阈值应在查看最终 AP 之前根据开发集确定，避免用测试结果反向挑选最有利阈值。
+The amount threshold in the “Recommended Requirements” should be determined on the basis of the development set before viewing the final AP, avoiding the test results being used to reverse the selection of the most advantageous threshold.
 
-### 6.4.5 证据门控的重跑顺序与参数登记
+### 6.4.5 Rerun sequence and parameter registration for evidence door control
 
-图 6.2 把下一轮工作分成五个不能倒置的 gate。Gate 0 已由当前 10 组 CenterPoint 输入审计和 PointRCNN 全量文件检查通过；Gate 1 当前未通过，因为共同 patch 在 Line B 的 XY 对角线中位数达到 30.46 m、p90 达 124.10 m，并且 PU-Net* 缺少与训练一致的尺度变换；Gate 2 当前未通过，因为 exact-\(4N\) 输入含 41.74%–62.45% 的参考扫描不支持体素；Gate 3 显示 observed-first 有局部收益但 baseline gap 尚未闭合。只有 Gate 1–3 修正并预注册后，Gate 4 的 3769 帧全量重跑才具有比较新架构能力的意义。
+ Figure  6.2  Split the next round into five cannot.  gate. Gate 0  Current  10  Group  CenterPoint  Enter audit and  PointRCNN  (a) Full-volume document check passed; Gate 1  Not adopted at this time because of the common  patch  Yes.  Line B  It's...  XY  Diagonal median reached  30.46 m, p90  Ta-da.  124.10 m,  And...  PU-Net*  Lack of a scale transformation consistent with training; Gate 2  It's not approved at this time because  exact-\(4N\)  Enter content  41.74%–62.45%  The reference scan does not support voxel; Gate 3  Show  observed-first  There's a partial return, but...  baseline gap  Not yet closed. Only  Gate 1–3  After the amendment and pre-registration, Gate 4  It's...  3769  frame is the full rerun that makes sense for a relatively new architecture.
 
-![图 6.2　修正后 KITTI 实验的证据门控时间线；圆点颜色表示通过、失败、部分完成与待执行，后阶段不能掩盖前阶段失败。](figures/fig6_02_evidence_gated_roadmap.pdf)
+![Figure 6.2 Amended KITTI Experiment Evidentiary Timeline;The dot colour indicates the pass, failure, partial completion and pending, and the later stage cannot fails to cover up the pre-stage.](figures/fig6_02_evidence_gated_roadmap.pdf)
 
-**表 6.2　当前证据状态与进入下一阶段所需产物**
+**Table 6.2 Current state of evidence and products required to move to the next stage**
 
-| Gate | 当前状态 | 已有证据 | 下一阶段前必须产生的产物 |
+| Gate | Current Status | There's evidence. | The products that have to be produced before the next stage. |
 |---|---|---|---|
-| 0 协议锁定 | PASS | 每帧 exact-\(4N\)、有限坐标、3769 文件齐全 | 冻结帧列表、\(D_4\)、intensity 和 evaluator 哈希 |
-| 1 适配器单元测试 | FAIL | 非局部 patch；PU-Net* 尺度错误 | patch 局部性报告、中心/尺度往返误差、来源掩码审计 |
-| 2 几何开发集 | FAIL | 生成体素精度 23.11%–50.68%；额外体素 41.74%–62.45% | 在固定开发集报告 precision、recall、extra、near-surface、shell |
-| 3 detector pilot | PARTIAL | observed-first 恢复部分 AP/TP，但仍低于 baseline | 同一 256 帧、同线 baseline、两 detector、对象/距离明细 |
-| 4 全验证集 | 当前参考已完成 | 3769 帧 PointRCNN 与 CenterPoint 主表 | Gate 1–3 通过后重跑 3 类×3 难度×两线完整矩阵 |
+| 0  protocol Lock  | PASS |  Every frame  exact-\(4N\),  Limited coordinates, 3769  Full file.  |  frozen  frame List, \(D_4\), intensity  and  evaluator  Hash.  |
+| 1 unit test for adapters | FAIL | Non-local patch;PU-Net * scale Error | patch Local Report, Centre/scale round trip error, source mask audit |
+| 2 geometric Development Collection | FAIL | Generating voxel precision 23.11%–50.68%;Extra voxel 41.74%–62.45% | fixed development report precision, recall, extra, near-surface, shell |
+| 3 detector pilot | PARTIAL | observed-first recovery Part AP/TP but still below baseline |  The same.  256  frame, Convergence  baseline,  Two.  detector,  Object / Clear distance.  |
+| 4 full validation set | Current reference completed | 3769 frame PointRCNN and CenterPoint main table | Gate 1–3  After rerun  3  Category ×3  Difficulty × Two-line complete matrix.  |
 
-表 6.3 给出下一轮实验需要在运行前登记的参数。表中“已锁定”意味着保持当前定义以便前后可比；“开发集选择后锁定”意味着可以在独立开发集上选择，但一旦查看正式验证 AP 就不得再修改；“逐方法读取训练配置”意味着参数必须忠实于原方法，而不能为了输出更好数字统一成错误尺度。
+Table 6.3 gives parameters for the next round of experiments that need to be registered before running.The “locked” in the table means that the current definition is maintained in order to be comparable;"Stick after development selection" means you can choose on an independent development set, but once you look at the official validation of AP, must not is modified;"Reading training configurations by method" means that the parameters must be faithful to the original method, and cannot consolidates the error scale in order to output better numbers.
 
-**表 6.3　修正实验的参数登记表**
+**Table 6.3 Registration Form for Parameters for Amendment Experiments**
 
-| 参数组 | 参数 | 登记规则 | 是否允许查看验证 AP 后修改 |
+| Parameter Group | Parameters | Registration rules | Whether to allow changes after checking AP |
 |---|---|---|---|
-| 数据 | train/val/256 pilot 帧列表 | 使用已保存列表与哈希 | 否 |
-| 稀疏化 | \(D_4\) 算子、随机种子 | 保持当前 Line B 定义；另加真实低线束实验时单列 | 否 |
-| patch | seed 算法 | FPS 或确定性覆盖采样；在开发集选择后锁定 | 否 |
-| patch | 邻域 | 2048 点 kNN 或预注册 ball query；记录 padding、半径与重叠率 | 否 |
-| 坐标 | center/scale | 逐方法读取训练时定义；保存 \(\boldsymbol\mu_j,a_j\) 并执行逆变换 | 否 |
-| 生成 | 倍率与合并 | 每 patch 方法原生倍率；全帧统一选出 \(3N\) generated | 否 |
-| 输出 | 观测保护 | \(N\) observed 逐点保留并置前；保存 source mask | 否 |
-| 强度 | 主策略 | nearest-input 作为可复现主策略 | 否 |
-| 强度 | 敏感性 | 局部插值或 intensity mask，所有方法使用同一规则 | 否 |
-| PointRCNN | E1/E2 | E1 为 detector-native exact-\(4N\)；E2 固定 16384，只作敏感性 | 否 |
-| CenterPoint | range/voxel/cap | \([0,70.4)\times[-40,40)\times[-3,1)\) m；0.05/0.05/0.10 m；5 点/体素；40000 体素 | 否 |
-| 评价 | AP | 固定 KITTI \(AP_{R40}\)，保留 BBox/BEV/3D、三难度、三类别 | 否 |
-| 统计 | 训练种子/区间 | 在开跑前登记种子数；用配对 bootstrap 报告 95% 区间 | 否 |
+| Data | train/val/256 pilot frame List | Use Saved List with Hash | Yes |
+|  Shrink  | \(D_4\)  Count, random seed  |  Keep Current  Line B  definitions;in addition to a separate column for real low-line beam experiments  |  Yes  |
+| patch | seed algorithm | FPS or certainty over sampling;Lock after development set selection | Yes |
+| patch | neighbourhood | 2048 point kNN or pre-registered ball query;Record padding, Radius & Overlay Rate | Yes |
+|  Coordinates  | center/scale |  Method-by-method definition of training; saving  \(\boldsymbol\mu_j,a_j\)  and execute reverse transformations  |  Yes  |
+|  Generate  |  Multiplication & Merge  |  Every  patch  methods;total frame  \(3N\) generated |  Yes  |
+|  Output  |  Observation protection  | \(N\) observed  Keep point-by-point and ahead;save  source mask |  Yes  |
+| Strength | Main Policy | nearest-input as a Recoverable Master Policy | Yes |
+| Strength | Sensibility | Local plug-in or intensity mask, all methods using the same rule | Yes |
+| PointRCNN | E1/E2 | E1  Yes.  detector-native exact-\(4N\); E2  fixed  16384,  Sensitivity.  |  Yes  |
+| CenterPoint | range/voxel/cap | \([0,70.4)\times[-40,40)\times[-3,1)\) m; 0.05/0.05/0.10 m; 5  Points / voxel; 40000  voxel  |  Yes  |
+|  Evaluation  | AP |  fixed  KITTI \(AP_{R40}\),  Reservations  BBox/BEV/3D,  Three difficulties, three categories.  |  Yes  |
+| Statistics | Training seeds/areas | Registration of seeds before running;Use a pair of bootstrap to report 95% | Yes |
 
-门控逻辑可以形式化为
+Door-control logic can be put into form.
 
 \[
 \operatorname{RunFull}
@@ -1178,13 +1178,13 @@ ball-query patch 为
 \tag{6.9}
 \]
 
-其中 \(G_k\) 是第 \(k\) 个 gate 是否通过。该式的目的不是把复杂实验简化成一个分数，而是防止“全量 AP 已经跑完”被误认为上游适配器已经正确。只要局部性、坐标逆变换或 strict 输出任一项未通过，新的全量 AP 就只能继续诊断流水线，不能作为公平架构结论。
+ of which  \(G_k\)  No. No.  \(k\)  individual  gate  Whether or not. The purpose of the formula is not to simplify complex experiments into a fraction, but to prevent "full"  AP  It's already running. It's wrong to think that the upstream adaptor is right.  strict  Any output not passed, new full volume  AP  I can only continue to diagnose the current line, cannot as a fair framework conclusion.
 
 ## 6.5 Outlook and Future Work
 
-### 6.5.1 从“均匀增密”转向“任务不确定性驱动的增密”
+### 6.5.1 from "equivalent increase" to "mission uncertainty driven increase"
 
-当前协议把每个输入点的点数倍率固定为四倍，但 LiDAR 场景的信息缺失并不均匀。道路平面通常不需要与远距车辆边缘相同的生成预算。未来可定义无标签不确定性 \(u_i\)，结合局部密度、曲率、遮挡边界和距离，为 patch 分配预算：
+ The current protocol sets the point count factor per input point at four times the fixed rate, but  LiDAR  The lack of information on the scene is not uniform. The road plane usually does not need the same generation budget as the remote edge of the vehicle. The future can be defined as no label uncertainty  \(u_i\),  Combining local density, curve rate, blocking boundary and distance,  patch  Allocation budget:
 
 \[
 n_j
@@ -1194,11 +1194,11 @@ n_j
 \tag{6.10}
 \]
 
-该策略仍保持全帧 exact-\(4N\)，但把新增点从大面积平坦背景转移到真正缺失且可恢复的局部区域。为了防止检测标签泄漏，\(u_j\) 的主协议应只由输入几何产生；使用 detector feature 的版本应单列为任务感知扩展。
+ The strategy remains fully frame.  exact-\(4N\),  But to prevent label from being detected, the new point is being moved from a large flat background to a truly missing local area that allows recovery. \(u_j\)  The main protocol shall be generated only by input geometric; use  detector feature  The version should be included as a mission awareness extension.
 
-### 6.5.2 显式建模 LiDAR 扫描结构与距离
+### 6.5.2 Visible Model LiDAR Scan Structure & Distance
 
-物体级欧氏邻域无法完整表示 LiDAR 的角度采样。未来可在 range image 中建模水平/垂直邻接，类似 TULIP 对 LiDAR 上采样的传感器结构考虑 [32]，再映射回三维坐标。对点 \((x,y,z)\)，球坐标为
+ object Level Euro neighbourhood cannot be fully represented  LiDAR  The angle sampling. The future is available  range image  Medium Modeling Level / Vertical adjoining, similar  TULIP  Yeah.  LiDAR  Sensor structure considerations for upsampling  [32],  Map back to the 3-D coordinates.  \((x,y,z)\),  The coordinates of the ball are
 
 \[
 r=\sqrt{x^2+y^2+z^2},\qquad
@@ -1207,11 +1207,11 @@ r=\sqrt{x^2+y^2+z^2},\qquad
 \tag{6.11}
 \]
 
-在 \((\theta,\varphi)\) 网格中插值能够保持扫描线拓扑，并允许对远距量化误差显式建模。该路线需要同时预测 range 与有效性/遮挡概率，避免在被前景遮挡的射线上补出后方表面。
+ Yes.  \((\theta,\varphi)\)  Grid interpolation can keep the scan line purged and allow for the Quantified Quantification Error Visible Model. The route needs to be forecast simultaneously  range  and effectiveness / Cover the probabilities and avoid refilling the rear surface on the rays that are shielded by foreground.
 
-### 6.5.3 几何—强度联合生成
+### 6.5.3 geometric — Co-generation of strength
 
-最近邻强度复制虽然可复现，却不满足坐标位移后的物理一致性。未来模型可联合输出位置与强度分布：
+Recent Neighborhood Replications, while re-emerging, do not satisfy the physical consistency of the coordinates after they have been moved.Future models can combine output position and intensity distribution:
 
 \[
 p(\mathbf g,I_g\mid\mathcal P)
@@ -1220,7 +1220,7 @@ p(I_g\mid\mathbf g,\mathcal P),
 \tag{6.12}
 \]
 
-并以异方差形式预测不确定性：
+And predict uncertainty in the form of an alien difference:
 
 \[
 \mathcal L_I
@@ -1232,22 +1232,22 @@ p(I_g\mid\mathbf g,\mathcal P),
 \tag{6.13}
 \]
 
-这种设计允许 detector 降低对高不确定生成点的权重，而不是把每个生成点视为与实测回波同等可靠。
+This design allows detector to reduce the weight of generated points to a high degree of uncertainty, rather than viewing each generated points as as as as reliable as the measured echo.
 
-### 6.5.4 来源感知与置信度感知的检测器
+### 6.5.4 Source Perception and Confidence Awareness detector
 
-当前输出虽保存来源掩码，检测器通常只消费 \((x,y,z,I)\)。未来可加入观测标志 \(o_i\in\{0,1\}\) 和生成置信度 \(w_i\in[0,1]\)：
+ The current output saves the source mask, detector is usually consumed only  \((x,y,z,I)\).  The future can be marked with observations.  \(o_i\in\{0,1\}\)  And generate confidence  \(w_i\in[0,1]\):
 
 \[
 \mathbf f_i^{(0)}=[x_i,y_i,z_i,I_i,o_i,w_i].
 \tag{6.14}
 \]
 
-这样 detector 能学习“真实观测优先、生成点作为软证据”，而不是让两者无差别竞争。为保持公平，应比较三种设置：冻结 detector 不使用来源、使用来源后仅训练 detector、生成器与 detector 联合训练。联合训练的结果回答系统最优能力，冻结设置回答即插即用迁移能力，两者不能放在同一列而不注明。
+This way detector can learn "real observed-first, generated points as soft evidence" instead of allowing the two to compete without distinction.In order to maintain equity, three sets should be compared: frozen detector, which does not use the source, only, which trains detector and the generator and detector.As a result of the joint training, frozen is the best in the system, and cannot is placed in the same column without any indication.
 
-### 6.5.5 多帧信息与单帧生成的比较
+### 6.5.5 More frame Information compared to single frame
 
-如果应用允许时间上下文，真实相邻帧配准可能比单帧 hallucination 提供更可靠的缺失表面。未来应加入 multi-sweep baseline：
+If the time context is applied, the actual neighboring frame may provide a more reliable missing surface than the single frame hallucination.Future should be added to multi-sweep baseline:
 
 \[
 \mathcal X_t^{\mathrm{multi}}
@@ -1257,11 +1257,11 @@ p(I_g\mid\mathbf g,\mathcal P),
 \tag{6.15}
 \]
 
-其中 \(\mathbf T\) 是自车位姿变换。动态目标需要运动补偿，否则多帧叠加会产生另一种几何拖影。把学习上采样与真实多帧观测比较，可以回答生成点在什么计算/延迟约束下才具有实际价值。
+ of which  \(\mathbf T\)  The dynamic target needs to be compensated by movement, otherwise more frame super-heavy will result in another geometric tow. Compare the study upsampling with the real number of frame observations, you can answer the generated points calculation. / It is only with a delay that it is of real value.
 
-### 6.5.6 更完整的统计设计
+### 6.5.6 More complete statistical design
 
-未来实验应至少包含三类重复：上采样网络训练种子、detector 适配种子和下采样种子。对条件 \(c\) 的层次模型可以写为
+ Future experiments should contain at least three types of repetition: upsampling web-based training seeds, detector  Matchable and downsampling seeds. For condition  \(c\)  The hierarchy model can be written as:
 
 \[
 T_{c,r,s}
@@ -1269,21 +1269,21 @@ T_{c,r,s}
 \tag{6.16}
 \]
 
-其中 \(u_r\) 表示训练重复效应，\(v_s\) 表示数据稀疏化重复效应。即使最终仍以官方 AP 为主，也应报告均值、标准差、配对置信区间和效应量，避免把一次训练的 0.1–0.5 AP 波动写成稳定改善。
+ of which  \(u_r\)  It's an expression of the repetitive effect of training. \(v_s\)  This means that the data is diluted and duplicated.  AP  It is also important to report averages, standard deviations, pairs of confidence interval and effects to avoid a training session.  0.1–0.5 AP  Volatility is written as a steady improvement.
 
 ## 6.6 Final Conclusion
 
-本研究从 KITTI 全场景出发，对四类上采样方法、两条输入线和两种三维检测器建立了可追踪的评价链。结果显示，当前流水线能够稳定生成 exact-\(4N\) 文件，却不能稳定生成等价的真实几何信息。PointRCNN 和 CenterPoint 的共同退化、E1/E2 输入预算消融、非局部 patch 测量、生成体素精度与 AP 排名一致性、距离分层以及对象级 TP/FN 转换，共同把主要问题定位到场景 patch 构造与生成几何，而不是单一 evaluator 或单一 detector。
+ This study is based on  KITTI  The whole scene set out to establish a traceable evaluation chain for four types of upsampling method, two input lines and two three-dimensional detector. The results show that current current pipelines can be stabilized and generated.  exact-\(4N\)  File, but cannot stabilizes the generation of real geometric information at the same price. PointRCNN  and  CenterPoint  of the Parties to the Kyoto Protocol E1/E2  Enter budget ablation, non-local  patch  Measuring, generating voxel precisions and  AP  Consistency of ranking, distance stratification and object level  TP/FN  Switch to position the main issues to the scene.  patch  Construct and generate geometric instead of a single  evaluator  Or single.  detector.
 
-结论并不是“点云上采样对检测永远无用”。CenterPoint Line B 在 Pedestrian/Cyclist 上的有限正值、observed-first 的部分恢复和 detector 适配的改善都说明上采样存在可利用空间。真正受到否定的是更简单的假设：把物体级网络直接包装到全场景、令点数变为四倍，就会自动提高检测。
+The conclusion is not that "point-cloud upsampling is never useful for testing."CenterPoint Line B ' s limited positive value on Pedestrian/Cyclist, observed-first ' s part recovery and detector ' s adaptations indicate that upsampling has available space.What is actually denied is a simpler assumption: by packaging the object-grade network directly to the whole scene, making point count four times the size of the scene, it automatically increases the detection.
 
-后续工作的优先级由证据明确给出：首先修复真正局部的 patch 与 PU-Net 尺度变换；其次在 strict-\(4N\) 下同时提高参考覆盖和生成精度、减少额外体素；再次使用来源/置信度感知的 detector 输入；最后才扩展到多倍率、多传感器与联合训练。只有当这些修正同时在 PointRCNN 与 CenterPoint、全验证集和距离/类别分层中通过，才能把“几何上更密”升级为“任务上更有用”。
+ The priority for follow-up is clearly given by the evidence: first, to repair the real locals.  patch  with  PU-Net  scale transformation; second  strict-\(4N\)  Add reference coverage and precision to reduce additional voxel; re-use source / Trust senses.  detector  Enter; lastly, multi-rate, multi-sensor and joint training. Only when these amendments are made  PointRCNN  with  CenterPoint,  full validation set and distance / In the category hierarchy, the "geometric" can be upgraded to "more useful on mission".
 
-# 引用衔接、新增文献与本地实验依据
+# Quote links, add new literature and the basis of local experiments
 
-## 沿用前文的学术文献
+## Follow the previous academic literature.
 
-以下编号完全继承 `thesis.pdf`，最终合并时不要重新编号。本章实际引用的条目列于此，未引用但已存在的 [3]、[8]–[10]、[13]–[31]、[33] 仍保留在整篇论文总参考文献表中。
+The following number is complete succession: `thesis.pdf`, do not renumber the final merge.The entries actually cited in this chapter are listed here and are not cited but exist [3], [8]–[10], [13]–[31], [33] It is retained in the general reference table for the entire paper.
 
 [1] A. Geiger, P. Lenz, and R. Urtasun, “Are we ready for autonomous driving? The KITTI vision benchmark suite,” in *Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)*, 2012, pp. 3354–3361.
 
@@ -1311,22 +1311,22 @@ T_{c,r,s}
 
 [35] A. Simonelli, S. R. Bulò, L. Porzi, M. López-Antequera, and P. Kontschieder, “Disentangling monocular 3D object detection,” in *Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV)*, 2019, pp. 1991–1999.
 
-## 新增学术文献
+## New academic literature
 
-**无。** 本稿所有学术编号均与前文一致，没有新增 [36] 之后的条目。若最终论文第 3、4 章已经新增 [36]–[37]，保留其既有编号即可；本章没有引用它们，也不再次登记。
+**None.** All academic numbers of the draft are consistent with the previous text, no [36] after the entry.If chapter 3 and chapter 4 of the final paper have been added [36]–[37], it is sufficient to retain its original number;This chapter no quotes them and does not register again.
 
-## 本地实验依据（不计入学术参考文献）
+## Basis for local experiments (excluding academic references)
 
-[L14] `results/pugcn_full_retrain_20260824/reports/full_retraining_report.md`、`full_retraining_summary.csv` 与 `pointrcnn_observed_first_report.md`：3712 帧适配训练、固定 256 帧 PointRCNN/CenterPoint PU-GCN 评价。
+[L14] `results/pugcn_full_retrain_20260824/reports/full_retraining_report.md`, `full_retraining_summary.csv` with `pointrcnn_observed_first_report.md`: 3712 frame Fit Training, fixed 256 frame PointRCNN/CenterPoint PU-GCN Evaluation.
 
-[L15] `results/centerpoint_exact4n_e1_20260729/CENTERPOINT_LINE_A_B_REPORT.md` 与 `results/centerpoint_exact4n_reconstructed_order_safe_20260729/full_ap_summary.csv`：CenterPoint 3769 帧、10 组 exact-\(4N\) 主评价和输入顺序消融。
+[L15] `results/centerpoint_exact4n_e1_20260729/CENTERPOINT_LINE_A_B_REPORT.md`  with  `results/centerpoint_exact4n_reconstructed_order_safe_20260729/full_ap_summary.csv`: CenterPoint 3769  frame, 10  Group  exact-\(4N\)  The main evaluation and input order ablation.
 
-[L16] `results/kitti_unified_x4_input_preserving_e1_e2_20260718/reports/e1_e2_live_ap_summary.csv`：PointRCNN 3769 帧 E1/E2 评价。
+[L16] `results/kitti_unified_x4_input_preserving_e1_e2_20260718/reports/e1_e2_live_ap_summary.csv`: PointRCNN 3769 frame E1/E2 evaluation.
 
-[L17] `results/kitti_unified_x4_input_preserving_e1_e2_20260718/reports/e1_e2_concrete_root_cause_report.md` 及 `geometry_root_cause_v1/`：64 帧 patch 局部性、生成体素、车辆表面和距离分层审计。
+[L17] `results/kitti_unified_x4_input_preserving_e1_e2_20260718/reports/e1_e2_concrete_root_cause_report.md` and `geometry_root_cause_v1/`: 64 frame patch Locality, generation voxel, vehicle surface and distance layer audit.
 
-[L18] `results/pugcn_full_retrain_presentation_20260828/evidence/current_object_evidence.json` 与 `current_object_records.csv`：固定 256 帧、527 个 Moderate Car GT 的对象级 IoU 与案例证据。
+[L18] `results/pugcn_full_retrain_presentation_20260828/evidence/current_object_evidence.json` with `current_object_records.csv`: fixed 256 frame, 527 Moderate Car GT object IoU and case evidence.
 
-[L19] `results/current_original_downsampled_upsampling_comparison/current_comparison_report.md`：较早跨输入比较；因协议与当前主实验不同，仅用于历史核对，不进入主表结论。
+[L19] `results/current_original_downsampled_upsampling_comparison/current_comparison_report.md`: an earlier cross-entry comparison;Because protocol is different from the current main experiment, only is used to check history and does not enter main table's conclusions.
 
-[L20] `results/pointrcnn_finetune64_six_arms_20260824/reports/eval256_ap_report.md`：64 帧微调筛查结果，不作为最终适配结论。
+[L20] `results/pointrcnn_finetune64_six_arms_20260824/reports/eval256_ap_report.md`: 64 frame fine-tuning the results of the screening, not as a final adaptation conclusion.

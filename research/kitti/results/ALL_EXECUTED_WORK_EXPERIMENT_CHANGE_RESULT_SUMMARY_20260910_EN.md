@@ -1,5 +1,7 @@
 # General record of all implemented, experimental adjustments and results
 
+> 2026-09-17 Update Hint: This is reserved as 09-10 history snapshot.The latest double detector convergence results and a combined time line from February to March.[Full working record of the experiment.](/home/ra87racy/reports/EXPERIMENT_WORK_RECORD_202602_TO_20260917_EN.md); Quick report.[Briefing](/home/ra87racy/reports/EXPERIMENT_BRIEF_20260917_EN.md). Do not misinterpret the status of 09-17 by missing the following operational status, best results or convergence evidence.
+
 **Check deadline: 2026-09-10 (Europe/Berlin)**
 **Scope of verification:`/home/ra87racy` Local Workspace**
 **Principle: Only code changes, command output, logs, manifest, projection documents, assessment forms, checkpoint, reporting or clean-up lists are recorded for work that can be shown to have actually taken place.**

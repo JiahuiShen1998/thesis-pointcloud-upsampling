@@ -27,7 +27,7 @@ Rationale: ×4 matches upstream defaults for PDANS (`R=4`), PU-Net (`up_ratio=4`
 
 ---
 
-## Q1. EAR 当前实际倍率是多少？
+## Q1. EAR, what's the current real multiplier?
 
 | Scope | Input | Output | Actual ratio | Role under ×4 protocol |
 | --- | ---: | ---: | ---: | --- |
@@ -41,7 +41,7 @@ Current wrapper (`scripts/ear_modelnet40_utils.py`): `TARGET_POINTS=1024`, `up_f
 
 ---
 
-## Q2. PU-Net 当前实际倍率是多少？
+## Q2. PU-Net, what's the current real multiplier?
 
 | Scope | On-disk outputs | Configured default | Main ×4 target |
 | --- | --- | --- | --- |
@@ -51,7 +51,7 @@ Default upstream ratio **already matches** main R=×4. Wrapper not yet implement
 
 ---
 
-## Q3. PU-GCN 当前实际倍率是多少？
+## Q3. PU-GCN, what's the current real multiplier?
 
 | Scope | On-disk outputs | Configured default | Main ×4 target |
 | --- | --- | --- | --- |
@@ -61,7 +61,7 @@ Default upstream ratio **already matches** main R=×4.
 
 ---
 
-## Q4. PDANS 当前实际倍率是多少？
+## Q4. PDANS, what's the current real multiplier?
 
 | Scope | On-disk outputs | Configured default | Main ×4 target |
 | --- | --- | --- | --- |
@@ -71,7 +71,7 @@ Default upstream ratio **already matches** main R=×4.
 
 ---
 
-## Q5. 哪些方法可以直接作为 main method？
+## Q5. What methods can be directly used as main method?
 
 **Main xyz group:** EAR, PDANS, PU-Net, PU-GCN. **TULIP excluded.**
 
@@ -87,7 +87,7 @@ No main-protocol production dataset exists at ×4 yet. Existing Line B EAR ×2 i
 
 ---
 
-## Q6. 哪些方法需要重新生成输出？
+## Q6. What methods do you need to regenerate the output?
 
 | Method | Action | Status |
 | --- | --- | --- |
@@ -98,7 +98,7 @@ No main-protocol production dataset exists at ×4 yet. Existing Line B EAR ×2 i
 
 ---
 
-## Q7. 推荐统一倍率是 ×2 还是 ×4？
+## Q7. Recommended Utility is x 2 or x 4?
 
 **Final main protocol: R = ×4.** (Previous ×2 recommendation is superseded.)
 
@@ -112,7 +112,7 @@ No main-protocol production dataset exists at ×4 yet. Existing Line B EAR ×2 i
 
 ---
 
-## Q8. 各线应输出多少点？（最终协议）
+## Q8., what are the points of output for each line?(Final protocol)
 
 | Branch | Line A | Line B |
 | --- | ---: | ---: |
@@ -128,7 +128,7 @@ PointNet++ training (`allow_resample=false`):
 
 ---
 
-## Q9. 当前 `downsampled50_ear_pointnet2` 是否符合最终倍率协议？
+## Q9. Current `downsampled50_ear_pointnet2` Does it match the final multiplication protocol?
 
 **No — ablation / preliminary only (×2, not main ×4).**
 
@@ -144,7 +144,7 @@ Main Line B upsampling comparison awaits native-512 baseline + **×4 EAR** Point
 
 ---
 
-## Q10. `downsampled50_baseline` loader 512→1024 是否只能作为 ablation？
+## Q10. `downsampled50_baseline` loader 512  /  1024 can only be used as ablation?
 
 **Yes — naive-resampled ablation only, not main baseline.**
 
@@ -161,12 +161,12 @@ Main Line B upsampling comparison awaits native-512 baseline + **×4 EAR** Point
 
 | Question | Answer |
 | --- | --- |
-| 理论倍率 | ×4 range-image (16×1024 → 64×1024) |
-| ModelNet40 实际倍率 | N/A (no outputs) |
-| KITTI xyz 实际倍率 | Not ×4; Line A μ≈0.41, Line B μ≈0.75 |
-| 输出稳定？ | No |
-| 进入 main protocol？ | **No** |
-| 保留 supplementary？ | **Yes** |
+| Theory Multiplication | ×4 range-image (16×1024 → 64×1024) |
+| ModelNet40 Actual multiplier | N/A (no outputs) |
+| KITTI xyz Actual multiplier | Not ×4; Line A μ≈0.41, Line B μ≈0.75 |
+| Output is stable? | No |
+| Into main protocol? | **No** |
+| Keep supplementary? | **Yes** |
 
 TULIP does **not** participate in fixed xyz point-count main comparison and did **not** drive the choice of R=×4 for EAR/PU-Net/PU-GCN/PDANS.
 

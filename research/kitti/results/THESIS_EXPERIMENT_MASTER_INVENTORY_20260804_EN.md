@@ -690,22 +690,22 @@ This section distinguishes between " current work tree verifiable changes " and 
 
 The current tracked diff is about 50 insertions / 9 deletions.
 
-1. [lib/config.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/lib/config.py)  
+1. [lib/config.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/lib/config.py)
    yaml.load is changed to yaml.safe_load, which corresponds to a new PyYAML and reduces the risk of unsafe back-serialization.
 
-2. [lib/datasets/kitti_dataset.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/lib/datasets/kitti_dataset.py)  
+2. [lib/datasets/kitti_dataset.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/lib/datasets/kitti_dataset.py)
    Add NFS
    - Up to 20 retries;
    - Check bytes and short read;
    - Every time waiting for 0.1 s.
 
-3. [lib/datasets/kitti_rcnn_dataset.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/lib/datasets/kitti_rcnn_dataset.py)  
+3. [lib/datasets/kitti_rcnn_dataset.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/lib/datasets/kitti_rcnn_dataset.py)
    Add sampler-safe:
    - far points  /  16384 Security without replacement sampling;
    - Allow replacement when the patch is insufficient;
    - Avoid negative sampling and crash.
 
-4. [tools/eval_rcnn.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/tools/eval_rcnn.py)  
+4. [tools/eval_rcnn.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/tools/eval_rcnn.py)
    args.test skips the built-in AP in even split=val and allows the unified offline evaluation of recovery AP.
 
 ### 8.2 Add Key Script
@@ -904,65 +904,65 @@ Migration report:
 
 ### 11.1 data set and detector
 
-1. Andreas Geiger, Philip Lenz, Raquel Urtasun.  
-   “Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite.” CVPR 2012.  
+1. Andreas Geiger, Philip Lenz, Raquel Urtasun.
+   “Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite.” CVPR 2012.
    Effects: KITTI data sets and 3D testing baseline source.
    Original language:[KITTI/CVPR PDF](https://www.cvlibs.net/projects/autonomous_vision_survey/literature/Geiger2012CVPR.pdf)
 
-2. Shaoshuai Shi, Xiaogang Wang, Hongsheng Li.  
-   “PointRCNN: 3D Object Proposal Generation and Detection From Point Cloud.” CVPR 2019.  
+2. Shaoshuai Shi, Xiaogang Wang, Hongsheng Li.
+   “PointRCNN: 3D Object Proposal Generation and Detection From Point Cloud.” CVPR 2019.
     Principle: Phase one is to do foreground on the original point.  bottom-up proposal; The second stage details 3D box in canonical coordinates.
    The role of the project: downstream detector, the main point;Its 16384 point budget and PointNet++ local aggregation is used to analyse generated points competition.
    Original language:[CVF Open Access](https://openaccess.thecvf.com/content_CVPR_2019/html/Shi_PointRCNN_3D_Object_Proposal_Generation_and_Detection_From_Point_Cloud_CVPR_2019_paper.html)
 
-3. Tianwei Yin, Xingyi Zhou, Philipp Krähenbühl.  
-   “Center-Based 3D Object Detection and Tracking.” CVPR 2021.  
+3. Tianwei Yin, Xingyi Zhou, Philipp Krähenbühl.
+   “Center-Based 3D Object Detection and Tracking.” CVPR 2021.
    Rationale: The 3D target is presented as the focal point, using BEV keypoint head testing centre and returning to dimensions, directional properties.
    The role of this project: voxel /BEV detector, which is used to verify whether root causes are in place across the detection architecture.
    Original language:[CVF Open Access](https://openaccess.thecvf.com/content/CVPR2021/html/Yin_Center-Based_3D_Object_Detection_and_Tracking_CVPR_2021_paper.html)
 
-4. Charles R. Qi, Li Yi, Hao Su, Leonidas J. Guibas.  
-   “PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space.” NeurIPS 2017.  
+4. Charles R. Qi, Li Yi, Hao Su, Leonidas J. Guibas.
+   “PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space.” NeurIPS 2017.
    The principle is to apply PointNet on the embedded neighbourhood to learn the local structure of points in multiple scale.
    This project function: PointRCNN backbone is the basis for local aggregation and downstream network of ModelNet40 classification branch.
    Original language:[NeurIPS Proceedings](https://proceedings.neurips.cc/paper_files/paper/2017/hash/d8bf84be3800d12f74d8b05e9b89836f-Abstract.html)
 
 ### 11.2 Official upsampling Method
 
-5. Lequan Yu, Xianzhi Li, Chi-Wing Fu, Daniel Cohen-Or, Pheng-Ann Heng.  
-   “PU-Net: Point Cloud Upsampling Network.” CVPR 2018.  
+5. Lequan Yu, Xianzhi Li, Chi-Wing Fu, Daniel Cohen-Or, Pheng-Ann Heng.
+   “PU-Net: Point Cloud Upsampling Network.” CVPR 2018.
    Practising: Learning multi-layered, point-by-point characteristics, amplified in multiple branch volumes, expanding point count in characteristic space, training patch-level network in combined loss combinations with surface matching and even distribution.
    The role of this project: the earliest learning model upsampling baseline;Its patch-level and normalization scenarios directly expose the current whole scene adaptation problem.
    Original language:[CVF Open Access](https://openaccess.thecvf.com/content_cvpr_2018/html/Yu_PU-Net_Point_Cloud_CVPR_2018_paper.html)
 
-6. Guocheng Qian, Abdulellah Abualshour, Guohao Li, Ali Thabet, Bernard Ghanem.  
-   “PU-GCN: Point Cloud Upsampling Using Graph Convolutional Networks.” CVPR 2021.  
+6. Guocheng Qian, Abdulellah Abualshour, Guohao Li, Ali Thabet, Bernard Ghanem.
+   “PU-GCN: Point Cloud Upsampling Using Graph Convolutional Networks.” CVPR 2021.
    Principle: Inception DenseGCN does more than scale feature extraction, NodeShuffle uses a graphic volume neighbourhood information extension point.
    The role of this project: the formal method of volume-forming, the performance of which is usually only less than PDANS.
    Original language:[CVF Open Access PDF](https://openaccess.thecvf.com/content/CVPR2021/papers/Qian_PU-GCN_Point_Cloud_Upsampling_Using_Graph_Convolutional_Networks_CVPR_2021_paper.pdf)
 
-7. Dohoon Kim, Minwoo Shin, Joonki Paik.  
-   “PU-EdgeFormer: Edge Transformer for Dense Prediction in Point Cloud Upsampling.” ICASSP 2023 / arXiv:2305.01148.  
+7. Dohoon Kim, Minwoo Shin, Joonki Paik.
+   “PU-EdgeFormer: Edge Transformer for Dense Prediction in Point Cloud Upsampling.” ICASSP 2023 / arXiv:2305.01148.
    Rationale: Combining EdgeConv volume and multi-headed attention with modelling of local geometric and global structures.
    The role of this project: Transformer/graph Mixture.
    Original language:[arXiv](https://arxiv.org/abs/2305.01148)
 
-8. Boqian Zhang, Shen Yang, Hao Chen, Chao Yang, Jing Jia, Guang Jiang.  
-   “Point Cloud Upsampling Using Conditional Diffusion Module with Adaptive Noise Suppression.” CVPR 2025.  
+8. Boqian Zhang, Shen Yang, Hao Chen, Chao Yang, Jing Jia, Guang Jiang.
+   “Point Cloud Upsampling Using Conditional Diffusion Module with Adaptive Noise Suppression.” CVPR 2025.
    (b) Rationale: the proliferation of conditions to generate density points;ANS Self-adaptation noise inhibition based on point-to-neighbourhood;TreeTrans integrates cross-layer features.
    The role of this project: the most robust of the formal methods, especially under noise and distributional deviations, is generally the best.
    Original language:[CVF Open Access](https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Point_Cloud_Upsampling_Using_Conditional_Diffusion_Module_with_Adaptive_Noise_CVPR_2025_paper.html)
 
 ### 11.3 Feasibility/background Method
 
-9. Bin Yang, Patrick Pfreundschuh, Roland Siegwart, Marco Hutter, Peyman Moghadam, Vaishakh Patil.  
-   “TULIP: Transformer for Upsampling of LiDAR Point Clouds.” CVPR 2024.  
+9. Bin Yang, Patrick Pfreundschuh, Roland Siegwart, Marco Hutter, Peyman Moghadam, Vaishakh Patil.
+   “TULIP: Transformer for Upsampling of LiDAR Point Clouds.” CVPR 2024.
    Rationale: The LiDAR projection is range image and the patch/window geometric of Swin Transformer is modified to match LiDAR range map characteristics.
    Role of the project: Original LiDAR method candidate;The old output has a xyz point count does not imply problem with protocol, which is strictly 4×, not entering the final four methods main table.
    Original language:[CVF Open Access](https://openaccess.thecvf.com/content/CVPR2024/html/Yang_TULIP_Transformer_for_Upsampling_of_LiDAR_Point_Clouds_CVPR_2024_paper.html)
 
-10. Yanzhe Liu, Rong Chen, Yushi Li, Yixi Li, Xuehou Tan.  
-    “SPU-PMD: Self-Supervised Point Cloud Upsampling via Progressive Mesh Deformation.” CVPR 2024.  
+10. Yanzhe Liu, Rong Chen, Yushi Li, Yixi Li, Xuehou Tan.
+    “SPU-PMD: Self-Supervised Point Cloud Upsampling via Progressive Mesh Deformation.” CVPR 2024.
     Principle: To consider upsampling as a condensable condensation, gradually optimising the structure through a thick grid plug-in and a multistage mesh deformation.
     Impact of the project: Completion of feasibility/ smoke, not entering the official main table.
     Original language:[CVF Open Access](https://openaccess.thecvf.com/content/CVPR2024/html/Liu_SPU-PMD_Self-Supervised_Point_Cloud_Upsampling_via_Progressive_Mesh_Deformation_CVPR_2024_paper.html)

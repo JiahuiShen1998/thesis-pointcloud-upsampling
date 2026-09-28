@@ -233,7 +233,7 @@ def build_slides():
     paths.append(save(im, 1, "cover"))
 
     # 2. Terminology and direct answer
-    im, d = base("Terminology first: PU-GCN was not retrained on KITTI", "Interpretation", 2, "Evidence: reports/protocol_and_code_zh.md §§0,1,7,8; adaptation_protocol.json files")
+    im, d = base("Terminology first: PU-GCN was not retrained on KITTI", "Interpretation", 2, "Evidence: reports/protocol_and_code_en.md §§0,1,7,8; adaptation_protocol.json files")
     b.panel(d, (100, 235, 900, 920), "What 'retrained' means in this deck", fill=PALE_GREEN)
     b.bullets(d, 145, 325, [
         "PU-GCN remains frozen at the released PU1K model-100 checkpoint.",
@@ -468,7 +468,7 @@ def build_slides():
     paths.append(save(im, 15, "convergence_verdict"))
 
     # 16. 3N principle
-    im, d = base("What '3N' means: observed-first composition", "3N Principle", 16, "Evidence: prepare_centerpoint_observed_first_train.py:52–75; protocol_and_code_zh.md §§2–3")
+    im, d = base("What '3N' means: observed-first composition", "3N Principle", 16, "Evidence: prepare_centerpoint_observed_first_train.py:52–75; protocol_and_code_en.md §§2–3")
     boxes = [(100, 290, 430, 700), (500, 290, 850, 700), (920, 290, 1270, 700), (1340, 290, 1815, 700)]
     flow_box(d, boxes[0], 1, "Observed cloud", "Line A: N original rows.\nLine B: M=floor(N/4) downsampled rows.", PALE_BLUE)
     flow_box(d, boxes[1], 2, "Strict PU-GCN cloud", "PU-GCN patch outputs are merged, then uniformly sampled without replacement to exactly 4N or 4M rows.", WHITE)
@@ -622,7 +622,7 @@ def build_slides():
         "reports/all_classes_ap_r40.csv",
         "reports/convergence_audit.json",
         "inputs/line_[ab]_pugcn_observed_first_manifest.csv",
-        "reports/protocol_and_code_zh.md",
+        "reports/protocol_and_code_en.md",
     ], 700, 20, 14)
     b.panel(d, (990, 235, 1815, 900), "Final verdict", fill=WHITE)
     t(d, (1035, 330), "Adaptation effect", 22, NAVY, True)

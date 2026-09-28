@@ -1154,17 +1154,17 @@ def create_interactive_3d(case: dict, path: Path) -> None:
         config={"displaylogo": False, "scrollZoom": True, "responsive": True},
     )
     body = (
-        "<div class='guide'><b>操作：</b>左键旋转，滚轮缩放，右键平移；双击场景可自动缩放；点击图例开关 original / observed / generated / E2 / boxes。"
-        "第 3、4、5 个场景的相机方向会同步，便于在同一视角比较 detector 输入与结果。"
-        " <a href='interactive_bev.html'>打开精确 2D BEV 辅助页</a> · <a href='metadata.json'>metadata</a></div>"
-        f"<div class='note'><b>生成点与选点：</b>E1 为 observed + 3N generated；E2 是 detector 实际收到的 16,384 点。"
-        f"本帧 E2 observed≤{100 * case['selection']['e2_exact_observed_fraction_upper']:.1f}%，generated≥{100 * case['selection']['e2_generated_fraction_lower']:.1f}%。"
-        f"完整场景为浏览器性能使用确定性显示 LOD（original≤{DISPLAY_MAX_3D_FULL:,}，generated≤{DISPLAY_MAX_3D_GENERATED:,}）；点数统计、局部 crop 和 detector 数据不因此改变。"
-        "完整场景轴默认限制在常规 KITTI LiDAR 范围，双击场景可查看超范围生成点。</div>"
-        "<div class='note'><b>Detector 判定边界：</b>框来自 <code>final_result/data</code>，所以它们已经通过当前 PointRCNN 的 RPN/RCNN score filtering 与 NMS。"
-        "页面没有保存被过滤的 proposal，因而黄/绿/橙/红不是模型内部的接受/拒绝颜色：黄色是 GT；绿/橙/红分别是离线同类中心≤2 m 关联后 IoU≥0.70、IoU&lt;0.70、未关联。"
-        "KITTI txt 的 score 是 raw RCNN logit，表中同时给出 sigmoid；正式 AP 仍来自全部 3,769 帧。</div>"
-        f"<div class='note'><b>本 case 诊断：</b>{html.escape(case['diagnosis'])}</div>"
+        "<div class='guide'><b> Operation: </b> Left-click rotation, roller Zoom, right-click; double-click the scene to automatically scale; click on the legend switch  original / observed / generated / E2 / boxes. "
+        " I don’t think so.  3, 4, 5  The camera direction of a scene is synchronized, so it can be compared from the same angle.  detector  Enter with the result. "
+        " <a href='interactive_bev.html'> Open Exact  2D BEV  Support Pages </a> · <a href='metadata.json'>metadata</a></div>"
+        f"<div class='note'><b> generated points and Chosen Point: </b>E1  Yes.  observed + 3N generated; E2  Yes.  detector  Actual received  16,384  Point. "
+        f" Ben frame  E2 observed≤{100 * case['selection']['e2_exact_observed_fraction_upper']:.1f}%, generated≥{100 * case['selection']['e2_generated_fraction_lower']:.1f}%. "
+        f" Full scene for browser performance using certainty  LOD (original≤{DISPLAY_MAX_3D_FULL:,}, generated≤{DISPLAY_MAX_3D_GENERATED:,});  point count Statistics, local  crop  and  detector  The data do not change. "
+        " The default limit of the full scene axis to the general  KITTI LiDAR  Range, double-click the scene to see the ultra-scope generated points. </div>"
+        "<div class='note'><b>Detector  Determine boundary: </b> Box from  <code>final_result/data</code>,  So they’ve passed the current one.  PointRCNN  It’s...  RPN/RCNN score filtering  with  NMS. "
+        " Page no Save Filtered  proposal,  So yellow. / Green / Orange / Red isn’t an internal acceptance of the model. / Reject color: Yellow is  GT;  Green / Orange / Red is the offline center. ≤2 m  After Association  IoU≥0.70, IoU&lt;0.70,  Not linked. "
+        "KITTI txt  It’s...  score  Yes.  raw RCNN logit,  The table is also given  sigmoid;  Official  AP  Still from all  3,769  frame. </div>"
+        f"<div class='note'><b> Ben.  case  Diagnostics: </b>{html.escape(case['diagnosis'])}</div>"
         f"<div class='decisions'>{decision_table_html(case['baseline_audit'], 'Baseline final-output audit')}{decision_table_html(case['up_audit'], 'Upsampled final-output audit')}</div>"
     )
     document = plotly_document(
@@ -1351,10 +1351,10 @@ def create_comparison_3d(items: list[dict], path: Path) -> None:
             "</tr>"
         )
     body = (
-        "<div class='guide'><b>同视角比较：</b>前五个场景相机同步；旋转、缩放任一 detector 场景，其余会跟随。点击图例可分别隐藏点或框。"
-        f" <a href='line_{first['line']}_frame_{first['frame']}.png'>打开 2D 固定视角对比图</a> · <a href='../index.html'>返回总索引</a></div>"
-        "<div class='note'><b>颜色含义：</b>蓝/橙为 E2 中 observed 上界/generated 下界；黄色为 GT。预测框颜色是离线解释：绿色 IoU≥0.70，橙色已关联但 IoU&lt;0.70，红色未关联。"
-        "所有显示的预测框本身都来自 PointRCNN final output，已经通过模型的 score filtering 和 NMS。</div>"
+        "<div class='guide'><b> Compared to the same perspective: </b> first five scene cameras synchronized; rotation, zoom in any  detector  scene, the rest will follow. Click the legend to hide a point or a box. "
+        f" <a href='line_{first['line']}_frame_{first['frame']}.png'> Open  2D  fixed Perspective Comparison </a> · <a href='../index.html'> Return to General Index </a></div>"
+        "<div class='note'><b> Colour meaning: </b> Blue / Orange to  E2  Medium  observed  Upper Border /generated  lower bounds;yellows  GT.  Projection box colour is offline interpretation: green  IoU≥0.70,  Orange has been linked but  IoU&lt;0.70,  Red unconnected. "
+        " All the predictions that are shown are themselves from  PointRCNN final output,  It’s passed through the model.  score filtering  and  NMS. </div>"
         "<section class='decision'><h3>Same-frame audit summary</h3><div class='table-wrap'><table><thead><tr>"
         "<th>method</th><th>AP Mod</th><th>ΔAP</th><th>E2 generated≥</th><th>final pred</th><th>assoc</th><th>extra</th><th>miss</th><th>TP/FP/FN@0.70</th>"
         f"</tr></thead><tbody>{''.join(table_rows)}</tbody></table></div></section>"
@@ -1571,8 +1571,8 @@ def render_index(rows: list[dict]) -> str:
 <title>Unified E1/E2 Detector Selection Visualization</title>
 <style>body{{font-family:Inter,Arial,sans-serif;margin:0;background:#eef1f5;color:#172033}}header,main{{max-width:1600px;margin:auto;padding:24px}}header{{background:white;max-width:none;border-bottom:1px solid #d8dde5}}h1{{margin:0 0 8px}}section{{background:white;border:1px solid #d8dde5;border-radius:10px;padding:18px;margin:18px 0}}.grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}.frame img{{width:100%;border:1px solid #ccd3dd;border-radius:7px}}a{{color:#086f83;text-decoration:none}}a.primary{{font-weight:700;color:#075f70}}.note{{background:#fff8e6;border-left:4px solid #dc9b22;padding:14px;margin-top:14px;line-height:1.5}}@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}</style></head>
 <body><header><h1>3D Unified E1 → E2 → PointRCNN visualization</h1><p>Four current methods × two experiment lines × the same two frames (000002 and 000152). Every case has rotatable 3D and precise 2D BEV views.</p></header>
-<main><div class="note"><b>主入口现在是 3D：</b>每个 case 左到右依次为完整 original/reference + observed baseline、完整 exact-x4 E1（observed/generated 分色）、detector 实际 16,384 点 E2、baseline 最终检测、upsampled 最终检测和同一目标 3D crop。可旋转、缩放、平移和开关图层；2D BEV 只作为精确俯视辅助。</div>
-<div class="note"><b>Detector 颜色不要误读：</b>显示的预测框均已由 PointRCNN 输出，已经通过 score filtering 与 NMS。绿/橙/红是之后为了分析做的 GT 关联与 0.70 IoU 审计，并非 detector 内部“选中/拒绝”状态；逐框 raw logit、sigmoid、匹配距离和 3D IoU 可在 3D hover 与页底表格查看。</div>
+<main><div class="note"><b> The main entrance is now.  3D: </b> Every one  case  Full left to right  original/reference + observed baseline,  Full  exact-x4 E1 (observed/generated  Distinct, detector  Actual  16,384  Points  E2, baseline  Final testing, upsampled  Final test and same target.  3D crop.  rotation, zoom, smooth and switch layers; 2D BEV  Only as an accurate overlooking aid. </div>
+<div class="note"><b>Detector  Colours do not misinterpret: </b> The projection box shown is all by  PointRCNN  Output, passed  score filtering  with  NMS.  Green / Orange / Red was later made for analysis.  GT  Association and  0.70 IoU  Audit, no  detector  Internal Selection / rejecting status;box-by-box  raw logit, sigmoid,  Match distance and  3D IoU  Yes.  3D hover  Viewes with the bottom table. </div>
 <p><a href="analysis_summary_zh.md">Chinese root-cause analysis</a> · <a href="case_summary.csv">case metrics CSV</a> · <a href="method_line_summary.csv">method/line summary CSV</a> · <a href="validation_report.json">validation report</a></p>
 <section><h2>Cross-method synchronized 3D comparisons</h2><div class="grid">{''.join(comparison_cards)}</div></section>
 {''.join(cards)}</main></body></html>"""
@@ -1627,58 +1627,58 @@ def render_analysis(cases: list[dict], summary: list[dict]) -> str:
             )
     return "\n".join(
         [
-            "# 统一两帧：E1 / E2 / PointRCNN 检测下降分析",
+            "#  Unified two frame: E1 / E2 / PointRCNN  Test for drop analysis ",
             "",
-            "## 结论",
+            "##  Conclusions ",
             "",
-            "这批可视化把问题定位在两个连续环节：第一，上采样生成的 3N 点中存在大量重复、偏离真实表面或落在车辆外壳/背景的几何；第二，E2 固定 16,384 点选择会让这些生成点进入 detector，并在 Line A 中挤掉大量原始测量。PointRCNN 之后仍按同一 checkpoint 做前景打分、proposal、RCNN 框回归/打分和 NMS，所以最终表现为漏检增加、框定位不能通过 0.70 Car 3D-IoU 参考线、置信分数下降或额外框增加。",
+            " This visualizes the problem in two steps: first, the upsampling generation.  3N  Numerous repeats, deviations from real surfaces or falling into vehicle casings at points / background geometric; second, E2  fixed  16,384  Point selection will allow these generated pointss to enter  detector,  And...  Line A  A large number of original measurements were squeezed out. PointRCNN  And then it’s the same.  checkpoint  Do the foreground score, proposal, RCNN  Box Back / Rating and  NMS,  So, finally, it’s missed detection, increased, frame-based cannot, passed.  0.70 Car 3D-IoU  A reference line, a confidence score, or an additional box increase. ",
             "",
-            "当前证据不支持“只是点数不够”这一解释：E3 将容量提高到 32,768 并优先保留真实点后，Line B 的可靠方法没有恢复；Line A 虽恢复 2.84--6.68 AP，仍明显低于同容量 baseline，说明生成几何污染仍是主因。",
+            " The current evidence does not support the explanation that “point count is not enough”: E3  Increase the capacity to  32,768  It is important to see how we can do this in the first place. Line B  no recovery; Line A  Although recovery  2.84--6.68 AP,  It’s still clear, below.  baseline,  It is clear that the generation of geometric remains the primary cause of pollution. ",
             "",
-            "## 为什么固定这两帧",
+            "##  Why, fixed, these two frame ",
             "",
-            "- `000002`：只有一个约 34.38 m 的 Moderate Car。Line A baseline 能关联该车，但 PU-GCN、PU-EdgeFormer、PU-Net 漏掉；Line B baseline 能关联，而四个上采样方法全部漏掉。它把远距稀疏目标上的退化隔离得很清楚。",
-            "- `000152`：7 个 Car，距离约 6.3--46.8 m。Line A baseline 关联 7/7，上采样后各方法只关联 4--6；Line B baseline 关联 6/7，上采样后只关联 3--5。它能同时看到近车、远车、定位和分数变化。",
-            "- 两帧在四个方法、两条线中数据和完整 E2 detector 输出均齐全，并且已有生成几何/车辆级指标，所以不是只挑一张好看的图。",
-            "- 这里的“全部方法”指当前统一 exact-x4 E1/E2 协议下完成全量 detector 评测的 PDANS、PU-GCN、PU-EdgeFormer、PU-Net。EAR/TULIP 属于更早的 x2/方法专用输入与 detector 配置，SPU-PMD 只有不完整 smoke 输出；把它们混入本图会破坏选点和 AP 口径，因此没有伪装成同一组可比结果。",
+            "- `000002`:  There’s only one appointment.  34.38 m  It’s...  Moderate Car. Line A baseline  Can connect to the car, but...  PU-GCN, PU-EdgeFormer, PU-Net  (a) Leaks; Line B baseline  It connects, and the four upsampling methods are all missing. It separates the degradation from the remote and thin target. ",
+            "- `000152`: 7  individual  Car,  Distance  6.3--46.8 m. Line A baseline  Association  7/7,  upsampling Subsequent methods only relate  4--6; Line B baseline  Association  6/7,  upsampling after only associated  3--5.  It can see changes in near, far, positioning and fractions at the same time. ",
+            "-  Two frame data and completeness in four methods, two lines  E2 detector  Output is complete and has generated geometric / Vehicle-level indicators, so not just a good-looking picture. ",
+            "-  ”All methods” here refer to the current harmonization.  exact-x4 E1/E2  protocol completed full  detector  An evaluation.  PDANS, PU-GCN, PU-EdgeFormer, PU-Net. EAR/TULIP  It’s earlier.  x2/ Method-specific input and  detector  Configure, SPU-PMD  Only incomplete.  smoke  output;to mix them into this chart will destroy the points selected and  AP  The caliber, so no is disguised as the same set of comparable results. ",
             "",
-            "## 统一结果表",
+            "##  Harmonization of results tables ",
             "",
             *table_lines,
             "",
-            "## Detector 实际如何选点和判断",
+            "## Detector  How to select points and judge in practice ",
             "",
-            "1. E1 先形成严格 `N observed + 3N generated = 4N`，真实输入点逐点保留。",
-            "2. E2 使用与 PointRCNN 范围一致的相机 FOV/range 过滤，做 0.1 m voxel 代表点选择，再按 0--20/20--40/40--60/60--70.4 m 深度层比例采样；不足时用未选有效点或确定性重复补到 16,384。整个选择不使用 GT、类别或 AP。",
-            "3. 保存后的 E2 已经恰好有 16,384 个有效点，所以 PointRCNN 不再做近/远二次下采样；图中第三列就是 detector 真正接收的点。",
-            "4. PointRCNN RPN 对这些点提取局部邻域特征并给前景分数：当前 `default.yaml` 的 RPN score threshold 为 0.3，测试时最多从 9,000 个 pre-NMS proposal 经 RPN NMS=0.8 留 100 个。RCNN 再池化每个 proposal、回归 3D 框并打分；sigmoid score >0.3 后再用 RCNN NMS=0.1 输出最终框。KITTI txt 保存的是 raw RCNN score/logit，所以图中可出现负分，它不是校准概率。",
-            "5. 图中的逐帧关联使用同类中心距离 <=2 m，再报告 oriented 3D IoU；`TP/FP/FN@0.70` 只用于解释 Car 的定位门槛。正式结论仍以 3,769 帧官方 AP_R40 为准。",
-            "6. 当前评测目录只保存 `final_result/data`，没有保存每个被 score threshold 或 NMS 淘汰的 proposal。因此 3D 页中出现的所有预测框都是 detector 已经输出的框；绿/橙/红是输出之后的 GT 审计颜色，不能解释成 detector 内部的接受/拒绝。每个框的 hover 和页底表格同时给出 raw logit、sigmoid、关联 GT、中心距离、BEV IoU 和 3D IoU。",
+            "1. E1  First, it’s hard.  `N observed + 3N generated = 4N`,  Keeps the actual entry point by point. ",
+            "2. E2  Use and  PointRCNN  The same range of cameras  FOV/range  Filter, do it.  0.1 m voxel  Point selection, press  0--20/20--40/40--60/60--70.4 m  Depth Depth Scale sampling;to be filled with unselected validity points or certainty when insufficient  16,384.  The entire selection is not used  GT,  Category or  AP. ",
+            "3.  After saving  E2  It just happens to be there.  16,384  A little more effective, so...  PointRCNN  No more close. / Two long times, downsampling; the third column in the chart is  detector  Real take-over point. ",
+            "4. PointRCNN RPN  Extract a local neighbourhood feature from these points and give foreground fractions: Current  `default.yaml`  It’s...  RPN score threshold  Yes.  0.3,  Up to test from  9,000  individual  pre-NMS proposal  I’m sorry.  RPN NMS=0.8  Stay.  100  A few. RCNN  I’ll quench every one of them.  proposal,  Return  3D  Box and score; sigmoid score >0.3  I’ll use it later.  RCNN NMS=0.1  Output final box. KITTI txt  I’m saving it.  raw RCNN score/logit,  So there’s a negative score, and it’s not a calibration probability. ",
+            "5.  The frame association in the figure uses the same centre distance  <=2 m,  Report back.  oriented 3D IoU; `TP/FP/FN@0.70`  For interpretation only  Car  . The formal conclusion remains that  3,769  frame Official  AP_R40  Yes. ",
+            "6.  Current Assessment Directory Saves Only  `final_result/data`,  no Saves each by  score threshold  or  NMS  It’s out.  proposal.  And so...  3D  All the predictions on the page are:  detector  boxes that have been exported;green / Orange / Red is after the output.  GT  Audit colour, cannot  detector  Internal acceptance / Rejects. Each box of  hover  and the table at the bottom  raw logit, sigmoid,  Association  GT,  Centre distance, BEV IoU  and  3D IoU. ",
             "",
-            "## 为什么 Line A 下降",
+            "##  Why?  Line A  Decline ",
             "",
-            "Line A 的原始扫描本来已信息完整。上采样不会恢复缺失测量，只会增加估计点。E2 中四方法的真实行上界通常只有约 23--27%，独立真实测量保留率约 21--24%；其余位置主要被生成点占用。即使 E1 保留全部原始点，生成点仍改变 PointRCNN 的 kNN/局部特征、前景分数和 proposal 证据。E3 真实点优先只能部分恢复，证明“真实点被挤掉”是一个原因，但不是全部原因。",
+            "Line A  The original scan would have been complete. upsampling would not have been recovery missing measurements, but would have added an estimate point. E2  It’s usually only about time that the Middle Fours are really on the line.  23--27%,  Independent true measurement of retention rates  21--24%;  The rest of the position is occupied mainly by generated points.  E1  Keep all original points, generated points still changes  PointRCNN  It’s...  kNN/ Local features, foreground fractions and  proposal  Evidence. E3  True point priority can only be partially recovery, proving that “real point is squeezed” is one reason, but not all of it. ",
             "",
-            "## 为什么 Line B 下降",
+            "##  Why?  Line B  Decline ",
             "",
-            "Line B 的稀疏 baseline 确实缺点，但当前公共 patch 提取器不是严格局部邻域：2048 点连续块的典型 XY 跨度约 30.46 m、p90 约 124.10 m。网络会把多个物体、地面和背景当成同一 patch 插值。新增点只把 0.2 m 参考体素召回提高约 9--12 个百分点，同时制造约 42--54% 不受原始完整扫描支持的占据体素。E3 保留所有 observed 并加倍容量仍不恢复，说明 Line B 主因是生成点位置错误，不是 16,384 cap。",
+            "Line B  Rare  baseline  Yes, it is, but it’s public.  patch  The extractor is not a strict local neighbourhood: 2048  Typical of a dot-coated block.  XY  Range around  30.46 m, p90  About  124.10 m.  The network will treat multiple object, ground and background as the same.  patch  Plugin value. Add a new point only  0.2 m  Reference voxel Call back for promotion  9--12  Percentage percentage, manufacture of the same  42--54%  Occupancy voxel without the original full scan support. E3  Keep All  observed  And double the capacity still not recovery.  Line B  Main cause is generated points error position, no  16,384 cap. ",
             "",
-            "## 方法差异",
+            "##  Methodological differences ",
             "",
-            "- PDANS 的表面一致性最好，因此 AP 最高，但 Line B 仍有约 41.7% E1 额外体素，仍比 baseline 低 21.67 AP。",
-            "- PU-GCN 次之；车辆近表面比例和生成体素精度下降，对应更大漏检。",
-            "- PU-EdgeFormer 的额外体素和车辆外壳点更多，PointRCNN 前景/框证据进一步被稀释。",
-            "- PU-Net 当前 wrapper 缺少预训练要求的中心化、尺度归一化和输出反变换；它的 AP 是 pipeline-defect 结果，不能当作 PU-Net 方法能力。",
+            "- PDANS  The apparent consistency is the best, so...  AP  Highest, but  Line B  There’s still a deal.  41.7% E1  Additional voxel, still higher  baseline  Low  21.67 AP. ",
+            "- PU-GCN  After that, the near surface ratio of the vehicle and the resulting voxel drops in precision, corresponding to the larger missed detection. ",
+            "- PU-EdgeFormer  The extra voxel and the vehicle’s shell is more, PointRCNN  foreground / Box evidence is further diluted. ",
+            "- PU-Net  Current  wrapper  Lack of centralization of pre-training requirements, scale normalization and output inversion; it  AP  Yes.  pipeline-defect  As a result, cannot is considered  PU-Net  Methodological capacity. ",
             "",
-            "## 如何看图",
+            "##  How to look at the map ",
             "",
-            "每个 case 的主入口是 `interactive_3d.html`：左键旋转、滚轮缩放、右键平移，点击图例可独立开关 original/reference、observed、generated、E2 selected、GT 和预测框；第 3--5 个场景同步相机。六个 3D 场景依次是完整 original/reference + observed baseline、完整 E1 observed/generated、detector 实际 E2、baseline 最终检测、upsampled 最终检测、同一 GT 的局部 3D 放大。完整场景使用固定随机种子的显示 LOD，但 E2 的 16,384 点和局部 crop 使用全部可用点，统计完全基于全量数据。",
+            " Every one  case  The main entrance is...  `interactive_3d.html`:  Left-click rotation, roller scaling, right-click on the legend for a stand-alone switch  original/reference, observed, generated, E2 selected, GT  and projection boxes;  3--5  A scene-sync camera. Six.  3D  The scene is complete in turn.  original/reference + observed baseline,  Full  E1 observed/generated, detector  Actual  E2, baseline  Final testing, upsampled  Final test, same.  GT  Local  3D  Zoom in. Full scene using fixed random seed display  LOD,  But...  E2  It’s...  16,384  Points and Parts  crop  Using all available points, statistics are based entirely on full-volume data. ",
             "",
-            "`interactive_bev.html` 保留精确二维俯视，`overview.png` 便于快速扫图；四个 `comparison_sheets/*_3d.html` 把同一实验线/同一帧的 baseline 与四种方法放在同步相机下。蓝色是 observed，橙色是生成/非 observed，黄色是 GT；绿色框在离线关联后通过 0.70 3D-IoU，橙框能关联但低于 0.70，红框未关联。focus crop 中青色菱形/黑色叉分别是 E2 最终选择的 observed/generated 行。",
+            "`interactive_bev.html`  Keep an accurate 2-D view. `overview.png`  Quick-cleaning; four  `comparison_sheets/*_3d.html`  Take the same test line. / The same frame  baseline  And four ways to put it under a synchronized camera. Blue is...  observed,  Orange is generated. / Not  observed,  Yellow is...  GT;  The green box goes through after the offline.  0.70 3D-IoU,  Orange frame connects but below  0.70,  Red box is not associated. focus crop  Middle Cyan diamond / Black fork.  E2  Final choice.  observed/generated  All right. ",
             "",
-            "## 限制",
+            "##  Limits ",
             "",
-            "逐帧关联用于解释，不复刻 KITTI 的 difficulty、DontCare 和全集阈值积分；官方 AP 只从现有全量 E2 评测读取。exact-row 方法会把与 observed 完全相同的生成行也算作 observed，因此 observed 比例是上界、generated 比例是下界。",
+            " The frame association is used for interpretation, and is not engraved  KITTI  It’s...  difficulty, DontCare  and complete threshold points;official  AP  Only from existing full volume  E2  Evaluate reading. exact-row  ♪ The way will put ♪  observed  The exact same generation line counts.  observed,  And so...  observed  The scale is upper bounds, generated  The ratio is lower. ",
             "",
         ]
     )

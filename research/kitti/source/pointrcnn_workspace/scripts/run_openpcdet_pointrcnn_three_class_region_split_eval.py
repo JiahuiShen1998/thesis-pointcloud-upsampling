@@ -374,12 +374,12 @@ def write_comparison(result_root: Path, summaries: dict[str, dict]) -> None:
 
     moderate = [row for row in rows if row["difficulty"] == "moderate"]
     lines = [
-        "# OpenPCDet PointRCNN 三类别成对 Region-Split 对比",
+        "# OpenPCDet PointRCNN  Three pairs.  Region-Split  Contrast ",
         "",
-        "Baseline 与所有方法使用完全相同的核心区域、3 m halo、检测器和合并规则。",
-        "核心区域内点不被 16,384 点上限截断；低于上限时由原生 PointRCNN 重复采样补满。",
+        "Baseline  Core regions exactly the same as all methods used, 3 m halo,  detector and merge rules. ",
+        " The core dots are not allowed  16,384  point cap cut; below cap timed by original  PointRCNN  Repeat sampling filled. ",
         "",
-        "## AP_R40 Moderate（%）",
+        "## AP_R40 Moderate (%)",
         "",
         "| Method | Class | Metric | Baseline | Method | Δ |",
         "|---|---|---:|---:|---:|---:|",
@@ -394,7 +394,7 @@ def write_comparison(result_root: Path, summaries: dict[str, dict]) -> None:
     lines.extend(
         [
             "",
-            "该表的 Δ 只比较同一 region-split 推理协议下各方法与 baseline；不能与整帧原生采样结果直接作差。",
+            " It’s the watch.  Δ  Only the same.  region-split  Conjecture between the methods of protocol  baseline;  cannot and the whole frame original sampling results are directly different. ",
             "",
         ]
     )

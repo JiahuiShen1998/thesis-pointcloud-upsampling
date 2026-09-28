@@ -155,10 +155,10 @@ def main() -> int:
         }
         r = out[method]
         print(
-            f"{method:14s} 新体素精度 随机={r['random_novel_precision']:5.1f}% "
-            f"共识={r['consensus_novel_precision']:5.1f}% ({r['novel_precision_gain']:+5.1f}) | "
-            f"删除体素召回 随机={r['random_removed_recall']:5.1f}% 共识={r['consensus_removed_recall']:5.1f}% | "
-            f"新体素数 随机={r['random_novel_voxels']:.0f} 共识={r['consensus_novel_voxels']:.0f}",
+            f"{method:14s}  New voxel Precision   Random ={r['random_novel_precision']:5.1f}% "
+            f" Consensus ={r['consensus_novel_precision']:5.1f}% ({r['novel_precision_gain']:+5.1f}) | "
+            f" Delete voxel Callback   Random ={r['random_removed_recall']:5.1f}%  Consensus ={r['consensus_removed_recall']:5.1f}% | "
+            f" New voxel   Random ={r['random_novel_voxels']:.0f}  Consensus ={r['consensus_novel_voxels']:.0f}",
             flush=True,
         )
 

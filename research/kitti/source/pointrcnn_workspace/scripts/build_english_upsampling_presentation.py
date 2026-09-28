@@ -1243,7 +1243,7 @@ def add_document_properties(prs):
     props = prs.core_properties
     props.title = "Why 4× Point-Cloud Upsampling Does Not Improve PointRCNN"
     props.subject = "Controlled KITTI Car AP R40 analysis of Original and Downsampled x4 upsampling lines"
-    props.author = "Codex"
+    props.author = "Jiahui Shen"
     props.keywords = "PointRCNN, point-cloud upsampling, KITTI, AP R40, PDANS, PU-GCN, PU-EdgeFormer, PU-Net"
     props.comments = "Generated from consolidated 256-frame screening results on 26 July 2026."
 

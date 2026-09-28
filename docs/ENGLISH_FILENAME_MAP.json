@@ -1,0 +1,18 @@
+{
+  "DELIVERY_CHECKLIST_CN.md": "DELIVERY_CHECKLIST.md",
+  "UPLOAD_GUIDE_CN.md": "UPLOAD_GUIDE.md",
+  "UPLOAD_STATUS_CN.md": "UPLOAD_STATUS.md",
+  "VALIDATION_CN.md": "VALIDATION.md",
+  "research/kitti/results/ALL_EXECUTED_WORK_EXPERIMENT_CHANGE_RESULT_SUMMARY_20260910_ZH.md": "research/kitti/results/ALL_EXECUTED_WORK_EXPERIMENT_CHANGE_RESULT_SUMMARY_20260910_EN.md",
+  "research/kitti/results/EXPERIMENT_BRIEF_20260917_ZH.md": "research/kitti/results/EXPERIMENT_BRIEF_20260917_EN.md",
+  "research/kitti/results/EXPERIMENT_WORK_RECORD_202602_TO_20260917_ZH.md": "research/kitti/results/EXPERIMENT_WORK_RECORD_202602_TO_20260917_EN.md",
+  "research/kitti/results/THESIS_EXPERIMENT_MASTER_INVENTORY_20260804_ZH.md": "research/kitti/results/THESIS_EXPERIMENT_MASTER_INVENTORY_20260804_EN.md",
+  "research/kitti/results/latest_full_validation/protocol_and_code_zh.md": "research/kitti/results/latest_full_validation/protocol_and_code_en.md",
+  "thesis/evidence/kitti_lab/convergence_20260917/EXPERIMENT_BRIEF_20260917_ZH.md": "thesis/evidence/kitti_lab/convergence_20260917/EXPERIMENT_BRIEF_20260917_EN.md",
+  "thesis/evidence/kitti_lab/convergence_20260917/EXPERIMENT_WORK_RECORD_202602_TO_20260917_ZH.md": "thesis/evidence/kitti_lab/convergence_20260917/EXPERIMENT_WORK_RECORD_202602_TO_20260917_EN.md",
+  "thesis/evidence/kitti_lab/primary_20260913/DETECTION_ORIENTED_UPSAMPLING_TRIAGE_ZH.md": "thesis/evidence/kitti_lab/primary_20260913/DETECTION_ORIENTED_UPSAMPLING_TRIAGE_EN.md",
+  "thesis/evidence/kitti_lab/visual_audit/reports/detector_separated_difficulty_root_cause_20260730/DETECTOR_AWARE_CONTROLLED_UPSAMPLING_PROPOSAL_ZH.md": "thesis/evidence/kitti_lab/visual_audit/reports/detector_separated_difficulty_root_cause_20260730/DETECTOR_AWARE_CONTROLLED_UPSAMPLING_PROPOSAL_EN.md",
+  "thesis/evidence/kitti_lab/visual_audit/reports/detector_separated_difficulty_root_cause_20260730/centerpoint/CENTERPOINT_SEPARATE_ANALYSIS_ZH.md": "thesis/evidence/kitti_lab/visual_audit/reports/detector_separated_difficulty_root_cause_20260730/centerpoint/CENTERPOINT_SEPARATE_ANALYSIS_EN.md",
+  "thesis/evidence/kitti_lab/visual_audit/reports/detector_separated_difficulty_root_cause_20260730/pointrcnn/POINT_RCNN_SEPARATE_ANALYSIS_ZH.md": "thesis/evidence/kitti_lab/visual_audit/reports/detector_separated_difficulty_root_cause_20260730/pointrcnn/POINT_RCNN_SEPARATE_ANALYSIS_EN.md",
+  "thesis/evidence/kitti_lab/visual_audit/reports/dual_detector_three_frame_root_cause_20260730/THESIS_ROOT_CAUSE_REPORT_ZH.md": "thesis/evidence/kitti_lab/visual_audit/reports/dual_detector_three_frame_root_cause_20260730/THESIS_ROOT_CAUSE_REPORT_EN.md"
+}

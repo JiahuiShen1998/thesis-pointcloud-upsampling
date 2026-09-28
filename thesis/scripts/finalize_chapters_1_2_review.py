@@ -1,4 +1,5 @@
 """Extract the reviewed chapters from thesis.pdf and verify the requested scope."""
+import os
 from pathlib import Path
 import sys,re,json,hashlib,difflib,runpy,contextlib,io
 R=Path(__file__).resolve().parents[1]
@@ -56,7 +57,7 @@ receipt=dict(pdf_pages=len(d),chapter_1_physical_pages=[first+1,second],
  canonical_sha256=hashlib.sha256((R/'thesis.pdf').read_bytes()).hexdigest(),
  review_sha256=hashlib.sha256(dest.read_bytes()).hexdigest())
 (A/'final_receipt.json').write_text(json.dumps(receipt,indent=2),encoding='utf-8')
-S=Path.home()/'.codex/skills/academic-research-suite/ars/scripts';sys.path.insert(0,str(S))
+S=Path(os.environ.get('RESEARCH_REVIEW_HELPERS_DIR', Path(__file__).resolve().parent/'external_review_helpers'));sys.path.insert(0,str(S))
 for p in [R/'thesis.pdf',dest]:
     sys.argv=[str(S/'pdf_read_preflight.py'),str(p)]
     with contextlib.redirect_stdout(io.StringIO()) as stream:
@@ -73,15 +74,15 @@ qadir=A/'pages_final';qadir.mkdir(exist_ok=True)
 for i in list(range(first,third))+[len(d)-1]:
     d[i].get_pixmap(matrix=pymupdf.Matrix(1.1,1.1),alpha=False).save(qadir/f'page_{i+1}.png')
 report=(A/'REPORT_CN.md').read_text(encoding='utf-8')
-report=re.sub(r'原工程完整编译文件，\d+ 页',f'原工程完整编译文件，{len(d)} 页',report)
-report=re.sub(r'第一、二章审阅副本，\d+ 页',f'第一、二章审阅副本，{len(rd)} 页',report)
-report=re.sub(r'保留范围内的 \d+ 个内部链接',f'保留范围内的 {rebuilt} 个内部链接',report)
-report=re.sub(r'第一章在整本 PDF 第 .*?CV 第 \d+ 页。',f'第一章在整本 PDF 第 {first+1}–{second} 页，第二章第 {second+1}–{third} 页，CV 第 {len(d)} 页。',report)
-report=re.sub(r'以空白分词对照，原稿 .*?质量指标。','按最新要求保留段落内容顺序，以上名称不再显示为小标题。',report)
-report=re.sub(r'表 2\.1 位于第二章正文第 \d+ 页顶部，其下才开始 2\.2 分类。','表 2.1 位于相应页面顶部，并保持在 2.2 分类正文之前。',report)
+report=re.sub(r' The original project is a complete compilation of documents. \d+  Page ',f' The original project is a complete compilation of documents. {len(d)}  Page ',report)
+report=re.sub(r' Chapters I and II review copies, \d+  Page ',f' Chapters I and II review copies, {len(rd)}  Page ',report)
+report=re.sub(r' to the extent of the reservation  \d+  Internal links ',f' to the extent of the reservation  {rebuilt}  Internal links ',report)
+report=re.sub(r' The first chapter is in the whole book.  PDF  I don’t think so.  .*?CV  I don’t think so.  \d+  Pages. ',f' The first chapter is in the whole book.  PDF  I don’t think so.  {first+1}–{second}  I, resolution 1, annex II.  {second+1}–{third}  Page CV  I don’t think so.  {len(d)}  Pages. ',report)
+report=re.sub(r' Compare with blanks, original  .*? Quality indicators. ',' The names above are no longer shown as subheadings in the order in which the most recent paragraph content is requested to be retained. ',report)
+report=re.sub(r' Table  2\.1  is located in the body of Chapter II  \d+  At the top of the page, it just started.  2\.2  classification. ',' Table  2.1  At the top of the corresponding page and keep at  2.2  classification Before the text. ',report)
 report=report.replace('pages/','pages_final/')
-if '## 最新小标题修正' not in report:
-    report+='\n## 最新小标题修正\n\n直接在原始章节文件删除 Introduction 的 6 个小标题、第二章的 18 个段内小标题；保留必要的章节编号和方法名称。5 处 MAX 运算符改为小写 max，不改动公式含义。对应记录见 heading_correction.json。本轮保持第三至六章正文不变。\n'
+if '##  Recent subheading amendments ' not in report:
+    report+='\n##  Recent subheading amendments \n\n Delete directly in the original chapter file  Introduction  It’s...  6  Subheadings, chapter II  18  Subheadings within paragraphs; necessary chapter numbering and method name retained. 5  Location  MAX  Operator to lowercase  max,  Do not change the meaning of the formula. See the corresponding record  heading_correction.json.  This round maintains the main body of chapters III to VI unchanged. \n'
 (A/'REPORT_CN.md').write_text(report,encoding='utf-8')
 print(json.dumps(receipt),flush=True)
 

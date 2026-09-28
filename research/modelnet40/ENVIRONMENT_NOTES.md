@@ -11,7 +11,7 @@ Known components include:
 - XeLaTeX with `fontspec` and the LaTeX packages imported by the chapter entry files.
 - Slurm for the supplied `.sbatch` jobs.
 
-The exact CUDA, compiler, framework, pretrained-weight, and GPU compatibility requirements differ by method. Historical fixes and failures are documented in `results/reports/` and in `../thesis/notes/ModelNet40_实验配置_代码使用_修改与结果完整记录_2026-09-13.md`.
+The exact CUDA, compiler, framework, pretrained-weight, and GPU compatibility requirements differ by method. Historical fixes and failures are documented in `results/reports/` and in `../thesis/notes/ModelNet40_ Experiment Configuration _ Code Usage _ Changes and full records of results _2026-09-13.md`.
 
 For inspection without retraining, use the archived CSV/JSON/Markdown reports and final run metrics. For a full rerun, first replace cluster-specific absolute paths, acquire the raw ModelNet40 data and separately licensed pretrained method weights, reconstruct each method's environment, and run smoke validation before scheduling full jobs.
 

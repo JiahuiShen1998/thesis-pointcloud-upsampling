@@ -1,8 +1,8 @@
-# ModelNet40 主实验 — 当前结果解读
+# ModelNet40 Main Experiment - Current Results Interpretation
 
 - Updated: 2026-07-01
 
-## 主协议 ×4 结果表
+## Master protocol ×4 Results Table
 
 | Line | Method                   | Input points | PointNet++ points | Best acc | Baseline |    Delta |
 | ---- | ------------------------ | -----------: | ----------------: | -------: | -------: | -------: |
@@ -13,16 +13,16 @@
 | B    | Downsampled50 + EAR ×4   |          512 |              2048 |   90.61% |   91.26% | -0.65 pp |
 | B    | Downsampled50 + PDANS ×4 |          512 |              2048 |   91.47% |   91.26% | +0.21 pp |
 
-## 协议说明
+## protocol Description
 
-- EAR 和 PDANS 均遵循同一 **×4 main protocol**：
+- EAR and PDANS follow the same **×4 main protocol**:
   - Line A: 1024 → ×4 → 4096 → PointNet++ (`allow_resample=false`)
   - Line B: 512 → ×4 → 2048 → PointNet++ (`allow_resample=false`)
-- Baseline 分支保持 native point count，不做 padding/resample 对齐 upsampling 点数。
-- TULIP 仅 supplementary，不进入 main protocol。
-- SPU-PMD 不进入 ModelNet40 main protocol。
+- Baseline branch keeps native point count, does not do padding/resample alignment upsampling point count.
+- TULIP only supplementary, do not enter main protocol.
+- SPU-PMD does not enter ModelNet40 main protocol.
 
-## 已完成方法
+## Completed Method
 
 ### EAR ×4 — COMPLETE
 
@@ -36,7 +36,7 @@
 - Method provenance audit: **PASS** (`method_confirmed`)
 - PointNet++ training: **COMPLETED** (200/200)
 
-## 下一步
+## Next
 
-- **当前待完成方法：PU-Net ×4**
-- PU-GCN 排在 PU-Net 之后（同样依赖 TF custom ops validate）
+- **Current Method to Finish: PU-Net ×4**
+- PU-GCN after PU-Net (also dependent on TF custom ops validate)

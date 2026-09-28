@@ -4,11 +4,12 @@ Random cloud: one unordered coordinate set with all 192 generated rows shown.
 Detector schematic: original vector drawing of published processing stages.
 Final text is 12 TeX pt at the thesis text width; outputs are not cropped/scaled.
 """
+import os
 from pathlib import Path
 import sys, json
 R=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(R/'.python-deps'))
-sys.path.insert(0,str(Path.home()/'.codex/skills/nature-figure/scripts'))
+sys.path.insert(0,str(Path(os.environ.get('FIGURE_HELPERS_DIR', Path(__file__).resolve().parent/'external_helpers'))))
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')

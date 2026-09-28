@@ -1,4 +1,268 @@
-# General record of all implemented, experimental adjustments and results
+# From February to March to the present, the full work of the experiment.
+
+Update date: 2026-09-17 (Europe/Berlin).Scope: evidence available in the local work area;This is not an addition to the day-by-day event for which the log is not kept.
+
+## Reading notes and evidence boundary
+
+The record is divided into two parts:
+
+- **Part I: Unified time line, latest results, problems and treatment, code and evidence portal up to 09-17.** The current conclusion is based on this part.
+- **Part II: Full text of 09-10 General Historical Record.** (a) Keep all records of early experiments, failures, ablation, subset results, code changes, documents and clean-up;Keep the text as it is, only lowers the title level."Current" "convergence" in it refers to 09-10, which was not 09-17 at the time.
+
+The term “complete” refers to the activity of cannot to restore no as much as possible to cover all job categories in existing evidence.II. In March, preparatory work could be confirmed from historical retrospective records and from ongoing work documents, but no simultaneous training logs that could be validated on a day-by-day basis have been found;In April, too, a sufficiently independent daily record was found.cannot used the time when the document existed or was modified as proof that the experiment had been completed during the month.
+
+Status distinction: Completed/partially completed/failed or discontinued/code completed without formal pilot/audit analysis/not implemented.pilot, smoke, plan and the empty directory none impersonate full-val.
+
+The historical indicators must be read in the original protocol: the early PointRCNN had an old AP_R11 style evaluator, different input sampling and proposal configurations;cannot and 09 lateral fusion of AP_R40 main table.There is no direct comparison between different subsets, random seed or AP, which has different weights.
+
+## 1. Current sentence
+
+Multiple methods are rigorous and upsampling no has been steadily tested and upgraded;observed-first plus detector adaptation significant recovery performance. Now.  PointRCNN  and  CenterPoint  It's...  Line A/B  We've got a full take-out.  epoch  Validation and satisfaction of the established time frame test, but the best result remains below ' s respective reference baseline. The PU-GCN network itself has always been fixed, no conducting a upsampling training on KITTI.
+
+## 2. Timeline from beginning to end
+
+| Phase | Purpose and practical work | Problems, outcomes and status | Evidence positioning |
+|---|---|---|---|
+| 2026-02 to 03, retroactive | Create a PointNet/ModelNet/KITTI project, preprocessing of data, classification training and upsampling interface | (b) Engineering preparation;no can confirm the full ModelNet40 classification accuracy rate.Date only can be traced to the general record of history, cannot by day | Part II, sections 10, 17;thesis_demo |
+| 2026-04 | The transition from early engineering to May. | Sufficient independent simultaneous records were not found, and no remedial experiments and achievements were made | Evidence gap |
+| 05-03 to 05-08 | KITTI baseline, EAR, PU-Net x2; PU-GCN Environment and reasoning recovery | The development of early and complete assessments also exposes serious points of loss and environmental compatibility problems.05-04 PU-Net Old protocol Moderate 3D AP 1.1364 | 05-04 work log;Part II, section 9 |
+| 05-12 to 05-19 | fair comparison, RPN4096, TULIP, PU-EdgeFormer Initial access | The configuration is not uniform;PointRCNN negative sampling, missing part of the document, old TF/CUDA compilation and weighting problems.cannot, mix these protocol results and make it official. | Part II, Section 6, 9 |
+| 06-06 to 06-15 | TULIP Full and Output Audit;PDANS/SPU-PMD access;HPC Prepare for migration | TULIP has run but not unified exact-4×;SPU-PMD only 4-frame smoke;HPC is blocked by DNS/ | Part II, sections 5, 9, 11 |
+| 06-20 to 06-30 | Audit of real point count multiplier, design strict x4 Line A/B, supplementary visualization and cleanup | It was found that the old output was not always x4 and that some methods had point count caps;Large intermediate file migration and cache cleanup list | Part II, sections 3, 9, 12 |
+| 07-03 to 07-18 | PDANS, PU-GCN, PU-EdgeFormer, PU-Net Strict Line A/B;PointRCNN in full;E1/E2/E3 input control | The main experiment was completed;upsampling does not exceed baseline;Add sampler-safe, separate the file layer point count and detector to read point count | Part II, section 5–7;master inventory |
+| 07-19 to 07-31 | CenterPoint in full;dose, direct no-resample, patch root, PU-Net normalization 2×2 ablation, surface patch | Finds repeat points, non-local patch, normalization and voxel activation problems.(a) Repair of recovery part AP, but does not imply exceeds baseline;Part full dose not completed | Part II, Section 5–7, 12 |
+| 08-04 to 08-11 | Multiple methods local patch pilot, region split, detector-aware PDANS V2–V5, Line B selection policy | 256-frame Development and Part holdout64 completed;Local positive result no becomes a stable cross protocol / cross detector gain | Part II, section 7 |
+| 08-12 to 08-18 | Methodology feasibility survey, sampling variance, systematic reporting, target missed detection case | 16-seed Checks to reduce the one-time positive gain interpretation;The new methodology survey is not counted as a run-off experiment;Generate report and lost-car | Part II, sections 7, 14, 15 |
+| 08-24 to 08-28 | finetune64 Six branch screening;(a) detector adaptation for the complete train source data;observed-first pilot | (a) Presumption test and complete training, 256-val pilot has been improved;3 epochs is fixed length, not selected by convergence | Part II, section 8;full_retraining_report |
+| 09-02 to 09-08 | Thesis chapter 3–6, ModelNet/KITTI Integration, chart and source list | Completion of document outputs;Part of the table is still the old pilot, cannot automatically as the later full-val result | Part II, section 14 |
+| 09-08 to 09-10 | Strict PU-GCN A/B each 3,769 frame;Double detector 20-arm full matrix;Total category AP and source storage | 20/20 PASS; Clarification of 3 epochs no convergence evidence;The meaning of fixed upsampling and detector adaptation was clarified | full_val_detector_matrix; convergence_audit |
+| 09-14, convergence supplementary | CenterPoint A/B Each 12 epochs, saved and fully validated per round | Two lines to satisfy 0.2 AP / patience 3;Best A 75.9661, B 62.9007, all e12 | CenterPoint convergence summary / CSV |
+| 09-14 to 09-15 | PointRCNN Initial 12-epoch RPN convergence Experiment | A RPN e12 has been significantly raised to 69.5780, end of platform not yet due, cannot announcing convergence | 12→18 schedule_extension_protocol |
+| 09-15 to 09-16 | New 18-epoch PointRCNN schedule, A/B RPN and RCNN Phase full verification | A Two phases, B RPN;B RCNN e16 to 56.8876, e17/e18 only 2 rounds not significantly improved, not reaching patience 3 | 18-epoch Phase by Stage CSV/JSON |
+| 09-16 to 09-17 | Keep B RPN e14 and open 24-epoch RCNN full schedule | Best e19 is 57.0485;e20–24 Continuous 5 Round without significant improvement, status CONVERGED;24 has satisfied the sentence and does not require execution of 30/36 schedule | final_comparison.json; status.json |
+| 09-17, this time. | Combining the latest convergence evidence and all previous work records | New bulletin and this document to keep the original 09-10 record;no Starts new training, no Modifys experimental weights | This document, brief, updated results CSV |
+
+Early engineering evidence:[thesis_demo classification training](/home/ra87racy/projects/thesis_demo/train_cls.py), [PointNet Model](/home/ra87racy/projects/thesis_demo/models/pointnet_cls.py), [ModelNet Data Preprocessing](/home/ra87racy/projects/thesis_demo/scripts/preprocess_modelnet40_off.py). Of these, train_upsampling.py, dgcnn_cls.py is still empty;The interface/file name exists for does not represent training in matching models completed.
+
+May Direct Log:[WORKLOG_2026-05-04](/home/ra87racy/projects/baseline_detectors/PointRCNN/WORKLOG_2026-05-04.md). Earlier general list:[master inventory](/home/ra87racy/projects/baseline_detectors/PointRCNN/reports/THESIS_EXPERIMENT_MASTER_INVENTORY_20260804_EN.md). Historical dates are mainly based on the stage attributed to the reporting period, and the date of the document name does not necessarily equal the date of completion.
+
+## 3. Current official results: not suitable, former 3-epoch, platform period results and baseline
+
+Harmonized indicator: Car 3D Moderate AP_R40;Each evaluation uses 3,769 frame.The 'unsuitable' here refers to the same observed-first point cloud input with the official detector weight, not the original point cloud baseline.
+
+| detector | Line | Not fit for input | Former 3-epoch | It's the best after training. | Reference baseline | Difference with baseline |
+|---|---|---:|---:|---:|---:|---:|
+| PointRCNN | A | 64.2748 | 71.0075 | **71.5920** | 81.9528 | -10.3608 |
+| PointRCNN | B | 35.5289 | 55.2145 | **57.0485** | 68.3312 | -11.2827 |
+| CenterPoint | A | 63.2064 | 74.7012 | **75.9661** | 79.2773 | -3.3112 |
+| CenterPoint | B | 44.0929 | 61.6639 | **62.9007** | 68.0490 | -5.1483 |
+
+| detector | Line | Relatively unsuited upgrades | Relatively old 3-epoch Upgrade | Best checkpoint |
+|---|---|---:|---:|---|
+| PointRCNN | A | +7.3172 | +0.5845 | RPN e14 + RCNN e2, 18-epoch schedule |
+| PointRCNN | B | +21.5197 | +1.8340 | RPN e14 + RCNN e19, 24-epoch schedule |
+| CenterPoint | A | +12.7597 | +1.2649 | detector e12, 12-epoch schedule |
+| CenterPoint | B | +18.8078 | +1.2368 | detector e12, 12-epoch schedule |
+
+Evidence:[PointRCNN Final summary](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/FINAL_RESULTS.md), [PointRCNN Proof by stage](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/final_comparison.json), [CenterPoint convergence Summary](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_convergence_20260914/reports/centerpoint_convergence_summary.md).
+
+Comparative limitations:
+
+1. Line A baseline is the original N point, the official detector weight; no has been retrained by convergence.  original-N baseline.
+2. Line B baseline is a thin M point with existing 3-epoch adapted detector;Also no was extended this time to convergence baseline.
+3. These differences are the difference between the results of the already available references and not the causal effects of all branch training budgets that are fully consistent.
+4. checkpoint selects the same Car Moderate AP as validation set and reports the same validation set results;The validation-selected result is not an independent test generalization conclusion, and there is a risk of selection bias.
+5. The platform-time rule Car, cannot, is automatically extended to all categories and all indicators are convergence. For the results of the old whole category see Part Two, paragraph 1  4.3  Section, cannot Put the old  checkpoint  It's...  Pedestrian/Cyclist  Number to the new best  checkpoint.
+6. The 20-arm matrix of 09-10 remains the original 3-epoch experiment in which cannot continued to be known as the original matrix of the time after replacing adapted lines silently.
+
+## 4. convergence, what steps have you made?
+
+### Code for 4.1
+
+Notable improvement condition is current AP **Stricter than**Distinguished best recorded AP + 0.2;Otherwise, there is no significant consecutive improvement in the count plus 1.At least 3 is counted at the end and marked as reaching the platform period.Full report schedule;It was triggered by patience, and if it rebounded significantly, it would be recounted.
+
+The best global values for checkpoint and the reference checkpoint can be different.For example, A RCNN e2 is much higher than e1, but not higher than 0.2, so no significant improvements are reset;CenterPoint e12 is the same.
+
+This rule provides operational convergence evidence under this training setting, does not prove that the parameter gradient is zero, does not prove the best in the world, and does not prove that the change in learning rates or training programmes will not continue to improve.
+
+### 4.2 PointRCNN Two-stage evidence
+
+AP of the RPN phase is the corresponding combination test assessment and should not be treated as a training phase with AP of the final RCNN model.
+
+| Line | Phase | Completed epochs | Best Value epoch | Best AP |  No significant improvement at the end of the period  epochs | Status |
+|---|---|---:|---:|---:|---:|---|
+| A | RPN | 18 | 14 | 70.9712 | 4 | CONVERGED |
+| A | RCNN | 18 | 2 | 71.5920 | 17 | CONVERGED |
+| B | RPN | 18 | 14 | 52.7646 | 4 | CONVERGED |
+| B | RCNN | 24 | 19 | 57.0485 | 5 | CONVERGED |
+
+The four curves eventually selected are 78 epoch assessments (18+18+18+24), not 78 stand-alone random seed experiments.The old 18-epoch B RCNN and earlier 12-epoch A RPN is another schedule, which is preserved as historical evidence and does not collide into a continuous curve.
+
+B RCNN 24-epoch End:
+
+| epoch | Car Moderate AP_R40 |
+|---:|---:|
+| 19 | 57.0485 |
+| 20 | 55.6280 |
+| 21 | 55.3521 |
+| 22 | 55.3774 |
+| 23 | 55.6153 |
+| 24 | 55.5902 |
+
+ So end-use.  e19,  Not only, which is used for final saving.  e24.
+
+### 4.3 CenterPoint, double-line evidence.
+
+| Line | Completed epochs | Best epoch | Best AP | Significant improvement of reference epoch / AP | No significant improvement in the number of rounds at the end |
+|---|---:|---:|---:|---|---:|
+| A | 12 | 12 | 75.9661 | e8 / 75.7998 | 4 |
+| B | 12 | 12 | 62.9007 | e9 / 62.8977 | 3 |
+
+A Last value increment 0.1663, B is 0.0030, all does not exceed 0.2.Thus, the term “e12 maximum” does not conflict with “threshold to meet this platform period”;Nor should it be said that the final AP will not rise at all.This verification of CSV for all lines of 24, all of which are identified as 3,769 frame, 24, all of the checkpoint paths exist.
+
+### 4.4 Why is cannot going straight behind 18 to 24?
+
+The OneCycle learning rate trajectory depends on the total epochs. This time.  24-epoch B RCNN  From the same one.  RCNN  Initialize, fixed  RPN e14  Start Full New  schedule,  Not old.  e18  Additional after  6  Equivalent.  epoch. An interruption within the same total schedule can be obtained from checkpoint recovery;The change of the total schedule needs to be explicitly recorded as a new experiment.
+
+Evidence:[12 — 18 protocol](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_convergence_e18_20260915/schedule_extension_protocol.json), [B RCNN 24 schedule and Initializing Hashi](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/final_comparison.json).
+
+(b) There has been a process interruption and a phase link to recovery in the course of training, and one interruption should not be described as a final failure;The current outcome document clearly gives CONVERGED.This sandbox restricted cannot connects the user systemd bus and therefore does not prove that the whole machine has no training tasks in this list of isolation environments.
+
+## 5. Two core issues and details of previous inquiries
+
+### Question one: Why is upsampling always below baseline, can you just add a little more to recovery?
+
+Existing results do not support “more point, more detection”.The four main experiments, double detector, input control, patch/ normalization ablation and sampling /voxel audits all suggest that geometric quality is as important as input distribution.generated points is not a new sensor observation;Add point count and do not guarantee recovery drop sampling lost target evidence.
+
+However, the contribution of each mechanism has not been completely causally broken down.One patch repair, for example, led to a AP rise, which can only support the help of this configuration, and cannot quantifys the only reason for all the remaining gaps.The full details are given in Part II, section 5–7.
+
+### Question two: Is it because only 3 epochs has run away and cannot's judgment?
+
+It is true that cannot claims that 3 epochs has become convergence;It has now been completed on the basis of epoch checkpoint, 3,769 frame Validation and clarification of the rules of the platform period.The four best sets of AP increased after the extension, but still do not meet the reference baseline.Thus, only, due to a lack of three rounds of training, cannot fully explains the current gap;This still does not imply excludes other optimisation options.
+
+**Why did you choose 3 at first?** The code proves that it is adaptation in advance of fixed;Existing log no records the basis for the selection of 3 instead of other values.cannot adds to the fact that speculations such as “the limited budget” “three rounds are sufficient”.
+
+### 3N/3M How do you choose, what is the principle?
+
+Sets the original point count N;Line A directly from N upsampling to 4N.Line B first fixed seed without replacement reserves M=floor(N/4) and then creates 4M.
+
+- direct: Only strict 4N/4M rows generated by the network.
+- observed-first: Keep all the real observed N/M rows and stabilize seed sample uniformly without replacement 3N/3M from the creation of rows, which together remains 4N/4M.
+- Thus, 3N is intended to keep the total 4N while retaining N real points, which are not the three new sets of high-confidence points identified by the network.
+- no scores 3N by confidence, curve, FPS or geometric;Also no assures that the coordinates are completely different from observed.without replacement assures row index does not repeat, does not imply geometric coordinates are necessarily the only one.
+- PU-GCN patch enter 2048, output 8192, single patch normalization, and reasoning reverse normalization;generated points intensity with observed 1-NN succession.These are actual processes and no additional filtering mechanisms have been added that are not addressed.
+
+The following extracts the key logic of the actual construction code, not the new algorithm:
+
+```python
+BASE_SEED = 20260718
+
+def stable_seed(*parts):
+    digest = hashlib.sha256(
+        "|".join(str(part) for part in parts).encode("utf-8")
+    ).digest()
+    return int.from_bytes(digest[:8], "little") & 0xFFFFFFFF
+
+expected = 4 * observed.shape[0]  # predicted  Number of lines checked first equals  expected
+seed = stable_seed(BASE_SEED, "e1", args.reference_token, frame)
+rng = np.random.default_rng(seed)
+selected = rng.choice(expected, size=3 * observed.shape[0], replace=False)
+final = np.concatenate((observed, predicted[selected]), axis=0).astype(
+    np.float32, copy=False
+)
+```
+
+Full code:[prepare_centerpoint_observed_first_train.py](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/prepare_centerpoint_observed_first_train.py). Scripts also audit observed prefixes and postfixes and record SHA-256 for index selection and output.Although the document is known as CenterPoint, the resulting observed-first input is also used for the corresponding PointRCNN experiment;Specific input path can be found in final_comparison.json.
+
+Detailed protocol:[protocol_and_code_en.md](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/reports/protocol_and_code_en.md). Its end-state of operation only reflects the current progress, cannot overwrites completed main table or the latest results.
+
+### Who the hell did you retrain?Trained frame Why do you have different numbers?
+
+PU-GCN fixed by PU1K model-100;It's RPN/RCNN and CenterPoint from PointRCNN.KITTI train split Source 3,712 frame, PointRCNN Physical retention of 3,265 frame after training screening, related to target/scope filtering;val is complete 3,769 frame.These numbers are in different stages, and cannot writes 3,265 as validation set missing and cannot as detector epochs as PU-GCN epochs.
+
+## 6. Key Issues - Processing - Results Table
+
+Historical values keep their respective subsets and protocol and do not mix with the new AP_R40 table in 3.
+
+| Problem | What did you do? | Results and supportable conclusions |
+|---|---|---|
+| Old Environment/ Custom CUDA ops Not Compatible | Rehabilitation of TF path, extended compilation/dependency, equipment tensor, optional import;Use of compatible environments for different projects | Multi-methods are operational;PU-EdgeFormer official result from ops-reuse compatible path, cannot says the original environment is reproduced |
+| upsampling Results no Strict 4× | ratio audit; Redefinition of A=N  /  4N, B=M  /  4M;PV frame Audit | 09 month A/B 3,769 frame strict input completed;TULIP Retain Independence protocol |
+| Old patch Space is not local | Audit of spatial boundaries to change local/override patch | The old Line B patch XY p90 can reach 124.10 m;Partially repair recovery partial performance, but not all drop points |
+| First edition local patch copy/assemble | Statistical repetition rate, voxel occupied and modified construction | A batch of outputs repeat rows 59.4%;PointRCNN does not react with CenterPoint, which means that geometric is not enough. |
+| PU-Net normalization Error | Old/correct normalization × Old/ Local patch 2×2 ablation | 256-frame PointRCNN, from the old combination 7.9823 to correct + local 43.5424, still below, also approved baseline 81.3033 |
+| PointRCNN fixed sampling and negative sample size | sampler-safe, direct no-resample, E1/E2/E3 | (a) Fixing running errors;Cancel sampling does not guarantee improvement, even baseline changes, so cannot mixes two protocol explanations |
+| CenterPoint voxel Interrupted/ Activated Changes | Number of voxel, cap hits and density distribution | The A method of generation more often triggers cap;B without trigger or drop point, cap is not the only explanation. |
+| Whether to destroy detection by generating over-representation | dose pilot, full g10, small-scale real points | Kid dolls have a positive, full g10 unstable victory baseline;Full g25/g50 not completed, not confused with multi-scale pilot |
+| Partial positive gain for detector-aware PDANS V1–V5 | Component ablation, Double detector, holdout64, 16-seed | V1 single time + 1.2227 does not constitute a steady advantage;16-seed average difference - 0.438, 9/16 negative;V5 holdout CP Car -0.1369 |
+| region split Do we have more targets? | Three types of PointRCNN divisional assessment, holdout and sampling Sensitivity check | Individual holdout has added value, but the whole method pilot and worker/ sampling are unstable;cannot claims stability detector-wide improvement |
+| From direct Generation Input to observed-first | Keep N/M real point and smoke 3N/3M generated points | observed-first outperforms of full-val corresponds to direct; Cooperation  adaptation  recovery, Evidently, hasn't won.  baseline |
+| 3 epochs Enough | Former convergence audit;Later checkpoint and Full Validation | There was no evidence;The four groups are now set to threshold to reach the platform period. The latest values are shown in section 3–4 |
+| Is a short medium platform equal to the end? | Check full curve and end patience | 12-epoch A RPN and 18-epoch B RCNN all show later improvements, which eventually extend to the right complete schedule |
+| baseline Same as training budget | Clear list of original/ rare, official/adapted references |  _Other Organiser  baseline  (a) convergence training; The report retains this relative limitation and does not create fairness. |
+| Children's collection and random sampling error | 16-seed, Duplicate sampling Uncertainty estimate | 20-frame smoke/pilot cannot supports small gains;Select the basis to be separated from the conclusion of an independent generalization |
+| EAR strict is too slow. | a small number of frame measured and estimated | At the time, full A/B was estimated to be about 92–103 days, not completed;Do not impersonate the old EAR assessment as the new strict full |
+| SPU-PMD Access Difficulties | Fix Import/Environment and Run 4-frame smoke | finite output and local detection available, but not complete AP |
+| ModelNet40 classification Chain not completed | Preparation project, protocol;PU-GCN/line 8 Sample smoke | No local complete 12,311 ×, no PointNet++ classification accuracy;There are HPC files cannot and no log is classified as a new experiment |
+| HPC migration failed | bundle, Checklist, dry-run, Connection Check | DNS/ Authentication Block, not completed Remote Transmission/Opt, cannot Written as HPC Full run |
+| Disk Pressure | Multiplely rotated authorization to clean up, retain end product and list | For historical clean-up capacity see Part II, section 12;Those capacity and free space are not today's real-time values. |
+| There's a lot of untraceable lab codes. | Source Snapshot and SHA-256 manifest | 09 month 151-file snapshot has a record;The old snapshot does not include, later added convergence script, has to be quoted separately |
+| Delay in the publication of papers and reports | Generate this unified record and keep the original version | This no rewrites all existing PPT/ dissertations sections, and old materials still need to be manually synchronized with the latest tables. |
+
+## 7. Completed, Partially Completed with no boundary
+
+Completed: major historical multi-mode experiments and multiple diagnostics (based on their protocol);PU-GCN 09-10 double detector 20-arm full matrix;CenterPoint 12-epoch A/B certification for observed-first;PointRCNN A/B Phased Platform Period Certification;This is a Chinese briefing and a consolidated record.
+
+ Not completed or does not establish: PU-GCN  Network.  KITTI  and retracing, ModelNet40  Official classification, EAR  New  strict full-val, SPU-PMD full-val, HPC  Successful migration, complete approach.  detector adaptation,  All  baseline  convergence, each category has convergence, independent  test  Improved, all of it.  PPT/ _Other Organiser
+
+does not imply "All experiments completed" and does not imply "The algorithm has exceeded baseline".
+
+## 8. Results, Charts, Codes and Evidence Navigator
+
+### Recent results and off-the-shelf curve
+
+- [PointRCNN Final result](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/FINAL_RESULTS.md)
+- [Final complete JSON (includes each wheel tracks, old results and source code/weight Hash)](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/final_comparison.json)
+- [Final Task Status](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/status.json)
+- [A RPN 18-epoch Curve](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_convergence_e18_20260915/reports/pointrcnn_line_a_pugcn_observed_first_rpn_convergence.png)
+- [A RCNN 18-epoch Curve](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_convergence_e18_20260915/reports/pointrcnn_line_a_pugcn_observed_first_rcnn_convergence.png)
+- [B RPN 18-epoch Curve](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_convergence_e18_20260915/reports/pointrcnn_line_b_pugcn_observed_first_rpn_convergence.png)
+- [B RCNN 24-epoch Curve](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/schedule_24/reports/pointrcnn_line_b_pugcn_observed_first_rcnn_convergence.png)
+- [B RCNN 24-epoch Round by Round CSV](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_line_b_rcnn_to_convergence_20260916/schedule_24/reports/pointrcnn_line_b_pugcn_observed_first_rcnn_convergence.csv)
+- [CenterPoint A/B Curve by Curve](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_convergence_20260914/reports/centerpoint_epoch_validation_curve.png)
+- [CenterPoint A/B Round by Round CSV](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_convergence_20260914/reports/centerpoint_epoch_validation_curve.csv)
+- [09-10 Original 20-arm full-val Table](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/reports/full_val_detector_matrix.md)
+- [09-10 Full Category AP](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/reports/all_classes_ap_r40.csv)
+- [This is the latest comparison of four sets of CSV.](/home/ra87racy/reports/LATEST_DETECTOR_COMPARISON_20260917.csv)
+
+### Key codes used in practice
+
+- [observed-first input construction and frame audit](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/prepare_centerpoint_observed_first_train.py)
+- [Original full-val Main Process](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/run_pugcn_detector_adaptation_full_val_20260908.sh)
+- [PointRCNN Phased training](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/run_pointrcnn_full_train_stage.py)
+- [PointRCNN checkpoint Authentication](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/run_pointrcnn_checkpoint_split_eval.py)
+- [PointRCNN convergence Main Process](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/run_pugcn_pointrcnn_convergence_20260914.sh)
+- [PointRCNN Platform period determination and summary](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/summarize_pugcn_pointrcnn_convergence_20260914.py)
+- [B RCNN Extension of dispatcher to satisfy sentence](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/run_line_b_rcnn_until_converged_20260916.py)
+- [CenterPoint convergence Main Process](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/run_pugcn_centerpoint_convergence_20260914.sh)
+- [CenterPoint Platform period determination and summary](/home/ra87racy/projects/baseline_detectors/PointRCNN/scripts/summarize_pugcn_centerpoint_convergence_20260914.py)
+- [Old 3-epoch convergence audit](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/reports/convergence_audit.md)
+- [09-10 Source Snapshot Description](/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/reports/experiment_source_full.md)
+- [ModelNet40 State](/home/ra87racy/projects/modelnet40_pointnet2_upsampling/reports/modelnet40_x4_final_protocol_report.md)
+
+## 9. Conclusions for dissertation/responsiveness
+
+> In KITTI Line A/B protocol, which is strictly controlled by point count, the generic pre-training upsampling method does not result in a stable 3D detection gain.The retention of real sites and the introduction of detector adaptation have significantly reduced the gap with reference baseline.Further epoch verification shows that the current training settings of PointRCNN and CenterPoint meet the pre-defined AP period, but the best results are still below and the existing baseline.The results show that the addition of only to point count and the extension of the current fit schedule are not sufficient to close the gap;At the same time, baseline training budget is not fully matched and validation set is used for checkpoint, which limits the causal interpretation and generalization of conclusions.
+
+---
+
+## Part II: Full historical history as of 2026-09-10
+
+**The following is a historical snapshot, not the latest.Particular attention is paid to the fact that “3-epoch” did not prove that convergence was retained as a fact at that time;09-14  to  09-17  Extensions  schedule  It was a new experiment which did not retroactively turn the original three-wheel experiment into a convergence. The old operational status, available space, and current best is valid only for 09-10.**
+
+Retain the original results, failures and non-implementation and do not delete negative results.Original file:[09-10 General History](/home/ra87racy/reports/ALL_EXECUTED_WORK_EXPERIMENT_CHANGE_RESULT_SUMMARY_20260910_EN.md).
+
+### General record of all implemented, experimental adjustments and results
 
 **Check deadline: 2026-09-10 (Europe/Berlin)**
 **Scope of verification:`/home/ra87racy` Local Workspace**
@@ -6,7 +270,7 @@
 
 ---
 
-## 1. How does this general record distinguish between "do" and "do"
+#### 1. How does this general record distinguish between "do" and "do"
 
 Status definition:
 
@@ -19,7 +283,7 @@ Status definition:
 
 This time scan to PointRCNN Main Project `results/` Down **132 First Level Results Directory**. These include both formal full-scale experiments and smoke, pilot, ablation, trouble diagnosis, visualization and reporting generation.This paper combines the records by “experimental” to avoid miscalculating multiple versions of the same projection into several independent experiments.
 
-### 1.1 Warning for Critical Evaluation
+##### 1.1 Warning for Critical Evaluation
 
 1. Final matrix display for 2026-09-08 to 09-10 **KITTI AP_R40**Every arm must **3,769/3,769** frame only entered main table.
 2.  Earlier.  PointRCNN  Local  evaluator  Default  41  individual  precision sample  Medium Every  4  One by one. The essence is old.  **AP_R11**. The old table is kept as historical evidence, but cannot compares directly with the latest AP_R40 table.
@@ -28,7 +292,7 @@ This time scan to PointRCNN Main Project `results/` Down **132 First Level Resul
 
 ---
 
-## 2. Overall conclusion of the current work
+#### 2. Overall conclusion of the current work
 
 As of 2026-09-10, the most complete and well-documented conclusion is that:
 
@@ -44,7 +308,7 @@ Current final pipeline state: Line A and Line B **3,769/3,769** point cloud comp
 
 ---
 
-## 3. Final application of strict 4× protocol
+#### 3. Final application of strict 4× protocol
 
 So the original KITTI point cloud is `N` Point:
 
@@ -65,9 +329,9 @@ Final PU-GCN patch process:
 
 ---
 
-## 4. Updated and complete results: PU-GCN × detector adaptation × full KITTI val
+#### 4. Updated and complete results: PU-GCN × detector adaptation × full KITTI val
 
-### 4.1 PointRCNN, Car 3D AP_R40, 3,769 frame /arm
+##### 4.1 PointRCNN, Car 3D AP_R40, 3,769 frame /arm
 
 | Line | Enter | Weight | Easy / Moderate / Hard | Moderate margin for pairing baselines | Status |
 |---|---|---|---:|---:|---|
@@ -85,7 +349,7 @@ Final PU-GCN patch process:
 
 ¹ Line A  no Additional training  adapted original-`N` baseline, so the two adapted margin values are referred to as official Line A baseline, with a change in input and weight, which should be interpreted conservatively.
 
-### 4.2 CenterPoint, Car 3D AP_R40, 3,769 frame /arm
+##### 4.2 CenterPoint, Car 3D AP_R40, 3,769 frame /arm
 
 | Line | Enter | Weight | Easy / Moderate / Hard | Moderate margin for pairing baselines | Status |
 |---|---|---|---:|---:|---|
@@ -99,7 +363,7 @@ Final PU-GCN patch process:
 | B | observed `M` + predicted `3M` | official | 66.9217 / **44.0929** / 40.0268 | -20.5050 | Completed |
 | B | observed `M` + predicted `3M` | adapted | 80.4109 / **61.6639** / 57.5252 | **-6.3851** | Completed |
 
-### 4.3 CenterPoint Full-category review
+##### 4.3 CenterPoint Full-category review
 
 Best observed-first adapted and no exceeded the match on Pedestrian/Cyclist baseline:
 
@@ -110,7 +374,7 @@ Best observed-first adapted and no exceeded the match on Pedestrian/Cyclist base
 | B | Pedestrian | 47.4395 (adapted baseline) | 44.0568 | -3.3827 |
 | B | Cyclist | 42.0672 (adapted baseline) | 33.5610 | -8.5062 |
 
-### 4.4 Practical Training Adjustment
+##### 4.4 Practical Training Adjustment
 
 **PointRCNN adaptation: **Full 3,712 train frame;Each arm independent training;RPN 3 epochs + offline RCNN 3 epochs; batch size 1; workers 0; Adam one-cycle; LR `0.0002`; seed `20260823`; Close GT database augmentation;Save only epoch 3.
 
@@ -129,9 +393,9 @@ These figures only show that the optimization process is properly completed and 
 
 ---
 
-## 5.  Unity of the full amount frozen detector  exact-4×  Experiment 2026-07)
+#### 5.  Unity of the full amount frozen detector  exact-4×  Experiment 2026-07)
 
-### 5.1 PointRCNN All 3,769 frame
+##### 5.1 PointRCNN All 3,769 frame
 
 The following values were retained in the report at that time;Since evaluator/ entered protocol earlier than 09, the final AP_R40 runner should be compared to history and not directly compared to section 4.
 
@@ -148,7 +412,7 @@ The following values were retained in the report at that time;Since evaluator/ e
 | Line B PU-EdgeFormer | 33.7635 / **20.5693** / 17.6153 | Decline |
 | Line B PU-Net old | 12.4097 / **8.7807** / 7.7637 | Severe lapse |
 
-### 5.2 CenterPoint All 3,769 frame, Moderate 3D AP_R40
+##### 5.2 CenterPoint All 3,769 frame, Moderate 3D AP_R40
 
 | Enter | Car | Pedestrian | Cyclist | Conclusions |
 |---|---:|---:|---:|---|
@@ -163,7 +427,7 @@ The following values were retained in the report at that time;Since evaluator/ e
 | Line B PU-EdgeFormer | 24.7476 | 15.5896 | 7.0374 | Decline |
 | Line B PU-Net old | 11.7178 | 11.9174 | 5.0172 | Severe lapse |
 
-### 5.3 Full Method Implementation Status
+##### 5.3 Full Method Implementation Status
 
 - **PDANS**: Initial due to extension source / `pytorch3d` The failure resulted in the repair of environmental and equipment-related codes and the final completion of the Line A, Line B strict exact-4× and double detector assessments.
 - **PU-GCN**(b) Rehabilitation of TensorFlow/CUDA op, completion of full generation and assessment of both formal lines;And then I finished detector adaptation, the whole matrix.
@@ -175,7 +439,7 @@ The following values were retained in the report at that time;Since evaluator/ e
 
 ---
 
-## 6., Key Experimental Adjustments, Why, What happens when they're modified
+#### 6., Key Experimental Adjustments, Why, What happens when they're modified
 
 | Adjustment | Actual modified/run | Result |
 |---|---|---|
@@ -197,16 +461,16 @@ The following values were retained in the report at that time;Since evaluator/ e
 
 ---
 
-## 7. Root Experiment and ablation Analysis
+#### 7. Root Experiment and ablation Analysis
 
-### 7.1 Non-local problem of old patch
+##### 7.1 Non-local problem of old patch
 
 - The old extractor, using coarse space bin, cuts the block by line and does not guarantee that the same patch is a local surface.
 - Line B patch diagonal median of XY **30.46 m**, p90 **124.10 m**, clearly contradicts the distribution of local object patch during training.
 - The first local patch version improves locality, but appears **59.4% duplicate rows**.
 - This version: PointRCNN Moderate from **57.1829 to 43.6976**; CenterPoint from **61.1172 to 77.4150**. Also occupied voxels median value from **11,584.5 down to 2,124.5**, indicates that different detector has different preferences for point distribution.
 
-### 7.2 PU-Net  normalization  × patch  It's...  2×2  Correlation ablation 256  frame)
+##### 7.2 PU-Net  normalization  × patch  It's...  2×2  Correlation ablation 256  frame)
 
 | Configure | PointRCNN Moderate 3D | CenterPoint Moderate 3D |
 |---|---:|---:|
@@ -218,14 +482,14 @@ The following values were retained in the report at that time;Since evaluator/ e
 
 The normalization error and patch are not only real problems, but they can be repaired in such a way as to be significant recovery, but are still not close to baseline.
 
-### 7.3 PointRCNN / CenterPoint input bottleneck
+##### 7.3 PointRCNN / CenterPoint input bottleneck
 
 - PointRCNN Default entry fixed 16,384 point.
 - CenterPoint voxel size `[0.05,0.05,0.1]`For each voxel up to 5 points, test up to 40,000 voxels.
 - 32 frame Line A Audit median voxels / Trigger 40k cap frame Number: original `14,944 / 0`; PDANS `36,913 / 6`; PU-GCN `45,108 / 29`; PU-EdgeFormer `46,182 / 29`; PU-Net `55,384 / 32`.
 - Line B no triggers voxel cap, but there is still a marked decline in performance.So cap is an important issue for Line A, but not the only explanation across the board.
 
-### 7.4 direct no-resample Full Volume Experiment
+##### 7.4 direct no-resample Full Volume Experiment
 
 | Enter | PointRCNN Car 3D Easy / Moderate / Hard |
 |---|---:|
@@ -238,7 +502,7 @@ The normalization error and patch are not only real problems, but they can be re
 
 Conclusion: Internet training relies on fixed sampling distribution;Plug all points directly into the model and even damage original, cannot and use "sampling" as a recovery program.
 
-### 7.5 dose / generated points ratio
+##### 7.5 dose / generated points ratio
 
 Test on 256 frame `g2.5/g5/g7.5/g10`:
 
@@ -247,7 +511,7 @@ Test on 256 frame `g2.5/g5/g7.5/g10`:
 - All 3,769 frame `g10`: Line A PDANS/PU-GCN/PU-EdgeFormer/PU-Net Moderate `79.951/79.478/76.433/72.371`; Line B `59.048/55.954/52.415/45.700`.
 - `g25/g50` no finished, cannot report is validated.
 
-### 7.6 detector-aware PDANS V2–V5 (both 256 frame development experiments)
+##### 7.6 detector-aware PDANS V2–V5 (both 256 frame development experiments)
 
 **V2: **
 
@@ -274,7 +538,7 @@ Test on 256 frame `g2.5/g5/g7.5/g10`:
 - V5 corresponds to 256 input files that exist and are evaluated, but it is a methodology development set.
 - PDANS surface-c32 of the independent holdout64 **64/64 point cloud Generated**The test for CenterPoint baseline/V5 and AP_R40 are also completed in a separate directory: Car Moderate `74.1881→74.0512` (-0.1369), BEV `86.3893→85.2910` (-1.0983); Pedestrian, Cyclist is identical to baseline.As a result, no is now increasing to detector-wide.
 
-### 7.7 object-preserving and Method Component ablation (PointRCNN, pilot256)
+##### 7.7 object-preserving and Method Component ablation (PointRCNN, pilot256)
 
 V1 workspace actually ran 8 selector/component variants.Car Moderate 3D AP_R40:
 
@@ -299,7 +563,7 @@ Two other sets of patch-pair were actually completed:
 
 Conclusion: surface/local patch is a substantial improvement on all methods, but not enough to reach baseline.
 
-### 7.8 region-split Category III exact-4× pilot256
+##### 7.8 region-split Category III exact-4× pilot256
 
 Co-use 2,067 core regions, 3 m halo, zero core point loss, each detector input does not exceed 16,384.Moderate 3D AP_R40:
 
@@ -317,7 +581,7 @@ The independent V4 holdout64 region-split has also been evaluated in practice: C
 
  The same.  V4  In original frame  OpenPCDet PointRCNN  Below displays a clear sampling sensitivity: certainty  `workers=0` holdout64 Car +4.0651, Ped -0.8332, Cyc -3.9286;Native `workers=2` Car -2.2718, Ped +2.5279, Cyc +1.6234.As a result, cannot claims a steady rise across sampling.
 
-### 7.9 Line B c2048 / E1 / consensus / random Select Experiment (pilot256)
+##### 7.9 Line B c2048 / E1 / consensus / random Select Experiment (pilot256)
 
 PointRCNN Car Moderate 3D:
 
@@ -329,7 +593,7 @@ PointRCNN Car Moderate 3D:
 
 CenterPoint  The same.  Line B pilot  It's...  Car Moderate: baseline 61.6558; random PDANS/PU-GCN/PU-EdgeFormer/PU-Net is `47.7441/41.3784/35.4329/15.1487`; consensus is `43.6085/37.3131/27.3251/19.8041`. Selecting the strategy changes the sorting of the method, but no sets recovery baseline.
 
-### 7.10 PointRCNN 16-seed sampling Noise Probe
+##### 7.10 PointRCNN 16-seed sampling Noise Probe
 
 - fixed input, checkpoint, split and merge rules only change evaluator sampling seed and run seed 0–15.
 - The new 24 slot all PASS;6 times CUDA occasional segmentation fault has been internally re-engineered.
@@ -337,7 +601,7 @@ CenterPoint  The same.  Line B pilot  It's...  Car Moderate: baseline 61.6558; r
 - The original seed + 1.2227 is the maximum value of full arm 16 times;9/16 is negative, median -0.75.
 - `MDE95≈3.47 AP`. This proves that the sorting of about 0.4–1.2 AP below split-region path is not readable;cannot sets this noise value directly to native E2 full-val.
 
-### 7.11 exact-4× quality selection little probe
+##### 7.11 exact-4× quality selection little probe
 
 - Line A PDANS actually did confidence selection: no-quota 3 frame, voxel quota=6 is 5 frame.
 - no-quota: quality precision median 0.6821, below random 0.8155;unsupported ratio 0.5825, above random 0.4940.
@@ -346,9 +610,9 @@ CenterPoint  The same.  Line B pilot  It's...  Car Moderate: baseline 61.6558; r
 
 ---
 
-## 8. Training Graduation: 64 frame Screening All train pilot  /  full val
+#### 8. Training Graduation: 64 frame Screening All train pilot  /  full val
 
-### 8.1 PointRCNN finetune64 Six Arm Screening
+##### 8.1 PointRCNN finetune64 Six Arm Screening
 
 - fixed 64 train frame, actual 63;seed `20260823`.
 - RPN 3 epochs + RCNN 3 epochs, every stage of epoch 93 steps.
@@ -357,7 +621,7 @@ CenterPoint  The same.  Line B pilot  It's...  Car Moderate: baseline 61.6558; r
 - PDANS Line A values differ in the two versions of the report;A later summary of eval256 should be used, and cannot should select a more favourable old number.
 - Conclusion: The very small training set can show that “the area fits the potential of recovery”, but baseline is also degraded and cannot concludes.
 
-### 8.2  Full  3,712 train  It's...  256-val pilot
+##### 8.2  Full  3,712 train  It's...  256-val pilot
 
 Training uses a full train split, but only fixed 256 val was evaluated:
 
@@ -371,9 +635,9 @@ These are 256-frame pilot, which have been replaced by full 3,769-frame of Secti
 
 ---
 
-## 9. Early baseline, method access and failure record (2026-05 to 06)
+#### 9. Early baseline, method access and failure record (2026-05 to 06)
 
-### 9.1 PointRCNN / EAR / PU-Net Early Job
+##### 9.1 PointRCNN / EAR / PU-Net Early Job
 
 - History PointRCNN baseline Record: 3D AP `89.19/78.85/77.91`.
 - Once clean original rerun:`89.2040/78.6795/77.8099`.
@@ -382,11 +646,11 @@ These are 256-frame pilot, which have been replaced by full 3,769-frame of Secti
 - Follow-up recovered/fullframe report shows the appearance of PU-Net Moderate or about 59.2885;As the input is different from the recovery process, the very low result above is not the same as protocol and is retained as provenance risk.
 -  Yes.  PU-Net  Increase  resume/chunk, Python 3, TensorFlow op  Compile, compile, GPU bootstrap, CPU fallback,  Data reading and normalization fix.
 
-### 9.2 May 16 Unharmonized Profiles
+##### 9.2 May 16 Unharmonized Profiles
 
 Recorded Moderate 3D: original 77.93, downsample50 76.99, EAR 73.89, PU-Net 35.26, PU-GCN 50.65.PU-GCN was used. `RPN=26000`, the configuration is not uniform, so it is reserved for early exploration.
 
-### 9.3 RPN4096 / no-distance-propose Comparison
+##### 9.3 RPN4096 / no-distance-propose Comparison
 
 - original failed with negative dimension sampling at 4,096.
 - downsample Completed: 3D `83.6938/65.1662/60.4608`.
@@ -395,40 +659,40 @@ Recorded Moderate 3D: original 77.93, downsample50 76.99, EAR 73.89, PU-Net 35.2
 - PU-GCN was missing 8 frame, not completed.
 - TULIP Completed:`27.5045/16.9675/13.7001`.
 
-### 9.4 TULIP
+##### 9.4 TULIP
 
 - Finish full Line A Parsing Approximate `54.3492/35.0242/30.3302`; There are also Line B full and CenterPoint full results.
 - CenterPoint Moderate: Line A Car/Ped/Cyc `31.77/15.98/4.59`; Line B `17.68/2.99/0.08`Far from below original `79.28/50.65/64.61`.
 -  The primary output is...  range-image  Vertical  4×,  But switch back.  XYZ  I don't know.  exact 4×; Actual output is about 0.41× and 0.73–0.78×.
 - 8  A known frame in  4,096/2,048/1,024  Configure Reasons  distance proposal  It's...  far/near bucket  Empty set entry  CUDA NMS  And abort. Add sole-nonempty-bucket guard later and use score-only proposal to bypass.
 
-### 9.5 EAR strict-4× Feasibility
+##### 9.5 EAR strict-4× Feasibility
 
 - 5 frame × Line A/B, for a total of 10 entries smoke all PASS.
 - CPU whole frame achieves a global kNN/PCA and Python cycle;Line A About 26–29 min/ frame, Line B About 9–10 min/ frame.
 - It is estimated that two lines will take approximately 92–103 days;A frame byte-identical duplication was also observed.
 - For running costs no completes the new strict full-val regeneration;This is...**Time out/unfeasible**is not the final negative result of the model.
 
-### 9.6 SPU-PMD
+##### 9.6 SPU-PMD
 
 - First time because it's not available. `pyvista` Failure;Second cause `knn_cuda` Failure.
 - Modify `utils/MeshUtil.py` with `main.py` After lazy import, 4 frame inference succeeded;For each complete frame, go down to 2,048, then export 8,192, finite, i.e. add a point to 3× relative to the internal input.
 - PointRCNN `RPN=4096` An assessment of the failure of sampler underflow;was replaced by `RPN=2048` After 4 frame ran, detections was `1/0/0/2`.
 - Too few samples, no AP;No full-val.
 
-### 9.7 PDANS Initial failure and follow-up repair
+##### 9.7 PDANS Initial failure and follow-up repair
 
 - Initial inference due to lack of extension source and `pytorch3d` (a) Unrun;`pointops` It was successfully compiled and prepared for 4 XYZ input.
 -  Modify  pointnet2  It's...  device/tensor  Processing, compilation and  CUDA  After compatibility, the formal follow-up is completed  Line A/Line B  Full.
 
-### 9.8 PU-EdgeFormer failed in the early stages of direct recurrence
+##### 9.8 PU-EdgeFormer failed in the early stages of direct recurrence
 
 - Create a Python 3.6.8 / TensorFlow 1.13.1 environment.
 - custom ops due to CUDA 10 path hard-coded, no `nvcc` And checkpoint failed.
 - Only 3 KITTI frame was converted to 2,048 and generated Plotly, which was visualized, but at that time no model inference.
 - The results of the subsequent formal unification were from the ops/reuse compatible path;The two phases must be presented separately.
 
-### 9.9 ratio audit
+##### 9.9 ratio audit
 
 The actual audit found that:
 
@@ -441,16 +705,16 @@ The audit directly facilitated strict exact-4× Line A/B protocol.
 
 ---
 
-## 10. ModelNet40 Job Record
+#### 10. ModelNet40 Job Record
 
-### 10.1 actually completed
+##### 10.1 actually completed
 
 - Create `modelnet40_pointnet2_upsampling` protocol and the structure of the report.
 - PU-GCN Local smoke: Line A 8/8`1024→4096`; Line B 8/8, `256→1024`; Output finite, point count exact.
 - ModelNet40 data preprocessing, upsampling fit, classification training portal, audit and reporting documents have been prepared/modified.
 - `thesis_demo` Created `train_cls.py`, `pointnet_cls.py`, dataset/preprocess scaffold.
 
-### 10.2 no Completed, cannot Written Results
+##### 10.2 no Completed, cannot Written Results
 
 - Both lines 12 and 311 complete local PU-GCN generate no submission/ no completion evidence.
 - PointNet++ 5 classification branch is `NOT_SUBMITTED`no classification accuracy.
@@ -460,34 +724,34 @@ The audit directly facilitated strict exact-4× Line A/B protocol.
 
 ---
 
-## 11. HPC Migration, running and resources Job
+#### 11. HPC Migration, running and resources Job
 
-### 11.1 KITTI upsampling Migration Package
+##### 11.1 KITTI upsampling Migration Package
 
 - - Preparation of 10 variant × 3,769 frame, about 42 GiB migration/submission structure, checksum, job script and instructions.
 - dry run Real implementation:`tinyx` DNS parsing failed;`tinyx.nhr.fau.de` SSH authentication failed.
 - Thus no actually completes the remote transmission and no official remote operation results.
 
-### 11.2 Conda/ Operating Environment
+##### 11.2 Conda/ Operating Environment
 
 An independent environment has actually been established:`ear`, `openpcdet_centerpoint`, `pointrcnn_old`, `puedgeformer`, `pugcn`, `punet_tf`, `tulip`, `upsampling_basic`. These environments support the recovery and rehabilitation of the generations that TensorFlow/PyTorch/CUDA relies on.
 
 ---
 
-## 12. Disk Cleaning and Data Governance Record
+#### 12. Disk Cleaning and Data Governance Record
 
-### 12.1 2026-05-18 Safe Cleanup
+##### 12.1 2026-05-18 Safe Cleanup
 
 - Delete empty/ smoke directory, PU-GCN evaluation log, PU-Net preparation log and `__pycache__`.
 - The actual disk changes about 420 MiB;There's an executive log.
 
-### 12.2 2026-06-26  Phase I
+##### 12.2 2026-06-26  Phase I
 
 - Cleaning up pip cache about 13 GiB and conda clean about 4.1 GiB;`df`  Show approximately reduction in space used  16 GiB.
 - Move 6 PU-GCN mega-centres to `~/TO_DELETE_REVIEW`About 193 GiB;This phase is subject to review and is not tantamount to immediate and permanent deletion.
 - Follow-up de-listed about 1,487,400 `.xyz`29,128 `.png`22,573 `.json`22,349 `.bin`21,966 `.csv`7,201 `.md` Middle file path.
 
-### 12.3 2026-07-31 User-Authorized Major Cleanup
+##### 12.3 2026-07-31 User-Authorized Major Cleanup
 
 - Clean up old strict line trees, CenterPoint reconstructed inputs, 8 Group raw patch outputs, old Line B cap100k,`thesis_demo` venv, cache/VSCode backup, etc.
 - Report the release. **459 GiB** (492,379,832,320 bytes).
@@ -497,9 +761,9 @@ The current file system is about 1.0 TiB, with a total usage of about 993 GiB an
 
 ---
 
-## 13. Actual Code Changes Record
+#### 13. Actual Code Changes Record
 
-### 13.1 PointRCNN Main repository
+##### 13.1 PointRCNN Main repository
 
 Current branch:`experiment/centerpoint-unified-line-a-b`. There are still local unsubmitted changes to the tracking document:**4 files, 72 insertions, 8 deletions**.
 
@@ -509,7 +773,7 @@ Current branch:`experiment/centerpoint-unified-line-a-b`. There are still local 
 - `lib/rpn/proposal_layer.py`: far-only / near-only empty bucket guard, avoid TULIP/region-split to make CUDA NMS.
 - A large number of untraceed scripts have been added: strict-x4, patch extraction, methods wrapper, E1/E2/E3, CenterPoint, detector-aware V2–V5, region split, training, full assessment, analysis, visualization, packing and recovery scripts.
 
-### 13.2 PU-Net
+##### 13.2 PU-Net
 
 Current diff:**35 files, 226 insertions, 122 deletions**It's a new one. `.so`/`.o`.
 
@@ -518,14 +782,14 @@ Current diff:**35 files, 226 insertions, 122 deletions**It's a new one. `.so`/`.
 - CPU fallback with GPU bootstrap.
 - Data reading, provider, model utils, normalization and full-frame adapter rehabilitation.
 
-### 13.3 PDANS
+##### 13.3 PDANS
 
 Current tracking diff:**2 files, 5 insertions, 4 deletions**.
 
 - `pointnet2/util.py`, `pointnet2_utils.py` The device-aware tensor/CUDA process.
 - Add checkpoint and pointops compilations.
 
-### 13.4 SPU-PMD
+##### 13.4 SPU-PMD
 
 Current diff:**9 files, 18 insertions, 42 deletions**.
 
@@ -533,7 +797,7 @@ Current diff:**9 files, 18 insertions, 42 deletions**.
 - pointnet2 C++/CUDA extended header file compatible with source.
 - operations and utility adjustments;Saved model/extension construction product.
 
-### 13.5 OpenPCDet / CenterPoint
+##### 13.5 OpenPCDet / CenterPoint
 
 Current diff:**3 files, 21 insertions, 7 deletions**, add 1 tool scripts.
 
@@ -542,23 +806,23 @@ Current diff:**3 files, 21 insertions, 7 deletions**, add 1 tool scripts.
 - checkpoint from detector template `weights_only=False` Wait for recovery compatible.
 - Add `create_kitti_val_infos_only.py`.
 
-### 13.6 PU-GCN
+##### 13.6 PU-GCN
 
 - `tf_ops/compile.sh`: **14 insertions, 3 deletions**, fix the computer TensorFlow/CUDA op compile path.
 - Add PU1K pretrained checkpoint, local backup and strict/full-frame wrapper.
 
-### 13.7 TULIP / PU-EdgeFormer
+##### 13.7 TULIP / PU-EdgeFormer
 
 - TULIP Source Repository Files remain largely unchanged, but add local `scripts/`, `results/` And the cache.
 - The official PU-EdgeFormer experiment is accessed mainly through ops-reuse compatible copies;Evidence of the failure of the original warehouse ' s initial custom-op was retained.
 
-### 13.8 version control state risk
+##### 13.8 version control state risk
 
 PointRCNN Most of the experimental scripts, reports, results, weights, backups and tools in the main warehouse remain **untracked**; Git History is mainly upstream and old submission, cannot only dependent `git log` Revert this job.Current replicability relies on workspace documents, results manifest and reports.09. **151 Source/ CUDA/ Configuration/ split Files**and generate SHA-256 manifest, which reduces this risk.
 
 ---
 
-## 14. Analysis, visualization, reporting and dissertation material
+#### 14. Analysis, visualization, reporting and dissertation material
 
 The actual generated documents are as follows:
 
@@ -579,7 +843,7 @@ The actual generated documents are as follows:
 
 ---
 
-## 15. Methodological feasibility survey: investigated, but no model experiment
+#### 15. Methodological feasibility survey: investigated, but no model experiment
 
 detection-oriented triage of 2026-08-12 actually checked PUDet, GFAS, PDANet, DAPU, TULIP, etc.:
 
@@ -602,7 +866,7 @@ The conclusion: 20-frame can only rule out major failures, and cannot reliably p
 
 ---
 
-## 16. Explicitly failed, not completed or does not establish
+#### 16. Explicitly failed, not completed or does not establish
 
 1. ModelNet40 full 12,311 × two lines: not completed.
 2. PointNet++  branch classification Training  accuracy:  Not submitted, not results.
@@ -619,7 +883,7 @@ The conclusion: 20-frame can only rule out major failures, and cannot reliably p
 
 ---
 
-## 17. Total line of work by time
+#### 17. Total line of work by time
 
 | Time | Jobs that have occurred | Status |
 |---|---|---|
@@ -638,7 +902,7 @@ The conclusion: 20-frame can only rule out major failures, and cannot reliably p
 
 ---
 
-## 18. Final conclusions to be written in the paper
+#### 18. Final conclusions to be written in the paper
 
 You can write:
 
@@ -655,7 +919,7 @@ cannot writes:
 
 ---
 
-## 19. Main Evidence Portal
+#### 19. Main Evidence Portal
 
 - 08-04 General list:`/home/ra87racy/projects/baseline_detectors/PointRCNN/reports/THESIS_EXPERIMENT_MASTER_INVENTORY_20260804_EN.md`
 - Update:`/home/ra87racy/projects/baseline_detectors/PointRCNN/results/pugcn_detector_adaptation_full_val_20260908/reports/current_progress.md`
@@ -681,7 +945,7 @@ cannot writes:
 
 ---
 
-## 20. Current finish state
+#### 20. Current finish state
 
 - The latest full-val core experiment:**Completed**.
 - Two PU-GCN validation inputs:**3,769/3,769 + 3,769/3,769 completed**.

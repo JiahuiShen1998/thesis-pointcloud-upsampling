@@ -1,9 +1,7 @@
-# 在用论文插图
+# Manuscript figures
 
-此目录的48组PDF/SVG/PNG是当前正文使用的插图，字号按12 TeX pt正文输出。
-active_manifest.json 为本轮最终入文清单，记录正文标签、来源和各文件哈希。
+The 48 PDF/SVG/PNG figure groups in this directory belong to the manuscript figure workspace. Text sizes were prepared for 12 TeX pt body text. active_manifest.json identifies the figures actually included in the current manuscript and records their labels, sources and hashes.
 
-figure_manifest.json、expansion_manifest.json 为不同生成阶段的脚本记录，
-其条目不能直接相加作为入文数量。三组被替换的旧图保存在本轮audit的retired_figures/。
+figure_manifest.json and expansion_manifest.json record different generation stages. Their entries must not be added together to infer the number of figures in the manuscript. Three replaced figure groups were retained in the original local audit's retired_figures/ directory.
 
-图中文字可在PDF/SVG中编辑；点云依据存档数组绘制，不是生成式图片。
+Labels can be edited in PDF/SVG sources. Point-cloud views are rendered from archived arrays, not generated images.
