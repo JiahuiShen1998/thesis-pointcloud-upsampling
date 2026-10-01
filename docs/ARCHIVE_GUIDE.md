@@ -14,7 +14,7 @@ This repository brings together the complete current thesis LaTeX project and PD
 - [Presentation status](../presentation/README.txt) — existing material and the remaining final deck.
 - [Delivery checklist](../DELIVERY_CHECKLIST.md), [upload status](../UPLOAD_STATUS.md), and [download and update guide](../UPLOAD_GUIDE.md).
 
-The school GitLab archive is on **`thesis-archive`** in [PreprocessingPC](https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc/-/tree/thesis-archive). The project's existing branches are retained. The author's private [GitHub copy](https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling) uses **`main`**.
+The school GitLab archive is on **`thesis-archive`** in [PreprocessingPC](https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc/-/tree/thesis-archive). The project's existing branches are retained. The author's public [GitHub copy](https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling) uses **`main`**.
 
 ## Research scope
 
@@ -128,12 +128,12 @@ Included are the fourteen ModelNet40 classifier checkpoints. Omitted are the com
 
 `SOURCE_PROVENANCE.json` records the initial copied/recovered material. Seventeen historical ModelNet40 note filenames containing colons were renamed for Windows compatibility; their bytes match the original Git objects. The mapping is in [WINDOWS_FILENAME_MAP.json](../research/modelnet40/WINDOWS_FILENAME_MAP.json). `SHA256SUMS` records the current archive contents, including later documentation updates.
 
-Original third-party licence files and notices are retained. This private handover archive does not grant a new blanket licence to third-party code, datasets or weights.
+Original third-party licence files and notices are retained. This handover archive does not grant a new blanket licence to third-party code, datasets or weights.
 
 ## Remaining handover work
 
 1. Add the actual final defence deck, PDF export and required assets under `presentation/final/`. The current five PPTX files are supporting progress/candidate decks.
 2. Update the presentation and delivery status, refresh checksums, commit and upload the added material using [the update guide](../UPLOAD_GUIDE.md).
-3. Confirm the intended recipients can access the chosen private repository, and separately communicate actual available defence dates.
+3. Use the public GitHub link for portfolio readers. Confirm the supervisor can access the private school GitLab archive, and separately communicate actual available defence dates.
 
 The exact PDF previously sent to the university was not independently retrieved during this audit; the archived PDF is the current verified local version.

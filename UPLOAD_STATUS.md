@@ -7,7 +7,7 @@ Updated: 2026-10-01. The available thesis archive is uploaded; the final defence
 | School GitLab | [PreprocessingPC / thesis-archive](https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc/-/tree/thesis-archive) |
 | Personal GitHub | [thesis-pointcloud-upsampling / main](https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling) |
 
-Both repositories are private. The school account is Stud_Jiahui_Shen and has Maintainer access to the selected project; Git LFS is enabled. Temporary API credentials used for upload administration were revoked and were not saved in the archive.
+The GitHub portfolio is public as of 2026-10-01; anonymous access to the repository page and API was verified. The school GitLab project remains private. The school account is Stud_Jiahui_Shen and has Maintainer access to the selected project; Git LFS is enabled. Temporary API credentials used for upload administration were revoked and were not saved in the archive.
 
 ## Verified upload baseline
 

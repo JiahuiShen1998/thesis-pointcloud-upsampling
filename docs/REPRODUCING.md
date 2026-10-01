@@ -15,7 +15,7 @@ The first level reaggregates saved evidence. The second executes a real saved mo
 
 ## Clone and access
 
-The GitHub repository is private. Authenticate with an account that has access. Install Git LFS, then skip large assets for the initial lightweight checks:
+The GitHub repository is public; viewing and cloning it do not require signing in. Install Git LFS, then skip large assets for the initial lightweight checks:
 
 ```sh
 git -c filter.lfs.smudge= -c filter.lfs.required=false -c filter.lfs.process= clone https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling.git
@@ -201,6 +201,6 @@ A lightweight or selective-LFS clone is expected to fail the full-archive checks
 | Wrong point count | Check the variant and data preparation; do not silently crop/pad |
 | Evidence check fails | Inspect the named source and compare with a clean download; retain the failure |
 | Full training cannot import `provider` | Obtain the PointNet++ repository at the documented `external/` path |
-| Reviewer cannot open the repository | Grant repository access; a private URL alone is not a public portfolio |
+| Reviewer cannot open the school GitLab archive | Use the public GitHub portfolio link, or request school project access |
 
 See [the complete archive guide](ARCHIVE_GUIDE.md) for the manuscript build, provenance and outstanding final-defence materials.
