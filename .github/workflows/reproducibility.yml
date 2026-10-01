@@ -1,0 +1,56 @@
+name: Reproducibility checks
+
+on:
+  push:
+    branches: [main, thesis-archive]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Validate archived numerical evidence
+        run: python tools/reproduce_results.py
+      - name: Exercise consistency and corruption checks
+        run: python -m unittest discover -s tests -v
+
+  cpu-inference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Download only demo assets
+        run: >-
+          git lfs pull --include="research/modelnet40/results/pointnet2_final_runs/lineA_original_baseline/checkpoints/best_model.pth,thesis/evidence/modelnet40_hpc/data/pointcloud_examples/lineA_airplane_0627_original.npy"
+      - name: Install CPU dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run actual checkpoint inference
+        run: python tools/demo_inference.py
+      - name: Check selected-sample prediction
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result = json.loads(Path('outputs/demo/prediction.json').read_text())
+          assert result['points'] == 1024 and result['device'] == 'cpu'
+          assert result['top5'][0]['class_name'] == 'airplane'
+          assert result['top5'][0]['probability'] > 0.9
+          assert all(len(value) == 64 for value in result['sha256'].values())
+          PY

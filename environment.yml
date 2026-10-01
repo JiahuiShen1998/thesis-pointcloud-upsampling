@@ -1,0 +1,9 @@
+# Optional CPU demo environment. Full training uses method-specific environments.
+name: pointcloud-thesis-demo
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - -r requirements.txt

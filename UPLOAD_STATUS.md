@@ -1,6 +1,6 @@
 # Upload and verification record
 
-Updated: 2026-09-28. The available thesis archive is uploaded; the final defence presentation is pending.
+Updated: 2026-10-01. The available thesis archive is uploaded; the final defence presentation is pending.
 
 | Platform | Archive location |
 |---|---|
@@ -16,6 +16,14 @@ Commit `234b3a84f150abce61e6aed250908ab1c732b461` was independently retrieved fr
 The school upload included 187 unique LFS objects, approximately 408 MB, covering 209 tracked file paths. The original school `main` remained at `871e82d33781b70d852678c0fc70ac7a7503820b`, and `share/modelnet40-pointnet2-presentation` remained at `daacfaf1a76be4c42d01431c225a69a715818db2`.
 
 The subsequent English localization translates archived documentation and presentation text and updates paths and checksums. The baseline hashes above describe the earlier verified snapshot. Verify the current version with `python tools/check_archive.py` and `git lfs fsck` after downloading the actual LFS objects.
+
+## Portfolio and reproducibility update (2026-10-01)
+
+The homepage now presents the research question, contributions, result tables and original figures, with separate code-reading routes for ML/CV engineering, research and LiDAR perception. Generated HTML exports are marked for exclusion from source-language statistics; all interactive reports remain in the archive.
+
+New portable entry points rebuild the recorded results and execute one real archived classifier checkpoint on an included cloud. Local Windows verification passed all 11 evidence/asset tests and produced the expected airplane prediction with Python 3.12, PyTorch 2.6.0+cpu and NumPy 2.2.6. Full GPU retraining was not performed. See [the reproduction guide](docs/REPRODUCING.md) for exact commands, external assets and limitations.
+
+The [GitHub Actions workflow](.github/workflows/reproducibility.yml) checks evidence and CPU inference independently. Its live run status is in the GitHub Actions tab. File counts from older milestones above describe those snapshots; the current `SHA256SUMS` is authoritative after a complete download.
 
 ## Access and updates
 

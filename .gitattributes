@@ -7,3 +7,10 @@
 *.npy filter=lfs diff=lfs merge=lfs -text
 *.npz filter=lfs diff=lfs merge=lfs -text
 *.bin filter=lfs diff=lfs merge=lfs -text
+
+# Standalone visualization exports contain embedded plotting libraries and data.
+research/modelnet40/results/figures/**/*.html linguist-generated=true
+presentation/modelnet40_materials/*.html linguist-generated=true
+# Saved upstream architecture copies accompany each archived training run.
+research/modelnet40/results/pointnet2_final_runs/**/pointnet2_cls_ssg.py linguist-vendored=true
+research/modelnet40/results/pointnet2_final_runs/**/pointnet2_utils.py linguist-vendored=true

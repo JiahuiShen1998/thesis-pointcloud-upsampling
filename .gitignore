@@ -22,3 +22,12 @@ __pycache__/
 .DS_Store
 Thumbs.db
 ~$*
+
+# Locally regenerated reports, demo predictions and new runs
+/outputs/
+# Separately obtained upstream training dependency
+/research/modelnet40/code/external/
+
+# Local code-quality caches
+.ruff_cache/
+.pytest_cache/

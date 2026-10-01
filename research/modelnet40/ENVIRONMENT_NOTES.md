@@ -8,10 +8,12 @@ Known components include:
 - PyTorch/CUDA for PointNet++ and PDANS-related code.
 - TensorFlow 1 plus compiled CUDA custom operations for the archived PU-Net and PU-GCN integrations.
 - Open3D and PyTorch3D in method-specific environments.
-- XeLaTeX with `fontspec` and the LaTeX packages imported by the chapter entry files.
+- TeX Live and pdfLaTeX/latexmk for the archived manuscript; see [the verified build instructions](../../thesis/README.md).
 - Slurm for the supplied `.sbatch` jobs.
 
-The exact CUDA, compiler, framework, pretrained-weight, and GPU compatibility requirements differ by method. Historical fixes and failures are documented in `results/reports/` and in `../thesis/notes/ModelNet40_ Experiment Configuration _ Code Usage _ Changes and full records of results _2026-09-13.md`.
+The exact CUDA, compiler, framework, pretrained-weight, and GPU compatibility requirements differ by method. Historical fixes and failures are documented in `results/reports/` and the [archived experiment reports](results/reports/).
 
 For inspection without retraining, use the archived CSV/JSON/Markdown reports and final run metrics. For a full rerun, first replace cluster-specific absolute paths, acquire the raw ModelNet40 data and separately licensed pretrained method weights, reconstruct each method's environment, and run smoke validation before scheduling full jobs.
 
+
+For the tested CPU inference environment and evidence reconstruction commands, see [the current reproduction guide](../../docs/REPRODUCING.md).

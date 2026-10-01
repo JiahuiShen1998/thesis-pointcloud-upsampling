@@ -1,139 +1,147 @@
-# Investigating the Impact of Point Cloud Upsampling on 3D Object Detection Performance
+# Point Cloud Upsampling for 3D Perception
 
-Master's thesis by **Jiahui Shen**, Friedrich-Alexander-Universität Erlangen-Nürnberg, Chair of Multimedia Communications and Signal Processing (LMS). Supervisor: **Marina Ritthaler, M.Sc.** Manuscript: September 2026.
+**When do more points help a downstream model?** This thesis compares point-cloud densification and sparse-input recovery on ModelNet40 classification and KITTI LiDAR detection. Its central finding is that geometric improvement does not guarantee better recognition: input selection, the detector's point or voxel budget, and adaptation to the new input distribution all matter.
 
-This repository brings together the complete current thesis LaTeX project and PDF, the ModelNet40 and KITTI research archives, and the available presentation materials. It supports inspection of the thesis, its experimental protocols, and the recorded results.
+**Jiahui Shen** · Master's thesis · FAU Erlangen-Nürnberg, LMS · September 2026
 
-**Handover status: the final defence presentation is still pending.** The existing slide decks are progress/candidate materials. Raw datasets and several external assets needed for a complete GPU rerun are not part of this archive; see the scope below.
+Supervisor: Marina Ritthaler, M.Sc.
 
-## Start here
+Formal title: *Investigating the Impact of Point Cloud Upsampling on 3D Object Detection Performance*
 
-- [Read the thesis PDF](thesis.pdf) — 163 pages, preserved from the current local manuscript.
-- [Browse the thesis source](thesis/) — main entry: [thesis.tex](thesis/thesis.tex).
-- [Research archive overview](research/README.txt) — how the two experimental parts fit together.
-- [Presentation status](presentation/README.txt) — existing material and the remaining final deck.
-- [Delivery checklist](DELIVERY_CHECKLIST.md), [upload status](UPLOAD_STATUS.md), and [download and update guide](UPLOAD_GUIDE.md).
+[Thesis PDF](thesis.pdf) · [Run the project](docs/REPRODUCING.md) · [Code walkthrough](docs/CODE_WALKTHROUGH.md) · [Archive and handover](docs/ARCHIVE_GUIDE.md)
 
-The school GitLab archive is on **`thesis-archive`** in [PreprocessingPC](https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc/-/tree/thesis-archive). The project's existing branches are retained. The author's private [GitHub copy](https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling) uses **`main`**.
+![Experimental workflow: densification and recovery, classification and detection, geometry and downstream evaluation](thesis/figure/overview.png)
 
-## Research scope
+## Explore the project
 
-The thesis studies whether point-cloud upsampling benefits downstream perception, comparing densification of an original input with recovery after fourfold sparsification.
+| Interest | What to inspect | Starting point |
+| --- | --- | --- |
+| Machine learning / computer vision engineering | Dataset contracts, strict point counts, training and evaluation, checkpoint inference, traceable result generation | [Training and evaluation](docs/CODE_WALKTHROUGH.md#training-and-evaluation) |
+| Research | Controlled input lines, equal-cardinality geometry, baselines, negative results, selection bias and reproducibility limits | [Experimental evidence](docs/CODE_WALKTHROUGH.md#experimental-evidence) |
+| Perception | LiDAR upsampling integration, observed-point retention, fixed point and voxel budgets, detector adaptation, object-level failures | [LiDAR perception](docs/CODE_WALKTHROUGH.md#lidar-perception) |
 
-- **ModelNet40:** EAR, PDANS, PU-Net, PU-GCN and PU-EdgeFormer are evaluated with separately trained PointNet++ classifiers and equal-cardinality geometric references. Fourteen final/control classifier runs are archived with metrics, full 200-epoch training logs, source snapshots and best-model checkpoints.
-- **KITTI:** PointRCNN and CenterPoint are evaluated with PU-GCN inputs, detector adaptation, and extended observed-first training. The archive includes the full-validation summaries, protocol records, convergence evidence, and selected diagnostics used in the manuscript.
+## Contributions and implementation
 
-Geometric quality and downstream performance are separate outcomes. Use the original metric, split, input-line and training-budget labels when reading or reusing results.
+- **Built the comparative experiment pipeline:** two input lines, five upsampling methods, separately trained PointNet++ classifiers, and equal-cardinality geometric evaluation. The archive contains **14 final/control classifier runs**, each with a 200-epoch log, metrics, saved model source and a best checkpoint.
+- **Implemented data and evaluation tooling:** deterministic data handling, explicit point-count checks, per-shape geometric reports, classification summaries and per-class inspection. See the [dataset loader](research/modelnet40/code/scripts/modelnet_npy_dataloader.py) and [training driver](research/modelnet40/code/scripts/train_pointnet2.py).
+- **Integrated upsampled LiDAR with two detection pipelines:** PointRCNN and CenterPoint, including observed-first assembly, input-budget diagnostics and detector adaptation. See [the perception code map](docs/CODE_WALKTHROUGH.md#lidar-perception).
+- **Connected failures to evidence:** aggregate metrics, convergence curves, retained-observation analysis and selected object-level diagnostics explain why extra points can fail to improve detection.
+- **Packaged an executable research artifact:** [result reconstruction](tools/reproduce_results.py), [real checkpoint inference](tools/demo_inference.py), integrity tests and SHA-256 provenance make the recorded evidence inspectable without the original cluster.
 
-## Repository layout
+The thesis contribution is the experimental design, integration, analysis and supporting implementation. PointNet++, the upsampling architectures and the detector backbones build on existing research implementations. **EAR denotes the project's EAR-style geometric implementation**, whose exact equivalence to the published EAR method is not established. [Attribution and scope](docs/CODE_WALKTHROUGH.md#authorship-and-reused-components).
 
-```text
-.
-├── thesis.pdf                       Preserved manuscript PDF
-├── thesis/
-│   ├── thesis.tex                   Main LaTeX entry
-│   ├── texfiles/                    Chapters 1–6 and front/back matter
-│   ├── bibfiles/                    Bibliography and local BibTeX style
-│   ├── packages/                    Local LaTeX packages
-│   ├── figure/                      Figures, including editable sources
-│   ├── topic/                       Signed thesis task
-│   ├── scripts/                     Figure/table and manuscript utilities
-│   └── evidence/                    Supporting local evidence
-├── research/
-│   ├── README.txt                   Combined research handover notes
-│   ├── modelnet40/
-│   │   ├── code/                    Scripts, configurations and Slurm jobs
-│   │   └── results/                 Reports, figures and 14 classifier runs
-│   └── kitti/
-│       ├── source/                  Integration, training and evaluation code
-│       ├── results/                 Validation and convergence evidence
-│       └── environment/             Dependency and omitted-asset notes
-├── presentation/                    Existing decks, exports and assets
-├── tools/check_archive.py            SHA-256 verification utility
-├── SHA256SUMS                       Current archive file checksums
-├── SOURCE_PROVENANCE.json            Original copy/recovery provenance
-├── DELIVERY_CHECKLIST.md          Supervisor requirement checklist
-├── UPLOAD_STATUS.md               Upload and verification record
-└── UPLOAD_GUIDE.md                Download and future update instructions
-```
+## Selected findings
 
-See [English edition and provenance](docs/ENGLISH_EDITION.md) for the language update and filename mapping. Earlier project-planning files are retained for history. See [docs/LEGACY_NOTES_README.md](docs/LEGACY_NOTES_README.md); they do not override the final experimental protocols or define a universal runtime environment.
+### ModelNet40: geometry and recognition can disagree
 
-## Download the complete archive
+Line A densifies 1,024 points to 4,096. Line B first reduces 1,024 points to 256, then recovers 1,024. Each upsampled variant has its own classifier trained from scratch.
 
-Requirements: access to the private GitLab project, Git, Git LFS, and Python 3 for checksum verification. An SSH key must be registered with the school GitLab account for the SSH command below.
+| Input / method | Points | Best test OA (%) | Change from its line baseline (percentage points) |
+| --- | ---: | ---: | ---: |
+| A: Original baseline | 1,024 | 91.95 | — |
+| A: PU-GCN | 4,096 | 91.63 | −0.32 |
+| B: Sparse baseline | 256 | 90.85 | — |
+| B: PU-Net | 1,024 | 91.27 | +0.42 |
+| B: PU-GCN | 1,024 | 90.06 | −0.79 |
+
+PU-GCN has the lowest mean Chamfer distance among the evaluated upsamplers in both lines, but it does not have the highest classification accuracy in Line B. PU-Net's recovery improves the sparse baseline while remaining **0.68 percentage points below the original 1,024-point baseline**.
+
+![ModelNet40 accuracy for all five methods, showing best-checkpoint and epoch-200 results in both input lines](thesis/figure/mn_accuracy.png)
+
+**Protocol:** ModelNet40 train/test split (9,843 / 2,468 shapes), 200 epochs, seed 42. These OA/mAcc values retain the archived batch-average implementation; best checkpoints were selected on the test set. They are descriptive single-seed results, not validation-selected or multi-seed significance claims. [All classification rows](research/modelnet40/results/reports/modelnet40_pointnet2_final_classification_report_with_pu_edgeformer.csv) · [Geometry protocol](research/modelnet40/results/reports/modelnet40_geometry_equal_n_protocol.md).
+
+### KITTI: adaptation recovers performance, with a remaining baseline gap
+
+**Car 3D Moderate AP_R40 on all 3,769 validation frames.** Both adapted and unadapted columns below use the same PU-GCN observed-first input; the upsampler stays frozen.
+
+| Detector | Input line | Unadapted AP | Best extended-adaptation AP | Gain (AP points) | Reference baseline AP |
+| --- | --- | ---: | ---: | ---: | ---: |
+| PointRCNN | A: densification | 64.27 | 71.59 | +7.32 | 81.95 |
+| PointRCNN | B: sparse recovery | 35.53 | 57.05 | +21.52 | 68.33 |
+| CenterPoint | A: densification | 63.21 | 75.97 | +12.76 | 79.28 |
+| CenterPoint | B: sparse recovery | 44.09 | 62.90 | +18.81 | 68.05 |
+
+The large recovery gains compare adaptation with the same input before adaptation. All four extended results remain below their reference baseline. Line A uses the original-input official baseline; Line B uses the archived three-epoch adapted sparse baseline. **Training budgets differ**, so this table does not isolate an equal-budget causal effect or establish a new detector benchmark. [Convergence and selection details](docs/REPRODUCING.md#metric-and-checkpoint-contracts).
+
+<details>
+<summary>Perception failure case: more input points, a missed car</summary>
+
+![Selected CenterPoint car example: a qualifying baseline detection becomes a false negative after upsampling](thesis/figure/k_case_cp_lost.png)
+
+This selected CenterPoint example changes from a true positive (3D IoU 0.871) to no qualifying match despite a denser local cloud. It illustrates an object-level failure; it is not a full-validation AP estimate. See the [detector-box comparison code](research/kitti/source/pointrcnn_workspace/scripts/compare_patch_causal_detector_boxes.py) for related diagnostic tooling.
+
+</details>
+
+## Run it locally
+
+There are three different reproducibility levels. The first two run with this repository; full experimental retraining requires the external assets listed in the guide.
+
+### 1. Rebuild and validate the recorded result tables
+
+Use Python 3.12. No GPU, third-party Python packages or LFS assets are needed for this step. The clone command skips large binary downloads; Git LFS should be installed first.
 
 ```sh
-git lfs version
-git clone --single-branch --branch thesis-archive git@gitlab.lms.tf.fau.de:marina.ritthaler/preprocessingpc.git thesis-archive
-cd thesis-archive
+git -c filter.lfs.smudge= -c filter.lfs.required=false -c filter.lfs.process= clone https://github.com/JiahuiShen1998/thesis-pointcloud-upsampling.git
+cd thesis-pointcloud-upsampling
+python tools/reproduce_results.py
+python -m unittest discover -s tests -v
+```
+
+Expected output:
+
+```text
+PASS: 14 classifier runs, 14 geometry groups, 4 detector comparisons
+```
+
+Open `outputs/reproduced/report.md`. Three CSV tables and `provenance.json` record the recalculated aggregates, deltas and source hashes. This checks archived evidence; it does not rerun model training or recompute geometric distances from raw point clouds.
+
+### 2. Run a real classifier checkpoint on an included point cloud
+
+Download only the baseline checkpoint and one sample, then create the small CPU environment:
+
+```sh
 git lfs install --local
-git lfs pull
-python tools/check_archive.py
-git lfs fsck
+git lfs pull --include="research/modelnet40/results/pointnet2_final_runs/lineA_original_baseline/checkpoints/best_model.pth,thesis/evidence/modelnet40_hpc/data/pointcloud_examples/lineA_airplane_0627_original.npy"
+python -m venv .venv
 ```
 
-If SSH is unavailable, use the project's HTTPS clone URL with the same branch:
-
-```text
-https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc.git
-```
-
-Checkpoints, PPTX decks and selected binary evidence use Git LFS. A repository containing only LFS pointer text is not a complete download. Verification must report that every file in `SHA256SUMS` matches. Downloading a source ZIP alone is not the verified handover procedure.
-
-The archived file content is about 750 MiB; allow additional space for Git history and the local LFS object cache.
-
-## Compile the thesis
-
-The manuscript was independently compiled with TeX Live 2025 during the handover audit. Install TeX Live with the required LaTeX packages and `latexmk`, then run from the repository root:
+On Linux, activate with `source .venv/bin/activate`. On Windows Command Prompt, use `.venv\Scripts\activate.bat`; for PowerShell without activation, [use the direct interpreter commands](docs/REPRODUCING.md#cpu-checkpoint-inference).
 
 ```sh
-cd thesis
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/current thesis.tex
+python -m pip install -r requirements.txt
+python tools/demo_inference.py
 ```
 
-The output is `thesis/build/current/thesis.pdf`. The original archived PDF remains at the repository root. Rendering the existing manuscript uses the supplied figures and bibliography; it does not require the original datasets or a GPU. See [the manuscript build notes](thesis/README.md).
+The tested default sample is classified as **airplane**. The output `outputs/demo/prediction.json` contains the top five classes, probabilities, dependency versions and input/model hashes. This is selected-sample inference, not a benchmark accuracy claim or an upsampler demo. CPU inference was verified on Windows with Python 3.12, PyTorch 2.6.0+cpu and NumPy 2.2.6.
 
-The independently compiled PDF matched the archived 163-page PDF in page text and page content streams. PDF metadata can differ, so a fresh build is not claimed to have the same whole-file hash.
+### 3. Rebuild the thesis or rerun the experiments
 
-## Inspect the experimental evidence
+- [Full reproduction guide](docs/REPRODUCING.md): data layout, exact training CLI, environment boundaries, method assets and detector experiment entry points.
+- [Thesis build](thesis/README.md): compile the supplied LaTeX source and figures without datasets or a GPU.
+- [Complete archive download and checksum verification](docs/ARCHIVE_GUIDE.md#download-the-complete-archive): includes all 14 classifier checkpoints and available presentation assets.
+- [Automated checks](.github/workflows/reproducibility.yml): evidence validation and a real CPU inference smoke test. Run status is available in the repository's Actions tab.
 
-### ModelNet40
+## Repository map
 
-Start with [research/modelnet40/README.txt](research/modelnet40/README.txt), then inspect:
+```text
+thesis.pdf                 Current 163-page manuscript
+thesis/                    LaTeX, bibliography, figures and supporting evidence
+research/modelnet40/code/  Data preparation, upsampling, classifier and geometry scripts
+research/modelnet40/results/  Reports, visualizations and 14 classifier runs
+research/kitti/source/     Detector integration, adaptation and diagnostic tooling
+research/kitti/results/    Full-validation summaries and convergence evidence
+tools/                     Runnable result reconstruction, inference and integrity checks
+tests/                     Evidence consistency and failure-path tests
+docs/                      Reproduction guide, code walkthrough and handover details
+presentation/              Progress/candidate decks; final defence deck pending
+```
 
-- [Final classification report including PU-EdgeFormer](research/modelnet40/results/reports/modelnet40_pointnet2_final_classification_report_with_pu_edgeformer.csv).
-- [Equal-cardinality geometry protocol](research/modelnet40/results/reports/modelnet40_geometry_equal_n_protocol.md), [summary](research/modelnet40/results/reports/modelnet40_geometry_equal_n_summary.csv), and [per-sample records](research/modelnet40/results/reports/modelnet40_geometry_equal_n_per_sample.csv).
-- [Final classifier runs](research/modelnet40/results/pointnet2_final_runs/) — `metrics.json`, `train.log`, best checkpoints and saved source.
-- [Research code](research/modelnet40/code/) and [result figures](research/modelnet40/results/figures/).
+The generated interactive HTML reports remain available for inspection. They are marked as generated in [.gitattributes](.gitattributes), so embedded visualization code does not dominate the source-language breakdown. Archived copies of upstream PointNet++ model code are marked as vendored.
 
-Interpretation limits: final classifier runs use seed 42; best checkpoints were selected using the test set; reported OA/mAcc average batch-level quantities. Implemented Chamfer distance uses unsquared Euclidean nearest-neighbour distances. Downstream classifiers were trained from scratch; upsamplers use existing pretrained weights.
+## Availability and limits
 
-### KITTI
+The repository includes the manuscript, source, experiment records, classifier checkpoints and selected point-cloud evidence. It omits the full raw datasets, full generated datasets, most external method code/weights, KITTI detector weights and raw per-frame detector predictions. Original upstream revisions and GPU environments are not completely locked. Full numerical retraining was **not** verified during packaging.
 
-Start with [research/kitti/README.txt](research/kitti/README.txt), then inspect:
+The GitHub copy and school [GitLab archive](https://gitlab.lms.tf.fau.de/marina.ritthaler/preprocessingpc/-/tree/thesis-archive) require repository access. Third-party licences and dataset/weight terms still apply; this archive grants no new blanket licence. Final defence slides are still pending. See the [handover checklist](DELIVERY_CHECKLIST.md) for the remaining submission items.
 
-- [Final experiment brief, 2026-09-17](research/kitti/results/EXPERIMENT_BRIEF_20260917_EN.md).
-- [Full-validation results](research/kitti/results/latest_full_validation/) and [extended-training convergence evidence](research/kitti/results/convergence/).
-- [Source code](research/kitti/source/) and [dependency notes](research/kitti/environment/).
-- [Data and large-file scope](research/kitti/DATA_AND_LARGE_FILES.md).
-
-Full-validation metrics, selected-frame diagnostics and per-object examples have different scopes. Detector adaptation budgets and checkpoint selection must remain explicit when comparing results. The historical ModelNet40 content inside the KITTI source package is lab protocol/smoke work; final HPC classification runs are in the separate `research/modelnet40/` archive.
-
-## Reproduction boundaries and provenance
-
-This is an archive of the available authored source and result evidence, not a complete image of the original training servers. Full numerical reruns require separately obtained datasets, upstream code, compatible dependencies and custom CUDA/TensorFlow/PyTorch operations, external upsampler weights, and substantial GPU resources. Historical scripts retain machine-specific paths that must be adapted. No full GPU rerun was performed as part of the upload verification.
-
-Included are the fourteen ModelNet40 classifier checkpoints. Omitted are the complete raw datasets, full generated point-cloud trees, most external method repositories and pretrained upsampler assets, KITTI detector checkpoints, and raw per-frame detector predictions. Selected supporting evidence is retained under `thesis/evidence/`.
-
-`SOURCE_PROVENANCE.json` records the initial copied/recovered material. Seventeen historical ModelNet40 note filenames containing colons were renamed for Windows compatibility; their bytes match the original Git objects. The mapping is in [WINDOWS_FILENAME_MAP.json](research/modelnet40/WINDOWS_FILENAME_MAP.json). `SHA256SUMS` records the current archive contents, including later documentation updates.
-
-Original third-party licence files and notices are retained. This private handover archive does not grant a new blanket licence to third-party code, datasets or weights.
-
-## Remaining handover work
-
-1. Add the actual final defence deck, PDF export and required assets under `presentation/final/`. The current five PPTX files are supporting progress/candidate decks.
-2. Update the presentation and delivery status, refresh checksums, commit and upload the added material using [the update guide](UPLOAD_GUIDE.md).
-3. Confirm the intended recipients can access the chosen private repository, and separately communicate actual available defence dates.
-
-The exact PDF previously sent to the university was not independently retrieved during this audit; the archived PDF is the current verified local version.
+To cite the thesis: Jiahui Shen (2026), *Investigating the Impact of Point Cloud Upsampling on 3D Object Detection Performance*, Master's thesis, Friedrich-Alexander-Universität Erlangen-Nürnberg.

@@ -1,0 +1,6 @@
+# Optional CPU inference demo on Linux/Windows, tested with Python 3.12.
+# tools/reproduce_results.py needs only the Python standard library.
+# This is not a reconstruction of every historical GPU training environment.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.6.0+cpu
+numpy==2.2.6
