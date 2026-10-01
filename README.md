@@ -8,7 +8,7 @@ Supervisor: Marina Ritthaler, M.Sc.
 
 Formal title: *Investigating the Impact of Point Cloud Upsampling on 3D Object Detection Performance*
 
-[Thesis PDF](thesis.pdf) · [Run the project](docs/REPRODUCING.md) · [Code walkthrough](docs/CODE_WALKTHROUGH.md) · [Archive and handover](docs/ARCHIVE_GUIDE.md)
+[Thesis PDF](thesis.pdf) · [Run the project](docs/REPRODUCING.md) · [Code walkthrough](docs/CODE_WALKTHROUGH.md) · [Technology stack](docs/TECH_STACK.md) · [Archive and handover](docs/ARCHIVE_GUIDE.md)
 
 ![Experimental workflow: densification and recovery, classification and detection, geometry and downstream evaluation](thesis/figure/overview.png)
 
@@ -19,6 +19,33 @@ Formal title: *Investigating the Impact of Point Cloud Upsampling on 3D Object D
 | Machine learning / computer vision engineering | Dataset contracts, strict point counts, training and evaluation, checkpoint inference, traceable result generation | [Training and evaluation](docs/CODE_WALKTHROUGH.md#training-and-evaluation) |
 | Research | Controlled input lines, equal-cardinality geometry, baselines, negative results, selection bias and reproducibility limits | [Experimental evidence](docs/CODE_WALKTHROUGH.md#experimental-evidence) |
 | Perception | LiDAR upsampling integration, observed-point retention, fixed point and voxel budgets, detector adaptation, object-level failures | [LiDAR perception](docs/CODE_WALKTHROUGH.md#lidar-perception) |
+
+## Technology stack
+
+The project connects deep-learning frameworks, 3D geometry processing, LiDAR detection, HPC experiment execution and reproducible reporting. The table below maps the stack to actual work in the repository; the [detailed technical guide](docs/TECH_STACK.md) provides model details, exact code locations and separate environment/version records.
+
+| Area | Technologies and methods | How they are used |
+| --- | --- | --- |
+| **Core development** | Python, Bash, NumPy, `argparse`, `pathlib`, dataclasses, subprocesses | Numerical point-cloud pipelines, command-line tools, method wrappers and file-based interfaces between environments |
+| **Deep-learning frameworks** | PyTorch, legacy TensorFlow 1.x, NVIDIA CUDA | Classifier training, detector adaptation and pretrained upsampler inference across method-specific environments |
+| **3D classification** | PointNet++ SSG, set abstraction, farthest-point sampling, radius-based grouping, batch normalization, dropout | Separately train classifiers on each input representation and execute archived weights in the [CPU demo](tools/demo_inference.py) |
+| **Upsampling methods** | EAR-style geometry, PU-Net, PU-GCN / NodeShuffle, PU-EdgeFormer / EdgeConv and attention, PDANS / diffusion | Compare five methods on densification and sparse-input recovery; integrate their released inference paths and weights |
+| **3D object detection** | PointRCNN, RPN/RCNN stages, CenterPoint, OpenPCDet, spconv | Compare point-based and voxel-based perception pipelines, including frozen inference and detector adaptation |
+| **Spatial computation** | SciPy `cKDTree`, scikit-learn `NearestNeighbors`, PyTorch3D GPU kNN | Nearest-neighbour distances, local radius queries, intensity assignment, similarity audits and method operator validation |
+| **Data preparation** | OFF mesh parsing, area-weighted surface sampling, centroid/unit-sphere normalization, seeded downsampling | Prepare consistent ModelNet40 variants and references; preserve sample identity and strict point counts |
+| **LiDAR processing** | Float32 XYZI, spatial patches, FPS/ball-cover/kNN support, inverse patch transforms, observed-first assembly | Generate and merge local outputs, restore scene coordinates and retain measured observations |
+| **Detector interfaces** | Calibration/FOV filtering, fixed point budgets, voxel occupancy, 3D/BEV boxes, rotated NMS | Trace which points reach the detector and inspect proposal-level or object-level failure mechanisms |
+| **Training and monitoring** | PyTorch Dataset/DataLoader, Adam, StepLR, augmentation, checkpoint state, `tqdm`, TensorBoardX | Run controlled classifier experiments and inspect detector training/convergence records |
+| **Research evaluation** | OA, mean class accuracy, unsquared Chamfer distance, Hausdorff distance, NUC, KITTI AP_R40 | Separate geometric quality from recognition performance, retaining split, reference and checkpoint-selection labels |
+| **HPC and execution** | Linux, Slurm, GPU/CPU jobs, job arrays, Conda, environment modules, `ProcessPoolExecutor` | Schedule independent runs, parallelize object processing, resume incomplete generation and audit completion |
+| **GPU compatibility** | CUDA toolkit, GCC / `nvcc`, custom-op compilation, TensorFlow linker paths, device/precision checks | Integrate legacy research operators and resolve environment or data-validity failures |
+| **Visualization** | Matplotlib, Plotly, Open3D, Pillow, OpenCV | Produce scientific plots, interactive 3D views, BEV comparisons and image/presentation assets |
+| **Reporting and writing** | pandas, CSV/JSON/YAML, python-pptx, ReportLab, LaTeX, BibTeX, latexmk | Export numerical reports, editable slides, research dossiers and the thesis manuscript |
+| **Reproducibility and delivery** | Git, Git LFS, SHA-256, Python `unittest`, GitHub Actions, `venv` / pip | Version source and assets, validate evidence, execute a real inference smoke test and verify complete downloads |
+
+**Verified portable demo:** Python **3.12**, PyTorch **2.6.0+cpu**, NumPy **2.2.6**, with Windows execution and Linux CI. Historical GPU versions are documented per method in the [environment matrix](docs/TECH_STACK.md#10-version-and-environment-evidence); the CPU requirements do not describe every research environment.
+
+**Engineering details to inspect:** strict data-shape/count checks, deterministic sparse-input selection, manifest/path recovery, resumed generation, shared-filesystem read checks, GPU operator compatibility, point/voxel-budget diagnostics and source-hash traceability. The [technology guide](docs/TECH_STACK.md) and [contribution map](docs/CODE_WALKTHROUGH.md) distinguish project integration work from reused architectures and upstream components.
 
 ## Contributions and implementation
 
@@ -132,7 +159,7 @@ research/kitti/source/     Detector integration, adaptation and diagnostic tooli
 research/kitti/results/    Full-validation summaries and convergence evidence
 tools/                     Runnable result reconstruction, inference and integrity checks
 tests/                     Evidence consistency and failure-path tests
-docs/                      Reproduction guide, code walkthrough and handover details
+docs/                      Technical stack, reproduction guide and code walkthrough
 presentation/              Progress/candidate decks; final defence deck pending
 ```
 

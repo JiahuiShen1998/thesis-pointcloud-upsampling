@@ -2,6 +2,8 @@
 
 This page provides three ways into the same project. The primary contribution is a source-backed investigation of how point-cloud upsampling interacts with downstream classification and LiDAR detection, supported by experiment automation and diagnostics.
 
+See [the technology stack](TECH_STACK.md) for the framework/library inventory, model families, operator dependencies and recorded environment versions.
+
 ## Training and evaluation
 
 For ML/CV engineering, start with the data contract and follow a sample through training, evaluation and result reporting.

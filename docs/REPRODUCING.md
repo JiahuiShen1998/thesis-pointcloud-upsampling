@@ -2,6 +2,8 @@
 
 Run commands from the repository root unless a different directory is stated. The tested portable environment is Python 3.12 on Windows; the CPU dependency pins also target Linux. The original full experiments used separate GPU environments on research servers.
 
+For technologies, their implementation roles and separate historical environment versions, see [TECH_STACK.md](TECH_STACK.md).
+
 ## What each level reproduces
 
 | Level | Input | Output | Included and verified locally? |
